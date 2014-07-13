@@ -16,10 +16,9 @@ var map;
 var searched=0;
 var waypts = [];
 var way = [];
-var finwaypts = [];
-var finway = [];
-
-
+var geocoder = new google.maps.Geocoder();
+var bannedI = [];
+var usedI = [];
 
 function initialize() {
   directionsDisplay = new google.maps.DirectionsRenderer();
@@ -38,13 +37,15 @@ function initialize() {
   new google.maps.LatLng(-35.2819998,149.1386843)
       );
 
-
   var options = {
-      types: ['(cities)'],
            componentRestrictions: {country: "au"}
   };
 
   var input = document.getElementById('start');
+        var autocomplete = new google.maps.places.Autocomplete(input,options);
+          autocomplete.bindTo('bounds', map);
+
+  var input = document.getElementById('end');
         var autocomplete = new google.maps.places.Autocomplete(input,options);
           autocomplete.bindTo('bounds', map);
 
@@ -59,18 +60,35 @@ function initialize() {
         img:data.data[i][17][0],
         });
       }
-  var r =1;
-      for (var i =r;i<r+8;i++){
-          finwaypts.push(waypts[i]);
-          finway.push(way[i]);
-      }
       });
 
+}
+
+//Adds the node that will minimize additional distance
+function add_min(ll1, ll2) {
+  var dists = []
+  for (var i =0;i<waypts.length;i++){
+    if( $.inArray(i, bannedI)!=-1 || $.inArray(i, usedI)!=-1 ) {
+      continue;
+    }
+    var ll3 = waypts[i].location;
+    var dist = distl(ll1, ll3) + distl(ll3, ll2);
+    dists.push (dist);
+  }
+
+  //alert(Math.min.apply(Math, dists));
+  var ret = dists.indexOf( Math.min.apply(Math, dists) );
+  usedI.push(ret);
+  return ret;
 }
 
 function distl(ll1, ll2){
   var ret = Math.pow(ll2.lat()-ll1.lat(), 2) + Math.cos(ll1.lat())*Math.pow(ll2.lng()-ll1.lng(), 2);
     return Math.sqrt(Math.abs(ret));
+}
+
+function getRandom(min, max) {
+      return min + Math.floor(Math.random() * (max - min + 1));
 }
 
 
@@ -86,11 +104,29 @@ document.getElementById('end').disabled = false;
 return;
 }
 searched=1;
+var finwaypts = [];
+var finway = [];
+usedI = [];
 document.getElementById('start').disabled = true;
 document.getElementById('end').disabled = true;
   document.getElementById('search').style.backgroundImage="url('close.png')";
   var start = document.getElementById('start').value;
   var end = document.getElementById('end').value;
+
+  
+    // So much nesting! I should use calbacks instead.
+    geocoder.geocode( { 'address': start}, function(results, status) {
+    var ll1 = results[0].geometry.location;
+    geocoder.geocode( { 'address': end}, function(results, status) {
+          var ll2 = results[0].geometry.location;
+          var tmplist = [ll1, ll2];
+          for(var j=0;j<3;j++){
+          var ind = getRandom(1, tmplist.length-1);
+          var newNode = add_min(tmplist[ind-1], tmplist[ind]);
+          finwaypts.splice(ind-1, 0, waypts[newNode]);
+          finway.splice(ind-1, 0, way[newNode]);
+          tmplist.splice(ind-1, 0, waypts[newNode].location);
+          }
 
   var request = {
       origin: start,
@@ -99,22 +135,9 @@ document.getElementById('end').disabled = true;
       optimizeWaypoints: true,
       travelMode: google.maps.TravelMode.WALKING
   };
-  
+
   directionsService.route(request, function(response, status) {
     if (status == google.maps.DirectionsStatus.OK) {
-
-
-
-    var geocoder = new google.maps.Geocoder();
-    geocoder.geocode( { 'address': start}, function(results, status) {
-        var ll1 = results[0].geometry.location;
-    var ll2 = geocoder.geocode( { 'address': end}, function(results, status) {
-          var ll2 = results[0].geometry.location;
-          //alert( distl ( ll1, ll2 ));
-          //alert( distl ( ll1, waypts[0].location ) );
-          return results[0].geometry.location;
-      });
-      });
 
 
       directionsDisplay.setDirections(response);
@@ -124,17 +147,21 @@ document.getElementById('end').disabled = true;
       summaryPanel.innerHTML = '';
       // For each route, display summary information.
       for (var i = 0; i < route.legs.length-1; i++) {
-        var routeSegment = i + 1;
-        //summaryPanel.innerHTML += '<div class="inputBox">Route Segment: ' + way[i].named + '<br>' + route.legs[i].start_address + ' to ' + route.legs[i].end_address + '<br>' + route.legs[i].distance.text + '<br><br></div>';
-        total += route.legs[i].distance.value;
-        summaryPanel.innerHTML += '<div class="boxn"><div class="thumbnail"><img src="'+finway[i].img+'" class="thumb"/></div><div class="contnail"><b>' + finway[i].named + '</b><br>' + finway[i].desc.substring(0,100) + '...<br /></div><div class="travnail">+' + route.legs[i].distance.text + '</div></div>';
+        var seg = route.waypoint_order[i];
+        total += route.legs[seg].distance.value;
+        summaryPanel.innerHTML += '<div class="boxn"><div class="thumbnail"><img src="'+finway[seg].img+'" class="thumb"/></div><div class="contnail"><b>' + finway[seg].named + '</b><br>' + finway[seg].desc.substring(0,100) + '...<br /></div><div class="travnail">+' + route.legs[seg].distance.text + '</div></div>';
       }
-      alert(total);
+      //alert(total);
+
     }
     else{
     alert('Directions unavailable for the following reason: ' + status);
     }
+
   });
+
+      });
+      });
 
 }
 
@@ -149,7 +176,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <input type='text' value="***REMOVED*** Shops, ACT" id='start' class='inputBox' >
     <div id="directions_panel" style=""></div>
     <input type='text' value='Dickson College, ACT, 2602' id='end' class='inputBox' >
-      <input type="submit" onclick="calcRoute();" class='inputButton' value='' id='search'>
+    <input type="submit" onclick="calcRoute();" class='inputButton' value='' id='search'>
     </div>
 
   </div>
