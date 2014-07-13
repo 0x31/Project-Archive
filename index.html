@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+    <link rel="stylesheet" type="text/css" href="govhack.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <title>Inefficient Directions</title>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+    <script>
+    
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
+var map;
+var searched=0;
+var waypts = [];
+var way = [];
+var finwaypts = [];
+var finway = [];
+
+
+
+function initialize() {
+  directionsDisplay = new google.maps.DirectionsRenderer();
+  var canberra = new google.maps.LatLng(-35.2819998,149.1286843);
+  var mapOptions = {
+    zoom: 14,
+    center: canberra,
+    disableDefaultUI: true,
+  }
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  directionsDisplay.setMap(map);
+
+  var defaultBounds = new google.maps.LatLngBounds(
+  new google.maps.LatLng(-35.1719998,149.1186843),
+  new google.maps.LatLng(-35.2819998,149.1386843)
+      );
+
+
+  var options = {
+      types: ['(cities)'],
+           componentRestrictions: {country: "au"}
+  };
+
+  var input = document.getElementById('start');
+        var autocomplete = new google.maps.places.Autocomplete(input,options);
+          autocomplete.bindTo('bounds', map);
+
+
+  $.getJSON( "art.json", function( data ) {
+      for (var i =0;i<data.data.length;i++){
+      waypts.push({ location:new google.maps.LatLng( data.data[i][18][1] ,  data.data[i][18][2]), stopover:true});
+      way.push({
+        named:data.data[i][8],
+        desc:data.data[i][15],
+        url:data.data[i][16][0],
+        img:data.data[i][17][0],
+        });
+      }
+  var r =1;
+      for (var i =r;i<r+8;i++){
+          finwaypts.push(waypts[i]);
+          finway.push(way[i]);
+      }
+      });
+
+}
+
+function distl(ll1, ll2){
+  var ret = Math.pow(ll2.lat()-ll1.lat(), 2) + Math.cos(ll1.lat())*Math.pow(ll2.lng()-ll1.lng(), 2);
+    return Math.sqrt(Math.abs(ret));
+}
+
+
+
+function calcRoute() {
+if (searched){
+  document.getElementById('search').style.backgroundImage="url('glass.png')";
+searched=0;
+      var summaryPanel = document.getElementById('directions_panel');
+      summaryPanel.innerHTML = '';
+document.getElementById('start').disabled = false;
+document.getElementById('end').disabled = false;
+return;
+}
+searched=1;
+document.getElementById('start').disabled = true;
+document.getElementById('end').disabled = true;
+  document.getElementById('search').style.backgroundImage="url('close.png')";
+  var start = document.getElementById('start').value;
+  var end = document.getElementById('end').value;
+
+  var request = {
+      origin: start,
+      destination: end,
+      waypoints: finwaypts,
+      optimizeWaypoints: true,
+      travelMode: google.maps.TravelMode.WALKING
+  };
+  
+  directionsService.route(request, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+
+
+
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': start}, function(results, status) {
+        var ll1 = results[0].geometry.location;
+    var ll2 = geocoder.geocode( { 'address': end}, function(results, status) {
+          var ll2 = results[0].geometry.location;
+          //alert( distl ( ll1, ll2 ));
+          //alert( distl ( ll1, waypts[0].location ) );
+          return results[0].geometry.location;
+      });
+      });
+
+
+      directionsDisplay.setDirections(response);
+      var route = response.routes[0];
+      var summaryPanel = document.getElementById('directions_panel');
+      var total=0;
+      summaryPanel.innerHTML = '';
+      // For each route, display summary information.
+      for (var i = 0; i < route.legs.length-1; i++) {
+        var routeSegment = i + 1;
+        //summaryPanel.innerHTML += '<div class="inputBox">Route Segment: ' + way[i].named + '<br>' + route.legs[i].start_address + ' to ' + route.legs[i].end_address + '<br>' + route.legs[i].distance.text + '<br><br></div>';
+        total += route.legs[i].distance.value;
+        summaryPanel.innerHTML += '<div class="boxn"><div class="thumbnail"><img src="'+finway[i].img+'" class="thumb"/></div><div class="contnail"><b>' + finway[i].named + '</b><br>' + finway[i].desc.substring(0,100) + '...<br /></div><div class="travnail">+' + route.legs[i].distance.text + '</div></div>';
+      }
+      alert(total);
+    }
+    else{
+    alert('Directions unavailable for the following reason: ' + status);
+    }
+  });
+
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas" style=""></div>
+    <div id="control_panel">
+      <div id='noscroll'>
+    <input type='text' value="***REMOVED*** Shops, ACT" id='start' class='inputBox' >
+    <div id="directions_panel" style=""></div>
+    <input type='text' value='Dickson College, ACT, 2602' id='end' class='inputBox' >
+      <input type="submit" onclick="calcRoute();" class='inputButton' value='' id='search'>
+    </div>
+
+  </div>
+
+  </body>
+</html>
