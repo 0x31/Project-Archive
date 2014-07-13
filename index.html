@@ -231,7 +231,7 @@ function callback(response, status) {
         var segB = wp[i+1]+1;
         total += route.legs[seg-1].distance.value;
         addDist = Math.abs( dataMat[segP].elements[seg].distance.value + dataMat[seg].elements[segB].distance.value - dataMat[segP].elements[segB].distance.value );
-        $('#directions_panel').append( '<div class="boxn"><div class="thumbnail"><img src="'+finway[seg-1].img+'" class="thumb"/></div><div class="contnail"><b>' + finway[seg-1].named + '</b>  +' + addDist + 'm<br>' + finway[seg-1].desc.substring(0,100) + '...<br /></div><div class="travnail"><a href="#" onClick="window.bannedI.push(' + finwaypts[seg-1].location + ')" style="float:right">X</span><br /><br /></div></div>').hide().show('slow');
+        $('#directions_panel').append( '<div class="boxn"><div class="thumbnail"><img src="'+finway[seg-1].img+'" class="thumb"/></div><div class="contnail"><b>' + finway[seg-1].named + '</b>  +' + addDist + 'm<br>' + finway[seg-1].desc.substring(0,120) + '...  <a style="color:#333;font-style:italic" href="'+finway[seg-1].url+'">More</a><br /></div><div class="travnail"><a href="#" onClick="window.bannedI.push(' + finwaypts[seg-1].location + ')" style="float:right">X</span><br /><br /></div></div>').hide().show('slow');
       }
     }
     else{
