@@ -64,27 +64,53 @@ function initialize() {
 
 }
 
+function totalAir ( tmplist ) {
+  var total = 0;
+  for(var k=0;k<tmplist.length-1;k++){
+    total+=distl( tmplist[k], tmplist[k+1] );
+  }
+  return total;
+}
+
 //Adds the node that will minimize additional distance
 function add_min(ll1, ll2) {
-  var dists = []
+  var ret = 1;
+  var min = 10000;
+  var ll3, dist;
   for (var i =0;i<waypts.length;i++){
-    if( $.inArray(i, bannedI)!=-1 || $.inArray(i, usedI)!=-1 ) {
+    if( $.inArray(i, bannedI)>-1 || $.inArray(i, usedI)>-1 ) {
       continue;
+    } else {
+    ll3 = waypts[i].location;
+    dist = distl(ll1, ll3) + distl(ll3, ll2);
+    if(dist<min){
+      ret=i;
+      min=dist;
     }
-    var ll3 = waypts[i].location;
-    var dist = distl(ll1, ll3) + distl(ll3, ll2);
-    dists.push (dist);
+    }
   }
-
-  //alert(Math.min.apply(Math, dists));
-  var ret = dists.indexOf( Math.min.apply(Math, dists) );
+  var add = min - distl( ll1, ll2)
   usedI.push(ret);
-  return ret;
+  return [ret,add];
+}
+
+function add_best_min( tmplist ) {
+
+          var minAll = [0,1,10000];
+          for(var ind=1;ind<tmplist.length;ind++){
+          var newNod= add_min(tmplist[ind-1], tmplist[ind]);
+          if(newNod[1]<minAll[2]){
+            minAll=[newNod[0],ind,newNod[1]];
+          }
+          }
+
+  return minAll;
+
 }
 
 function distl(ll1, ll2){
-  var ret = Math.pow(ll2.lat()-ll1.lat(), 2) + Math.cos(ll1.lat())*Math.pow(ll2.lng()-ll1.lng(), 2);
-    return Math.sqrt(Math.abs(ret));
+  var ret = Math.pow(ll2.lat()-ll1.lat(), 2) + Math.pow(ll2.lng()-ll1.lng(), 2);
+    return Math.abs(ret);
 }
 
 function getRandom(min, max) {
@@ -119,10 +145,12 @@ document.getElementById('end').disabled = true;
     var ll1 = results[0].geometry.location;
     geocoder.geocode( { 'address': end}, function(results, status) {
           var ll2 = results[0].geometry.location;
+          var ll3 = waypts[10].location;
           var tmplist = [ll1, ll2];
           for(var j=0;j<3;j++){
-          var ind = getRandom(1, tmplist.length-1);
-          var newNode = add_min(tmplist[ind-1], tmplist[ind]);
+          var indeces=add_best_min(tmplist);
+          ind=indeces[1];
+          newNode=indeces[0];
           finwaypts.splice(ind-1, 0, waypts[newNode]);
           finway.splice(ind-1, 0, way[newNode]);
           tmplist.splice(ind-1, 0, waypts[newNode].location);
@@ -133,7 +161,7 @@ document.getElementById('end').disabled = true;
       destination: end,
       waypoints: finwaypts,
       optimizeWaypoints: true,
-      travelMode: google.maps.TravelMode.WALKING
+      travelMode: google.maps.TravelMode.WALKING,
   };
 
   directionsService.route(request, function(response, status) {
@@ -149,7 +177,7 @@ document.getElementById('end').disabled = true;
       for (var i = 0; i < route.legs.length-1; i++) {
         var seg = route.waypoint_order[i];
         total += route.legs[seg].distance.value;
-        summaryPanel.innerHTML += '<div class="boxn"><div class="thumbnail"><img src="'+finway[seg].img+'" class="thumb"/></div><div class="contnail"><b>' + finway[seg].named + '</b><br>' + finway[seg].desc.substring(0,100) + '...<br /></div><div class="travnail">+' + route.legs[seg].distance.text + '</div></div>';
+        $('#directions_panel').append( '<div class="boxn"><div class="thumbnail"><img src="'+finway[seg].img+'" class="thumb"/></div><div class="contnail"><b>' + finway[seg].named + '</b><br>' + finway[seg].desc.substring(0,100) + '...<br /></div><div class="travnail">+' + route.legs[seg].distance.text + '</div></div>').hide().show('slow');
       }
       //alert(total);
 
