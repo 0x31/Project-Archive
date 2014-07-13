@@ -1,0 +1,569 @@
+{
+  "meta" : {
+    "view" : {
+      "id" : "3tyf-txjn",
+      "name" : "Public Toilets in the ACT",
+      "attribution" : "Territory and Municipal Services Directorate (TAMSD)",
+      "averageRating" : 0,
+      "category" : "Infrastructure and Utilities",
+      "createdAt" : 1361498849,
+      "description" : "A dataset of public toilets in the ACT.",
+      "displayType" : "table",
+      "downloadCount" : 56,
+      "indexUpdatedAt" : 1394008141,
+      "licenseId" : "CC_30_BY_AUS",
+      "newBackend" : false,
+      "numberOfComments" : 0,
+      "oid" : 7473927,
+      "publicationAppendEnabled" : false,
+      "publicationDate" : 1393980369,
+      "publicationGroup" : 692313,
+      "publicationStage" : "published",
+      "rowsUpdatedAt" : 1393980327,
+      "rowsUpdatedBy" : "cqpn-mbgv",
+      "tableId" : 1497841,
+      "totalTimesRated" : 0,
+      "viewCount" : 217,
+      "viewLastModified" : 1393980382,
+      "viewType" : "tabular",
+      "columns" : [ {
+        "id" : -1,
+        "name" : "sid",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":sid",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : {
+        }
+      }, {
+        "id" : -1,
+        "name" : "id",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":id",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : {
+        }
+      }, {
+        "id" : -1,
+        "name" : "position",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":position",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : {
+        }
+      }, {
+        "id" : -1,
+        "name" : "created_at",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":created_at",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : {
+        }
+      }, {
+        "id" : -1,
+        "name" : "created_meta",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":created_meta",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : {
+        }
+      }, {
+        "id" : -1,
+        "name" : "updated_at",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":updated_at",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : {
+        }
+      }, {
+        "id" : -1,
+        "name" : "updated_meta",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":updated_meta",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : {
+        }
+      }, {
+        "id" : -1,
+        "name" : "meta",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":meta",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : {
+        }
+      }, {
+        "id" : 136372520,
+        "name" : "ASSET_ID",
+        "dataTypeName" : "text",
+        "fieldName" : "asset_id",
+        "position" : 2,
+        "renderTypeName" : "text",
+        "tableColumnId" : 8060245,
+        "width" : 196,
+        "cachedContents" : {
+          "non_null" : 128,
+          "smallest" : "TOLT1",
+          "null" : 0,
+          "largest" : "TOLT99",
+          "top" : [ {
+            "count" : 20,
+            "item" : "TOLT53"
+          }, {
+            "count" : 19,
+            "item" : "TOLT52"
+          }, {
+            "count" : 18,
+            "item" : "TOLT55"
+          }, {
+            "count" : 17,
+            "item" : "TOLT61"
+          }, {
+            "count" : 16,
+            "item" : "TOLT62"
+          } ]
+        },
+        "format" : {
+        }
+      }, {
+        "id" : 136372521,
+        "name" : "DIVISION_NAME",
+        "dataTypeName" : "text",
+        "fieldName" : "division_name",
+        "position" : 3,
+        "renderTypeName" : "text",
+        "tableColumnId" : 8060246,
+        "width" : 256,
+        "cachedContents" : {
+          "non_null" : 128,
+          "smallest" : "ACTON",
+          "null" : 0,
+          "largest" : "YARRALUMLA",
+          "top" : [ {
+            "count" : 20,
+            "item" : "ACTON"
+          }, {
+            "count" : 19,
+            "item" : "BARTON"
+          }, {
+            "count" : 18,
+            "item" : "BELCONNEN"
+          }, {
+            "count" : 17,
+            "item" : "BOOTH"
+          }, {
+            "count" : 16,
+            "item" : "CITY"
+          }, {
+            "count" : 15,
+            "item" : "COREE (RURAL)"
+          }, {
+            "count" : 14,
+            "item" : "COTTER RIVER"
+          }, {
+            "count" : 13,
+            "item" : "DEAKIN"
+          }, {
+            "count" : 12,
+            "item" : "DICKSON"
+          }, {
+            "count" : 11,
+            "item" : "FYSHWICK"
+          }, {
+            "count" : 10,
+            "item" : "GOOGONG"
+          }, {
+            "count" : 9,
+            "item" : "GREENWAY"
+          }, {
+            "count" : 8,
+            "item" : "GUNGAHLIN"
+          }, {
+            "count" : 7,
+            "item" : "KAMBAH"
+          }, {
+            "count" : 6,
+            "item" : "KOWEN"
+          }, {
+            "count" : 5,
+            "item" : "MOUNT CLEAR"
+          }, {
+            "count" : 4,
+            "item" : "O\"CONNOR"
+          }, {
+            "count" : 3,
+            "item" : "PADDYS RIVER"
+          }, {
+            "count" : 2,
+            "item" : "PHILLIP"
+          }, {
+            "count" : 1,
+            "item" : "RED HILL"
+          } ]
+        },
+        "format" : {
+        }
+      }, {
+        "id" : 136372522,
+        "name" : "LOCATION_DESCRIPTION",
+        "dataTypeName" : "text",
+        "fieldName" : "location_description",
+        "position" : 4,
+        "renderTypeName" : "text",
+        "tableColumnId" : 8060247,
+        "width" : 340,
+        "cachedContents" : {
+          "non_null" : 128,
+          "smallest" : "ACTON PARK DISTRICT PARK - ACTON FERRY TERMINAL",
+          "null" : 0,
+          "largest" : "YERRABI DISTRICT PARK",
+          "top" : [ {
+            "count" : 20,
+            "item" : "COTTER RESERVE"
+          }, {
+            "count" : 19,
+            "item" : "GOOGONG FORESHORE"
+          }, {
+            "count" : 18,
+            "item" : "YERRABI DISTRICT PARK"
+          }, {
+            "count" : 17,
+            "item" : "KAMBAH DISTRICT PARK"
+          }, {
+            "count" : 16,
+            "item" : "MOLONGLO GORGE"
+          }, {
+            "count" : 15,
+            "item" : "KOWEN PINES"
+          }, {
+            "count" : 14,
+            "item" : "NAAS VALLEY"
+          }, {
+            "count" : 13,
+            "item" : "TIDBINBILLA NATURE RESERVE"
+          }, {
+            "count" : 12,
+            "item" : "GIBRALTAR PINES"
+          }, {
+            "count" : 11,
+            "item" : "PHILLIP TOWN CENTRE"
+          }, {
+            "count" : 10,
+            "item" : "JUSTINIAN STREET - ROAD VERGE"
+          }, {
+            "count" : 9,
+            "item" : "EDISON DISTRICT PARK"
+          }, {
+            "count" : 8,
+            "item" : "RED HILL SCENIC LOOKOUT"
+          }, {
+            "count" : 7,
+            "item" : "LIMESTONE AVENUE - PEDESTRIAN PARKLAND"
+          }, {
+            "count" : 6,
+            "item" : "YANKEE HAT CARPARK"
+          }, {
+            "count" : 5,
+            "item" : "ORRORAL VALLEY"
+          }, {
+            "count" : 4,
+            "item" : "OFF OLD BOBOYAN ROAD"
+          }, {
+            "count" : 3,
+            "item" : "SCULLIN SHOPPING CENTRE"
+          }, {
+            "count" : 2,
+            "item" : "CASAURINA SANDS NORTH"
+          }, {
+            "count" : 1,
+            "item" : "URIARRA EAST"
+          } ]
+        },
+        "format" : {
+        }
+      }, {
+        "id" : 136372523,
+        "name" : "TOILET_TYPE_TEXT",
+        "dataTypeName" : "text",
+        "fieldName" : "toilet_type_text",
+        "position" : 5,
+        "renderTypeName" : "text",
+        "tableColumnId" : 8060248,
+        "width" : 292,
+        "cachedContents" : {
+          "non_null" : 128,
+          "smallest" : "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET",
+          "null" : 0,
+          "largest" : "PUBLIC TOILET LOCATED WITHIN BUILDING",
+          "top" : [ {
+            "count" : 20,
+            "item" : "MANUAL STYLE ABLUTION BLOCK"
+          }, {
+            "count" : 19,
+            "item" : "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET"
+          }, {
+            "count" : 18,
+            "item" : "PIT TOILET"
+          }, {
+            "count" : 17,
+            "item" : "MANUAL STYLE ABLUTION BLOCKS WITH SHOWER FACILITIES"
+          }, {
+            "count" : 16,
+            "item" : "PUBLIC TOILET LOCATED WITHIN BUILDING"
+          } ]
+        },
+        "format" : {
+        }
+      }, {
+        "id" : 136372524,
+        "name" : "Location",
+        "dataTypeName" : "location",
+        "fieldName" : "location",
+        "position" : 6,
+        "renderTypeName" : "location",
+        "tableColumnId" : 8060249,
+        "width" : 196,
+        "cachedContents" : {
+          "non_null" : 128,
+          "smallest" : {
+            "longitude" : "149.10124",
+            "latitude" : "-35.287294"
+          },
+          "null" : 0,
+          "largest" : {
+            "longitude" : "149.122904",
+            "latitude" : "-35.297489"
+          },
+          "top" : [ {
+            "count" : 20,
+            "item" : {
+              "longitude" : "149.117079",
+              "latitude" : "-35.300313"
+            }
+          }, {
+            "count" : 19,
+            "item" : {
+              "longitude" : "149.097161",
+              "latitude" : "-35.307226"
+            }
+          }, {
+            "count" : 18,
+            "item" : {
+              "longitude" : "149.089446",
+              "latitude" : "-35.29694"
+            }
+          }, {
+            "count" : 17,
+            "item" : {
+              "longitude" : "149.093934",
+              "latitude" : "-35.293513"
+            }
+          }, {
+            "count" : 16,
+            "item" : {
+              "longitude" : "149.122904",
+              "latitude" : "-35.297489"
+            }
+          } ]
+        },
+        "format" : {
+        },
+        "subColumnTypes" : [ "human_address", "latitude", "longitude", "machine_address", "needs_recoding" ]
+      } ],
+      "grants" : [ {
+        "inherited" : false,
+        "type" : "viewer",
+        "flags" : [ "public" ]
+      } ],
+      "license" : {
+        "name" : "Creative Commons Attribution 3.0 Australia",
+        "logoUrl" : "images/licenses/cc30by.png",
+        "termsLink" : "http://creativecommons.org/licenses/by/3.0/au/deed.en"
+      },
+      "metadata" : {
+        "custom_fields" : {
+          "Related Data" : {
+            "Data Dictionary" : "",
+            "Related Data Set" : ""
+          },
+          "Contributing Agency" : {
+            "Contact Email" : "spatialdata@act.gov.au ",
+            "Program Website" : "",
+            "Agency Program" : "",
+            "Agency Name" : "Territory and Municipal Services Directorate (TAMSD)"
+          },
+          "Data Set Coverage" : {
+            "Granularity" : "",
+            "Geospatial Coverage" : "ACT",
+            "Temporal Coverage" : "29/10/2013",
+            "Update Regularity" : "Updated as regularly as required"
+          }
+        },
+        "renderTypeConfig" : {
+          "visible" : {
+            "table" : true
+          }
+        },
+        "availableDisplayTypes" : [ "table", "fatrow", "page" ],
+        "rdfSubject" : "0"
+      },
+      "owner" : {
+        "id" : "fi8e-64s8",
+        "displayName" : "TAMS",
+        "profileImageUrlLarge" : "/images/profile/6289/9778/TAMS_Colour_Logo_large.jpg",
+        "profileImageUrlMedium" : "/images/profile/6289/9778/TAMS_Colour_Logo_thumb.jpg",
+        "profileImageUrlSmall" : "/images/profile/6289/9778/TAMS_Colour_Logo_tiny.jpg",
+        "roleName" : "publisher",
+        "screenName" : "TAMS",
+        "rights" : [ "create_datasets", "edit_others_datasets", "edit_nominations", "approve_nominations", "moderate_comments", "manage_stories", "feature_items", "change_configurations", "view_domain", "view_others_datasets", "create_pages", "edit_pages", "view_goals", "view_dashboards", "edit_goals", "edit_dashboards" ]
+      },
+      "query" : {
+      },
+      "rights" : [ "read" ],
+      "tableAuthor" : {
+        "id" : "cqpn-mbgv",
+        "displayName" : "Jason Ammann",
+        "roleName" : "administrator",
+        "screenName" : "Jason Ammann",
+        "rights" : [ "create_datasets", "edit_others_datasets", "edit_sdp", "edit_site_theme", "moderate_comments", "manage_users", "chown_datasets", "edit_nominations", "approve_nominations", "feature_items", "federations", "manage_stories", "manage_approval", "change_configurations", "view_domain", "view_others_datasets", "edit_pages", "create_pages", "view_goals", "view_dashboards", "edit_goals", "edit_dashboards", "create_dashboards" ]
+      },
+      "tags" : [ "toilet", "lavatory", "wc" ],
+      "flags" : [ "default" ]
+    }
+  },
+  "data" : [ [ 1, "6525EE6D-FE5A-4D74-AD57-F6FBDC5A35FF", 1, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT20", "ACTON", "BLACK MOUNTAIN PENINSULA DISTRICT PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.287294", "149.10124", null, false ] ]
+, [ 2, "46F2797F-593D-41BD-A610-9BD7766C6EC9", 2, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT45", "ACTON", "ACTON PARK DISTRICT PARK - ACTON FERRY TERMINAL", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.286775", "149.124928", null, false ] ]
+, [ 3, "BF337E66-6A72-45B3-869B-5FD86DECC982", 3, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT21", "ACTON", "BLACK MOUNTAIN PENINSULA DISTRICT PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.292289", "149.100125", null, false ] ]
+, [ 4, "E76A1502-BE13-47CD-8C76-AC09887C75D2", 4, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT138", "AINSLIE", "AINSLIE SHOPS", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.262584", "149.145495", null, false ] ]
+, [ 5, "8F3C80F8-75D0-41FC-B26D-4F0F23C2C2B5", 5, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT51", "BARTON", "TELOPEA PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.314394", "149.137502", null, false ] ]
+, [ 6, "6209CAAB-92DC-49CE-BB0B-DA7F280B5A7F", 6, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT63", "BARTON", "BOWEN PARK", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.308024", "149.139578", null, false ] ]
+, [ 7, "2D73659C-0110-4EE0-8E2C-C780C31F46E4", 7, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT2", "BELCONNEN", "DIDDAMS CLOSE PEDESTRIAN PARKLAND", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.228706", "149.074316", null, false ] ]
+, [ 8, "352686EC-2F85-4480-BD2D-46F8EDE4266C", 8, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT3", "BELCONNEN", "JOYNTON SMITH DRIVE PEDESTRIAN PARKLAND", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.22778", "149.063118", null, false ] ]
+, [ 9, "AA939EFF-DA79-4FEE-B57F-839D3DCE5BF4", 9, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT1", "BELCONNEN", "EMU BANK PEDESTRIAN PARKLAND", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.239022", "149.071891", null, false ] ]
+, [ 10, "B3027C07-667F-4F5F-AABE-99B6D0FF32D3", 10, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT4", "BELCONNEN", "GINNINDERRA PENINSULA DISTRICT PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.225351", "149.070427", null, false ] ]
+, [ 11, "BEAE4E48-97D2-4D26-8445-F9A0CBE0ADD9", 11, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT5", "BELCONNEN", "JOHN KNIGHT MEMORIAL PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.235937", "149.074708", null, false ] ]
+, [ 12, "5089DF99-12F8-439A-9D40-1E1348CABF4D", 12, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT146", "BONNER", "BURNUM BURNUM CLOSE NEIGHBORHOOD OVAL", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.159328", "149.142194", null, false ] ]
+, [ 13, "E7850905-7B85-42FA-8BFC-B2B62189501A", 13, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT86", "BOOTH", "GLENDALE PICNIC AREA", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.682676", "148.99895", null, false ] ]
+, [ 14, "28677CC9-D502-4664-B8A0-C0495E2A08C5", 14, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT87", "BOOTH", "BRANDY FLAT", "PIT TOILET", [ null, "-35.715221", "149.019659", null, false ] ]
+, [ 15, "5D13BE8B-9E22-4BA2-85E6-0509027DFFF1", 15, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT18", "BRADDON", "HAIG PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.270109", "149.131798", null, false ] ]
+, [ 16, "B37A0DAC-75E1-4B16-A614-CE374CFA9304", 16, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT154", "CAMPBELL", "MOLONGLO REACH DISTRICT PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.30402", "149.167489", null, false ] ]
+, [ 17, "4E815F98-6115-4F53-98AE-E3328D88FB7D", 17, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT6", "CHARNWOOD", "CHARNWOOD SHOPPING CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.205232", "149.033642", null, false ] ]
+, [ 18, "82801D60-BF01-4DB1-8867-23E87F0367E2", 18, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT22", "CHIFLEY", "SHANN PLACE - NEIGHBOURHOOD PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.352375", "149.07643", null, false ] ]
+, [ 19, "EE6B3A9E-886B-4D71-9CD2-25CCFA9EBE6E", 19, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT43", "CHISHOLM", "CHISHOLM SHOPPING CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.413384", "149.128291", null, false ] ]
+, [ 20, "BB3DE095-1125-44FC-931F-C05DF6C4D7F9", 20, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT142", "CITY", "MORT STREET ROAD VERGE", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.277669", "149.1306", null, false ] ]
+, [ 21, "082AF97F-03F0-4518-B462-E2593E61A6E2", 21, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT141", "CITY", "ALINGA STREET ROAD VERGE", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.278422", "149.130372", null, false ] ]
+, [ 22, "49C8ED80-9F69-4BA3-8FA9-57CC9CCA7195", 22, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT13", "CITY", "GLEBE PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.282411", "149.136397", null, false ] ]
+, [ 23, "81829441-0AC4-409A-9439-27D723773FD7", 23, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT113", "COREE (RURAL)", "COTTER CAMPGROUND", "MANUAL STYLE ABLUTION BLOCKS WITH SHOWER FACILITIES", [ null, "-35.32575", "148.947535", null, false ] ]
+, [ 24, "2E53BCD4-9801-411D-AF98-CE90A7BEFB2F", 24, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT102", "COREE (RURAL)", "URIARRA WEST", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.245218", "148.951159", null, false ] ]
+, [ 25, "2AAA85EC-9EA1-45C3-B054-7FDC55852B29", 25, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT100", "COREE (RURAL)", "SWAMP CREEK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.242502", "148.951147", null, false ] ]
+, [ 26, "7CE94A78-07F3-4F7E-8273-4949719B0B1C", 26, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT96", "COREE (RURAL)", "COTTER RESERVE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.327899", "148.938159", null, false ] ]
+, [ 27, "CF55838C-E49F-43A2-8CDD-B4B01F6E6D7E", 27, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT97", "COREE (RURAL)", "COTTER RESERVE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.326173", "148.943792", null, false ] ]
+, [ 28, "FDC8A236-7947-4AF3-89A9-6BD01C6EA104", 28, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT95", "COREE (RURAL)", "COTTER RESERVE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.322352", "148.941974", null, false ] ]
+, [ 29, "A0EC7AF3-0BB3-455F-A35C-0DCE6CA1BD4B", 29, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT120", "COREE (RURAL)", "BLUE RANGE - URIARRA PINES", "PIT TOILET", [ null, "-35.289638", "148.87549", null, false ] ]
+, [ 30, "DF4D0DE6-F93C-4B09-8493-011231C06FAA", 30, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT131", "COTTER RIVER", "CORIN DAM", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.534118", "148.834871", null, false ] ]
+, [ 31, "31E9C562-1E89-4646-B560-0682C5F53E6D", 31, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT89", "COTTER RIVER", "BENDORA DAM", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.44254", "148.827986", null, false ] ]
+, [ 32, "126E7756-478C-425D-9B60-73EFF5189747", 32, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT88", "COTTER RIVER", "BULLS HEAD PICNIC AREA", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.386919", "148.804354", null, false ] ]
+, [ 33, "FE30C78C-FCCB-42C8-996B-61A9B1C7E398", 33, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT133", "COTTER RIVER", "MT FRANKLIN", "PIT TOILET", [ null, "-35.490899", "148.765222", null, false ] ]
+, [ 34, "58DA2C80-B83A-4A3C-9035-32FA100C5F21", 34, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT143", "CRACE", "NARDEN STREET COMMUNITY PARK", "PUBLIC TOILET LOCATED WITHIN BUILDING", [ null, "-35.201499", "149.102683", null, false ] ]
+, [ 35, "3C39CDE1-C733-4E32-A7AE-4334FF182FC1", 35, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT23", "CURTIN", "CURTIN SHOPPING CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.325127", "149.082212", null, false ] ]
+, [ 36, "9A98884E-1AA5-43C0-A6A4-ED6230549E46", 36, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT75", "DEAKIN", "BEDFORD STREET - NEIGHBOURHOOD PARK", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.318049", "149.112969", null, false ] ]
+, [ 37, "9A0899DF-C52F-40BD-85A4-C24C65411DF6", 37, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT64", "DEAKIN", "DEAKIN SHOPPING CENTRE", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.314703", "149.107678", null, false ] ]
+, [ 38, "73364B88-42D3-4F93-86DB-273F599C9E12", 38, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT12", "DICKSON", "DICKSON SHOPPING CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.250445", "149.140455", null, false ] ]
+, [ 39, "13D840FA-36B5-4E8E-B674-45422C410009", 39, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT140", "DICKSON", "DUTTON STREET NEIGHBOURHOOD PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.252467", "149.149243", null, false ] ]
+, [ 40, "6E650FBE-EEDA-427D-B700-35A4698E2454", 40, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT11", "DOWNER", "MELBA STREET - PEDESTRIAN PARKLAND", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.24537", "149.145148", null, false ] ]
+, [ 41, "0885BDD2-3FBE-45FE-96E2-6B9EA51383CB", 41, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT42", "FADDEN", "FADDEN PINES DISTRICT PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.411678", "149.120754", null, false ] ]
+, [ 42, "4C760DD2-2731-465C-832F-62223BC15938", 42, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT139", "FORDE", "RAY ELLIS CRESCENT DISTRICT PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.172385", "149.141825", null, false ] ]
+, [ 43, "6946B7BF-547B-4EAC-8493-08A56FBADCAD", 43, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT76", "FYSHWICK", "MOLONGLO REACH WATER SKI", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.304152", "149.173956", null, false ] ]
+, [ 44, "BD958977-8D54-4525-8D2D-C26843D02374", 44, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT46", "FYSHWICK", "MARYBOROUGH STREET - PEDESTRIAN PARKLAND", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.326962", "149.176568", null, false ] ]
+, [ 45, "7CA19BAD-7D77-43A3-B78E-89A99787C079", 45, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT111", "GOOGONG", "GOOGONG FORESHORE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.430707", "149.257459", null, false ] ]
+, [ 46, "CF89EDE5-F461-4D59-BDE6-03CF51C0DB10", 46, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT110", "GOOGONG", "GOOGONG FORESHORE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.422499", "149.261723", null, false ] ]
+, [ 47, "6B95D58D-BEC9-4383-8B39-53B596B01450", 47, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT112", "GOOGONG", "GOOGONG FORESHORE", "MANUAL STYLE ABLUTION BLOCKS WITH SHOWER FACILITIES", [ null, "-35.511528", "149.257524", null, false ] ]
+, [ 48, "300FF94B-E57F-4EEE-81FF-3D8451E1BDC0", 48, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT109", "GOOGONG", "GOOGONG FORESHORE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.409806", "149.261938", null, false ] ]
+, [ 49, "DCB0786D-E5C1-489F-87EC-152118198121", 49, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT114", "GOOGONG", "GOOGONG FORESHORE", "PIT TOILET", [ null, "-35.49717", "149.260833", null, false ] ]
+, [ 50, "6152EF7D-F67F-470F-8A1B-AFFA4408639D", 50, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT71", "GORDON", "POINT HUT DISTRICT PARK", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.455509", "149.084847", null, false ] ]
+, [ 51, "7D9DA53A-E0DF-44FB-BE86-C9D2677873B8", 51, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT41", "GREENWAY", "TUGGERANONG TOWN PARK", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.411222", "149.064596", null, false ] ]
+, [ 52, "2DF41371-C4B6-4A51-84D7-76E4E180DCF0", 52, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT68", "GREENWAY", "LAKE TUGGERANONG DISTRICT PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.405828", "149.072142", null, false ] ]
+, [ 53, "E6498D1E-A2A6-4874-A13E-FE37614BB62B", 53, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT48", "GRIFFITH", "GRIFFITH SHOPPING CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.328262", "149.142196", null, false ] ]
+, [ 54, "B3DC432A-4670-4CFA-96BC-B2539B14303B", 54, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT29", "GUNGAHLIN", "YERRABI DISTRICT PARK", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.179244", "149.130757", null, false ] ]
+, [ 55, "27E550E7-E72B-4EF1-815C-97752789E85B", 55, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT155", "GUNGAHLIN", "GOZZARD STREET TOWN PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.186", "149.131958", null, false ] ]
+, [ 56, "DBE95D83-12C5-4CA9-9225-41B169B3439F", 56, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT69", "GUNGAHLIN", "YERRABI DISTRICT PARK", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.179263", "149.130693", null, false ] ]
+, [ 57, "F6146CBE-1C5F-4AF9-BC67-C4C776F1D6CF", 57, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT145", "GUNGAHLIN (RURAL)", "BEHIND WOOLSHED (MULLIGANS FLAT NR)", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.166838", "149.157917", null, false ] ]
+, [ 58, "CA43D4E3-7D48-4B40-8AA6-130BC1ACE092", 58, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT31", "HALL", "HALL PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.171989", "149.069323", null, false ] ]
+, [ 59, "6161F3E9-CDDE-4B64-9F37-902721C77663", 59, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT7", "HAWKER", "HAWKER SHOPPING CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.243714", "149.043296", null, false ] ]
+, [ 60, "B4420610-7BC6-4E5D-BA28-FBB8A310A47E", 60, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT8", "HOLT", "KIPPAX FAIR", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.222133", "149.020432", null, false ] ]
+, [ 61, "ACBBCC3C-F2EA-43D4-8B1E-F275FCA5B08E", 61, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT24", "HUGHES", "WISDOM STREET - PEDESTRIAN PARKLAND", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.333143", "149.093583", null, false ] ]
+, [ 62, "36BD07AD-C123-4B47-8549-EA32E9C00C24", 62, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT38", "KAMBAH", "KAMBAH DISTRICT PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.388592", "149.06038", null, false ] ]
+, [ 63, "0DDD0638-E90F-408B-8269-DA5053AF35B8", 63, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT39", "KAMBAH", "KAMBAH VILLAGE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.380177", "149.058396", null, false ] ]
+, [ 64, "C34699CA-72C9-408C-BD6A-2BED259577E2", 64, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT40", "KAMBAH", "KAMBAH DISTRICT PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.391824", "149.061799", null, false ] ]
+, [ 65, "9BD7F92A-322D-40F6-9083-6B6C3BA74292", 65, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT65", "KINGSTON", "EYRE STREET - ROAD VERGE", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.316418", "149.142347", null, false ] ]
+, [ 66, "5BFF316B-193C-431F-8D23-BC3C18527087", 66, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT126", "KOWEN", "MOLONGLO GORGE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.328742", "149.250067", null, false ] ]
+, [ 67, "91043842-9A6E-4EC8-9766-7C4480F0C808", 67, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT127", "KOWEN", "MOLONGLO GORGE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.322519", "149.246903", null, false ] ]
+, [ 68, "14D211ED-4D24-4654-9F36-EBD59702E198", 68, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT128", "KOWEN", "KOWEN PINES", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.328354", "149.351226", null, false ] ]
+, [ 69, "85F2A0C7-4931-459C-BC0F-4B101D77D975", 69, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT130", "KOWEN", "KOWEN PINES", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.289285", "149.28729", null, false ] ]
+, [ 70, "A3712B24-BF6E-4FB3-A689-738D43E05BCB", 70, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT10", "LYNEHAM", "LYNEHAM SHOPS", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.252081", "149.125232", null, false ] ]
+, [ 71, "95D42FC6-E8A9-4EC1-99BD-42E5B0E74235", 71, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT70", "MAJURA (RURAL)", "MAJURA ROAD - PEDESTRIAN PARKLAND", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.211253", "149.19085", null, false ] ]
+, [ 72, "4AA7FD53-598C-477C-8B75-C027CB996432", 72, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT25", "MAWSON", "MAWSON SHOPPING CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.365804", "149.094377", null, false ] ]
+, [ 73, "D2D08A40-5239-4756-A8A0-5628A48693EB", 73, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT30", "MITCHELL", "BAILLIEU LANE PEDESTRIAN PARKLAND", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.218239", "149.142251", null, false ] ]
+, [ 74, "ACC83BF4-E598-41ED-9144-18C19847F31E", 74, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT150", "MOUNT CLEAR", "NAMADGI NATIONAL PARK", "PIT TOILET", [ null, "-35.875748", "148.985278", null, false ] ]
+, [ 75, "2D6684C4-4B3F-40E4-BF96-4F3C153C493B", 75, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT91", "MOUNT CLEAR", "MOUNT CLEAR CAMPGROUND", "PIT TOILET", [ null, "-35.86466", "149.010222", null, false ] ]
+, [ 76, "E7A926AA-D564-4A04-B0AE-C398757CE5B4", 76, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT92", "MOUNT CLEAR", "NAAS VALLEY", "PIT TOILET", [ null, "-35.823943", "149.06591", null, false ] ]
+, [ 77, "C2318DAC-5E25-4F32-8880-D8121D9CD5B9", 77, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT119", "MOUNT CLEAR", "MT CLEAR CAMPGROUND", "PIT TOILET", [ null, "-35.868075", "149.015171", null, false ] ]
+, [ 78, "7C17F0F1-0F79-4790-968B-C1D51EC14BEE", 78, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT132", "MOUNT CLEAR", "NAAS VALLEY", "PIT TOILET", [ null, "-35.887379", "148.970492", null, false ] ]
+, [ 79, "F9162D3C-1982-4FF2-B5C7-A9B5BEB6FC75", 79, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT36", "NARRABUNDAH", "NARRABUNDAH SHOPPING CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.33301", "149.154018", null, false ] ]
+, [ 80, "CFC4419B-648C-4670-80CA-5FC0B5599C16", 80, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT9", "O\"CONNOR", "O\"CONNOR SHOPPING CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.26432", "149.122566", null, false ] ]
+, [ 81, "0D2E7DE4-2494-45C5-AA49-6BB7B97ECFED", 81, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT136", "PADDYS RIVER", "BIRRIGAI", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.452316", "148.959732", null, false ] ]
+, [ 82, "B79E212C-76A6-4994-9627-2B76DAC63094", 82, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT137", "PADDYS RIVER", "SHEEDYS CK PICNIC AREA", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.444048", "148.929499", null, false ] ]
+, [ 83, "D8475906-A950-462C-933E-1F79F6FBC0C2", 83, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT147", "PADDYS RIVER", "NEAR NIL DESPERANDUM COTTAGE", "PIT TOILET", [ null, "-35.424031", "148.92199", null, false ] ]
+, [ 84, "D2A47ED3-1BA7-4816-BC57-9718960A0CF1", 84, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT148", "PADDYS RIVER", "TIDBINBILLA NATURE RESERVE", "PIT TOILET", [ null, "-35.455462", "148.925342", null, false ] ]
+, [ 85, "CD34896D-6998-4CF9-9D92-BE307E2546CA", 85, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT149", "PADDYS RIVER", "TIDBINBILLA NATURE RESERVE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.4486", "148.927874", null, false ] ]
+, [ 86, "694183D0-2E6B-4C47-A934-658ACAA22DE7", 86, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT151", "PADDYS RIVER", "VET CENTRE BUILDING, TIDBINBILLA NATURE RESERVE", "PUBLIC TOILET LOCATED WITHIN BUILDING", [ null, "-35.462675", "148.906838", null, false ] ]
+, [ 87, "EB44484B-BA31-4564-8739-CEB070C07385", 87, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT125", "PADDYS RIVER", "MURRAYS CORNER - PIERCES CK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.363577", "148.952185", null, false ] ]
+, [ 88, "45CA1DDF-9E78-4BE7-BA3F-123D5F2698F5", 88, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT134", "PADDYS RIVER", "SANCTUARY", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.466307", "148.904967", null, false ] ]
+, [ 89, "57F5AED1-DF8C-44C7-8B13-56FA8AD3F1F1", 89, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT135", "PADDYS RIVER", "FLINTS PICNIC AREA", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.459812", "148.919542", null, false ] ]
+, [ 90, "1D0F2926-8089-477E-994F-900D124EF393", 90, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT124", "PADDYS RIVER", "GIBRALTAR PINES", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.487883", "148.93398", null, false ] ]
+, [ 91, "1D981DE4-DC5F-4E81-AC30-4339013B169C", 91, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT123", "PADDYS RIVER", "GIBRALTAR PINES", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.481348", "148.938844", null, false ] ]
+, [ 92, "3A6E5AF7-D696-437B-9489-8E70500E3C05", 92, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT122", "PADDYS RIVER", "GIBRALTAR PINES", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.4807", "148.940327", null, false ] ]
+, [ 93, "F85C0C0B-BF41-4BF7-B663-1734BCFEDA70", 93, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT82", "PADDYS RIVER", "WETLANDS CARPARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.461472", "148.906841", null, false ] ]
+, [ 94, "09FC9E80-6A98-4F22-8252-2818FBF09DCF", 94, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT81", "PADDYS RIVER", "TIDBINBILLA NATURE RESERVE (GREENS)", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.442122", "148.926569", null, false ] ]
+, [ 95, "9BCA48F0-10EF-45A6-9B18-711F611AF1C2", 95, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT28", "PHILLIP", "PHILLIP TOWN CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.344618", "149.086107", null, false ] ]
+, [ 96, "46C4A06A-ABD2-4DF7-8CB7-7A4EE4F54B69", 96, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT26", "PHILLIP", "PHILLIP TOWN CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.352412", "149.087611", null, false ] ]
+, [ 97, "0A34646C-3475-4C83-833F-7902182674E4", 97, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT37", "PHILLIP", "JUSTINIAN STREET - ROAD VERGE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.34299", "149.092971", null, false ] ]
+, [ 98, "8EC2A927-7CBF-45A7-9955-DB3E4FC165F2", 98, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT27", "PHILLIP", "EDISON DISTRICT PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.340323", "149.091274", null, false ] ]
+, [ 99, "F404BB31-306F-4D86-BE96-775D87D5F285", 99, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT54", "RED HILL", "RED HILL SCENIC LOOKOUT", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.32882", "149.116771", null, false ] ]
+, [ 100, "F60EAE68-62B0-4BCE-977E-2598FDE70A78", 100, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT60", "REID", "LIMESTONE AVENUE - PEDESTRIAN PARKLAND", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.282531", "149.145947", null, false ] ]
+, [ 101, "02F15943-964A-4B03-8F7A-C274BD778DCF", 101, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT118", "RENDEZVOUS CREEK", "YANKEE HAT CARPARK", "PIT TOILET", [ null, "-35.757246", "148.973744", null, false ] ]
+, [ 102, "F80A4A1B-E946-4882-9753-DE02BFD34CFB", 102, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT85", "RENDEZVOUS CREEK", "ORRORAL VALLEY", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.62915", "148.955168", null, false ] ]
+, [ 103, "B5EF9A20-D328-482A-B426-759FF4A7E931", 103, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT90", "RENDEZVOUS CREEK", "OFF OLD BOBOYAN ROAD", "PIT TOILET", [ null, "-35.775308", "148.958641", null, false ] ]
+, [ 104, "C602C947-1153-4055-963C-08F67DFCA332", 104, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT84", "RENDEZVOUS CREEK", "ORRORAL VALLEY", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.66571", "148.988693", null, false ] ]
+, [ 105, "10FCF0E6-7CAA-4928-8DD5-5DA4F0A349C1", 105, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT83", "RENDEZVOUS CREEK", "ORRORAL VALLEY", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.662442", "148.98893", null, false ] ]
+, [ 106, "36F2B0FD-5437-4F47-9E83-65F9E961C68C", 106, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT152", "SCULLIN", "SCULLIN SHOPPING CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.233656", "149.039922", null, false ] ]
+, [ 107, "1272499B-415F-4C81-8ED7-DF6C32135B9E", 107, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT80", "STROMLO (RURAL)", "CASAURINA SANDS NORTH", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.319294", "148.959765", null, false ] ]
+, [ 108, "57ECA6C5-062A-4C9F-91F9-397B9916D298", 108, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT101", "STROMLO (RURAL)", "URIARRA EAST", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.250073", "148.952205", null, false ] ]
+, [ 109, "0ECA7148-2A6C-42A0-8DC2-3B6DBBDF6AF9", 109, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT79", "STROMLO (RURAL)", "CASUARINA SANDS PICNIC AREA", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.319852", "148.9537", null, false ] ]
+, [ 110, "65747130-E3F2-4F3F-80A0-F35A533A6442", 110, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT116", "TENNENT", "HONEYSUCKLE CAMPGROUND", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.58311", "148.974687", null, false ] ]
+, [ 111, "5BE98DD0-68E6-4073-942C-329BF279E0C3", 111, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT117", "TENNENT", "BOOROOMBAH ROCKS CAMPGROUND", "PIT TOILET", [ null, "-35.567425", "148.993357", null, false ] ]
+, [ 112, "A13508C1-F251-4119-80A0-F0E3B0305301", 112, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT104", "THARWA", "THARWA", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.509358", "149.066798", null, false ] ]
+, [ 113, "BDD92F5C-ABCB-4B28-92F4-A6294BEB80AC", 113, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT103", "THARWA", "THARWA", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.509224", "149.069445", null, false ] ]
+, [ 114, "2A5A5C3C-3A00-4517-9378-BE2DFEB73308", 114, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT107", "TUGGERANONG (RURAL)", "PINE ISLAND CENTRAL", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.428028", "149.062259", null, false ] ]
+, [ 115, "0F4FF139-3B07-40E5-85EE-3CB20AE66FD0", 115, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT106", "TUGGERANONG (RURAL)", "PINE ISLAND NORTH", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.425631", "149.054726", null, false ] ]
+, [ 116, "CFAE7BAF-58D6-4BDB-9EE8-97C43D3D61BC", 116, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT105", "TUGGERANONG (RURAL)", "POINT HUT", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.45239", "149.075546", null, false ] ]
+, [ 117, "98F01E06-9B79-4CA1-B9A1-1E7C133FAF1D", 117, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT108", "TUGGERANONG (RURAL)", "PINE ISLAND SOUTH", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.431855", "149.065664", null, false ] ]
+, [ 118, "1446B432-7CFF-47B4-BC53-FDDA8D19F5FB", 118, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT115", "TUGGERANONG (RURAL)", "ANGEL CROSSING", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.583573", "149.109603", null, false ] ]
+, [ 119, "58222DB2-BC76-425B-BAAB-B51F8245BE1A", 119, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT99", "TUGGERANONG (RURAL)", "KAMBAH POOL NUDE BEACH", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.394361", "149.009275", null, false ] ]
+, [ 120, "163BD492-CA7B-408D-8C9E-6C13F164CAFE", 120, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT98", "TUGGERANONG (RURAL)", "KAMBAH POOL SOUTH CARPARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.397829", "149.011048", null, false ] ]
+, [ 121, "00254652-5EAB-4AFA-AE79-7A496DFFFF62", 121, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT56", "YARRALUMLA", "YARRALUMLA BAY DISTRICT PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.299276", "149.102962", null, false ] ]
+, [ 122, "C2AF96FD-76B2-47E3-8276-7E7DD13DCA7E", 122, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT57", "YARRALUMLA", "WESTON PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.292601", "149.091561", null, false ] ]
+, [ 123, "0EDFE47B-9F11-4934-AA85-92EF16FE9F9C", 123, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT58", "YARRALUMLA", "WESTON PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.291946", "149.089768", null, false ] ]
+, [ 124, "60C35E3D-4ADF-462B-9219-246DE4FB73BA", 124, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT53", "YARRALUMLA", "ALEXANDRINA DRIVE - PEDESTRIAN PARKLAND", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.300313", "149.117079", null, false ] ]
+, [ 125, "091E099E-761F-4C2C-AA97-AB46BF3FFE64", 125, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT52", "YARRALUMLA", "YARRALUMLA SHOPPING CENTRE", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.307226", "149.097161", null, false ] ]
+, [ 126, "4DDF38F2-9EC2-4CFF-AE81-79B9B03FF5BD", 126, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT55", "YARRALUMLA", "WESTON PARK", "MANUAL STYLE ABLUTION BLOCK", [ null, "-35.29694", "149.089446", null, false ] ]
+, [ 127, "EEBE6FFC-F2CA-4EB4-9195-968BB696FCB7", 127, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT61", "YARRALUMLA", "WESTON PARK", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.293513", "149.093934", null, false ] ]
+, [ 128, "4DA8EC8E-8394-426A-8760-91AA28AE0349", 128, 1393980323, "704731", 1393980323, "704731", "{\n}", "TOLT62", "YARRALUMLA", "LENNOX GARDENS", "AUTOMATED SYSTEM EG EXCELOO BRAND TOILET", [ null, "-35.297489", "149.122904", null, false ] ]
+ ]
+}

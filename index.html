@@ -16,11 +16,16 @@ var map;
 var searched=0;
 var waypts = [];
 var way = [];
+var art_waypts=[];
+var art_way=[];
+var tlt_waypts=[];
+var tlt_way=[];
 var geocoder = new google.maps.Geocoder();
 var bannedI = [];
 var usedI = [];
 
 function initialize() {
+    $('#controls').hide();
   directionsDisplay = new google.maps.DirectionsRenderer();
   var canberra = new google.maps.LatLng(-35.2819998,149.1286843);
   var mapOptions = {
@@ -52,12 +57,26 @@ function initialize() {
 
   $.getJSON( "art.json", function( data ) {
       for (var i =0;i<data.data.length;i++){
-      waypts.push({ location:new google.maps.LatLng( data.data[i][18][1] ,  data.data[i][18][2]), stopover:true});
-      way.push({
+      art_waypts.push({ location:new google.maps.LatLng( data.data[i][18][1] ,  data.data[i][18][2]), stopover:true});
+      art_way.push({
         named:data.data[i][8],
         desc:data.data[i][15],
         url:data.data[i][16][0],
         img:data.data[i][17][0],
+        id:'art'+data.data[i][0],
+        });
+      }
+      });
+
+  $.getJSON( "toilets.json", function( data ) {
+      for (var i =0;i<data.data.length;i++){
+      tlt_waypts.push({ location:new google.maps.LatLng( data.data[i][12][1] ,  data.data[i][12][2]), stopover:true});
+      tlt_way.push({
+        named:"Toilet",
+        desc:data.data[i][11],
+        url:'',
+        img:'http://openclipart.org/image/2400px/svg_to_png/25158/Anonymous_aiga_toilets.png',
+        id:'tlt'+data.data[i][0],
         });
       }
       });
@@ -122,14 +141,24 @@ function getRandom(min, max) {
 function calcRoute() {
 if (searched){
   document.getElementById('search').style.backgroundImage="url('glass.png')";
-searched=0;
-      var summaryPanel = document.getElementById('directions_panel');
-      summaryPanel.innerHTML = '';
+      searched=0;
+      $('#directions_panel').hide('slow');
+      $('#directions_panel').innerHTML = '';
 document.getElementById('start').disabled = false;
 document.getElementById('end').disabled = false;
 return;
 }
 searched=1;
+waypts = [];
+way = [];
+if ( $("#artC").is(':checked')  ) {
+waypts = waypts.concat(art_waypts);
+way = way.concat(art_way);
+}
+if ( $("#tltC").is(':checked') ) {
+waypts = waypts.concat(tlt_waypts);
+way = way.concat(tlt_way);
+}
 var finwaypts = [];
 var finway = [];
 usedI = [];
@@ -147,7 +176,7 @@ document.getElementById('end').disabled = true;
           var ll2 = results[0].geometry.location;
           var ll3 = waypts[10].location;
           var tmplist = [ll1, ll2];
-          for(var j=0;j<3;j++){
+          for(var j=0;j< $('#nodes').val()  ;j++){
           var indeces=add_best_min(tmplist);
           ind=indeces[1];
           newNode=indeces[0];
@@ -164,36 +193,91 @@ document.getElementById('end').disabled = true;
       travelMode: google.maps.TravelMode.WALKING,
   };
 
+var service = new google.maps.DistanceMatrixService();
+var origMat = []
+var destMat = []
+    origMat.push(start);
+    destMat.push(start);
+  for(pt in finwaypts){
+    origMat.push(finwaypts[pt].location);
+    destMat.push(finwaypts[pt].location);
+  }
+    origMat.push(end);
+    destMat.push(end);
+service.getDistanceMatrix(
+  {
+    origins: origMat,
+    destinations: destMat,
+    travelMode: google.maps.TravelMode.WALKING
+  }, callback);
+
+function callback(response, status) {
+  if(status == 'OK'){
+  dataMat = response.rows;
   directionsService.route(request, function(response, status) {
     if (status == google.maps.DirectionsStatus.OK) {
-
-
       directionsDisplay.setDirections(response);
       var route = response.routes[0];
       var summaryPanel = document.getElementById('directions_panel');
       var total=0;
       summaryPanel.innerHTML = '';
       // For each route, display summary information.
-      for (var i = 0; i < route.legs.length-1; i++) {
-        var seg = route.waypoint_order[i];
-        total += route.legs[seg].distance.value;
-        $('#directions_panel').append( '<div class="boxn"><div class="thumbnail"><img src="'+finway[seg].img+'" class="thumb"/></div><div class="contnail"><b>' + finway[seg].named + '</b><br>' + finway[seg].desc.substring(0,100) + '...<br /></div><div class="travnail">+' + route.legs[seg].distance.text + '</div></div>').hide().show('slow');
+      var wp = route.waypoint_order;
+      wp.unshift(-1);
+      wp.push(route.waypoint_order.length-1);
+      for (var i = 1; i < wp.length-1; i++) {
+        var segP = wp[i-1]+1;
+        var seg = wp[i]+1;
+        var segB = wp[i+1]+1;
+        total += route.legs[seg-1].distance.value;
+        addDist = Math.abs( dataMat[segP].elements[seg].distance.value + dataMat[seg].elements[segB].distance.value - dataMat[segP].elements[segB].distance.value );
+        $('#directions_panel').append( '<div class="boxn"><div class="thumbnail"><img src="'+finway[seg-1].img+'" class="thumb"/></div><div class="contnail"><b>' + finway[seg-1].named + '</b>  +' + addDist + 'm<br>' + finway[seg-1].desc.substring(0,100) + '...<br /></div><div class="travnail"><a href="#" onClick="window.bannedI.push(' + finwaypts[seg-1].location + ')" style="float:right">X</span><br /><br /></div></div>').hide().show('slow');
       }
-      //alert(total);
-
     }
     else{
     alert('Directions unavailable for the following reason: ' + status);
     }
-
   });
 
-      });
-      });
+  }
+  else{
+  directionsService.route(request, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+      var route = response.routes[0];
+      var summaryPanel = document.getElementById('directions_panel');
+      var total=0;
+      summaryPanel.innerHTML = '';
+      // For each route, display summary information.
+      var wp = route.waypoint_order;
+      wp.unshift(-1);
+      wp.push(route.waypoint_order.length-1);
+      for (var i = 1; i < wp.length-1; i++) {
+        var segP = wp[i-1]+1;
+        var seg = wp[i]+1;
+        var segB = wp[i+1]+1;
+        total += route.legs[seg-1].distance.value;
+        addDist='?';
+        $('#directions_panel').append( '<div class="boxn"><div class="thumbnail"><img src="'+finway[seg-1].img+'" class="thumb"/></div><div class="contnail"><b>' + finway[seg-1].named + '</b>  +' + addDist + 'm<br>' + finway[seg-1].desc.substring(0,100) + '...<br /></div><div class="travnail"><span style="float:right">X</span><br /><br /></div></div>').hide().show('slow');
+      }
+    }
+    else{
+    alert('Directions unavailable for the following reason: ' + status);
+    }
+  });
+  }
+  
 
+}
+      });
+      });
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
+function toggleConf() {
+      $('#controls').toggle('slow');
+}
 
     </script>
   </head>
@@ -206,8 +290,14 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <input type='text' value='Dickson College, ACT, 2602' id='end' class='inputBox' >
     <input type="submit" onclick="calcRoute();" class='inputButton' value='' id='search'>
     </div>
-
   </div>
+    <div id='cog'><a href="#" onClick="toggleConf()" ><img src="http://icongal.com/gallery/image/57602/cog_gear_monotone_settings.png" style='height: 20px;'/></a></cog>
+      <div id='controls'>Number of stops (0 to 8):<br /><input id="nodes" value='4' /><br /><br />
+        <input type="checkbox" id="artC" name="artC" value="artC" checked >Artwork<br>
+        <input type="checkbox" name="option2" value="parks">Parks<br>
+        <input type="checkbox" name="option2" value="seats">Seats/Tables<br>
+        <input type="checkbox" id="tltC">Toilets<br>
+      </div>
 
   </body>
 </html>
