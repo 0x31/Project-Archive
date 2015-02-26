@@ -1,9 +1,11 @@
 Inefficient-Directions
 ======================
 
-Plan scenic walks between two given locations
+Plan scenic walks between two given locations.
 
-Inefficient Directions is a GovHack [1] built upon [data.act.gov.au] data.
+This project was awarded (ACT) Digital ***REMOVED*** Entrepreneur and 2nd Place (National) Best Schools Team.
+
+Inefficient Directions is a GovHack [1] built upon [data.act.gov.au] dat.
 
 Tools Used
 ===
