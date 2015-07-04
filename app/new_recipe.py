@@ -61,4 +61,13 @@ def new_recipe():
 
 @app.route("/new_action")
 def new_action():
-    return "New thingy created"
+    templates=[ {"name":"repeat","icon":"logo.svg","desc":"timed trigger"},
+            {"name":"distance","icon":"arrow.svg","desc":"distance trigger"},
+            {"name":"updated","icon":"new.svg","desc":"updated data trigger"}]
+    database_list=["sentinel"]
+    databases=[{"name":"sentinel","url":"http","desc":"sentinel","icon":"fire.svg"}]
+    return render_template( 'new_action.html',
+                            title="Create New Action",
+                            templates=templates,
+                            database_list=database_list,
+                            databases=databases)

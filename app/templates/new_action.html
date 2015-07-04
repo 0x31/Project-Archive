@@ -17,63 +17,54 @@ function drag(ev) {
   ev.dataTransfer.setData("text", ev.target.id);
 }
 
-function ifdrop(ev) {
+function rundrop(ev) {
   ev.preventDefault();
   var data = ev.dataTransfer.getData("text");
-  if(data[0]=="a"){
+  if(data.substring(0,3)!="db-"){
     html = $("#"+data).clone();
-    $("#big-if").html( html  );
+    $("#big-run").html( html  );
   }
 }
 
-function thendrop(ev) {
-  $("#create").show();
+function dbdrop(ev) {
   ev.preventDefault();
   var data = ev.dataTransfer.getData("text");
-  if(data[0]=="r"){
+  if(data.substring(0,3)=="db-"){
+    $("#create").show()
     html = $("#"+data).clone();
-    $("#big-then").html( html  );
+    $("#big-db").html( html  );
   }
 }
+
 </script>
 
 <div id="statement">
-<h2 id="big">if</h2><div id="big-if" class="big-icon" ondrop="ifdrop(event)" ondragover="allowDrop(event)"></div><h2 id="big">then</h2><div id="big-then" class="big-icon" ondrop="thendrop(event)" ondragover="allowDrop(event)"></div>
+<h2 id="big">run</h2><div id="big-run" class="big-icon" ondrop="rundrop(event)" ondragover="allowDrop(event)"></div>
+<h2 id="big">on</h2><div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
 <button onclick="submit()" id="create"><img class="svg" id="create-icon" alt="Create!" src="/static/img/flask.svg" /></button>
 </div>
 
-<div id="action-list">
-  <h2>Actions</h2>
+<div id="template-list">
+  <h2>Action templates:</h2>
 
-  {% for action in action_list %}
+  {% for action in templates %}
     <a class="no-styling"><div class="list-item-container">
-        <div id="action{{ actions[action].id }}" alt="{{ action }}" style="background-color: {{ actions[action].color }}" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ actions[action].icon }}" /></div>
-      <span class="list-desc">{{ actions[action].name }}</span>
+        <div id="{{ action.name }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ action.icon }}" /></div>
+      <span class="list-desc">{{ action.desc }}</span>
       </div></a>
   {% endfor %}
-
-    <a class="no-styling" href="new_action"><div class="list-item-container">
-        <div id="new-action" style="background-color: #38518A" class="list-item" ><img class="svg icon-list" src="/static/img/new.svg" /></div>
-      <span class="list-desc" style="margin-top: 20px;">new action</span>
-      </div></a>
 
 </div>
-<div id="reaction-list">
 
-  <h2>Reactions</h2>
-  {% for action in reaction_list %}
+<div id="database-list">
+  <h2>Databases:</h2>
+
+  {% for action in databases %}
     <a class="no-styling"><div class="list-item-container">
-        <div id="reaction{{ reactions[action].id }}" alt="{{ action }}" style="background-color: {{ reactions[action].color }}" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ reactions[action].icon }}" /></div>
-      <span class="list-desc">{{ reactions[action].name }}</span>
+        <div id="db-{{ action.name }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ action.icon }}" /></div>
+      <span class="list-desc">{{ action.desc }}</span>
       </div></a>
   {% endfor %}
-<!--
-    <a class="no-styling" href="#"><div class="list-item-container">
-        <div id="new-action" style="background-color: #38518A" class="list-item" ><img class="svg icon-list" src="/static/img/new.svg" /></div>
-      <span class="list-desc" style="margin-top: 20px;">new reaction</span>
-      </div></a>
--->
-
 
 </div>
 
@@ -93,8 +84,6 @@ $.post("/new_recipe",
           window.location.href = "/";
         });
 }
-
-
 
 
 
