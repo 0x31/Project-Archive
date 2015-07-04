@@ -24,6 +24,7 @@ function rundrop(ev) {
     $("#template-list").hide();
     html = $("#"+data).clone();
     $("#big-run").html( html  );
+    $("#desc-big-run").html( $("#"+data).attr("alt"));
   }
 }
 
@@ -34,6 +35,7 @@ function dbdrop(ev) {
     $("#create").show()
     html = $("#"+data).clone();
     $("#big-db").html( html  );
+    $("#desc-big-db").html( $("#"+data).attr("alt"));
   }
 }
 
@@ -43,6 +45,7 @@ function db1drop(ev) {
   if(data.substring(0,3)=="db-"){
     html = $("#"+data).clone();
     $("#big-db1").html( html  );
+    $("#desc-big-db1").html( $("#"+data).attr("alt"));
   }
 }
 
@@ -52,6 +55,7 @@ function db2drop(ev) {
   if(data.substring(0,3)!="db-"){
     html = $("#"+data).clone();
     $("#big-db2").html( html  );
+    $("#desc-big-db2").html( $("#"+data).attr("alt"));
   }
 }
 
@@ -61,33 +65,33 @@ function db3drop(ev) {
   if(data.substring(0,3)=="db-"){
     html = $("#"+data).clone();
     $("#big-db3").html( html  );
+    $("#desc-big-db3").html( $("#"+data).attr("alt"));
   }
 }
 
 </script>
 
 <div id="statement">
-<h2 id="big">run</h2><div class="big-wrap"><div id="big-run" class="big-icon" ondrop="rundrop(event)" ondragover="allowDrop(event)"></div><span id="big-if-desc" class="big-desc"></span></div>
+<h2 id="big">run</h2><div class="big-wrap"><div id="big-run" class="big-icon" ondrop="rundrop(event)" ondragover="allowDrop(event)"></div><span id="desc-big-run" class="big-desc"></span></div>
 
 <div class="updated hidden">
-  <h2 id="big">on</h2><div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
-  <button onclick="submitupdated()" id="create"><img class="svg" id="create-icon" alt="Create!" src="/static/img/arrow.svg" /></button>
+  <h2 id="big">on</h2><div class="big-wrap"><div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div><span id="desc-big-db" class="big-desc"></span></div>
 </div>
 
 <div class="distance hidden">
-  <h2 id="big">:</h2><div id="big-db1" class="big-icon" ondrop="db1drop(event)" ondragover="allowDrop(event)"></div>
-  <h2 id="big">-</h2><div id="big-db2" class="big-icon" ondrop="db2drop(event)" ondragover="allowDrop(event)"></div>
-  <h2 id="big"><</h2><input id="big-text" class="big-icon" onchange="$('#create').show()" /><span style="position:relative;top:30;left:-40">km</span>
-  <button onclick="submitdistance()" id="create"><img class="svg" id="create-icon" alt="Create!" src="/static/img/arrow.svg" /></button>
+  <h2 id="big">:</h2><div class="big-wrap"><div id="big-db1" class="big-icon" ondrop="db1drop(event)" ondragover="allowDrop(event)"></div><span id="desc-big-db1" class="big-desc"></span></div>
+  <h2 id="big">-</h2><div class="big-wrap"><div id="big-db2" class="big-icon" ondrop="db2drop(event)" ondragover="allowDrop(event)"></div><span id="desc-big-db2" class="big-desc"></span></div>
+  <h2 id="big"><</h2><div class="big-wrap"><input id="big-text1" class="big-icon" onchange="$('#create').show()" /><span style="position:relative;top:-100;left:75">km</span><span id="big-if-desc" class="big-desc"></span></div>
 </div>
 
 <div class="repeat hidden">
-  <div class="repeat hidden"><h2 id="big">on</h2><div id="big-db3" class="big-icon" ondrop="db3drop(event)" ondragover="allowDrop(event)"></div></div>
-  <h2 id="big">every</h2><input id="big-text" class="big-icon" onchange="$('#create').show()" /><span style="position:relative;top:30;left:-30">h</span>
-  <button onclick="submitrepeat()" id="create"><img class="svg" id="create-icon" alt="Create!" src="/static/img/arrow.svg" /></button>
+    <h2 id="big">on</h2><div class="big-wrap"><div id="big-db3" class="big-icon" ondrop="db3drop(event)" ondragover="allowDrop(event)"></div><span id="desc-big-db3" class="big-desc"></span></div>
+  <h2 id="big">every</h2><div class="big-wrap"><input id="big-text2" class="big-icon" onchange="$('#create').show()" /><span style="position:relative;top:-100;left:85">h</span><span id="big-if-desc" class="big-desc"></span></div>
 </div>
 
 </div>
+
+  <button onclick="submit()" id="create"><img class="svg" id="create-icon" alt="Create!" src="/static/img/arrow.svg" /></button>
 
 <div id="draggers">
 
@@ -96,7 +100,7 @@ function db3drop(ev) {
 
   {% for action in templates %}
     <a class="no-styling"><div class="list-item-container">
-        <div id="{{ action.name }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ action.icon }}" /></div>
+        <div id="{{ action.name }}" alt="{{ action.desc }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ action.icon }}" /></div>
       <span class="list-desc">{{ action.desc }}</span>
       </div></a>
   {% endfor %}
@@ -107,7 +111,7 @@ function db3drop(ev) {
 
   {% for action in databases %}
     <a class="no-styling"><div class="list-item-container">
-        <div id="db-{{ action.name }}" rel="{{ action.icon }}" alt="{{ action.name }}" style="background-color: {{ action.color }}" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ action.icon }}" /></div>
+        <div id="db-{{ action.name }}" rel="{{ action.icon }}" alt="{{ action.desc }}" style="background-color: {{ action.color }}" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ action.icon }}" /></div>
       <span class="list-desc">{{ action.desc }}</span>
       </div></a>
 
@@ -123,13 +127,16 @@ function db3drop(ev) {
 <div class="distance hidden" id="database-list">
   <h2>My distances:</h2>
 
-  {% for action in databases %}
     <a class="no-styling"><div class="list-item-container">
-        <div id="{{ action.name }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ action.icon }}" /></div>
-      <span class="list-desc">{{ action.desc }}</span>
+        <div id="me" alt="my location" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/logo.svg" /></div>
+      <span class="list-desc">my location</span>
       </div></a>
 
-  {% endfor %}
+    <a class="no-styling"><div class="list-item-container">
+        <div id="home" alt="my home" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/logo.svg" /></div>
+      <span class="list-desc">my home</span>
+      </div></a>
+
 
 </div>
 </div>
@@ -140,12 +147,34 @@ function db3drop(ev) {
 
 <script>
 
-function submitupdated(){
-  dataset = $("#big-db").children().first().attr('alt');
-  color = $("#big-db").children().first().css('background-color');
-  icon = $("#big-db").children().first().attr('rel');
-  name = $("#name").val();
+function submit(){
+  type = $("#big-run").children().first().attr('alt');
+  if(type=="timed trigger"){
+    dataset = $("#big-db3").children().first().attr('id').slice(3);
+    color = $("#big-db3").children().first().css('background-color');
+    icon = $("#big-db3").children().first().attr('rel');
+    time = $("#big-text2").val()
+    act_details = JSON.stringify({"type":"timed","db1":"0","time":time})
+  } else if(type=="updated data trigger"){
+    dataset = $("#big-db").children().first().attr('id').slice(3);
+    color = $("#big-db").children().first().css('background-color');
+    icon = $("#big-db").children().first().attr('rel');
+  act_details = JSON.stringify({"type":"updated"})
+  } else if(type=="distance trigger"){
+    dataset = $("#big-db1").children().first().attr('id').slice(3);
+    color = $("#big-db1").children().first().css('background-color');
+    icon = $("#big-db1").children().first().attr('rel');
+    time = $("#big-text1").val()
+  act_details = JSON.stringify({"type":"distance","db1":"0","loc2":"0","dist":time})
+  }
+  else{
+    alert(type);
+    return
+  }
 
+  alert(act_details);
+
+  return;
 
   swal({title: "Name ",
         text: "if...",
@@ -169,7 +198,7 @@ function submitupdated(){
               color:color,
               icon:icon,
               dataset:dataset,
-              act_details:JSON.stringify({"type":"updated"})
+              act_details: act_details
             },
             function(data,status){window.location.href = "/new_recipe";});
 
@@ -189,10 +218,10 @@ function submitupdated(){
         // if we've scrolled more than the navigation, change its position to fixed to stick to top,
         // otherwise change it back to relative
         if (scroll_top > sticky_navigation_offset_top) { 
-            $('#statement').css({ 'position': 'fixed', 'top':0 ,'margin-left':0});
-            $('#draggers').css({ 'margin-top':160 });
+            $('#statement').css({ 'position': 'fixed', 'top':0 ,'margin-left':-3});
+            $('#draggers').css({ 'margin-top':220 });
         } else {
-            $('#statement').css({ 'position': 'relative' }); 
+            $('#statement').css({ 'position': 'relative','margin-left':0}); 
             $('#draggers').css({ 'margin-top':0 });
         }   
     };
