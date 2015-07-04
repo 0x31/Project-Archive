@@ -67,7 +67,7 @@ function db3drop(ev) {
 </script>
 
 <div id="statement">
-<h2 id="big">run</h2><div id="big-run" class="big-icon" ondrop="rundrop(event)" ondragover="allowDrop(event)"></div>
+<h2 id="big">run</h2><div class="big-wrap"><div id="big-run" class="big-icon" ondrop="rundrop(event)" ondragover="allowDrop(event)"></div><span id="big-if-desc" class="big-desc"></span></div>
 
 <div class="updated hidden">
   <h2 id="big">on</h2><div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
@@ -111,11 +111,12 @@ function db3drop(ev) {
       <span class="list-desc">{{ action.desc }}</span>
       </div></a>
 
+  {% endfor %}
+
     <a class="no-styling" href="new_dataset"><div class="list-item-container">
         <div style="background-color: #555" class="list-item" ><img class="svg icon-list" src="/static/img/new.svg" /></div>
       <span class="list-desc">import dataset</span>
       </div></a>
-  {% endfor %}
 
 </div>
 

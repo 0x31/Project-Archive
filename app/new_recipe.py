@@ -109,17 +109,23 @@ def new_dataset():
     user = models.User.query.get(user_id)
 
     if request.method == 'POST':
-        if(request.form["url"]!="undefined"):
+        if(request.form["url"]!="no"):
             url=request.form["url"];
             r = requests.get(
                 url,
                 headers={}
             )
             return json.dumps(r.json()[0])
-        #p = models.Action(color=color,name=name,dataset=dataset,icon=icon,act_details=act_details)
-        #db.session.add(p)
-        #db.session.commit()
-        return ""
+        else:
+            name=request.form["name"]
+            icon=request.form["icon"]
+            color=request.form["color"]
+            url=request.form["url1"]
+            columns=json.loads(request.form["columns"])
+            p = models.Database(name=name,icon=icon,url=url,color=color,columns=columns)
+            db.session.add(p)
+            db.session.commit()
+            return ""
 
     colors=["#2B8175","rgb(199, 67, 80)","#9DC241","#38518A","red","blue","yellow"]
     icons=["fire.svg","new.svg","logo.svg", "animal.svg", "email.svg", "flask.svg", "sms.svg"]

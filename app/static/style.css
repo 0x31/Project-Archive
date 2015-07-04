@@ -230,6 +230,7 @@ footer {
  */
 #big {
   font-size: 6em;
+  margin-right:10px;
   font-family: "Avenir Next LT W01 Demi",helvetica,arial,sans-serif !important;
   font-weight: 700;
   margin-top: 30px;
@@ -241,19 +242,34 @@ footer {
   border: 2px dotted black;
   width: 100px;
   height: 100px;
-  float: left;
   border-radius: 5px;
+}
+
+.big-wrap {
+  float: left;
   margin: 25px 15px 25px 0px;
+  width: 100px;
 }
 
 #big-text {
   font-size: 80px;
 }
 
+.big-desc {
+  width: 100px;
+  text-align: center;
+  display: block;
+  height: 60px;
+  overflow-y: hidden;
+  color: #333;
+  margin-top: 5px;
+}
+
+
 #statement {
   float: none;
   width: 120%;
-  margin-bottom: 160px;
+  margin-bottom: 240px;
   background-color: white;
 }
 
@@ -266,6 +282,10 @@ footer {
   border-radius: 5px;
   background: #fff;
   display: none;
+ }
+
+ .showing {
+   display: block !important;
  }
 
  #create:hover {
@@ -307,10 +327,11 @@ footer {
 .list-desc {
   float: left;
   width: 100px;
-  color: #555;
-  font-weight: 700;
+  color: #333;
+  font-weight: 100;
   margin-left: 20px;
-  font-size: 1.4em;
+  font-size: 1.2em;
+  word-wrap: break;
 }
 
 .no-styling:hover {

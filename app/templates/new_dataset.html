@@ -21,22 +21,111 @@ URL: <input style="width:100%;" id="url"/>
   function urlcallback(data){
     jdata=JSON.parse(data);
     for(key in jdata){
-      $("#columns").append('<a class="no-styling"><div class="list-item-container"><a class="no-styling"><div class="list-item-container"><div id="col-'+key+'" style="background-color: #555; float: left;" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/tag.svg" /></div></div></a><span class="list-desc">'+key+'</span></div></a>');
+      $("#columns").append('<a class="no-styling"><div class="list-item-container"><div id="col-'+key+'" alt="'+key+'" style="background-color: #555; float: left;" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/tag.svg" /></div><span class="list-desc">'+key+'</span></div></a>');
     }
     $("#hidden").show();
     svgs();
+
+
+
+
   }
+
+function allowDrop(ev) {
+      ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function dbdrop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+    html = $("#"+data).clone();
+    $(ev.target).html( html  );
+}
+
+function db1drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data.substr(0,3)=="cl-"){
+    html = $("#"+data).clone();
+    $(ev.target).html( html  );
+  }
+}
+
+function db0drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data.substr(0,3)=="ic-"){
+    html = $("#"+data).clone();
+    $(ev.target).html( html  );
+  }
+}
+
+function dbdrop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data.substr(0,3)!="cl-" && data.substr(0,3)!="ic-" ){
+    html = $("#"+data).clone();
+    $(ev.target).html( html  );
+  }
+}
+
+
+function submit(){
+  var icon = $("#big-db").children().first().attr('alt');
+  var color = $("#big-db1").children().first().attr('alt');
+  var url = $("#url").val();
+  var columns = JSON.stringify({"date":$("#big-db2").children().first().attr('alt'),
+                 "latitude":$("#big-db3").children().first().attr('alt'),
+                 "longitude":$("#big-db4").children().first().attr('alt')});
+
+
+  swal({title: "Name ",
+        text: "if...",
+        type: "input",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        animation: "slide-from-top",
+        inputPlaceholder:"there is..." },
+        function(inputValue){
+            if (inputValue === false) return false;
+            if (inputValue === ""){
+                swal.showInputError("You need to write something!");
+                return false
+            }
+            swal("Nice!", "You wrote: " + inputValue, "success");
+
+        $.post("/new_dataset",
+        {
+          name: inputValue,
+          icon: icon,
+          color: color,
+          url1: url,
+          url:"no",
+          columns: columns
+        },
+        function(data,status){
+          window.location.href = "/new_action";
+        });
+
+        });
+}
+
+
 </script>
 
 <div id="hidden">
 <h2>Database settings:</h2>
 <div id="statement" style="margin-left: 0px;">
-  <div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
-  <div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
-  <div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
-  <div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
-  <div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
-  <div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
+  <div class="big-wrap"><div id="big-db" class="big-icon" ondrop="db0drop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Icon</span></div>
+  <div class="big-wrap"><div id="big-db1" class="big-icon" ondrop="db1drop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Color</span></div>
+  <div class="big-wrap"><div id="big-db2" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Date</span></div>
+  <div class="big-wrap"><div id="big-db3" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Latitude</span></div>
+  <div class="big-wrap"><div id="big-db4" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Longitude</span></div>
+  <button onclick="submit()" id="create" class="showing"><img class="svg" id="create-icon" alt="Create!" src="/static/img/arrow.svg" /></button>
 </div>
 
 <div id="columns">
@@ -47,7 +136,7 @@ URL: <input style="width:100%;" id="url"/>
   <h4>Icons:</h4>
   {% for icon in icons %}
     <a class="no-styling"><div class="list-item-container no-desc">
-        <div id="{{ icon }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ icon }}" /></div>
+        <div id="ic-{{ icons.index(icon) }}" alt="{{ icon }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ icon }}" /></div>
       </div></a>
   {% endfor %}
 </div>
@@ -56,7 +145,7 @@ URL: <input style="width:100%;" id="url"/>
   <h4>Colors:</h4>
   {% for color in colors %}
     <a class="no-styling"><div class="list-item-container no-desc">
-        <div id="{{ color }}" style="background-color: {{ color }}" class="list-item" draggable="true" ondragstart="drag(event)"></div>
+        <div id="cl-{{ colors.index(color) }}" alt="{{ color }}" style="background-color: {{ color }}" class="list-item" draggable="true" ondragstart="drag(event)"></div>
       </div></a>
   {% endfor %}
 </div>
@@ -84,7 +173,7 @@ URL: <input style="width:100%;" id="url"/>
         // otherwise change it back to relative
         if (scroll_top > sticky_navigation_offset_top) { 
             $('#statement').css({ 'position': 'fixed', 'top':0 ,'margin-left':0});
-            $('#hidden').css({ 'margin-top':160 });
+            $('#hidden').css({ 'margin-top':240 });
         } else {
             $('#statement').css({ 'position': 'relative', 'margin-left':0 }); 
             $('#hidden').css({ 'margin-top':0 });

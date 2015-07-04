@@ -23,6 +23,7 @@ function ifdrop(ev) {
   if(data[0]=="a"){
     html = $("#"+data).clone();
     $("#big-if").html( html  );
+    $("#big-if-desc").html( $("#desc-"+data).html() );
   }
 }
 
@@ -33,12 +34,14 @@ function thendrop(ev) {
   if(data[0]=="r"){
     html = $("#"+data).clone();
     $("#big-then").html( html  );
+    $("#big-then-desc").html( $("#desc-"+data).html() );
   }
 }
 </script>
 
 <div id="statement">
-<h2 id="big">if</h2><div id="big-if" class="big-icon" ondrop="ifdrop(event)" ondragover="allowDrop(event)"></div><h2 id="big">then</h2><div id="big-then" class="big-icon" ondrop="thendrop(event)" ondragover="allowDrop(event)"></div>
+<h2 id="big" >if</h2 ><div class="big-wrap"><div id="big-if" class="big-icon" ondrop="ifdrop(event)" ondragover="allowDrop(event)"></div><span id="big-if-desc" class="big-desc"></span></div>
+<h2 id="big">then</h2><div class="big-wrap"><div id="big-then" class="big-icon" ondrop="thendrop(event)" ondragover="allowDrop(event)"></div><span id="big-then-desc" class="big-desc"></span></div>
 <button onclick="submit()" id="create"><img class="svg" id="create-icon" alt="Create!" src="/static/img/arrow.svg" /></button>
 </div>
 
@@ -47,8 +50,8 @@ function thendrop(ev) {
 
   {% for action in action_list %}
     <a class="no-styling"><div class="list-item-container">
-        <div id="action{{ actions[action].id }}" alt="{{ action }}" style="background-color: {{ actions[action].color }}" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ actions[action].icon }}" /></div>
-      <span class="list-desc">{{ actions[action].name }}</span>
+        <div id="action{{ actions[action].id }}" alt="{{ action }}"  style="background-color: {{ actions[action].color }}" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ actions[action].icon }}" /></div>
+        <span id="desc-action{{ actions[action].id }}" class="list-desc">{{ actions[action].name }}</span>
       </div></a>
   {% endfor %}
 
@@ -64,7 +67,7 @@ function thendrop(ev) {
   {% for action in reaction_list %}
     <a class="no-styling"><div class="list-item-container">
         <div id="reaction{{ reactions[action].id }}" alt="{{ action }}" style="background-color: {{ reactions[action].color }}" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ reactions[action].icon }}" /></div>
-      <span class="list-desc">{{ reactions[action].name }}</span>
+      <span id="desc-reaction{{ reactions[action].id }}" class="list-desc">{{ reactions[action].name }}</span>
       </div></a>
   {% endfor %}
 <!--
@@ -110,7 +113,7 @@ $.post("/new_recipe",
         // otherwise change it back to relative
         if (scroll_top > sticky_navigation_offset_top) { 
             $('#statement').css({ 'position': 'fixed', 'top':0 ,'margin-left':0});
-            $('#action-list').css({ 'margin-top':160 });
+            $('#action-list').css({ 'margin-top':220 });
         } else {
             $('#statement').css({ 'position': 'relative' }); 
             $('#action-list').css({ 'margin-top':0 });
