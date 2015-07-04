@@ -21,7 +21,7 @@ URL: <input style="width:100%;" id="url"/>
   function urlcallback(data){
     jdata=JSON.parse(data);
     for(key in jdata){
-      $("#columns").append('<a class="no-styling"><div class="list-item-container"><div id="col-'+key+'" alt="'+key+'" style="background-color: #555; float: left;" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/tag.svg" /></div><span class="list-desc">'+key+'</span></div></a>');
+      $("#columns").append('<a class="no-styling"><div class="list-item-container"><div id="col-'+key.split('.').join("")+'" alt="'+key+'" style="background-color: #555; float: left;" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/tag.svg" /></div><span class="list-desc">'+key+'</span></div></a>');
     }
     $("#hidden").show();
     svgs();
@@ -84,12 +84,12 @@ function submit(){
 
 
   swal({title: "Name ",
-        text: "if...",
+        text: "Enter database name",
         type: "input",
         showCancelButton: true,
         closeOnConfirm: false,
         animation: "slide-from-top",
-        inputPlaceholder:"there is..." },
+        inputPlaceholder:"Database Name" },
         function(inputValue){
             if (inputValue === false) return false;
             if (inputValue === ""){

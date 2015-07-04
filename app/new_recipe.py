@@ -82,7 +82,7 @@ def new_action():
         return ""
 
 
-    templates=[ {"name":"repeat","icon":"logo.svg","desc":"timed trigger"},
+    templates=[ {"name":"repeat","icon":"logo.svg","desc":"random row"},
             {"name":"distance","icon":"arrow.svg","desc":"distance trigger"},
             {"name":"value","icon":"arrow.svg","desc":"threshold trigger"},
             {"name":"updated","icon":"new.svg","desc":"updated data trigger"}]
@@ -115,7 +115,33 @@ def new_dataset():
                 url,
                 headers={}
             )
-            return json.dumps(r.json()[0])
+            if(url[-4:-1]=="csv"):
+                labels = r.text.splitlines()[0].split(",")
+                row1 = r.text.splitlines()[1].split(",")
+                json_d = {}
+                for ix in range(len(labels)):
+                    json_d[labels[ix]]=row1[ix]
+                first_row = json.dumps(json_d)
+            else:
+                rows = r.json()
+                if isinstance(rows, dict):
+                    max_key = ""
+                    max_no  = 0
+                    for key in rows:
+                        if isinstance(rows[key],list) and len(rows[key])>max_no:
+                            max_key=key
+                            max_no=len(rows[key])
+                    if max_key!="":
+                        rows=rows[max_key]
+                final={}
+                for key1 in rows[0]:
+                    if isinstance(rows[0][key1], dict):
+                        for key2 in rows[0][key1]:
+                            final[key1+"."+key2]=rows[0][key1][key2]
+                    else:
+                        final[key1]=rows[0][key1]
+                first_row = json.dumps(final)
+            return first_row
         else:
             name=request.form["name"]
             icon=request.form["icon"]
