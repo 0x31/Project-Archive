@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/main.js"></script>
+<script>
+(function($) {
+  $.fn.outerHTML = function() {
+        return $(this).clone().wrap('<div></div>').parent().html();
+        };
+})(jQuery);
+
+function allowDrop(ev) {
+      ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function ifdrop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data[0]=="a"){
+    html = $("#"+data).clone();
+    $("#big-if").html( html  );
+  }
+}
+
+function thendrop(ev) {
+  $("#create").show();
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data[0]=="r"){
+    html = $("#"+data).clone();
+    $("#big-then").html( html  );
+  }
+}
+</script>
+
+<div id="statement">
+<h2 id="big">if</h2><div id="big-if" class="big-icon" ondrop="ifdrop(event)" ondragover="allowDrop(event)"></div><h2 id="big">then</h2><div id="big-then" class="big-icon" ondrop="thendrop(event)" ondragover="allowDrop(event)"></div>
+<button onclick="submit()" id="create"><img class="svg" id="create-icon" alt="Create!" src="/static/img/flask.svg" /></button>
+</div>
+
+<div id="action-list">
+  <h2>Actions</h2>
+
+  {% for action in action_list %}
+    <a class="no-styling"><div class="list-item-container">
+        <div id="action{{ actions[action].id }}" alt="{{ action }}" style="background-color: {{ actions[action].color }}" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ actions[action].icon }}" /></div>
+      <span class="list-desc">{{ actions[action].name }}</span>
+      </div></a>
+  {% endfor %}
+
+    <a class="no-styling" href="new_action"><div class="list-item-container">
+        <div id="new-action" style="background-color: #38518A" class="list-item" ><img class="svg icon-list" src="/static/img/new.svg" /></div>
+      <span class="list-desc" style="margin-top: 20px;">new action</span>
+      </div></a>
+
+</div>
+<div id="reaction-list">
+
+  <h2>Reactions</h2>
+  {% for action in reaction_list %}
+    <a class="no-styling"><div class="list-item-container">
+        <div id="reaction{{ reactions[action].id }}" alt="{{ action }}" style="background-color: {{ reactions[action].color }}" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ reactions[action].icon }}" /></div>
+      <span class="list-desc">{{ reactions[action].name }}</span>
+      </div></a>
+  {% endfor %}
+<!--
+    <a class="no-styling" href="#"><div class="list-item-container">
+        <div id="new-action" style="background-color: #38518A" class="list-item" ><img class="svg icon-list" src="/static/img/new.svg" /></div>
+      <span class="list-desc" style="margin-top: 20px;">new reaction</span>
+      </div></a>
+-->
+
+
+</div>
+
+<script>svgs()</script>
+
+
+<script>
+function submit(){
+  action = $("#big-if").children().first().attr('alt');
+  reaction = $("#big-then").children().first().attr('alt');
+$.post("/new_recipe",
+        {
+          action: action,
+          reaction: reaction
+        },
+        function(data,status){
+          window.location.href = "/";
+        });
+}
+
+
+
+
+
+ 
+    // grab the initial top offset of the navigation 
+    var sticky_navigation_offset_top = $('#statement').offset().top;
+     
+    // our function that decides weather the navigation bar should have "fixed" css position or not.
+    var sticky_navigation = function(){
+        var scroll_top = $(window).scrollTop(); // our current vertical position from the top
+         
+        // if we've scrolled more than the navigation, change its position to fixed to stick to top,
+        // otherwise change it back to relative
+        if (scroll_top > sticky_navigation_offset_top) { 
+            $('#statement').css({ 'position': 'fixed', 'top':0 ,'margin-left':0});
+            $('#action-list').css({ 'margin-top':160 });
+        } else {
+            $('#statement').css({ 'position': 'relative' }); 
+            $('#action-list').css({ 'margin-top':0 });
+        }   
+    };
+     
+    // run our function on load
+    sticky_navigation();
+     
+    // and run it again every time you scroll
+    $(window).scroll(function() {
+         sticky_navigation();
+    });
+ 
+
+</script>
+
+{% endblock %}
+
