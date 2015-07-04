@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-<script src="/static/main.js"></script>
 <script>
 (function($) {
   $.fn.outerHTML = function() {
@@ -21,6 +20,8 @@ function rundrop(ev) {
   ev.preventDefault();
   var data = ev.dataTransfer.getData("text");
   if(data.substring(0,3)!="db-"){
+    $("."+data).css("display", "block");
+    $("#template-list").hide();
     html = $("#"+data).clone();
     $("#big-run").html( html  );
   }
@@ -36,13 +37,59 @@ function dbdrop(ev) {
   }
 }
 
+function db1drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data.substring(0,3)=="db-"){
+    html = $("#"+data).clone();
+    $("#big-db1").html( html  );
+  }
+}
+
+function db2drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data.substring(0,3)!="db-"){
+    html = $("#"+data).clone();
+    $("#big-db2").html( html  );
+  }
+}
+
+function db3drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data.substring(0,3)=="db-"){
+    html = $("#"+data).clone();
+    $("#big-db3").html( html  );
+  }
+}
+
 </script>
 
 <div id="statement">
 <h2 id="big">run</h2><div id="big-run" class="big-icon" ondrop="rundrop(event)" ondragover="allowDrop(event)"></div>
-<h2 id="big">on</h2><div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
-<button onclick="submit()" id="create"><img class="svg" id="create-icon" alt="Create!" src="/static/img/flask.svg" /></button>
+
+<div class="updated hidden">
+  <h2 id="big">on</h2><div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
+  <button onclick="submitupdated()" id="create"><img class="svg" id="create-icon" alt="Create!" src="/static/img/arrow.svg" /></button>
 </div>
+
+<div class="distance hidden">
+  <h2 id="big">:</h2><div id="big-db1" class="big-icon" ondrop="db1drop(event)" ondragover="allowDrop(event)"></div>
+  <h2 id="big">-</h2><div id="big-db2" class="big-icon" ondrop="db2drop(event)" ondragover="allowDrop(event)"></div>
+  <h2 id="big"><</h2><input id="big-text" class="big-icon" onchange="$('#create').show()" /><span style="position:relative;top:30;left:-40">km</span>
+  <button onclick="submitdistance()" id="create"><img class="svg" id="create-icon" alt="Create!" src="/static/img/arrow.svg" /></button>
+</div>
+
+<div class="repeat hidden">
+  <div class="repeat hidden"><h2 id="big">on</h2><div id="big-db3" class="big-icon" ondrop="db3drop(event)" ondragover="allowDrop(event)"></div></div>
+  <h2 id="big">every</h2><input id="big-text" class="big-icon" onchange="$('#create').show()" /><span style="position:relative;top:30;left:-30">h</span>
+  <button onclick="submitrepeat()" id="create"><img class="svg" id="create-icon" alt="Create!" src="/static/img/arrow.svg" /></button>
+</div>
+
+</div>
+
+<div id="draggers">
 
 <div id="template-list">
   <h2>Action templates:</h2>
@@ -55,33 +102,76 @@ function dbdrop(ev) {
   {% endfor %}
 
 </div>
-
-<div id="database-list">
-  <h2>Databases:</h2>
+<div class="repeat distance updated hidden" id="database-list">
+  <h2>Datasets:</h2>
 
   {% for action in databases %}
     <a class="no-styling"><div class="list-item-container">
-        <div id="db-{{ action.name }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ action.icon }}" /></div>
+        <div id="db-{{ action.name }}" rel="{{ action.icon }}" alt="{{ action.name }}" style="background-color: {{ action.color }}" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ action.icon }}" /></div>
       <span class="list-desc">{{ action.desc }}</span>
+      </div></a>
+
+    <a class="no-styling" href="new_dataset"><div class="list-item-container">
+        <div style="background-color: #555" class="list-item" ><img class="svg icon-list" src="/static/img/new.svg" /></div>
+      <span class="list-desc">import dataset</span>
       </div></a>
   {% endfor %}
 
 </div>
 
+<div class="distance hidden" id="database-list">
+  <h2>My distances:</h2>
+
+  {% for action in databases %}
+    <a class="no-styling"><div class="list-item-container">
+        <div id="{{ action.name }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ action.icon }}" /></div>
+      <span class="list-desc">{{ action.desc }}</span>
+      </div></a>
+
+  {% endfor %}
+
+</div>
+</div>
+
+
 <script>svgs()</script>
 
 
 <script>
-function submit(){
-  action = $("#big-if").children().first().attr('alt');
-  reaction = $("#big-then").children().first().attr('alt');
-$.post("/new_recipe",
-        {
-          action: action,
-          reaction: reaction
-        },
-        function(data,status){
-          window.location.href = "/";
+
+function submitupdated(){
+  dataset = $("#big-db").children().first().attr('alt');
+  color = $("#big-db").children().first().css('background-color');
+  icon = $("#big-db").children().first().attr('rel');
+  name = $("#name").val();
+
+
+  swal({title: "Name ",
+        text: "if...",
+        type: "input",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        animation: "slide-from-top",
+        inputPlaceholder:"there is..." },
+        function(inputValue){
+            if (inputValue === false) return false;
+            if (inputValue === ""){
+                swal.showInputError("You need to write something!");
+                return false
+            }
+            swal("Nice!", "You wrote: " + inputValue, "success");
+
+
+            $.post("/new_action",
+            {
+              name:inputValue,
+              color:color,
+              icon:icon,
+              dataset:dataset,
+              act_details:JSON.stringify({"type":"updated"})
+            },
+            function(data,status){window.location.href = "/new_recipe";});
+
         });
 }
 
@@ -99,10 +189,10 @@ $.post("/new_recipe",
         // otherwise change it back to relative
         if (scroll_top > sticky_navigation_offset_top) { 
             $('#statement').css({ 'position': 'fixed', 'top':0 ,'margin-left':0});
-            $('#action-list').css({ 'margin-top':160 });
+            $('#draggers').css({ 'margin-top':160 });
         } else {
             $('#statement').css({ 'position': 'relative' }); 
-            $('#action-list').css({ 'margin-top':0 });
+            $('#draggers').css({ 'margin-top':0 });
         }   
     };
      

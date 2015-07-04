@@ -1,10 +1,13 @@
 from flask import render_template, request
 from app import app, models, db
+import json
+import requests
 
 @app.route('/new_recipe', methods=['GET','POST'])
 
 
 def new_recipe():
+
     user_id = 1
 
     user = models.User.query.get(user_id)
@@ -59,15 +62,69 @@ def new_recipe():
 
 
 
-@app.route("/new_action")
+@app.route("/new_action", methods=['GET','POST'])
 def new_action():
+
+
+    user_id = 1
+
+    user = models.User.query.get(user_id)
+
+    if request.method == 'POST':
+        color = request.form['color']
+        name = request.form['name']
+        dataset = request.form['dataset']
+        act_details = json.loads(request.form['act_details'])
+        icon = request.form['icon']
+        p = models.Action(color=color,name=name,dataset=dataset,icon=icon,act_details=act_details)
+        db.session.add(p)
+        db.session.commit()
+        return ""
+
+
     templates=[ {"name":"repeat","icon":"logo.svg","desc":"timed trigger"},
             {"name":"distance","icon":"arrow.svg","desc":"distance trigger"},
+            {"name":"value","icon":"arrow.svg","desc":"threshold trigger"},
             {"name":"updated","icon":"new.svg","desc":"updated data trigger"}]
-    database_list=["sentinel"]
-    databases=[{"name":"sentinel","url":"http","desc":"sentinel","icon":"fire.svg"}]
+    #databases=[{"name":"sentinel","url":"http","desc":"sentinel","icon":"fire.svg"}]
+
+    dbs = models.Database.query.all()
+    databases = []
+    for dbl in dbs:
+        databases += [{"name":dbl.id,"icon":dbl.icon,"url":dbl.url,"columns":dbl.columns,"desc":dbl.name,"color":dbl.color}]
+
     return render_template( 'new_action.html',
                             title="Create New Action",
                             templates=templates,
-                            database_list=database_list,
                             databases=databases)
+
+
+
+
+@app.route("/new_dataset", methods=['GET','POST'])
+def new_dataset():
+
+    user_id = 1
+
+    user = models.User.query.get(user_id)
+
+    if request.method == 'POST':
+        if(request.form["url"]!="undefined"):
+            url=request.form["url"];
+            r = requests.get(
+                url,
+                headers={}
+            )
+            return json.dumps(r.json()[0])
+        #p = models.Action(color=color,name=name,dataset=dataset,icon=icon,act_details=act_details)
+        #db.session.add(p)
+        #db.session.commit()
+        return ""
+
+    colors=["#2B8175","rgb(199, 67, 80)","#9DC241","#38518A","red","blue","yellow"]
+    icons=["fire.svg","new.svg","logo.svg", "animal.svg", "email.svg", "flask.svg", "sms.svg"]
+
+    return render_template( 'new_dataset.html',
+                            colors=colors,
+                            icons=icons,
+                            title="Import Dataset")

@@ -21,7 +21,7 @@ class Recipe(db.Model):
 
 class Action(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    color = db.Column(db.String(7))
+    color = db.Column(db.String(30))
     name = db.Column(db.String(120))
     icon = db.Column(db.String(120))
     dataset = db.Column(db.String(120))
@@ -29,4 +29,15 @@ class Action(db.Model):
 
     def __repr__(self):
         return '<Action %r>' % (self.name)
+
+class Database(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(120))
+    icon = db.Column(db.String(120))
+    url = db.Column(db.String(120))
+    color = db.Column(db.String(30))
+    columns = db.Column(db.PickleType)
+
+    def __repr__(self):
+        return '<Database %r>' % (self.name)
 

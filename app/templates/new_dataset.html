@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/main.js"></script>
+
+URL: <input style="width:100%;" id="url"/>
+<button onclick="submiturl()" id="send-url">Submit</button>
+
+<script>
+  function submiturl() {
+    var url = $("#url").val();
+
+    $.post("/new_dataset",
+    {
+      url: url
+    },
+    function(data,status){urlcallback(data);});
+
+  }
+
+  function urlcallback(data){
+    jdata=JSON.parse(data);
+    for(key in jdata){
+      $("#columns").append('<a class="no-styling"><div class="list-item-container"><a class="no-styling"><div class="list-item-container"><div id="col-'+key+'" style="background-color: #555; float: left;" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/tag.svg" /></div></div></a><span class="list-desc">'+key+'</span></div></a>');
+    }
+    $("#hidden").show();
+    svgs();
+  }
+</script>
+
+<div id="hidden">
+<h2>Database settings:</h2>
+<div id="statement" style="margin-left: 0px;">
+  <div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
+  <div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
+  <div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
+  <div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
+  <div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
+  <div id="big-db" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div>
+</div>
+
+<div id="columns">
+  <h4>Column Labels:</h4>
+</div>
+
+<div id="icons">
+  <h4>Icons:</h4>
+  {% for icon in icons %}
+    <a class="no-styling"><div class="list-item-container no-desc">
+        <div id="{{ icon }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ icon }}" /></div>
+      </div></a>
+  {% endfor %}
+</div>
+
+<div id="colors">
+  <h4>Colors:</h4>
+  {% for color in colors %}
+    <a class="no-styling"><div class="list-item-container no-desc">
+        <div id="{{ color }}" style="background-color: {{ color }}" class="list-item" draggable="true" ondragstart="drag(event)"></div>
+      </div></a>
+  {% endfor %}
+</div>
+
+</div>
+
+
+<script>
+
+
+
+
+
+
+
+    // grab the initial top offset of the navigation 
+    var sticky_navigation_offset_top = $('#statement').offset().top;
+    $("#hidden").hide();
+     
+    // our function that decides weather the navigation bar should have "fixed" css position or not.
+    var sticky_navigation = function(){
+        var scroll_top = $(window).scrollTop(); // our current vertical position from the top
+         
+        // if we've scrolled more than the navigation, change its position to fixed to stick to top,
+        // otherwise change it back to relative
+        if (scroll_top > sticky_navigation_offset_top) { 
+            $('#statement').css({ 'position': 'fixed', 'top':0 ,'margin-left':0});
+            $('#hidden').css({ 'margin-top':160 });
+        } else {
+            $('#statement').css({ 'position': 'relative', 'margin-left':0 }); 
+            $('#hidden').css({ 'margin-top':0 });
+        }   
+    };
+     
+    // run our function on load
+    sticky_navigation();
+     
+    // and run it again every time you scroll
+    $(window).scroll(function() {
+         sticky_navigation();
+    });
+ 
+
+
+
+
+
+
+
+svgs()</script>
+{% endblock %}

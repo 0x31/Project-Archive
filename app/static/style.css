@@ -243,12 +243,16 @@ footer {
   height: 100px;
   float: left;
   border-radius: 5px;
-  margin: 25px 10px;
+  margin: 25px 15px 25px 0px;
+}
+
+#big-text {
+  font-size: 80px;
 }
 
 #statement {
   float: none;
-  width: 100%;
+  width: 120%;
   margin-bottom: 160px;
   background-color: white;
 }
@@ -256,12 +260,12 @@ footer {
 #create {
   width: 100px;
   height: 100px;
-  margin: 25px 0 0 80px;
+  margin: 25px 0 0 00px;
   float: left;
   border: 0;
   border-radius: 5px;
-  background: #38518A;
- display: none;
+  background: #fff;
+  display: none;
  }
 
  #create:hover {
@@ -270,7 +274,9 @@ footer {
 
 
 #create-icon {
-  fill: white;
+  width: 60px;
+  height: 60px;
+  fill: black;;
 }
 
 
@@ -321,4 +327,29 @@ footer {
 }
 #reaction-list {
   margin-left: 5px;
+}
+
+#database-list {
+  width: 100%;
+  float: left;
+}
+
+
+.hidden {
+  display: none;
+}
+
+
+
+
+.icon {
+  width: 60px;
+  height: 60px;
+}
+
+.no-desc {
+  width: 100px;
+}
+#colors, #icons {
+  display: inline-block;
 }
