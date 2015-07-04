@@ -332,6 +332,9 @@ footer {
   font-weight: 100;
   margin-left: 20px;
   font-size: 1.2em;
+}
+
+.long-words {
   word-break: break-all;
 }
 

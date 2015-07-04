@@ -2,6 +2,7 @@ from flask import render_template, request
 from app import app, models, db
 import json
 import requests
+import os
 
 @app.route('/new_recipe', methods=['GET','POST'])
 
@@ -31,7 +32,7 @@ def new_recipe():
 
     reactions = {
             "email": { "name": "email me", "icon": "email.svg", "color":"#9DC241", "id":0},
-            "sms": { "name": "send me an SMS", "icon": "sms.svg", "color":"#2B8175", "id":1},
+            "sms": { "name": "send me an SMS (WIP)", "icon": "sms.svg", "color":"#2B8175", "id":1},
             }
 
     reaction_list = []
@@ -84,7 +85,7 @@ def new_action():
 
     templates=[ {"name":"repeat","icon":"logo.svg","desc":"random row"},
             {"name":"distance","icon":"arrow.svg","desc":"distance trigger"},
-            {"name":"value","icon":"arrow.svg","desc":"threshold trigger"},
+            {"name":"value","icon":"arrow.svg","desc":"threshold trigger (WIP)"},
             {"name":"updated","icon":"new.svg","desc":"updated data trigger"}]
     #databases=[{"name":"sentinel","url":"http","desc":"sentinel","icon":"fire.svg"}]
 
@@ -115,7 +116,7 @@ def new_dataset():
                 url,
                 headers={}
             )
-            if(url[-4:-1]=="csv"):
+            if(url[-3:]=="csv"):
                 labels = r.text.splitlines()[0].split(",")
                 row1 = r.text.splitlines()[1].split(",")
                 json_d = {}
@@ -154,7 +155,11 @@ def new_dataset():
             return ""
 
     colors=["#2B8175","rgb(199, 67, 80)","#9DC241","#38518A","red","blue","yellow"]
-    icons=["fire.svg","new.svg","logo.svg", "animal.svg", "email.svg", "flask.svg", "sms.svg"]
+    icons=[]
+    for file in os.listdir("app/static/img"):
+        if file.endswith(".svg"):
+            icons.append(file)
+    #icons=["fire.svg","new.svg","logo.svg", "animal.svg", "email.svg", "flask.svg", "sms.svg"]
 
     return render_template( 'new_dataset.html',
                             colors=colors,

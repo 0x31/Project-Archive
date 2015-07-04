@@ -21,7 +21,7 @@ URL: <input style="width:100%;" id="url"/>
   function urlcallback(data){
     jdata=JSON.parse(data);
     for(key in jdata){
-      $("#columns").append('<a class="no-styling"><div class="list-item-container"><div id="col-'+key.split('.').join("")+'" alt="'+key+'" style="background-color: #555; float: left;" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/tag.svg" /></div><span class="list-desc">'+key+'</span></div></a>');
+      $("#columns").append('<a class="no-styling"><div class="list-item-container"><div id="col-'+key.split('.').join("")+'" alt="'+key+'" style="background-color: #555; float: left;" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/tag.svg" /></div><span class="list-desc long-words">'+key+'</span></div></a>');
     }
     $("#hidden").show();
     svgs();
@@ -120,8 +120,8 @@ function submit(){
 <div id="hidden">
 <h2>Database settings:</h2>
 <div id="statement" style="margin-left: 0px;">
-  <div class="big-wrap"><div id="big-db" class="big-icon" ondrop="db0drop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Icon</span></div>
   <div class="big-wrap"><div id="big-db1" class="big-icon" ondrop="db1drop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Color</span></div>
+  <div class="big-wrap"><div id="big-db" class="big-icon" ondrop="db0drop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Icon</span></div>
   <div class="big-wrap"><div id="big-db2" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Date</span></div>
   <div class="big-wrap"><div id="big-db3" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Latitude</span></div>
   <div class="big-wrap"><div id="big-db4" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Longitude</span></div>
@@ -132,20 +132,21 @@ function submit(){
   <h4>Column Labels:</h4>
 </div>
 
-<div id="icons">
-  <h4>Icons:</h4>
-  {% for icon in icons %}
-    <a class="no-styling"><div class="list-item-container no-desc">
-        <div id="ic-{{ icons.index(icon) }}" alt="{{ icon }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ icon }}" /></div>
-      </div></a>
-  {% endfor %}
-</div>
 
 <div id="colors">
   <h4>Colors:</h4>
   {% for color in colors %}
     <a class="no-styling"><div class="list-item-container no-desc">
         <div id="cl-{{ colors.index(color) }}" alt="{{ color }}" style="background-color: {{ color }}" class="list-item" draggable="true" ondragstart="drag(event)"></div>
+      </div></a>
+  {% endfor %}
+</div>
+
+<div id="icons">
+  <h4>Icons:</h4>
+  {% for icon in icons %}
+    <a class="no-styling"><div class="list-item-container no-desc">
+        <div id="ic-{{ icons.index(icon) }}" alt="{{ icon }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ icon }}" /></div>
       </div></a>
   {% endfor %}
 </div>
