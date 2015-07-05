@@ -15,6 +15,7 @@ class Recipe(db.Model):
     action = db.Column(db.String(140))
     reaction = db.Column(db.String(140))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    template = db.Column(db.String(2000))
 
     def __repr__(self):
         return '<Recipe %r %r>' % (self.action, self.reaction)
@@ -37,6 +38,9 @@ class Database(db.Model):
     url = db.Column(db.String(120))
     color = db.Column(db.String(30))
     columns = db.Column(db.PickleType)
+    date = db.Column(db.String(120))
+    longitude = db.Column(db.String(120))
+    latitude = db.Column(db.String(120))
 
     def __repr__(self):
         return '<Database %r>' % (self.name)

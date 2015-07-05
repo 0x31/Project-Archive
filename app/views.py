@@ -16,8 +16,10 @@ def index():
         actions[str(action.id)]={"name": action.name, "icon":action.icon, "color":action.color, "id": str(action.id)}
 
     reactions = {
-            "email": { "name": "email me", "icon": "email.svg", "color":"#9DC241"},
-            "sms": { "name": "send me an SMS", "icon": "sms.svg", "color":"#2B8175"},
+            "email": { "name": "email me", "icon": "email.svg", "color":"#9DC241", "id":1},
+            "sms": { "name": "send me an SMS", "icon": "sms.svg", "color":"#2B8175", "id":2},
+            "facebook": { "name": "post it to my wall", "icon": "facebook.svg", "color":"#3b5998", "id":3},
+            "twitter": { "name": "tweet it", "icon": "twitter.svg", "color":"#4099FF", "id":4},
             }
 
     my_recipes = [
@@ -38,7 +40,7 @@ def index():
 
 
     return render_template( 'index.html',
-                            title="Recipes",
+                            title="Reactions",
                             user=user,
                             recipes=return_list,
                             actions=actions,

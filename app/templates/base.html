@@ -17,16 +17,13 @@
     </div>
     <div id="nav"><ul>
 
-      {% if title=="Recipes" %}<li class="active">{% else %}<li>{% endif %}
-      <a href="/">Recipes</a></li>
+      {% if title=="Create New Reaction" %}<li class="active">{% else %}<li>{% endif %}
+      <a href="/new_recipe">New Reaction</a></li>
 
-      {% if title=="New Recipe" %}<li class="active">{% else %}<li>{% endif %}
-      <a href="/new_recipe">New Recipe</a></li>
-
-      {% if title=="New Action" %}<li class="active">{% else %}<li>{% endif %}
+      {% if title=="Create New Action" %}<li class="active">{% else %}<li>{% endif %}
       <a href="new_action">New Action</a></li>
 
-      {% if title=="New Dataset" %}<li class="active">{% else %}<li>{% endif %}
+      {% if title=="Import Dataset" %}<li class="active">{% else %}<li>{% endif %}
       <a href="new_dataset">New Dataset</a></li>
 
     </ul></div>

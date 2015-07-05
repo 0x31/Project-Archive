@@ -3,10 +3,16 @@
 
 <script src="/static/main.js"></script>
 
-URL: <input style="width:100%;" id="url"/>
-<button onclick="submiturl()" id="send-url">Submit</button>
+<h2>Enter URL:</h2>
+<input style="width:100%;" id="url"/>
+<button onclick="submiturl()" id="send-url">SUBMIT</button>
+<br />
+<div class="file"><input class="filer" checked="checked" type="radio" name="file" value="json">JSON</div>
+<div class="file"><input class="filer" type="radio" name="file" value="csv">CSV</div>
 
 <script>
+var column_list = []
+
   function submiturl() {
     var url = $("#url").val();
 
@@ -20,7 +26,9 @@ URL: <input style="width:100%;" id="url"/>
 
   function urlcallback(data){
     jdata=JSON.parse(data);
+    column_list = []
     for(key in jdata){
+      column_list.push(key);
       $("#columns").append('<a class="no-styling"><div class="list-item-container"><div id="col-'+key.split('.').join("")+'" alt="'+key+'" style="background-color: #555; float: left;" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/tag.svg" /></div><span class="list-desc long-words">'+key+'</span></div></a>');
     }
     $("#hidden").show();
@@ -76,11 +84,17 @@ function dbdrop(ev) {
 
 function submit(){
   var icon = $("#big-db").children().first().attr('alt');
+  if(icon==undefined){icon="logo.svg"}
   var color = $("#big-db1").children().first().attr('alt');
+  if(color==undefined){color="#555"}
   var url = $("#url").val();
-  var columns = JSON.stringify({"date":$("#big-db2").children().first().attr('alt'),
-                 "latitude":$("#big-db3").children().first().attr('alt'),
-                 "longitude":$("#big-db4").children().first().attr('alt')});
+  var dated = $("#big-db2").children().first().attr('alt');
+  if(dated==undefined){dated="undefined"}
+  var latitude = $("#big-db3").children().first().attr('alt');
+  if(latitude==undefined){latitude="undefined"}
+  var longitude = $("#big-db4").children().first().attr('alt');
+  if(longitude==undefined){longitude="undefined"}
+  var columns = column_list.join();
 
 
   swal({title: "Name ",
@@ -105,6 +119,9 @@ function submit(){
           color: color,
           url1: url,
           url:"no",
+          latitude:latitude,
+          longitude:longitude,
+          date:dated,
           columns: columns
         },
         function(data,status){

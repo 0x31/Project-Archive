@@ -15,8 +15,16 @@ def new_recipe():
 
     if request.method == 'POST':
         action = request.form['action']
+        if(action=="no"):
+            ac_id = request.form['ac_id']
+            get_ac = models.Action.query.get(ac_id)
+            db_id = get_ac.dataset
+            get_db = models.Database.query.get(db_id)
+            cols = ",".join(get_db.columns)
+            return cols
         reaction = request.form['reaction']
-        p = models.Recipe(action=action,reaction=reaction,author=user)
+        template = request.form['template']
+        p = models.Recipe(action=action,reaction=reaction,template=template,author=user)
         db.session.add(p)
         db.session.commit()
         return action + reaction
@@ -31,8 +39,10 @@ def new_recipe():
         actions[action.id]={"name": action.name, "icon":action.icon, "color":action.color, "id": action.id}
 
     reactions = {
-            "email": { "name": "email me", "icon": "email.svg", "color":"#9DC241", "id":0},
-            "sms": { "name": "send me an SMS (WIP)", "icon": "sms.svg", "color":"#2B8175", "id":1},
+            "email": { "name": "email me", "icon": "email.svg", "color":"#9DC241", "id":1},
+            "sms": { "name": "send me an SMS (WIP)", "icon": "sms.svg", "color":"#2B8175", "id":2},
+            "facebook": { "name": "post it to my wall (WIP)", "icon": "facebook.svg", "color":"#3b5998", "id":3},
+            "twitter": { "name": "tweet it (WIP)", "icon": "twitter.svg", "color":"#4099FF", "id":4},
             }
 
     reaction_list = []
@@ -50,7 +60,7 @@ def new_recipe():
 
 
     return render_template( 'new_recipe.html',
-                            title="Create New Recipe",
+                            title="Create New Reaction",
                             user=user,
                             recipes=return_list,
                             actions=actions,
@@ -148,18 +158,20 @@ def new_dataset():
             icon=request.form["icon"]
             color=request.form["color"]
             url=request.form["url1"]
-            columns=json.loads(request.form["columns"])
-            p = models.Database(name=name,icon=icon,url=url,color=color,columns=columns)
+            date=request.form["date"]
+            longitude=request.form["longitude"]
+            latitude=request.form["latitude"]
+            columns=request.form["columns"].split(',')
+            p = models.Database(name=name,icon=icon,url=url,color=color,date=date,longitude=longitude,latitude=latitude,columns=columns)
             db.session.add(p)
             db.session.commit()
             return ""
 
-    colors=["#2B8175","rgb(199, 67, 80)","#9DC241","#38518A","red","blue","yellow"]
+    colors=["#C74350","#38518A","#CEC745","#CEA045","#9F367A","#4EAC3A","#CE7E45","#8C2F84","#52398D"]
     icons=[]
     for file in os.listdir("app/static/img"):
         if file.endswith(".svg"):
             icons.append(file)
-    #icons=["fire.svg","new.svg","logo.svg", "animal.svg", "email.svg", "flask.svg", "sms.svg"]
 
     return render_template( 'new_dataset.html',
                             colors=colors,

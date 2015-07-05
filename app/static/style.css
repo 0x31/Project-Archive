@@ -68,7 +68,7 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 #banner {
   margin: 0 auto;
   margin-top: 20px;
-  padding: 0px 20%;
+  padding: 0px 18%;
   float: none;
   width: 100%;
 }
@@ -115,7 +115,7 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
     height: 80px;
     line-height: 30px;
     //text-align: center;
-    //padding: 0 20%;
+    //padding: 0 18%;
     display: inline-block;
     margin-top: 5px;
   }
@@ -143,7 +143,7 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
   Body
 *****************/
 #title {
-  padding: 20px 20% 30px 20%;
+  padding: 20px 18% 30px 18%;
   width: 100%;
   height: 80px;
   background-color: #f3f3f3;
@@ -155,7 +155,7 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 #content {
   overflow: hidden;
   padding: 20px 20px;
-  padding: 50px 20%;
+  padding: 50px 18%;
   margin: 0;
   
   border-radius: 10px;
@@ -169,7 +169,7 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 footer {
   margin: 0;
   color: white;
-  padding: 30px 20%;
+  padding: 30px 18%;
   height: 100px;
   background-color: #333;
 }
@@ -180,7 +180,7 @@ footer {
  * * * * * * */
 .recipe {
   background-color: #333;
-  width: 430px;
+  width: 420px;
   height: 100px;
   color: white;
   border-radius: 5px;
@@ -188,11 +188,12 @@ footer {
   margin-top: 30px;
 }
 .if {
-  width: 165px;
+  width: 155px;
   background-color: #C74350;;
   height: 100px;
   display: block;
   float: left;
+  margin-left: 0;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
@@ -212,7 +213,6 @@ footer {
   opacity: 0.4;
 }
 .recipe .svg {
-  margin-left: 20px;
   fill: white;
   width: 60px;
   height: 60px;
@@ -378,3 +378,71 @@ footer {
 #colors, #icons {
   display: inline-block;
 }
+
+
+#message {
+  display: none;
+}
+#message-text {
+ width: 50%;
+ height: 200px;
+ float: left;
+ }
+ #label-drag {
+   width: 40%;
+   margin: 0 5%;
+   height: 200px;
+   display: block;
+   float: left;
+ }
+
+ .label {
+   padding: 2px;
+   margin: 5px 5px;
+   display: inline-block;
+   background-color: #C74350;
+   color: white;
+   border-radius: 2px;
+   font-weight: 900;
+ }
+
+
+
+
+ #url {
+   float: left;
+   height: 30px;
+   font-size: 20px;
+   color: #446;
+ }
+ #send-url {
+   float:right;
+   position: relative;
+   top: -30;
+   height: 30px;
+   background-color:#C74350;
+   border: 0;
+   color: white;
+   font-weight: 600;
+   width: 80px;
+ }
+ .file {
+   display: inline-block;
+   margin-top: 10px;
+   margin-right: 20px;
+ }
+
+
+ .push {
+   display: block;
+   float: right;
+   margin-right: 20px;
+   margin-top: 20px;
+ }
+
+ .push1 {
+   display: block;
+   float: right;
+   margin-right: 20px;
+   margin-top: 20px;
+ }
