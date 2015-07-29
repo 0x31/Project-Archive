@@ -35,18 +35,20 @@ a {
 #right {
   width: calc( 100% - 234px );
   background-color: #f1f1f1;
-  height: 1700px;
   width: auto;
+  padding-bottom: 100px;
+  height: 100%;
+  overflow: scroll;
 }
 
 
 #logo {
   top: 0px;
   background-color: white;
-  background-image: url(https://dlrdarlings.files.wordpress.com/2015/03/2000px-walt_disney_signature_2-svg.png);
+  background-image: url(/dash3.png);
   background-repeat: no-repeat;
-  background-position: 55px 12px;
-  background-size: 120px;
+  background-position: 45px 12px;
+  background-size: 140px;
   height: 58px;
   position: absolute;
   width: 100%;
@@ -205,6 +207,7 @@ a {
   z-index: 0;
   float: left;
   position: relative;
+  left: 14px;
   height: 200px;
   margin-top: 20px;
 }
@@ -297,12 +300,19 @@ a {
   display: block;
   margin: 100px 0 100px 15%;
   height: 4px;
-  background: #4284F4;
-  background: linear-gradient(to right, #4284F4 0%, #4284F4 30%, #d1d1d1 30%,#d1d1d1 100%);
+  background-color: #4284F4;
   color: #2f2f2f;
 }
-.ol-red {
-  background: linear-gradient(to right, #FF5252 0%, #FF5252 30%, #d1d1d1 30%,#d1d1d1 100%);
+.back{
+  position: absolute;
+  width:calc(60% + 40px);
+  display: block;
+  margin: 100px 0 100px 15%;
+  height: 4px;
+  background-color: #4284F4;
+}
+.right-red .back{
+  background-color: #FF5252;
 }
 .ol-tl::before {
   content: "";
@@ -325,7 +335,6 @@ a {
 .ol-tl::after {
   position: absolute;
   content: "";
-  left: calc(30% - 2px);
   display: block;
   width: 0px;
   height: 16px;
@@ -482,8 +491,6 @@ a {
 .set {
   border-radius: 2px;
   width: 70%;
-  height: 120px;
-  display:relative;
   margin: auto;
   margin-top: 0px;
 }
@@ -527,8 +534,8 @@ a {
 }
 
 .checkbox {
-  position: absolute;
-  margin-top: -1px;
+  position: relative;
+  top: -4px;
   cursor: pointer;
 }
 .checkbox:before {
@@ -579,7 +586,8 @@ a {
   background-color: white;
   box-shadow: 0 0 4px rgba(0,0,0,.14),2px 4px 8px rgba(0,0,0,.28);
   color: #777;
-  padding: 10px 5%;
+  padding: 20px 20px;
+  overflow: scroll;
 }
 
 

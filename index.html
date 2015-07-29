@@ -97,7 +97,14 @@
           </div>
 
             <div class="timeline">
-              <ol class="ol-tl ol-{{color}}">
+              <div class="back">
+              </div>
+              <style>
+                .ol-tl::after {
+                  left: calc({{progress}}% - 2px);
+                }
+              </style>
+              <ol class="ol-tl ol-{{color}}" style="background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0) {{progress}}%, #d1d1d1 {{progress}}%,#d1d1d1 100%);">
 
                 {{#loop tasks}}
                   <li class="li-done-{{done}} li-done-{{done}}-{{color}}" style="left: {{percentage}}%;">
@@ -117,6 +124,7 @@
 
 
 
+          <div id="all">
           <div class="set">
             <div class="container">
               <span style="margin-left:5px;display:block;margin-bottom: 25px; font-weight: 900;color: #333;font-size: 28px;">To Do</span>
@@ -132,7 +140,7 @@
             </div>
           </div>
 
-          <div class="set" style="margin-top: 400px;">
+          <div class="set" style="">
             <div class="container">
               <span style="margin-left:5px;display:block;margin-bottom: 45px; font-weight: 900;color: #333;font-size: 28px;">Details</span>
               <form>
@@ -169,13 +177,14 @@
             </div>
           </div>
 
-          <div class="set" style="margin-top: 400px;">
+          <div class="set" style="">
             <div class="container">
               <span style="margin-left:5px;display:block;margin-bottom: 45px; font-weight: 900;color: #333;font-size: 28px;">Read Me</span>
               <div id="readme">
                 {{readme}}
               </div>
             </div> 
+            </div>
             </div>
           </script>
         </div>
