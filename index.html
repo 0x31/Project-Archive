@@ -1,0 +1,195 @@
+
+
+<html>
+  <head>
+    <meta charset="ISO-8859-1">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/ical.js"></script>
+    <script src="js/handlebars.js"></script>
+    <script src="js/main.js"></script>
+  </head>
+  <body>
+    <div id="left">
+      <div id="logo" class="section">
+      </div>
+      <div class="section adds">
+        <div class="button" id="add" role="button" label="Click to create a new bookmark or a new folder.">NEW</div>
+      </div>
+      <div class="section asss">
+        <div>
+          <span class="date date1">Today</span>
+          <a onclick="renderTodo('red');"><div class="ass" id="1">
+            <div class="ass-icon"><div class="ass-img red">
+                    <div class="ass-day">19</div>
+                    <div class="ass-month">Nov</div>
+            </div></div>
+            <span class="ass-title">COMP2600</span>
+            <span class="ass-desc">Assignment 1</span>
+          </div></a>
+        </div>
+        <div>
+          <span class="date">This Week</span>
+          <a onclick="renderTodo('blue');"><div class="ass" id="2">
+            <div class="ass-icon"><div class="ass-img">
+                    <div class="ass-day">22</div>
+                    <div class="ass-month">Sep</div>
+            </div></div>
+            <span class="ass-title">COMP2600</span>
+            <span class="ass-desc">Assignment 1</span>
+          </div></a>
+          <div class="ass" id="3">
+            <div class="ass-icon"><div class="ass-img">
+                    <div class="ass-day">22</div>
+                    <div class="ass-month">Sep</div>
+            </div></div>
+            <span class="ass-title">COMP2600</span>
+            <span class="ass-desc">Assignment 1</span>
+          </div>
+        </div>
+        <div>
+          <span class="date">This Month</span>
+          <div class="ass" id="2">
+            <div class="ass-icon"><div class="ass-img teal">
+                    <div class="ass-day">31</div>
+                    <div class="ass-month">Sep</div>
+            </div></div>
+            <span class="ass-title">COMP2600</span>
+            <span class="ass-desc">Assignment 1</span>
+          </div>
+          <div class="ass" id="3">
+            <div class="ass-icon"><div class="ass-img yellow">
+                    <div class="ass-day">01</div>
+                    <div class="ass-month">Sep</div>
+            </div></div>
+            <span class="ass-title">COMP2600</span>
+            <span class="ass-desc">Assignment 1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!--  The template for a Task: START
+           _             _   
+       ___| |_ __ _ _ __| |_ 
+      / __| __/ _` | '__| __|
+      \__ \ || (_| | |  | |_ 
+      |___/\__\__,_|_|   \__|
+                                   
+    -->
+    <div id="right">
+      <script id="tmpl" type="text/x-handlebars-template">
+        <div class="right-{{color}}">
+          <div class="dash-top">
+            <div class="dash-hidden {{color}}"><span style="font-weight: 200">{{class}}</span>  &nbsp;{{name}}</div>
+            <div class="dash-top-bottom-left {{color}}">
+              <div class="centered">
+                <span class="due title title-class">{{class}}</span>
+                <span class="due title title-name">{{name}}</span>
+              </div>
+            </div>
+            <div class="dash-top-bottom-right gradient-{{color}}">
+              <span class="due due-in">Due in</span>
+              <span class="due due-no">{{dueno}}</span>
+              <span class="due due-days">days</span>
+            </div>
+          </div>
+
+            <div class="timeline">
+              <ol class="ol-tl ol-{{color}}">
+
+                {{#loop tasks}}
+                  <li class="li-done-{{done}} li-done-{{done}}-{{color}}" style="left: {{percentage}}%;">
+                    {{taskname}}
+                    <span class="details">{{taskdate}}</span>
+                  </li>
+                {{/loop}}
+
+                <li id="li-last">
+                  <div class="ass-icon"><div class="ass-img {{color}}">
+                          <div class="ass-day">19</div>
+                          <div class="ass-month">Nov</div>
+                  </div></div>
+                  </li>
+              </ol>
+            </div>
+
+
+
+          <div class="set">
+            <div class="container">
+              <span style="margin-left:5px;display:block;margin-bottom: 25px; font-weight: 900;color: #333;font-size: 28px;">To Do</span>
+              <ol id="todo">
+                {{#loop tasks}}
+                  <li>
+                    <input type="checkbox" class="checkbox" {{done}}>
+                    <span class="todo-label">{{taskname}}</span>
+                    <a href="#" class="todo-li-date">{{taskdate}}</a>
+                  </li>
+                {{/loop}}
+              </ol>
+            </div>
+          </div>
+
+          <div class="set" style="margin-top: 400px;">
+            <div class="container">
+              <span style="margin-left:5px;display:block;margin-bottom: 45px; font-weight: 900;color: #333;font-size: 28px;">Details</span>
+              <form>
+                <div class="group">      
+                  <input type="text" value="{{class}}" required>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label>Class Name</label>
+                </div>
+                  
+                <div class="group">      
+                  <input type="text" value="{{name}}" required>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label>Task Name</label>
+                </div>
+
+                <div class="group">      
+                  <input type="text" required>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label>Start Date</label>
+                </div>
+
+                <div class="group">      
+                  <input type="text" required>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label>Color</label>
+                </div>
+                
+              </form>
+                  
+            </div>
+          </div>
+
+          <div class="set" style="margin-top: 400px;">
+            <div class="container">
+              <span style="margin-left:5px;display:block;margin-bottom: 45px; font-weight: 900;color: #333;font-size: 28px;">Read Me</span>
+              <div id="readme">
+                {{readme}}
+              </div>
+            </div> 
+            </div>
+          </script>
+        </div>
+        <!--
+                         _ 
+           ___ _ __   __| |
+          / _ \ '_ \ / _` |
+         |  __/ | | | (_| |
+          \___|_| |_|\__,_|
+
+        -->
+
+
+      </div>
+
+    </body>
+  </html>
