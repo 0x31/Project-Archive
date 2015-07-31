@@ -1,10 +1,24 @@
 
 
+
+
+
+
+
 <html>
   <head>
     <meta charset="ISO-8859-1">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script src="js/date/libs/moment.min.js"></script>
+    <script src="js/date/libs/knockout-3.2.0.js"></script>
+    <script src="js/date/material-datepicker/js/material.datepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/date/material-datepicker/css/material.datepicker.css">
+
+
     <script src="js/ical.js"></script>
     <script src="js/handlebars.js"></script>
     <script src="js/main.js"></script>
@@ -16,57 +30,9 @@
       <div class="section adds">
         <div class="button" id="add" role="button" label="Click to create a new bookmark or a new folder.">NEW</div>
       </div>
-      <div class="section asss">
-        <div>
-          <span class="date date1">Today</span>
-          <a onclick="renderTodo('red');"><div class="ass" id="1">
-            <div class="ass-icon"><div class="ass-img red">
-                    <div class="ass-day">19</div>
-                    <div class="ass-month">Nov</div>
-            </div></div>
-            <span class="ass-title">COMP2600</span>
-            <span class="ass-desc">Assignment 1</span>
-          </div></a>
-        </div>
-        <div>
-          <span class="date">This Week</span>
-          <a onclick="renderTodo('blue');"><div class="ass" id="2">
-            <div class="ass-icon"><div class="ass-img">
-                    <div class="ass-day">22</div>
-                    <div class="ass-month">Sep</div>
-            </div></div>
-            <span class="ass-title">COMP2600</span>
-            <span class="ass-desc">Assignment 1</span>
-          </div></a>
-          <div class="ass" id="3">
-            <div class="ass-icon"><div class="ass-img">
-                    <div class="ass-day">22</div>
-                    <div class="ass-month">Sep</div>
-            </div></div>
-            <span class="ass-title">COMP2600</span>
-            <span class="ass-desc">Assignment 1</span>
-          </div>
-        </div>
-        <div>
-          <span class="date">This Month</span>
-          <div class="ass" id="2">
-            <div class="ass-icon"><div class="ass-img teal">
-                    <div class="ass-day">31</div>
-                    <div class="ass-month">Sep</div>
-            </div></div>
-            <span class="ass-title">COMP2600</span>
-            <span class="ass-desc">Assignment 1</span>
-          </div>
-          <div class="ass" id="3">
-            <div class="ass-icon"><div class="ass-img yellow">
-                    <div class="ass-day">01</div>
-                    <div class="ass-month">Sep</div>
-            </div></div>
-            <span class="ass-title">COMP2600</span>
-            <span class="ass-desc">Assignment 1</span>
-          </div>
-        </div>
+      <div id="left-list" class="section asss">
       </div>
+
     </div>
 
 
@@ -101,7 +67,7 @@
               </div>
               <style>
                 .ol-tl::after {
-                  left: calc({{progress}}% - 2px);
+                  left: calc({{progress}}% - 4px);
                 }
               </style>
               <ol class="ol-tl ol-{{color}}" style="background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0) {{progress}}%, #d1d1d1 {{progress}}%,#d1d1d1 100%);">
@@ -115,8 +81,8 @@
 
                 <li id="li-last">
                   <div class="ass-icon"><div class="ass-img {{color}}">
-                          <div class="ass-day">19</div>
-                          <div class="ass-month">Nov</div>
+                      <div class="ass-day">{{day}}</div>
+                      <div class="ass-month">{{month}}</div>
                   </div></div>
                   </li>
               </ol>
@@ -133,14 +99,19 @@
                   <li>
                     <input type="checkbox" class="checkbox" {{done}}>
                     <span class="todo-label">{{taskname}}</span>
-                    <a href="#" class="todo-li-date">{{taskdate}}</a>
+                    <input id="field-{{id}}" style="font-size:16px;height:30px;padding:0px 10px"  class="todo-li-date" placeholder="{{taskdate}}" type="text" readonly="true"><br><br>
                   </li>
                 {{/loop}}
+                  <li>
+                    <input type="checkbox" class="checkbox" style="visibility: hidden !important;">
+                    <input id="todo-add-name" type="text" class="todo-label todo-add" placeholder="New subtask"/>
+                    <input id="field" style="font-size:16px;height:30px;padding:0px 10px"  class="todo-li-date" placeholder="Add date" type="text" readonly="true"><br><br>
+                  </li>
               </ol>
             </div>
           </div>
 
-          <div class="set" style="">
+          <div class="set" style="margin-top: -30px;">
             <div class="container">
               <span style="margin-left:5px;display:block;margin-bottom: 45px; font-weight: 900;color: #333;font-size: 28px;">Details</span>
               <form>
@@ -159,14 +130,14 @@
                 </div>
 
                 <div class="group">      
-                  <input type="text" required>
+                  <input type="text" value="{{day}} {{month}}" required>
                   <span class="highlight"></span>
                   <span class="bar"></span>
                   <label>Start Date</label>
                 </div>
 
                 <div class="group">      
-                  <input type="text" required>
+                  <input type="text" value="{{color}}" required>
                   <span class="highlight"></span>
                   <span class="bar"></span>
                   <label>Color</label>

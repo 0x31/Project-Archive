@@ -1,11 +1,7 @@
 
 Handlebars.registerHelper('loop', function(items, options) {
   var out = "";
-
-  for(var i=0, l=items.length; i<l; i++) {
-    out = out + options.fn(items[i]);
-  }
-
+  for(var i=0, l=items.length; i<l; i++) {out = out + options.fn(items[i]);}
   return out;
 });
 
@@ -29,126 +25,187 @@ function checkScroll(animate) {
 }
 
 
-var comp;
 function createCal() {
-  comp = new ICAL.Component(['vcalendar', [], []]);
-}
-createCal();
-
-
-function createTask() {
-
-  var vtodo =
-    "BEGIN:VCALENDAR\n"+
-      "BEGIN:VTODO\n"+
-        "SUMMARY:{{name}}\n"+
-        "CLASS:{{class}}\n"+
-        "DTSTAMP:{{now}}\n"+
-        "DTSTART,VALUE=DATE:{{start}}\n"+
-        "DTEND,VALUE=DATE:{{end}}\n"+
-        "UID:{{uid}}\n"+
-        "{{#loop tasks}}\n"+
-          "BEGIN:VTODO\n"+
-            "SUMMARY:{{subname}}\n"+
-            "DTEND,VALUE=DATE:{{subend}}\n"+
-            "DONE:{{done}}\n"+
-          "END:VTODO\n"+
-        "{{/loop}}\n"+
-      "END:VTODO\n"+
-    "END:VCALENDAR\n"
-
-  var template1 = Handlebars.compile(vtodo);
-
-  uid = ("COMP1140"+"00000000").substring(0,8) + ICAL.Time.now().toString().replace(/\D/g,'');
-
-  var tasks = [
-      {subname:"Subtask 1",subend:"20150725",done:"true"},
-      {subname:"Subtask 2 Part B",subend:"20150728",done:"false"},
-    ]
-  
-  
-  var context = {class: "COMP1140", name: "Assignment 2", now: ICAL.Time.now(),
-                 start: "20150722", end: "20150801", uid: uid, tasks:tasks};
-  var html    = template1(context);
-
-  return html
-
-}
-comp = createTask();
-//alert(comp);
-
-
-
-
-
-
-var jcalData = ICAL.parse(comp);
-var comp = new ICAL.Component(jcalData);
-var vevent = comp.getAllSubcomponents("vtodo")[0];
-var event2 = new ICAL.Event(vevent);
-
-function humanDate (date) {
-    var month = parseInt(date.substring(4,6));
-    var month_str = "JanFebMarAprMayJunJulAugSepOctNovDec".substring(month*3-3, month*3);
-    var day = parseInt(date.substring(6,8));
-    return (day + " " + month_str);
-}
-
-function dateDifference(date1, date2) {
-  var day1 = parseInt(date1.substring(6,8));
-  var mon1 = parseInt(date1.substring(4,6));
-  var yea1 = parseInt(date1.substring(0,4));
-  dt1 = new Date(yea1, mon1-1, day1);
-  var day2 = parseInt(date2.substring(6,8));
-  var mon2 = parseInt(date2.substring(4,6));
-  var yea2 = parseInt(date2.substring(0,4));
-  dt2 = new Date(yea2, mon2-1, day2);
-  return (dt2 - dt1)/(1000*60*60*24);
-
+  var comp = new ICAL.Component(['vcalendar', [], []]);
+  return comp;
 }
 
 
-Date.prototype.yyyymmdd = function() {
-   var yyyy = this.getFullYear().toString();
-   var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-   var dd  = this.getDate().toString();
-   return yyyy + (mm[1]?mm:"0"+mm[0]) + (dd[1]?dd:"0"+dd[0]); // padding
-  };
+function loadIcal() {
 
+  var vcal = createCal();
+  data = {'class':'COMP1140', 'name':'Assignment 1', 'start':'2015-07-28', 'end':'2015-08-02', 'color':'blue'}
+  var uid1 = addTodo(vcal, data);
+  var task1 = getTodo(vcal, uid1);
+  data = {'name':'Subbie 2', 'date':'2015-07-31', 'checked': 'checked'}
+  addSubtask(vcal, uid1, data);
+  data = {'name':'Subbie 1', 'date':'2015-08-01', 'checked': ''}
+  addSubtask(vcal, uid1, data);
+
+  return vcal
+}
+
+function fs_save(vcal) {
+  localStorage.setItem("vcal.ics", vcal.toString());
+}
+
+function fs_open() {
+  var vcal = localStorage.getItem("vcal.ics");
+  if(vcal===null || vcal.length===0){
+    vcal = loadIcal();
+    fs_save(vcal);
+  }
+  else {
+    vcal = new ICAL.Component(ICAL.parse(vcal));
+  }
+  return vcal;
+}
+
+function fs_clear() {
+  localStorage.removeItem("vcal.ics");
+}
+
+
+function addTodo(vcal, data){
+
+
+
+  var vevent = new ICAL.Component('vtodo'),
+      event = new ICAL.Event(vevent);
+
+  var now = ICAL.Time.now();
+  var uid = (data.class+"00000000").substring(0,8) + now.toString().replace(/\D/g,'').substring(6,12);
+
+  event._setProp('summary',     data.name);
+  event._setProp('class',       data.class);
+  event._setProp('dtstamp',     now); // Can give it instances of appropriate types
+  event._setProp('dtstart',     ICAL.Time.fromDateString(data.start)); // Can give it instances of appropriate types
+  event._setProp('dtend',       ICAL.Time.fromDateString(data.end)); // Can give it instances of appropriate types
+  event._setProp('uid',         uid);
+  event._setProp('comment',     data.color);
+  event._setProp('status',      "");
+  event._setProp('description', "README");
+  vcal.addSubcomponent(vevent);
+
+  return uid;
+}
+
+function getTodo(vcal, uid){
+  var todos = vcal.getAllSubcomponents("vtodo");
+  for(var i=0; i<todos.length; i++){
+    if (todos[i].getFirstPropertyValue("uid") == uid) {
+      return todos[i];
+    }
+  }
+  return null;
+}
+
+function getSubtask(todo, name){
+  var todos = todo.getAllSubcomponents("vtodo");
+  for(var i=0; i<todos.length; i++){
+    if (todos[i].getFirstPropertyValue("summary") == name) {
+      return todos[i];
+    }
+  }
+  return null;
+}
+
+function addSubtask(vcal, uid, data){
+
+  var todo = getTodo(vcal, uid);
+
+  var vevent = new ICAL.Component('vtodo'),
+      event = new ICAL.Event(vevent);
+
+  var now = ICAL.Time.now();
+  var uid1 = (data.class+"00000000").substring(0,8) + now.toString().replace(/\D/g,'').substring(6,12);
+
+  event._setProp('summary',   data.name);
+  event._setProp('dtstamp',   now); // Can give it instances of appropriate types
+  event._setProp('dtend',     ICAL.Time.fromJSDate(data.date)); // Can give it instances of appropriate types
+  event._setProp('status',    data.checked); // Can give it instances of appropriate types
+  event._setProp('uid',       uid1);
+  todo.addSubcomponent(vevent);
+
+  renderTodo(uid, false);
+
+  return uid;
+}
+
+function updateTodo(vcal, uid, name, value) {
+  var vtodo = getTodo(vcal, uid);
+  vtodo.updatePropertyWithValue(name, value);
+  fs_save(vcal);
+}
+
+function updateSubtask(vcal, uid, taskname, name, value) {
+  var todo = getTodo(vcal, uid);
+  var vtodo = getSubtask(todo, taskname);
+  vtodo.updatePropertyWithValue(name, value);
+  console.log(vtodo);
+  fs_save(vcal);
+}
+
+
+
+var vcal;
 var template;
-function renderTodo(name) {
+function renderTodo(uid, different) {
 
   var tasks = [];
 
+  var vtodo = getTodo(vcal, uid);
 
-  var start = event2.component.jCal[1][3][3];
-  var end = event2.component.jCal[1][4][3];
+  var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
 
+  var start = vtodo.getFirstPropertyValue("dtstart");
+  var end   = vtodo.getFirstPropertyValue("dtend");
+  var dtdate = end.toJSDate().getDate().toString();
+  if(dtdate.length==1){
+    dtdate="0"+dtdate;
+  }
+  var dtmonth = monthNames[end.toJSDate().getMonth()];
+  var name  = vtodo.getFirstPropertyValue("summary");
+  var nameid= name.replace(/\W/g, '');
+  var clas  = vtodo.getFirstPropertyValue("class");
+  var color = vtodo.getFirstPropertyValue("comment");
 
-  var vevent1 = vevent.getAllSubcomponents("vtodo");
+  var daysTot = start.subtractDate(end).days;
+  var today = ICAL.Time.now();
+  var daysRem = today.subtractDate(end).days * -1 * today.compare(end);
+  var progress = ~~(99 * start.subtractDate(today).days / daysTot);
+  if(daysRem<0){
+    progress = 100;
+  }
 
-  var daysTot = dateDifference(start, end);
-  var today = new Date().yyyymmdd();
-  var daysRem = dateDifference(today, end);
-  var progress = ~~(99 * dateDifference(start, today) / daysTot);
+  var subs = vtodo.getAllSubcomponents();
 
-  for(var i=0;i<vevent1.length;i++){
-    var todo = new ICAL.Event(vevent1[i]);
-    var subdate = todo.component.jCal[1][1][3];
-    var checked="";
-    var subdateH = humanDate(subdate);
-    var percentage = ~~(99 * dateDifference(start, subdate) / daysTot);
-    if(todo.component.jCal[1][2][3]=="true"){
-      checked="checked";
-    }
+  for(var i=0;i<subs.length;i++){
+
+    var subdate = subs[i].getFirstPropertyValue("dtend");
+    var subname    = subs[i].getFirstPropertyValue("summary");
+    var subnameid  = subname.replace(/\W/g, '')+'-'+i;
+    var checked    = subs[i].getFirstPropertyValue("status");
+    var subdateH = subdate.toJSDate().getDate() + " " + monthNames[subdate.toJSDate().getMonth()];
+    var percentage = ~~( 99 * (start.subtractDate(subdate).days) / daysTot);
+    //if(component.jCal[1][2][3]=="true"){
+    //  checked="checked";
+   // }
     
 
-    tasks.push({done:checked, color:name, percentage:percentage, taskname:todo.summary,
-                taskdate:subdateH});
+    tasks.push({done:checked, color:color, percentage:percentage, taskname:subname,
+                taskdate:subdateH, id:subnameid, taskdateICAL: subdate});
 
   }
 
+  tasks.sort(function(a, b) { 
+    return a.taskdateICAL.subtractDate(b.taskdateICAL).days * a.taskdateICAL.compare(b.taskdateICAL);
 
+  })
+
+  tasks.push({done:"", color:color, percentage:-200, taskname:name, taskdate:dtdate+" "+dtmonth, id:nameid+'-'+tasks.length});
 
 
   /*var tasks = [
@@ -156,23 +213,176 @@ function renderTodo(name) {
       {done: "", color:name, percentage:"60",taskname:"Help2",taskdate:"20 Nov"},
     ]*/
 
-  daysL = ("0" + daysRem.toString() ).substring(-1);
+  daysL = daysRem.toString();
+  if(daysL.length==1){
+    daysL = "0" + daysL;
+  }
 
-  var context = {class: "COMP1140", name: "Assignment 2", dueno: daysL, readme: "http://www.jeditoolkit.com/prose/", color: name, tasks: tasks, progress:progress };
+  var context = { class: clas,
+                  name: name,
+                  dueno: daysL,
+                  readme: "http://www.jeditoolkit.com/prose/",
+                  color: color,
+                  tasks: tasks,
+                  day: dtdate,
+                  month: dtmonth,
+                  progress:progress };
   var html    = template(context);
 
   $("#right").html(html);
   checkScroll(false);
-  window.scrollTo(0,0);
 
+  if(different) {
+    window.scrollTo(0,0);
+  }
+
+
+
+  for(var i=0;i<tasks.length;i++){
+    var subname    = tasks[i].id;
+    $('#field-'+subname).datepicker({});
+  }
+  $('#field').datepicker({});
+
+  $("#field")[0].oninput = function () {
+    var nname = $("#todo-add-name").val();
+    var ndate = $("#field").val();
+    var ddate = new Date(Date.parse(ndate+", 2015"));
+
+    data = {'name':nname, 'date':ddate, 'checked': ''}
+    addSubtask(vcal, uid, data);
+    fs_save(vcal);
+  };
+
+  $("#todo-add-name").keyup( function() {
+    if($("#todo-add-name").val().length>0){
+      $("#field").css('visibility', 'visible');
+    }
+    else {
+      $("#field").css('visibility', 'hidden');
+    }
+  });
   
   return 0;
 }
 
+
+
+function renderSide(vcal) {
+  var todos = vcal.getAllSubcomponents("vtodo");
+
+  var overdue   = ["<span style='color: #000'>Overdue</span>"]
+  var todays    = ["Due today"]
+  var weeksies  = ["Due this week"]
+  var monthsies = ["Due this month"]
+  var moars     = ["Due after this month"]
+
+  var all = [overdue, todays, weeksies, monthsies, moars]
+
+  for(var i=0;i<todos.length;i++){
+    var todo = todos[i]
+    var dtdate = todo.getFirstPropertyValue("dtend");
+    var now = ICAL.Time.now();
+    var when = now.subtractDate(dtdate).days * now.compare(dtdate) * -1;
+
+    if(when<0){
+      overdue.push(todo);
+    }
+    else if(when==0){
+      todays.push(todo);
+    }
+    else if(when<8){
+      weeksies.push(todo);
+    }
+    else if(when<32){
+      monthsies.push(todo);
+    }
+    else {
+      moars.push(todo);
+    }
+
+  }
+
+    var first = true;
+    for(var i=0;i<all.length;i++){
+      if(all[i].length>1){
+        if(first){
+          $("#left-list").append('<div><span class="date date1">'+all[i][0]+'</span>');
+        }
+        else {
+          $("#left-list").append('<div><span class="date">'+all[i][0]+'</span>');
+        }
+
+        first = false;
+
+
+        for(var j=1;j<all[i].length;j++){
+
+          var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            ];
+
+
+          var todo = all[i][j];
+          name = todo.getFirstPropertyValue("summary");
+          uid  = todo.getFirstPropertyValue("uid");
+          clas  = todo.getFirstPropertyValue("class");
+          color  = todo.getFirstPropertyValue("comment");
+          date  = todo.getFirstPropertyValue("dtend");
+          month = monthNames[date.toJSDate().getMonth()];
+          day = date.toJSDate().getDate().toString();
+          if(day.length==1){
+            day="0"+day;
+          }
+
+          $("#left-list").append('<a onclick="renderTodo(\''+uid+'\', true);"><div class="ass" id="uid">'+
+              '<div class="ass-icon"><div class="ass-img '+color+'">'+
+                      '<div class="ass-day">'+day+'</div>'+
+                      '<div class="ass-month">'+month+'</div>'+
+              '</div></div>'+
+              '<span class="ass-title">'+clas+'</span>'+
+              '<span class="ass-desc">'+name+'</span>'+
+            '</div></a>');
+        }
+
+        
+        $("#left-list").append('</div>');
+      }
+    }
+
+
+
+
+}
+
 $( document ).ready(function() {
+
+
   var source   = $("#tmpl").html();
   template = Handlebars.compile(source);
-  renderTodo("red");
+
+  vcal = fs_open();
+  //data = {'class':'COMP2610', 'name':'Assignment Over', 'start':'2015-07-22', 'end':'2015-07-29', 'color':'blue'}
+  //var uid1 = addTodo(vcal, data);
+  fs_save(vcal);
+
+  var uid2 = vcal.getAllSubcomponents("vtodo")[0].getFirstPropertyValue("uid");
+
+  updateTodo(vcal, uid2, "class", "COMP1110");
+
+  renderSide(vcal);
+
+
+  //var task1 = getTodo(vcal, uid2);
+
+  //fs_save(vcal);
+
+  //renderTodo(uid2);
+
 });
+
+
+
+
 
 
