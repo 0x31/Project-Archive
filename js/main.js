@@ -142,7 +142,13 @@ function updateSubtask(vcal, uid, taskname, name, value) {
   var todo = getTodo(vcal, uid);
   var vtodo = getSubtask(todo, taskname);
   vtodo.updatePropertyWithValue(name, value);
-  console.log(vtodo);
+  fs_save(vcal);
+}
+
+function deleteSubtask(vcal, uid, taskname) {
+  var todo = getTodo(vcal, uid);
+  var vtodo = getSubtask(todo, taskname);
+  todo.removeSubcomponent(vtodo);
   fs_save(vcal);
 }
 
@@ -150,7 +156,10 @@ function updateSubtask(vcal, uid, taskname, name, value) {
 
 var vcal;
 var template;
+var uidcurrent;
 function renderTodo(uid, different) {
+
+  uidcurrent = uid;
 
   var tasks = [];
 
@@ -163,19 +172,21 @@ function renderTodo(uid, different) {
   var start = vtodo.getFirstPropertyValue("dtstart");
   var end   = vtodo.getFirstPropertyValue("dtend");
   var dtdate = end.toJSDate().getDate().toString();
+  var dtdatestart = start.toJSDate().getDate().toString();
   if(dtdate.length==1){
     dtdate="0"+dtdate;
   }
   var dtmonth = monthNames[end.toJSDate().getMonth()];
+  var dtmonthstart = monthNames[start.toJSDate().getMonth()];
   var name  = vtodo.getFirstPropertyValue("summary");
   var nameid= name.replace(/\W/g, '');
   var clas  = vtodo.getFirstPropertyValue("class");
   var color = vtodo.getFirstPropertyValue("comment");
 
-  var daysTot = start.subtractDate(end).days;
+  var daysTot = start.subtractDate(end).toSeconds();
   var today = ICAL.Time.now();
   var daysRem = today.subtractDate(end).days * -1 * today.compare(end);
-  var progress = ~~(99 * start.subtractDate(today).days / daysTot);
+  var progress = ~~(99 * start.subtractDate(today).toSeconds() / daysTot);
   if(daysRem<0){
     progress = 100;
   }
@@ -189,7 +200,7 @@ function renderTodo(uid, different) {
     var subnameid  = subname.replace(/\W/g, '')+'-'+i;
     var checked    = subs[i].getFirstPropertyValue("status");
     var subdateH = subdate.toJSDate().getDate() + " " + monthNames[subdate.toJSDate().getMonth()];
-    var percentage = ~~( 99 * (start.subtractDate(subdate).days) / daysTot);
+    var percentage = ~~( 99 * (subdate.subtractDate(start).toSeconds())*-1 / daysTot);
     //if(component.jCal[1][2][3]=="true"){
     //  checked="checked";
    // }
@@ -198,14 +209,13 @@ function renderTodo(uid, different) {
     tasks.push({done:checked, color:color, percentage:percentage, taskname:subname,
                 taskdate:subdateH, id:subnameid, taskdateICAL: subdate});
 
+
   }
 
   tasks.sort(function(a, b) { 
-    return a.taskdateICAL.subtractDate(b.taskdateICAL).days * a.taskdateICAL.compare(b.taskdateICAL);
-
+    var ret = a.taskdateICAL.compare(b.taskdateICAL);
+    return ret;
   })
-
-  tasks.push({done:"", color:color, percentage:-200, taskname:name, taskdate:dtdate+" "+dtmonth, id:nameid+'-'+tasks.length});
 
 
   /*var tasks = [
@@ -226,6 +236,8 @@ function renderTodo(uid, different) {
                   tasks: tasks,
                   day: dtdate,
                   month: dtmonth,
+                  daystart: dtdatestart,
+                  monthstart: dtmonthstart,
                   progress:progress };
   var html    = template(context);
 
@@ -241,6 +253,48 @@ function renderTodo(uid, different) {
   for(var i=0;i<tasks.length;i++){
     var subname    = tasks[i].id;
     $('#field-'+subname).datepicker({});
+
+    $("#field-"+subname)[0].oninput = function () {
+      subname = this.getAttribute('id').substring(6);
+      var nname = $("#text-"+subname).val();
+      var ndate = $("#field-"+subname).val();
+      var ddate = new Date(Date.parse(ndate+", 2015"));
+      data = {'name':nname, 'date':ddate, 'checked': ''}
+      updateSubtask(vcal, uidcurrent, nname, "dtend", ICAL.Time.fromJSDate(ddate).toString());
+      fs_save(vcal);
+      renderTodo(uidcurrent, false);
+    };
+
+    $("#text-"+subname).keyup( function(e) {
+      if (e.which == 13) this.blur();
+    });
+
+
+    $("#text-"+subname).blur( function() {
+      subname = this.getAttribute('id').substring(5);
+      var nname = $("#text-"+subname).attr('alt');
+      var ddate = $("#text-"+subname).val();
+      if(ddate==""){
+        deleteSubtask(vcal, uidcurrent, nname);
+        fs_save(vcal);
+        renderTodo(uidcurrent, false);
+        return;
+      }
+      updateSubtask(vcal, uidcurrent, nname, "summary", ddate);
+      fs_save(vcal);
+      renderTodo(uidcurrent, false);
+    });
+
+    $('#check-'+subname).change(function(){
+      var c = this.checked ? "checked" : "";
+
+      subname = this.getAttribute('id').substring(6);
+      var nname = $("#text-"+subname).attr('alt');
+      updateSubtask(vcal, uidcurrent, nname, "status", c);
+      fs_save(vcal);
+      renderTodo(uidcurrent, false);
+    });
+
   }
   $('#field').datepicker({});
 
@@ -262,6 +316,24 @@ function renderTodo(uid, different) {
       $("#field").css('visibility', 'hidden');
     }
   });
+
+  $("#edit-class").blur( function() {updateTodo(vcal, uidcurrent, "class", $(this).val()); renderTodo(uidcurrent, false);renderSide(vcal);});
+  $("#edit-class").keyup( function(e) {if (e.which == 13) this.blur();});
+
+  $("#edit-name").blur( function() {updateTodo(vcal, uidcurrent, "summary", $(this).val()); renderTodo(uidcurrent, false);renderSide(vcal);});
+  $("#edit-name").keyup( function(e) {if (e.which == 13) this.blur();});
+
+  $("#edit-color").blur( function() {updateTodo(vcal, uidcurrent, "comment", $(this).val()); renderTodo(uidcurrent, false);renderSide(vcal);});
+  $("#edit-color").keyup( function(e) {if (e.which == 13) this.blur();});
+
+  $("#edit-start").blur( function() { var dd =  new Date($(this).val()+"2015");
+    updateTodo(vcal, uidcurrent, "dtstart", ICAL.Time.fromJSDate( dd ).toString()); renderTodo(uidcurrent, false);renderSide(vcal);});
+  $("#edit-color").keyup( function(e) {if (e.which == 13) this.blur();});
+
+  $("#edit-end").blur( function() { var dd =  new Date($(this).val()+"2015");
+    updateTodo(vcal, uidcurrent, "dtend", ICAL.Time.fromJSDate( dd ).toString()); renderTodo(uidcurrent, false);renderSide(vcal);});
+  $("#edit-end").keyup( function(e) {if (e.which == 13) this.blur();});
+
   
   return 0;
 }
@@ -269,6 +341,7 @@ function renderTodo(uid, different) {
 
 
 function renderSide(vcal) {
+  $("#left-list").html("");
   var todos = vcal.getAllSubcomponents("vtodo");
 
   var overdue   = ["<span style='color: #000'>Overdue</span>"]

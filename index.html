@@ -97,11 +97,16 @@
               <ol id="todo">
                 {{#loop tasks}}
                   <li>
-                    <input type="checkbox" class="checkbox" {{done}}>
-                    <span class="todo-label">{{taskname}}</span>
+                    <input id="check-{{id}}" type="checkbox" class="checkbox" {{done}}>
+                    <input type="text" class="todo-label todo-add" id="text-{{id}}" value="{{taskname}}" alt="{{taskname}}" placeholder="Delete"/>
                     <input id="field-{{id}}" style="font-size:16px;height:30px;padding:0px 10px"  class="todo-li-date" placeholder="{{taskdate}}" type="text" readonly="true"><br><br>
                   </li>
                 {{/loop}}
+                  <li>
+                    <input id="check-{{id}}" type="checkbox" class="checkbox" {{done}}>
+                    <input type="text" class="todo-label todo-add" id="todo-whole" value="{{name}}" alt="{{name}}" placeholder="Delete"/>
+                    <input id="field-{{id}}" style="font-size:16px;height:30px;padding:0px 10px"  class="todo-li-date" placeholder="{{day}} {{month}}" type="text" readonly="true"><br><br>
+                  </li>
                   <li>
                     <input type="checkbox" class="checkbox" style="visibility: hidden !important;">
                     <input id="todo-add-name" type="text" class="todo-label todo-add" placeholder="New subtask"/>
@@ -116,28 +121,35 @@
               <span style="margin-left:5px;display:block;margin-bottom: 45px; font-weight: 900;color: #333;font-size: 28px;">Details</span>
               <form>
                 <div class="group">      
-                  <input type="text" value="{{class}}" required>
+                  <input type="text" id="edit-class" value="{{class}}" required>
                   <span class="highlight"></span>
                   <span class="bar"></span>
                   <label>Class Name</label>
                 </div>
                   
                 <div class="group">      
-                  <input type="text" value="{{name}}" required>
+                  <input type="text" id="edit-name" value="{{name}}" required>
                   <span class="highlight"></span>
                   <span class="bar"></span>
                   <label>Task Name</label>
                 </div>
 
                 <div class="group">      
-                  <input type="text" value="{{day}} {{month}}" required>
+                  <input type="text" id="edit-start" value="{{daystart}} {{monthstart}}" required>
                   <span class="highlight"></span>
                   <span class="bar"></span>
                   <label>Start Date</label>
                 </div>
 
                 <div class="group">      
-                  <input type="text" value="{{color}}" required>
+                  <input type="text" id="edit-end" value="{{day}} {{month}}" required>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label>End Date</label>
+                </div>
+
+                <div class="group">      
+                  <input type="text" id="edit-color" value="{{color}}" required>
                   <span class="highlight"></span>
                   <span class="bar"></span>
                   <label>Color</label>
