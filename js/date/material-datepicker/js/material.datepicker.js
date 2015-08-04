@@ -99,11 +99,17 @@ $.fn.datepicker = function (options) {
 
 		self.processDate = function(day) {
 			if (day) {
+        var months = [
+          'January', 'February', 'March', 'April', 'May',
+          'June', 'July', 'August', 'September', 'October',
+          'November', 'December'
+			];
 				var date = moment( day + '/' + self.viewingMonth() + '/' + self.viewingYear(), self.options.format );
 				self.datePickerValue(date);
 				var year = self.viewingYear();
 				var month = self.viewingMonth();
-		 		var dateString = self.datePickerValue().format(self.options.format);
+        var dateString =  ( day + " " + months[month-1].substring(0,3));
+		 		//var dateString = self.datePickerValue().format(self.options.format);
 				$(self.field).val(dateString);
 			}
 		};

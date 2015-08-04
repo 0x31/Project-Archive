@@ -28,7 +28,7 @@
       <div id="logo" class="section">
       </div>
       <div class="section adds">
-        <div class="button" id="add" role="button" label="Click to create a new bookmark or a new folder.">NEW</div>
+        <div class="button" id="add" role="button" label="Click to create a new bookmark or a new folder." onclick="triggerNew();">NEW</div>
       </div>
       <div id="left-list" class="section asss">
       </div>
@@ -104,7 +104,7 @@
                 {{/loop}}
                   <li>
                     <input id="check-{{id}}" type="checkbox" class="checkbox" {{done}}>
-                    <input type="text" class="todo-label todo-add" id="todo-whole" value="{{name}}" alt="{{name}}" placeholder="Delete"/>
+                    <input type="text" class="todo-label todo-add" id="todo-whole" value="Complete {{name}}" alt="{{name}}" placeholder="Delete"/>
                     <input id="field-{{id}}" style="font-size:16px;height:30px;padding:0px 10px"  class="todo-li-date" placeholder="{{day}} {{month}}" type="text" readonly="true"><br><br>
                   </li>
                   <li>
@@ -163,9 +163,7 @@
           <div class="set" style="">
             <div class="container">
               <span style="margin-left:5px;display:block;margin-bottom: 45px; font-weight: 900;color: #333;font-size: 28px;">Read Me</span>
-              <div id="readme">
-                {{readme}}
-              </div>
+              <textarea id="readme">{{readme}}</textarea>
             </div> 
             </div>
             </div>

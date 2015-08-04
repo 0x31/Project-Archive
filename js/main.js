@@ -84,11 +84,26 @@ function addTodo(vcal, data){
   event._setProp('uid',         uid);
   event._setProp('comment',     data.color);
   event._setProp('status',      "");
-  event._setProp('description', "README");
+  event._setProp('description', "http://www.jeditoolkit.com/prose/");
   vcal.addSubcomponent(vevent);
 
   return uid;
 }
+
+function triggerNew() {
+  var today = new Date();
+  var next = new Date();
+  next.setDate(next.getDate() + 8);
+
+  var color = Math.random() < 0.5 ? "red" : "blue";
+  
+  data = {'class':'NAME1115', 'name':'Assignment 1', 'start':today.format("yyyy-mm-dd"), 'end':next.format("yyyy-mm-dd"), 'color':color}
+  var uid1 = addTodo(vcal, data);
+  fs_save(vcal);
+  renderTodo(uid1, true);
+  renderSide(vcal);
+}
+
 
 function getTodo(vcal, uid){
   var todos = vcal.getAllSubcomponents("vtodo");
@@ -138,6 +153,13 @@ function updateTodo(vcal, uid, name, value) {
   fs_save(vcal);
 }
 
+function deleteTodo(vcal, uid) {
+  var todo = getTodo(vcal, uid);
+  vcal.removeSubcomponent(todo);
+  fs_save(vcal);
+}
+
+
 function updateSubtask(vcal, uid, taskname, name, value) {
   var todo = getTodo(vcal, uid);
   var vtodo = getSubtask(todo, taskname);
@@ -176,6 +198,7 @@ function renderTodo(uid, different) {
   if(dtdate.length==1){
     dtdate="0"+dtdate;
   }
+  var readme = vtodo.getFirstPropertyValue("description");
   var dtmonth = monthNames[end.toJSDate().getMonth()];
   var dtmonthstart = monthNames[start.toJSDate().getMonth()];
   var name  = vtodo.getFirstPropertyValue("summary");
@@ -185,13 +208,15 @@ function renderTodo(uid, different) {
 
   var daysTot = start.subtractDate(end).toSeconds();
   var today = ICAL.Time.now();
-  var daysRem = today.subtractDate(end).days * -1 * today.compare(end);
+  var daysRem = ~~(today.subtractDate(end).toSeconds() * -1 / (60*60*24));
   var progress = ~~(99 * start.subtractDate(today).toSeconds() / daysTot);
   if(daysRem<0){
     progress = 100;
   }
 
   var subs = vtodo.getAllSubcomponents();
+
+  percentages = [];
 
   for(var i=0;i<subs.length;i++){
 
@@ -201,6 +226,10 @@ function renderTodo(uid, different) {
     var checked    = subs[i].getFirstPropertyValue("status");
     var subdateH = subdate.toJSDate().getDate() + " " + monthNames[subdate.toJSDate().getMonth()];
     var percentage = ~~( 99 * (subdate.subtractDate(start).toSeconds())*-1 / daysTot);
+    while(percentages.indexOf(percentage) >= 0) {
+      percentage += 4;
+    }
+    percentages.push(percentage);
     //if(component.jCal[1][2][3]=="true"){
     //  checked="checked";
    // }
@@ -231,7 +260,7 @@ function renderTodo(uid, different) {
   var context = { class: clas,
                   name: name,
                   dueno: daysL,
-                  readme: "http://www.jeditoolkit.com/prose/",
+                  readme: readme,
                   color: color,
                   tasks: tasks,
                   day: dtdate,
@@ -260,7 +289,7 @@ function renderTodo(uid, different) {
       var ndate = $("#field-"+subname).val();
       var ddate = new Date(Date.parse(ndate+", 2015"));
       data = {'name':nname, 'date':ddate, 'checked': ''}
-      updateSubtask(vcal, uidcurrent, nname, "dtend", ICAL.Time.fromJSDate(ddate).toString());
+      updateSubtask(vcal, uidcurrent, nname, "dtend", ICAL.Time.fromJSDate(ddate));
       fs_save(vcal);
       renderTodo(uidcurrent, false);
     };
@@ -320,19 +349,36 @@ function renderTodo(uid, different) {
   $("#edit-class").blur( function() {updateTodo(vcal, uidcurrent, "class", $(this).val()); renderTodo(uidcurrent, false);renderSide(vcal);});
   $("#edit-class").keyup( function(e) {if (e.which == 13) this.blur();});
 
-  $("#edit-name").blur( function() {updateTodo(vcal, uidcurrent, "summary", $(this).val()); renderTodo(uidcurrent, false);renderSide(vcal);});
+  $("#edit-name").blur( function() {
+    if( $(this).val()=="" ) {
+      deleteTodo( vcal, uidcurrent );
+      $("#right").html("");
+      renderSide(vcal);
+      return;
+    }
+    updateTodo(vcal, uidcurrent, "summary", $(this).val()); renderTodo(uidcurrent, false);renderSide(vcal);});
   $("#edit-name").keyup( function(e) {if (e.which == 13) this.blur();});
+  $("#edit-name").focusin( function() { $(this).attr("placeholder","Delete")});
 
   $("#edit-color").blur( function() {updateTodo(vcal, uidcurrent, "comment", $(this).val()); renderTodo(uidcurrent, false);renderSide(vcal);});
   $("#edit-color").keyup( function(e) {if (e.which == 13) this.blur();});
 
+  $("#readme").blur( function() {updateTodo(vcal, uidcurrent, "description", $(this).val()); renderTodo(uidcurrent, false);renderSide(vcal);});
+  $("#readme").keyup(function(e) {
+    while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+      $(this).height($(this).height()+1);
+    };
+  });
+  $("#readme").keyup();
+
   $("#edit-start").blur( function() { var dd =  new Date($(this).val()+"2015");
-    updateTodo(vcal, uidcurrent, "dtstart", ICAL.Time.fromJSDate( dd ).toString()); renderTodo(uidcurrent, false);renderSide(vcal);});
-  $("#edit-color").keyup( function(e) {if (e.which == 13) this.blur();});
+    updateTodo(vcal, uidcurrent, "dtstart", ICAL.Time.fromJSDate( dd )); renderTodo(uidcurrent, false);renderSide(vcal);});
+  $("#edit-start").keyup( function(e) {if (e.which == 13) this.blur();});
 
   $("#edit-end").blur( function() { var dd =  new Date($(this).val()+"2015");
-    updateTodo(vcal, uidcurrent, "dtend", ICAL.Time.fromJSDate( dd ).toString()); renderTodo(uidcurrent, false);renderSide(vcal);});
+    updateTodo(vcal, uidcurrent, "dtend", ICAL.Time.fromJSDate( dd )); renderTodo(uidcurrent, false);renderSide(vcal);});
   $("#edit-end").keyup( function(e) {if (e.which == 13) this.blur();});
+
 
   
   return 0;
@@ -356,18 +402,18 @@ function renderSide(vcal) {
     var todo = todos[i]
     var dtdate = todo.getFirstPropertyValue("dtend");
     var now = ICAL.Time.now();
-    var when = now.subtractDate(dtdate).days * now.compare(dtdate) * -1;
+    var when = now.subtractDate(dtdate).seconds * now.compare(dtdate) * -1;
 
     if(when<0){
       overdue.push(todo);
     }
-    else if(when==0){
+    else if(when<30*60*25 && when>30*60*25){
       todays.push(todo);
     }
-    else if(when<8){
+    else if(when<8 * 60*60*24){
       weeksies.push(todo);
     }
-    else if(when<32){
+    else if(when<32* 60*60*24){
       monthsies.push(todo);
     }
     else {
@@ -441,8 +487,6 @@ $( document ).ready(function() {
 
   var uid2 = vcal.getAllSubcomponents("vtodo")[0].getFirstPropertyValue("uid");
 
-  updateTodo(vcal, uid2, "class", "COMP1110");
-
   renderSide(vcal);
 
 
@@ -457,5 +501,114 @@ $( document ).ready(function() {
 
 
 
+var dateFormat = function () {
+    var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+        timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+        timezoneClip = /[^-+\dA-Z]/g,
+        pad = function (val, len) {
+            val = String(val);
+            len = len || 2;
+            while (val.length < len) val = "0" + val;
+            return val;
+        };
 
+    // Regexes and supporting functions are cached through closure
+    return function (date, mask, utc) {
+        var dF = dateFormat;
 
+        // You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+        if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+            mask = date;
+            date = undefined;
+        }
+
+        // Passing date through Date applies Date.parse, if necessary
+        date = date ? new Date(date) : new Date;
+        if (isNaN(date)) throw SyntaxError("invalid date");
+
+        mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+
+        // Allow setting the utc argument via the mask
+        if (mask.slice(0, 4) == "UTC:") {
+            mask = mask.slice(4);
+            utc = true;
+        }
+
+        var _ = utc ? "getUTC" : "get",
+            d = date[_ + "Date"](),
+            D = date[_ + "Day"](),
+            m = date[_ + "Month"](),
+            y = date[_ + "FullYear"](),
+            H = date[_ + "Hours"](),
+            M = date[_ + "Minutes"](),
+            s = date[_ + "Seconds"](),
+            L = date[_ + "Milliseconds"](),
+            o = utc ? 0 : date.getTimezoneOffset(),
+            flags = {
+                d:    d,
+                dd:   pad(d),
+                ddd:  dF.i18n.dayNames[D],
+                dddd: dF.i18n.dayNames[D + 7],
+                m:    m + 1,
+                mm:   pad(m + 1),
+                mmm:  dF.i18n.monthNames[m],
+                mmmm: dF.i18n.monthNames[m + 12],
+                yy:   String(y).slice(2),
+                yyyy: y,
+                h:    H % 12 || 12,
+                hh:   pad(H % 12 || 12),
+                H:    H,
+                HH:   pad(H),
+                M:    M,
+                MM:   pad(M),
+                s:    s,
+                ss:   pad(s),
+                l:    pad(L, 3),
+                L:    pad(L > 99 ? Math.round(L / 10) : L),
+                t:    H < 12 ? "a"  : "p",
+                tt:   H < 12 ? "am" : "pm",
+                T:    H < 12 ? "A"  : "P",
+                TT:   H < 12 ? "AM" : "PM",
+                Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+                o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+                S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+            };
+
+        return mask.replace(token, function ($0) {
+            return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+        });
+    };
+}();
+
+// Some common format strings
+dateFormat.masks = {
+    "default":      "ddd mmm dd yyyy HH:MM:ss",
+    shortDate:      "m/d/yy",
+    mediumDate:     "mmm d, yyyy",
+    longDate:       "mmmm d, yyyy",
+    fullDate:       "dddd, mmmm d, yyyy",
+    shortTime:      "h:MM TT",
+    mediumTime:     "h:MM:ss TT",
+    longTime:       "h:MM:ss TT Z",
+    isoDate:        "yyyy-mm-dd",
+    isoTime:        "HH:MM:ss",
+    isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+    isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+};
+
+// Internationalization strings
+dateFormat.i18n = {
+    dayNames: [
+        "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+    ],
+    monthNames: [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+        "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    ]
+};
+
+// For convenience...
+Date.prototype.format = function (mask, utc) {
+    return dateFormat(this, mask, utc);
+};
