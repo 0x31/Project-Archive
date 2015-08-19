@@ -6,12 +6,10 @@ package comp1140.ass2;
 public class Board {
 
     private CellState[][] grid;
-    private String[] unplacedPiecesRed;
-    private String[] unplacedPiecesGreen;
-    private String[] unplacedPiecesBlue;
-    private String[] unplacedPiecesYellow;
-
-    private Pieces[] placedPieces;
+    private Piece[] unplacedPiecesRed;
+    private Piece[] unplacedPiecesGreen;
+    private Piece[] unplacedPiecesBlue;
+    private Piece[] unplacedPiecesYellow;
 
     private int currentTurn;
 
@@ -47,8 +45,16 @@ public class Board {
         return "";
     }
 
-    public Board() {
+    public Board(int players) {
         this.grid = new CellState['T'-'A']['T'-'A'];
+        for(int colourIndex = 0; colourIndex<players; colourIndex++) {
+            Colour colour = Colour.values()[colourIndex];
+            this.unplacedPiecesBlue = new Piece[]{
+                    new PieceA(colour),
+                    new PieceB(colour),
+                    new PieceU(colour)
+            };
+        }
     }
 
 }
