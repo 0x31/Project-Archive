@@ -4,9 +4,8 @@ package comp1140.ass2;
  * Created by ***REMOVED*** on 19/08/15.
  */
 public abstract class Piece {
-    Orientation orientation;
-    Coordinate coordinate;
-    Colour color;
+
+    Colour playerColour;
     Coordinate[] occupiedCells;
 
     public Coordinate[] stringToCoordinates(String[] template) {
@@ -25,7 +24,7 @@ public abstract class Piece {
         return coordinates;
     }
 
-    public Coordinate[] getOccupiedCells() {
+    public Coordinate[] getOccupiedCells(Coordinate origin, char orientation) {
         return occupiedCells;
     }
 
