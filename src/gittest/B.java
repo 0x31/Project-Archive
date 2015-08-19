@@ -6,6 +6,6 @@ package gittest;
 public class B {
     @Override
     public String toString() {
-        return"Experimental B";
+        return"Even more experimental B";
     }
 }
