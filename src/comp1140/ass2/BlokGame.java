@@ -38,4 +38,13 @@ public class BlokGame {
         /* FIXME */
         return null;
     }
+
+    /**
+     * Parse a string representing a game state and return it.
+     */
+    public static Board buildGame(String game) {
+        Board board = new Board();
+
+        return null;
+    }
 }
