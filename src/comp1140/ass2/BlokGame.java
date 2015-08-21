@@ -43,7 +43,7 @@ public class BlokGame {
      * Parse a string representing a game state and return it.
      */
     public static Board buildGame(String game) {
-        Board board = new Board();
+        Board board = new Board("");
 
         return null;
     }

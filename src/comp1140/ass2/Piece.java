@@ -5,7 +5,6 @@ package comp1140.ass2;
  */
 public abstract class Piece {
 
-    Colour playerColour;
     Coordinate[] occupiedCells;
 
     public Coordinate[] stringToCoordinates(String[] template) {

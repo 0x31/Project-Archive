@@ -20,7 +20,4 @@ public class Coordinate {
         return y;
     }
 
-    public Coordinate fromString(String letters) {
-        return new Coordinate(letters.charAt(0)-'A',letters.charAt(1)-'A');
-    }
 }
