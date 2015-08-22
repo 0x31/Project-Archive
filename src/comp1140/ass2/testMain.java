@@ -5,11 +5,15 @@ package comp1140.ass2;
  */
 public class testMain {
     public static void main(String[] args) {
-        TimsPiece myPiece = new TimsPiece(Shape.T);
 
+
+        TimsPiece myPiece = new TimsPiece(Shape.T);
         System.out.println(myPiece);
 
-        myPiece.rotatePiece();
+        myPiece.setCoordinates(new Coordinate(5, 5), 5);
+        System.out.println(myPiece);
+
+        /*myPiece.rotatePiece();
 
         System.out.println(myPiece);
         myPiece.orientatePiece(2);
@@ -19,6 +23,6 @@ public class testMain {
         System.out.println(myCoord);
         Coordinate newCoord = myCoord.shiftCoordinate(new Coordinate(-2, 5));
         System.out.println(myCoord);
-        System.out.println(newCoord);
+        System.out.println(newCoord);*/
     }
 }

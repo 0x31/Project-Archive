@@ -17,17 +17,18 @@ public class TimsPiece {
        Takes the piece's intended home coordinate, and it's orientation [int: 0 - 8]
        and returns a list of intended coordinates.
      */
-    public List<Coordinate> getCoordinates(Coordinate homeCoord, int orientation) {
-
-        return null;
+    public Coordinate[] getCoordinates(Coordinate homeCoord, int orientation) {
+        setCoordinates(homeCoord, orientation);
+        return shape.getHomeCoordinates();
     }
 
-    public void orientatePiece(int option) {
+    public void setCoordinates(Coordinate homeCoord, int orientation) {
+        shape.orientatePiece(orientation);
+        shape.shiftPiece(homeCoord);
+    }
+
+    private void orientatePiece(int option) {
         shape.orientatePiece(option);
-    }
-
-    public void rotatePiece() {
-        shape.flipPiece();
     }
 
 

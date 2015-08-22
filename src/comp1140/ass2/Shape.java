@@ -17,7 +17,6 @@ public enum Shape {
 //still unsure how to handle ArrayLists
 //    private List<Coordinate> listOfHomeCoordinates;
 
-
     Shape(Coordinate coord0, Coordinate coord1, Coordinate coord2, Coordinate coord3, Coordinate coord4) {
          if (coord0 != null) homeCoordinates[0] = coord0;
          if (coord1 != null) homeCoordinates[1] = coord1;
@@ -26,6 +25,10 @@ public enum Shape {
          if (coord4 != null) homeCoordinates[4] = coord4;
 //still unsure how to handle ArrayLists
 //         listOfHomeCoordinates = new ArrayList<>(Arrays.asList(homeCoordinates));
+    }
+
+    public Coordinate[] getHomeCoordinates() {
+        return homeCoordinates;
     }
 
     public void flipPiece() {
