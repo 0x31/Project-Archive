@@ -38,6 +38,10 @@ public class Coordinate {
         return new Coordinate (-y, x);
     }
 
+    public Boolean equals(Coordinate o) {
+        return (x == o.x && y == o.y);
+    }
+
     @Override
     public String toString() {
         return "(" + x + "," + y + ")";
