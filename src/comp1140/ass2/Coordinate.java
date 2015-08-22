@@ -20,4 +20,26 @@ public class Coordinate {
         return y;
     }
 
+    public Coordinate shiftCoordinate(Coordinate shift) {
+        return new Coordinate (x + shift.x, y + shift.y);
+    }
+
+    /*
+       flips the coordinate across the y=0 axis
+     */
+    public Coordinate flipCoordinate() {
+        return new Coordinate (-x, y);
+    }
+
+    /*
+      rotates the coordinate clockwise about (0,0)
+     */
+    public Coordinate rotateCoordinate() {
+        return new Coordinate (-y, x);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + "," + y + ")";
+    }
 }
