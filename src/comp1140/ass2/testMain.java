@@ -12,8 +12,8 @@ public class testMain {
         myPiece.rotatePiece();
 
         System.out.println(myPiece);
-
-        //TimsPiece yourPiece = new TimsPiece(Shape.V);
+        myPiece.orientatePiece(2);
+        System.out.println(myPiece);
 
         Coordinate myCoord = new Coordinate(1,2);
         System.out.println(myCoord);

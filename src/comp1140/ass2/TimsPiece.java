@@ -22,6 +22,10 @@ public class TimsPiece {
         return null;
     }
 
+    public void orientatePiece(int option) {
+        shape.orientatePiece(option);
+    }
+
     public void rotatePiece() {
         shape.flipPiece();
     }

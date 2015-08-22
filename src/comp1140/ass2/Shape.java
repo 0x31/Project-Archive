@@ -38,7 +38,61 @@ public enum Shape {
     /*
       rotates the piece 90 degrees clockwise around (0,0)
      */
-    //public void rotatePiece()
+    public void rotatePiece() {
+        for (int i = 0; i < 5; i++) {
+            if (homeCoordinates[i] != null) {
+                homeCoordinates[i] = homeCoordinates[i].rotateCoordinate();
+            }
+        }
+    }
+
+    public void orientatePiece(int option) {
+        switch (option) {
+            case 0:
+                break;
+            case 1:
+                rotatePiece();
+                break;
+            case 2:
+                rotatePiece();
+                rotatePiece();
+                break;
+            case 3:
+                rotatePiece();
+                rotatePiece();
+                rotatePiece();
+                break;
+            case 4:
+                flipPiece();
+                break;
+            case 5:
+                flipPiece();
+                rotatePiece();
+                break;
+            case 6:
+                flipPiece();
+                rotatePiece();
+                rotatePiece();
+                break;
+            case 7:
+                flipPiece();
+                rotatePiece();
+                rotatePiece();
+                rotatePiece();
+                break;
+        }
+    }
+    /*
+     shifts the piece across x and down y
+     */
+    public void shiftPiece(Coordinate shift) {
+        for (int i = 0; i < 5; i++) {
+            if (homeCoordinates[i] != null) {
+                homeCoordinates[i] = homeCoordinates[i].shiftCoordinate(shift);
+            }
+        }
+    }
+
 
     @Override
     public String toString() {
