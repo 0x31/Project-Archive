@@ -1,29 +1,25 @@
 package comp1140.ass2;
 
+import java.util.List;
+
 /**
- *
+ * Created by ***REMOVED*** on 22/08/15.
+ * TO DO:
+ *        - make interface nicer, at the moment one can only move and orinetate a piece once.
+ *          It might be necessary/nicer to be able to say "Shift piece down one, rotate once".
+ *        - maybe have a different methods. one for initialising based on input, and one for
+ *          manipulating the piece from there.
  */
-public abstract class Piece {
+public class Piece {
+    Shape shape;
+    Colour colour;
 
-    Coordinate[] occupiedCells;
-    public Coordinate[] stringToCoordinates(String[] template) {
-        int count = 0;
-        for(String s:template) count += s.replace(" ","").length();
-        Coordinate[] coordinates = new Coordinate[count];
-        int i = 0, j=0, cellCount = 0;
-        for(String s:template) {
-            i=0;
-            for (char c : s.toCharArray()) {
-                if (c != ' ') coordinates[cellCount++] = new Coordinate(i, j);
-                i++;
-            }
-            j++;
-        }
-        return coordinates;
+    public Piece(Shape id, Colour c) {
+        shape = id; colour = c;
     }
 
-    public Coordinate[] getOccupiedCells(Coordinate origin, char orientation) {
-        return occupiedCells;
+    @Override
+    public String toString() {
+        return colour + " " + shape.toString();
     }
-
 }

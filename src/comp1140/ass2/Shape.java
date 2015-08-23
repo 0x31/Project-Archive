@@ -30,39 +30,49 @@ public enum Shape {
     U(new Coordinate( 0, 0), new Coordinate(-1, 1), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 0, 2));
 
     private Coordinate homeCoordinates[] = new Coordinate[5];
-    private Coordinate rotatedCoordinates[] = new Coordinate[5];
+    private Coordinate occupiedCells[] = new Coordinate[5];
 
     Shape(Coordinate coord0, Coordinate coord1, Coordinate coord2, Coordinate coord3, Coordinate coord4) {
-         if (coord0 != null) homeCoordinates[0] = coord0;
-         if (coord1 != null) homeCoordinates[1] = coord1;
-         if (coord2 != null) homeCoordinates[2] = coord2;
-         if (coord3 != null) homeCoordinates[3] = coord3;
-         if (coord4 != null) homeCoordinates[4] = coord4;
+         if (coord0 != null) homeCoordinates[0] = coord0; occupiedCells[0] = coord0;
+         if (coord1 != null) homeCoordinates[1] = coord1; occupiedCells[1] = coord1;
+         if (coord2 != null) homeCoordinates[2] = coord2; occupiedCells[2] = coord2;
+         if (coord3 != null) homeCoordinates[3] = coord3; occupiedCells[3] = coord3;
+         if (coord4 != null) homeCoordinates[4] = coord4; occupiedCells[4] = coord4;
     }
 
-    public Coordinate[] getHomeCoordinates() {
-        return homeCoordinates;
+    public Coordinate[] getOccupiedCells() {
+        return occupiedCells;
     }
 
-    public void flipPiece() {
+    /* flips piece over the x=0 axis, maintaining the piece's origin */
+    private void flipPiece() {
+        Coordinate origin = new Coordinate (occupiedCells[0].getX(), occupiedCells[0].getY());
         for (int i = 0; i < 5; i++) {
-            if (homeCoordinates[i] != null) {
-                homeCoordinates[i] = homeCoordinates[i].flipCoordinate();
+            if (occupiedCells[i] != null) {
+                occupiedCells[i] = occupiedCells[i].flipCoordinate();
             }
         }
-    }
-    /*
-      rotates the piece 90 degrees clockwise around (0,0)
-     */
-    public void rotatePiece() {
-        for (int i = 0; i < 5; i++) {
-            if (homeCoordinates[i] != null) {
-                homeCoordinates[i] = homeCoordinates[i].rotateCoordinate();
-            }
-        }
+        Coordinate shift = new Coordinate (origin.getX() - occupiedCells[0].getX(),
+                                           origin.getY() - occupiedCells[0].getY());
+        this.shiftPiece(shift);
     }
 
-    public void orientatePiece(char orientation) {
+    /* rotates the piece 90 degrees clockwise around piece's origin */
+    private void rotatePiece() {
+        Coordinate origin = new Coordinate (occupiedCells[0].getX(), occupiedCells[0].getY());
+        for (int i = 0; i < 5; i++) {
+            if (occupiedCells[i] != null) {
+                occupiedCells[i] = occupiedCells[i].rotateCoordinate();
+            }
+        }
+        Coordinate shift = new Coordinate (origin.getX() - occupiedCells[0].getX(),
+                                           origin.getY() - occupiedCells[0].getY());
+        this.shiftPiece(shift);
+    }
+
+    private void orientatePiece(char orientation) {
+        //Coordinate origin = new Coordinate (occupiedCells[0].getX(), occupiedCells[0].getY());
+        //^^ need to allow for orientations not in base position
         switch (orientation) {
             case 'A':
                 break;
@@ -97,24 +107,53 @@ public enum Shape {
                 rotatePiece();
                 break;
         }
+        /*Coordinate shift = new Coordinate (origin.getX() - occupiedCells[0].getX(),
+                                           origin.getY() - occupiedCells[0].getY());
+        this.shiftPiece(shift);*/
     }
-    /*
-     shifts the piece across x and down y
-     */
-    public void shiftPiece(Coordinate shift) {
+
+    /*  shifts the piece across x and down y */
+    private void shiftPiece(Coordinate shift) {
         for (int i = 0; i < 5; i++) {
-            if (homeCoordinates[i] != null) {
-                homeCoordinates[i] = homeCoordinates[i].shiftCoordinate(shift);
+            if (occupiedCells[i] != null) {
+                occupiedCells[i] = occupiedCells[i].shiftCoordinate(shift);
             }
+        }
+    }
+
+    public void initialisePiece(Coordinate origin, char orientation) {
+        for (int i = 0; i < 5; i++) {
+            occupiedCells[i] = homeCoordinates[i];
+        }
+        orientatePiece(orientation);
+        shiftPiece(origin);
+    }
+
+    public void movePiece(Coordinate shift, int rotateClockwise, boolean flip) {
+        if (flip) {
+            flipPiece();
+        }
+        for (int i = 0; i < rotateClockwise; i++) {
+            rotatePiece();
+        }
+        shiftPiece(shift);
+    }
+
+    public void movePiece(int rotateClockwise, boolean flip) {
+        if (flip) {
+            flipPiece();
+        }
+        for (int i = 0; i < rotateClockwise; i++) {
+            rotatePiece();
         }
     }
 
     @Override
     public String toString() {
-        String retString = super.toString();
+        String retString = super.toString() + " is at coordinates: ";
         for(int j = 0; j<5; j++) {
-            if (homeCoordinates[j] != null) {
-                retString = retString + " " + homeCoordinates[j];
+            if (occupiedCells[j] != null) {
+                retString = retString + " " + occupiedCells[j];
             }
         }
         return retString;

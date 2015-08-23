@@ -51,7 +51,8 @@ public class Board {
         unplacedPieces[playerId][pieceChar-'A'] = null;
 
         /* @TODO once Piece.getOccupiedCells is finished, uncomment line */
-        //Coordinate[] cells = piece.getOccupiedCells(coordinate,rotation);
+        //piece.shape.initialisePiece(coordinate,rotation);                       // @TODO check Tim's edit is consistent
+        //Coordinate[] cells = piece.shape.getOccupiedCells();                    //Tim's edit: Inserted 'getOccupiedCells'
         Coordinate[] cells = {new Coordinate(playerId,playerId)};
 
 
@@ -98,9 +99,9 @@ public class Board {
         for(int colourIndex = 0; colourIndex<players; colourIndex++) {
             Colour colour = Colour.values()[colourIndex];
             unplacedPieces[colourIndex] = new Piece[]{
-                    new PieceA(colour),
-                    new PieceB(colour),
-                    new PieceU(colour)
+                    new Piece(Shape.A, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.B, colour),
+                    new Piece(Shape.U, colour)
             };
         }
 
