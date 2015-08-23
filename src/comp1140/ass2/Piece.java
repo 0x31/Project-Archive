@@ -1,12 +1,11 @@
 package comp1140.ass2;
 
 /**
- * Created by ***REMOVED*** on 19/08/15.
+ *
  */
 public abstract class Piece {
 
     Coordinate[] occupiedCells;
-
     public Coordinate[] stringToCoordinates(String[] template) {
         int count = 0;
         for(String s:template) count += s.replace(" ","").length();

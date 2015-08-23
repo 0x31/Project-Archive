@@ -9,11 +9,21 @@ public class pieceMain {
     public static void main(String[] args) {
 
 
-        TimsPiece myPiece = new TimsPiece(Shape.T);
+        TimsPiece myPiece = new TimsPiece(Shape.T, Colour.Red);
         System.out.println(myPiece);
 
+        TimsPiece yourPiece = new TimsPiece(Shape.A, Colour.Blue);
+        Coordinate[] yourCoords;
+        yourCoords = yourPiece.getCoordinates(new Coordinate(1,1), 'C');
+        System.out.println(yourPiece);
+
+
+        for (Coordinate c: yourCoords) {
+            System.out.println(c);
+        }
+
         Coordinate[] myCoords;
-        myCoords = myPiece.getCoordinates(new Coordinate(5, 5), 5);
+        myCoords = myPiece.getCoordinates(new Coordinate(5, 5), 'F');
 
         System.out.println(myPiece);
 

@@ -12,21 +12,23 @@ import java.util.List;
  */
 public class TimsPiece {
     Shape shape;
+    Colour colour;
 
-    public TimsPiece(Shape id) {
-        this.shape = id;
+    public TimsPiece(Shape id, Colour c) {
+        shape = id; colour = c;
     }
 
     /*
        Takes the piece's intended base coordinate, and it's orientation [int: 0 - 8]
        and returns a list of intended coordinates.
      */
-    public Coordinate[] getCoordinates(Coordinate homeCoord, int orientation) {
+
+    public Coordinate[] getCoordinates(Coordinate homeCoord, char orientation) {
         setCoordinates(homeCoord, orientation);
         return shape.getHomeCoordinates();
     }
 
-    private void setCoordinates(Coordinate homeCoord, int orientation) {
+    private void setCoordinates(Coordinate homeCoord, char orientation) {
         shape.orientatePiece(orientation);
         shape.shiftPiece(homeCoord);
     }
