@@ -14,10 +14,19 @@ public class Piece {
     Shape shape;
     Colour colour;
 
+    /**
+     * Initialises a Piece object from a shape id and a colour
+     * @param id the piece shape, e.g. shape.D
+     * @param c  one of: Red, Blue, Green, Yellow
+     */
     public Piece(Shape id, Colour c) {
         shape = id; colour = c;
     }
-
+    /**
+     * Piece's toString function, currently used for debugging.
+     * @return String a string representation of the piece, made up of the colour,
+     *         shape and coordinates of each cell.
+     */
     @Override
     public String toString() {
         return colour + " " + shape.toString();

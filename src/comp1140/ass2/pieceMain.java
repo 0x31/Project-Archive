@@ -10,10 +10,10 @@ public class pieceMain {
         Piece myPiece = new Piece(Shape.S, Colour.Red);
         Coordinate[] myCoords;
         myPiece.shape.initialisePiece(new Coordinate(5,3), 'C');
-        myCoords = myPiece.shape.getOccupiedCells();
-        System.out.println(myPiece);
-        myPiece.shape.movePiece(3, false);
+        //myCoords = myPiece.shape.getOccupiedCells();
         System.out.println(myPiece);
 
+        myPiece.shape.movePiece(3, false);
+        System.out.println(myPiece);
     }
 }
