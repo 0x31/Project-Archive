@@ -100,29 +100,41 @@ public class Board {
             Colour colour = Colour.values()[colourIndex];
             unplacedPieces[colourIndex] = new Piece[]{
                     new Piece(Shape.A, colour),                     //@ToDo check Tim's edit is consistent
-                    new Piece(Shape.B, colour),
+                    new Piece(Shape.B, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.C, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.D, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.E, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.F, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.G, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.H, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.I, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.J, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.K, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.L, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.M, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.N, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.O, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.P, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.Q, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.R, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.S, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.T, colour),                     //@ToDo check Tim's edit is consistent
                     new Piece(Shape.U, colour)
             };
         }
 
         /* Remove any spaces */
         game = game.replace(" ","");
-        /**
-         * Parse string game and turn it into a board
-         */
+        /** Parse string game and turn it into a board */
         while(game.length()>0) {
 
-            /**
-             * Check for a pass, represented by the character '.'.
-             */
+            /** Check for a pass, represented by the character '.'. */
             if(game.charAt(0)=='.') {
                 game = game.substring(1);
                 currentTurn++;
                 continue;
             }
-            /**
-             * Get the next four chars and parse the individual move.
-             */
+            /** Get the next four chars and parse the individual move. */
             String turn = game.substring(0,4);
             placePiece(turn,currentTurn%4);
             game = game.substring(4);
