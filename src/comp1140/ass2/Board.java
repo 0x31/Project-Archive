@@ -174,4 +174,8 @@ public class Board {
 
         return moves;
     }
+
+    public boolean legitimateMove(String move) {
+        return true;
+    }
 }
