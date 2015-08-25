@@ -18,14 +18,24 @@ public class PieceTest {
         Piece myPiece = new Piece(Shape.S, Colour.Red);
         Coordinate[] myCoords;
         myPiece.shape.initialisePiece(new Coordinate(5,3), 'C');
-        //myCoords = myPiece.shape.getOccupiedCells();
-        System.out.println(myPiece);
+        myCoords = myPiece.shape.getOccupiedCells();
 
-        myPiece.shape.movePiece(3, false);
-        System.out.println(myPiece);
+        Piece yourPiece = new Piece(Shape.S, Colour.Red);
+        Coordinate[] yourCoords;
+        yourPiece.shape.initialisePiece(new Coordinate(0,0), 'A');
+        yourPiece.shape.movePiece(new Coordinate(5, 3), 2, false);
+        yourCoords = yourPiece.shape.getOccupiedCells();
+
+
+  //      System.out.println(myPiece);
+  //      System.out.println(yourPiece);
+
+        for (int i = 0; i < myPiece.shape.getCellNumber(); i++) {
+            assertTrue(myCoords[i].equals(yourCoords[i]));
+        }
 
         /** Temporarily here, for now, to make this a test. */
-        assertTrue(true);
+        //assertTrue(true);
 
         /*Piece myPiece = new Piece(Shape.T, Colour.Red);
 
