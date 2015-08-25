@@ -98,11 +98,7 @@ public enum Shape {
     /* flips piece over the x=0 axis, maintaining the piece's origin */
     private void flipPiece() {
         Coordinate origin = new Coordinate (occupiedCells[0].getX(), occupiedCells[0].getY());
-        for (int i = 0; i < cellNumber; i++) {
-            if (occupiedCells[i] != null) {
-                occupiedCells[i] = occupiedCells[i].flipCoordinate();
-            }
-        }
+        for (int i = 0; i < cellNumber; i++) occupiedCells[i] = occupiedCells[i].flipCoordinate();
         Coordinate shift = new Coordinate (origin.getX() - occupiedCells[0].getX(),
                 origin.getY() - occupiedCells[0].getY());
         this.shiftPiece(shift);
@@ -115,13 +111,9 @@ public enum Shape {
      */
     private void rotatePiece() {
         Coordinate origin = new Coordinate (occupiedCells[0].getX(), occupiedCells[0].getY());
-        for (int i = 0; i < cellNumber; i++) {
-            if (occupiedCells[i] != null) {
-                occupiedCells[i] = occupiedCells[i].rotateCoordinate();
-            }
-        }
+        for (int i = 0; i < cellNumber; i++) occupiedCells[i] = occupiedCells[i].rotateCoordinate();
         Coordinate shift = new Coordinate (origin.getX() - occupiedCells[0].getX(),
-                origin.getY() - occupiedCells[0].getY());
+                                           origin.getY() - occupiedCells[0].getY());
         this.shiftPiece(shift);
     }
 
@@ -181,11 +173,7 @@ public enum Shape {
      * @return void     while also changing occupiedCells
      */
     private void shiftPiece(Coordinate shift) {
-        for (int i = 0; i < cellNumber; i++) {
-            if (occupiedCells[i] != null) {
-                occupiedCells[i] = occupiedCells[i].shiftCoordinate(shift);
-            }
-        }
+        for (int i = 0; i < cellNumber; i++) occupiedCells[i] = occupiedCells[i].shiftCoordinate(shift);
     }
 
     /**
@@ -197,9 +185,7 @@ public enum Shape {
      * @return void         while also changing occupiedCells
      */
     public void initialisePiece(Coordinate origin, char orientation) {
-        for (int i = 0; i < cellNumber; i++) {
-            occupiedCells[i] = homeCoordinates[i];
-        }
+        for (int i = 0; i < cellNumber; i++) occupiedCells[i] = homeCoordinates[i];
         orientatePiece(orientation);
         shiftPiece(origin);
     }
@@ -216,31 +202,19 @@ public enum Shape {
      * @return void         while also changing occupiedCells
      */
     public void movePiece(Coordinate shift, int rotateClockwise, boolean flip) {
-        if (flip) {
-            flipPiece();
-        }
-        for (int i = 0; i < rotateClockwise; i++) {
-            rotatePiece();
-        }
+        if (flip) flipPiece();
+        for (int i = 0; i < rotateClockwise; i++) rotatePiece();
         shiftPiece(shift);
     }
     public void movePiece(int rotateClockwise, boolean flip) {
-        if (flip) {
-            flipPiece();
-        }
-        for (int i = 0; i < rotateClockwise; i++) {
-            rotatePiece();
-        }
+        if (flip) flipPiece();
+        for (int i = 0; i < rotateClockwise; i++) rotatePiece();
     }
 
     @Override
     public String toString() {
         String retString = super.toString() + " is at coordinates: ";
-        for(int j = 0; j<cellNumber; j++) {
-            if (occupiedCells[j] != null) {
-                retString = retString + " " + occupiedCells[j];
-            }
-        }
+        for(int j = 0; j<cellNumber; j++) retString = retString + " " + occupiedCells[j];
         return retString;
     }
 }
