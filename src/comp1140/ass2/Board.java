@@ -8,6 +8,14 @@ public class Board {
 
     private CellState[][] grid;
     private Piece[] unplacedPiecesRed = new Piece['U'-'A'];
+
+
+    private boolean[] lastMove = new boolean[]{false, false, false, false};
+
+    public boolean[] getLastMove() {
+        return lastMove;
+    }
+
     private Piece[] unplacedPiecesGreen;
     private Piece[] unplacedPiecesBlue=new Piece['U'-'A'];
     private Piece[] unplacedPiecesYellow;
@@ -33,10 +41,9 @@ public class Board {
      * sets the grid coordinates to that player's colour where the piece is played.
      *
      * @param move   a four character string representing a single move
-     * @param playerId   an integer identifying the current player
      * @return void  while also changing this.grid
      */
-    public void placePiece(String move, int playerId) {
+    public void placePiece(String move) {
 
         /* Split up the String move */
         char pieceChar = move.charAt(0);
@@ -44,16 +51,19 @@ public class Board {
         char x         = move.charAt(2);
         char y         = move.charAt(3);
 
-        Coordinate coordinate = new Coordinate(x,y);
+        int playerId = currentTurn % 4;
+
+        Coordinate coordinate = new Coordinate(x-'A',y-'A');
         Piece piece = unplacedPieces[playerId][pieceChar-'A'];
 
         /* Remove piece from unplacedPieces */
         unplacedPieces[playerId][pieceChar-'A'] = null;
 
         /* @TODO once Piece.getOccupiedCells is finished, uncomment line */
-        //piece.shape.initialisePiece(coordinate,rotation);                       // @TODO check Tim's edit is consistent
-        //Coordinate[] cells = piece.shape.getOccupiedCells();                    //Tim's edit: Inserted 'getOccupiedCells'
-        Coordinate[] cells = {new Coordinate(playerId,playerId)};
+
+        piece.shape.initialisePiece(coordinate,rotation);                       // @TODO check Tim's edit is consistent
+        Coordinate[] cells = piece.shape.getOccupiedCells();                    //Tim's edit: Inserted 'getOccupiedCells'
+        //Coordinate[] cells = {new Coordinate(playerId,playerId)};
 
 
         /* @TODO find better way to get CellState */
@@ -61,7 +71,7 @@ public class Board {
         CellState turnColour = cellstates[playerId];
 
         for(Coordinate cell : cells) {
-            grid[cell.getY()][cell.getX()] = turnColour;
+            if(cell!=null) grid[cell.getY()][cell.getX()] = turnColour;
         }
     }
 
@@ -100,8 +110,8 @@ public class Board {
             Colour colour = Colour.values()[colourIndex];
             unplacedPieces[colourIndex] = new Piece[]{
                     new Piece(Shape.A, colour),                     //@ToDo check Tim's edit is consistent
-                    new Piece(Shape.B, colour),                     //@ToDo check Tim's edit is consistent
-                    new Piece(Shape.C, colour),                     //@ToDo check Tim's edit is consistent
+                    new Piece(Shape.B, colour),
+                    new Piece(Shape.C, colour),
                     new Piece(Shape.D, colour),                     //@ToDo check Tim's edit is consistent
                     new Piece(Shape.E, colour),                     //@ToDo check Tim's edit is consistent
                     new Piece(Shape.F, colour),                     //@ToDo check Tim's edit is consistent
@@ -136,9 +146,32 @@ public class Board {
             }
             /** Get the next four chars and parse the individual move. */
             String turn = game.substring(0,4);
-            placePiece(turn,currentTurn%4);
+            placePiece(turn);
             game = game.substring(4);
             currentTurn++;
         }
+    }
+
+    public static String[] splitMoves (String game) {
+        game.replace(" ","");
+        int passCount = game.length() - game.replace(".","").length();
+        int moveCount = (game.length() - passCount) / 4;
+        int totalCount = passCount + moveCount;
+        if( (passCount+4*moveCount) != game.length())
+            throw new IllegalArgumentException("Invalid game");
+        String[] moves = new String[totalCount];
+
+        int index=0;
+        for(int i=0;i<totalCount;i++){
+            if(game.charAt(index)=='.') {
+                moves[i]=".";
+                index++;
+                continue;
+            }
+            moves[i]=game.substring(index,index+4);
+            index+=4;
+        }
+
+        return moves;
     }
 }

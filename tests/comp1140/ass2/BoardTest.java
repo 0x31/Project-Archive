@@ -10,8 +10,9 @@ public class BoardTest {
 
     @Test
     public void checkToString() {
-        Board board = new Board("AAAA.AAAABBBBCCCC");
+        Board board = new Board("AAAA.BBBBCCCC");
         String is = board.toString();
+        System.out.println(is);
         String should = "B • • • • • • • • • • • • • • • • • • \n"+
                 "• • • • • • • • • • • • • • • • • • • \n"+
                 "• • R • • • • • • • • • • • • • • • • \n"+
