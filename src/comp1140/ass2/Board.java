@@ -32,7 +32,7 @@ public class Board {
 
     /**
      *
-     * @return
+     * @return Returns an array of booleans denoting which player's last turn was placing a monimo
      */
     public boolean[] getLastMove() {
         return lastMove;
@@ -74,14 +74,10 @@ public class Board {
         /* Remove piece from unplacedPieces */
         unplacedPieces[playerId][pieceChar-'A'] = null;
 
+        /* Setting the appropriate cells */
         piece.shape.initialisePiece(coordinate,rotation);
         Coordinate[] cells = piece.shape.getOccupiedCells();
-
-        //CellState[] cellstates = {CellState.Blue, CellState.Yellow, CellState.Red, CellState.Green};
-        //CellState turnColour = cellstates[playerId];
         CellState turnColour = CellState.values()[playerId];
-
-
         for(Coordinate cell : cells) {
             if(cell!=null) grid[cell.getY()][cell.getX()] = turnColour;
         }
@@ -99,9 +95,9 @@ public class Board {
     public String toString() {
         String string = "";
         for (CellState[] aGrid : grid) {
-            for (int j = 0; j < aGrid.length; j++) {
+            for (CellState anAGrid : aGrid) {
                 /* We use substring instead of charAt to able to subsequently use replace */
-                string += aGrid[j].name().substring(0, 1).replace("E", "•") + " ";
+                string += anAGrid.name().substring(0, 1).replace("E", "•") + " ";
             }
             string += "\n";
         }
@@ -130,13 +126,12 @@ public class Board {
         /* Loop through moves and play each one */
         String[] moves = splitMoves(game);
         for(String move : moves) placePiece(move);
-
     }
 
     /**
      *
      * @param game
-     * @return
+     * @return moves  an array of strings, each string representing one move
      */
     public static String[] splitMoves (String game) {
         game = game.replace(" ","");
