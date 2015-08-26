@@ -8,16 +8,23 @@ public class Board {
 
     private CellState[][] grid;
 
-    private Piece[] unplacedPiecesRed    = new Piece['U'-'A'+1];
-    private Piece[] unplacedPiecesGreen  = new Piece['U'-'A'+1];
-    private Piece[] unplacedPiecesBlue   = new Piece['U'-'A'+1];
-    private Piece[] unplacedPiecesYellow = new Piece['U'-'A'+1];
+    private Piece[] unplacedPiecesRed;
+    private Piece[] unplacedPiecesGreen;
+    private Piece[] unplacedPiecesBlue;
+    private Piece[] unplacedPiecesYellow;
 
     private Piece[][] unplacedPieces =
-            {unplacedPiecesRed
-            ,unplacedPiecesGreen
-            ,unplacedPiecesBlue
-            ,unplacedPiecesYellow};
+            {unplacedPiecesBlue
+            ,unplacedPiecesYellow
+            ,unplacedPiecesRed
+            ,unplacedPiecesGreen};
+
+    /**
+     * @return Returns this.unplacedPieces;
+     */
+    public Piece[][] getUnplacedPieces() {
+        return unplacedPieces;
+    }
 
     private int currentTurn;
 
@@ -75,6 +82,8 @@ public class Board {
         CellState[] cellstates = {CellState.Blue, CellState.Yellow, CellState.Red, CellState.Green};
         CellState turnColour = cellstates[playerId];
 
+
+
         for(Coordinate cell : cells) {
             if(cell!=null) grid[cell.getY()][cell.getX()] = turnColour;
         }
@@ -107,7 +116,8 @@ public class Board {
      * @param game A string representing the set of moves so far
      */
     public Board(String game) {
-        grid = new CellState['T'-'A']['T'-'A'];
+        game = game.replace(" ","");
+        grid = new CellState['T'-'A'+1]['T'-'A'+1];
         for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=CellState.Empty;
 
         /**
@@ -132,7 +142,7 @@ public class Board {
      * @return
      */
     public static String[] splitMoves (String game) {
-        game.replace(" ","");
+        game = game.replace(" ","");
         int passCount = game.length() - game.replace(".","").length();
         int moveCount = (game.length() - passCount) / 4;
         int totalCount = passCount + moveCount;
@@ -191,8 +201,9 @@ public class Board {
             if(grid[cell.getY()][cell.getX()]!=CellState.Empty) return false;
             for(Coordinate sideCell : cell.getSideCells())
                 if( cellAt(sideCell) == turnColour) return false;
-            for(Coordinate diagonalCell : cell.getDiagonalCells())
-                if( cellAt(diagonalCell) == turnColour) touchingSide = true;
+            for(Coordinate diagonalCell : cell.getDiagonalCells()) {
+                if (cellAt(diagonalCell) == turnColour) touchingSide = true;
+            }
         }
 
         return touchingSide;
@@ -200,11 +211,13 @@ public class Board {
 
     public CellState cellAt(Coordinate c) {
 
+        CellState[] validCorners = {CellState.Empty, CellState.Yellow, CellState.Red, CellState.Green};
+
         /** Check for starting corner */
         if(c.getX()==-1 && c.getY()==-1) return CellState.Blue;
-        if(c.getX()==-1 && c.getY()==20) return CellState.Yellow;
-        if(c.getX()==20 && c.getY()==-1) return CellState.Red;
-        if(c.getX()==20 && c.getY()==20) return CellState.Green;
+        if(c.getX()==-1 && c.getY()==20) return validCorners[currentTurn%4];
+        if(c.getX()==20 && c.getY()==-1) return validCorners[currentTurn%4];
+        if(c.getX()==20 && c.getY()==20) return validCorners[currentTurn%4];
         return grid[c.getY()][c.getX()];
     }
 }
