@@ -13,10 +13,11 @@ public class BoardTest {
         Board board = new Board("AAAA.BBBBCCCC");
         String is = board.toString();
         System.out.println(is);
-        String should = "B • • • • • • • • • • • • • • • • • • \n"+
+        String should =
+                "B • G • • • • • • • • • • • • • • • • \n"+
+                "R R G • • • • • • • • • • • • • • • • \n"+
+                "• • G • • • • • • • • • • • • • • • • \n"+
                 "• • • • • • • • • • • • • • • • • • • \n"+
-                "• • R • • • • • • • • • • • • • • • • \n"+
-                "• • • G • • • • • • • • • • • • • • • \n"+
                 "• • • • • • • • • • • • • • • • • • • \n"+
                 "• • • • • • • • • • • • • • • • • • • \n"+
                 "• • • • • • • • • • • • • • • • • • • \n"+

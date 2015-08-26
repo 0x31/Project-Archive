@@ -42,6 +42,31 @@ public class Coordinate {
         return (x == o.x && y == o.y);
     }
 
+    public Coordinate[] getSideCells() {
+        int count = 4;
+        if(x==0 || x==19) count--;
+        if(y==0 || y==19) count--;
+        Coordinate[] sideCells = new Coordinate[count];
+        if(x>0) sideCells[--count] = new Coordinate(x-1,y);
+        if(x<19) sideCells[--count] = new Coordinate(x+1,y);
+        if(y>0) sideCells[--count] = new Coordinate(x,y-1);
+        if(y<19) sideCells[--count] = new Coordinate(x,y+1);
+        return sideCells;
+    }
+
+    public Coordinate[] getDiagonalCells() {
+        int count = 4;
+        if(x==0 || x==19) count-=2;
+        if(y==0 || y==19) count-=2;
+        if(count==0) count+=2;
+        Coordinate[] sideCells = new Coordinate[count];
+        if((x>0 && y>0) || (x==0 && y==0)) sideCells[--count] = new Coordinate(x-1,y-1);
+        if((x<19 && y<19) || (x==19 && y==19)) sideCells[--count] = new Coordinate(x+1,y+1);
+        if((x>0 && y<19) || (x==0 && y==19)) sideCells[--count] = new Coordinate(x-1,y+1);
+        if((x<19 && y>0) || (x==19 && y==0)) sideCells[--count] = new Coordinate(x+1,y-1);
+        return sideCells;
+    }
+
     @Override
     public String toString() {
         return "(" + x + "," + y + ")";
