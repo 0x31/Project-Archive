@@ -45,7 +45,7 @@ public class BlokGame {
                 }
             }
             if(scores[i]==0) {
-                if(board.getLastMove()[i]==true) scores[i]+=20;
+                if(board.getLastMove()[i]) scores[i]+=20;
                 else scores[i] += 15;
             }
         }
