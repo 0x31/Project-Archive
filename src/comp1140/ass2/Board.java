@@ -82,6 +82,8 @@ public class Board {
         CellState[] cellstates = {CellState.Blue, CellState.Yellow, CellState.Red, CellState.Green};
         CellState turnColour = cellstates[playerId];
 
+
+
         for(Coordinate cell : cells) {
             if(cell!=null) grid[cell.getY()][cell.getX()] = turnColour;
         }
@@ -114,7 +116,8 @@ public class Board {
      * @param game A string representing the set of moves so far
      */
     public Board(String game) {
-        grid = new CellState['T'-'A']['T'-'A'];
+        game = game.replace(" ","");
+        grid = new CellState['T'-'A'+1]['T'-'A'+1];
         for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=CellState.Empty;
 
         /**
@@ -139,7 +142,7 @@ public class Board {
      * @return
      */
     public static String[] splitMoves (String game) {
-        game.replace(" ","");
+        game = game.replace(" ","");
         int passCount = game.length() - game.replace(".","").length();
         int moveCount = (game.length() - passCount) / 4;
         int totalCount = passCount + moveCount;

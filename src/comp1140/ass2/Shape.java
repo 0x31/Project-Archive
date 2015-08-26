@@ -13,7 +13,7 @@ public enum Shape {
     C(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2)),
     D(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1)),
     E(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate( 0, 3)),
-    F(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate( 1, 2)),
+    F(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate(-1, 2)),
     G(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 0, 2)),
     H(new Coordinate( 0, 0), new Coordinate( 1, 0), new Coordinate( 0, 1), new Coordinate( 1, 1)),
     I(new Coordinate( 0, 0), new Coordinate( 1, 0), new Coordinate( 1, 1), new Coordinate( 2, 1)),
