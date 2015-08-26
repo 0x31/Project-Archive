@@ -201,8 +201,9 @@ public class Board {
             if(grid[cell.getY()][cell.getX()]!=CellState.Empty) return false;
             for(Coordinate sideCell : cell.getSideCells())
                 if( cellAt(sideCell) == turnColour) return false;
-            for(Coordinate diagonalCell : cell.getDiagonalCells())
-                if( cellAt(diagonalCell) == turnColour) touchingSide = true;
+            for(Coordinate diagonalCell : cell.getDiagonalCells()) {
+                if (cellAt(diagonalCell) == turnColour) touchingSide = true;
+            }
         }
 
         return touchingSide;
@@ -210,11 +211,13 @@ public class Board {
 
     public CellState cellAt(Coordinate c) {
 
+        CellState[] validCorners = {CellState.Empty, CellState.Yellow, CellState.Red, CellState.Green};
+
         /** Check for starting corner */
         if(c.getX()==-1 && c.getY()==-1) return CellState.Blue;
-        if(c.getX()==-1 && c.getY()==20) return CellState.Yellow;
-        if(c.getX()==20 && c.getY()==-1) return CellState.Red;
-        if(c.getX()==20 && c.getY()==20) return CellState.Green;
+        if(c.getX()==-1 && c.getY()==20) return validCorners[currentTurn%4];
+        if(c.getX()==20 && c.getY()==-1) return validCorners[currentTurn%4];
+        if(c.getX()==20 && c.getY()==20) return validCorners[currentTurn%4];
         return grid[c.getY()][c.getX()];
     }
 }
