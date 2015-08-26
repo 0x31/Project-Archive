@@ -1,5 +1,7 @@
 package comp1140.ass2;
 
+import java.nio.charset.Charset;
+
 /**
  * Created by steveb on 12/08/2015.
  */
@@ -14,7 +16,15 @@ public class BlokGame {
      */
     public static boolean legitimateGame(String game) {
         /* FIXME */
-        return false;
+        String[] moves = Board.splitMoves(game);
+        Board board = new Board("");
+        for(String move : moves) {
+            if(!board.legitimateMove(move)) {
+                return false;
+            }
+            board.placePiece(move);
+        }
+        return true;
     }
 
     /**
@@ -26,7 +36,20 @@ public class BlokGame {
      */
     public static int[] scoreGame(String game) {
         /* FIXME */
-        return null;
+        int[] scores = new int[4];
+        Board board = new Board(game);
+        for(int i=0;i<4;i++) {
+            for(Piece piece : board.getUnplacedPieces()[i]) {
+                if(piece!=null) {
+                    scores[i]-=piece.shape.getCellNumber();
+                }
+            }
+            if(scores[i]==0) {
+                if(board.getLastMove()[i]==true) scores[i]+=20;
+                else scores[i] += 15;
+            }
+        }
+        return scores;
     }
 
     /**
@@ -36,15 +59,17 @@ public class BlokGame {
      */
     public static String makeMove(String game) {
         /* FIXME */
-        return null;
-    }
-
-    /**
-     * Parse a string representing a game state and return it.
-     */
-    public static Board buildGame(String game) {
-        Board board = new Board("");
-
-        return null;
+        Board board = new Board(game);
+        for(char piece = 'A'; piece<='U'; piece++) {
+            for(char orientation = 'A'; orientation<='H'; orientation++) {
+                for(char x = 'A'; x<='T'; x++) {
+                    for(char y = 'A'; y<='T'; y++) {
+                        String move = "" + piece + orientation + x + y;
+                        if (board.legitimateMove(move)) return move;
+                    }
+                }
+            }
+        }
+        return ".";
     }
 }
