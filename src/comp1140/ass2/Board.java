@@ -8,16 +8,23 @@ public class Board {
 
     private CellState[][] grid;
 
-    private Piece[] unplacedPiecesRed    = new Piece['U'-'A'+1];
-    private Piece[] unplacedPiecesGreen  = new Piece['U'-'A'+1];
-    private Piece[] unplacedPiecesBlue   = new Piece['U'-'A'+1];
-    private Piece[] unplacedPiecesYellow = new Piece['U'-'A'+1];
+    private Piece[] unplacedPiecesRed;
+    private Piece[] unplacedPiecesGreen;
+    private Piece[] unplacedPiecesBlue;
+    private Piece[] unplacedPiecesYellow;
 
     private Piece[][] unplacedPieces =
-            {unplacedPiecesRed
-            ,unplacedPiecesGreen
-            ,unplacedPiecesBlue
-            ,unplacedPiecesYellow};
+            {unplacedPiecesBlue
+            ,unplacedPiecesYellow
+            ,unplacedPiecesRed
+            ,unplacedPiecesGreen};
+
+    /**
+     * @return Returns this.unplacedPieces;
+     */
+    public Piece[][] getUnplacedPieces() {
+        return unplacedPieces;
+    }
 
     private int currentTurn;
 
