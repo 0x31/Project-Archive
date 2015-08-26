@@ -1,8 +1,13 @@
 package comp1140.ass2;
 
+import static comp1140.ass2.Board.splitMoves;
+import static comp1140.ass2.Board.legitimateMove;
+
 /**
  * Created by steveb on 12/08/2015.
+ *@author Holly ***REMOVED***, ***REMOVED***
  */
+
 public class BlokGame {
 
     /**
@@ -13,8 +18,13 @@ public class BlokGame {
      * assignment description and the rules of the game.
      */
     public static boolean legitimateGame(String game) {
-        /* FIXME */
-        return false;
+        String[] moves = splitMoves(game);
+
+        for(String move : moves)
+            while ((legitimateMove (String move))==true ) {
+                continue;
+            }
+            return false;
     }
 
     /**
@@ -25,8 +35,17 @@ public class BlokGame {
      * order specified in the rules of the game, and the scores should be made according to the rules.
      */
     public static int[] scoreGame(String game) {
-        /* FIXME */
-        return null;
+        int score [];
+        score = new int[4];
+        score[0] = 0;
+        score[1] = 0;
+        score[2] = 0;
+        score[3] = 0;
+
+        unplacedPiecesBlue
+
+
+        return score;
     }
 
     /**
@@ -35,16 +54,9 @@ public class BlokGame {
      * @return A four-character string representing the next move.
      */
     public static String makeMove(String game) {
-        /* FIXME */
-        return null;
+        static String[] possiblemoves = {"AAAA" "ABAA" }
+
+        return ".";
     }
 
-    /**
-     * Parse a string representing a game state and return it.
-     */
-    public static Board buildGame(String game) {
-        Board board = new Board("");
-
-        return null;
-    }
 }
