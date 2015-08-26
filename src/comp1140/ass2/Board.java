@@ -74,14 +74,12 @@ public class Board {
         /* Remove piece from unplacedPieces */
         unplacedPieces[playerId][pieceChar-'A'] = null;
 
-        piece.shape.initialisePiece(coordinate,rotation);                       // @TODO check Tim's edit is consistent
-        Coordinate[] cells = piece.shape.getOccupiedCells();                    //Tim's edit: Inserted 'getOccupiedCells'
+        piece.shape.initialisePiece(coordinate,rotation);
+        Coordinate[] cells = piece.shape.getOccupiedCells();
 
-
-        /* @TODO find better way to get CellState */
-        CellState[] cellstates = {CellState.Blue, CellState.Yellow, CellState.Red, CellState.Green};
-        CellState turnColour = cellstates[playerId];
-
+        //CellState[] cellstates = {CellState.Blue, CellState.Yellow, CellState.Red, CellState.Green};
+        //CellState turnColour = cellstates[playerId];
+        CellState turnColour = CellState.values()[playerId];
 
 
         for(Coordinate cell : cells) {
@@ -100,11 +98,10 @@ public class Board {
      */
     public String toString() {
         String string = "";
-        /* @TODO replace with foreach / for(:)? */
-        for(int i=0;i<grid.length;i++) {
-            for(int j = 0;j<grid[i].length;j++) {
+        for (CellState[] aGrid : grid) {
+            for (int j = 0; j < aGrid.length; j++) {
                 /* We use substring instead of charAt to able to subsequently use replace */
-                string += grid[i][j].name().substring(0,1).replace("E","•")+" ";
+                string += aGrid[j].name().substring(0, 1).replace("E", "•") + " ";
             }
             string += "\n";
         }
@@ -181,9 +178,7 @@ public class Board {
 
         int playerId = currentTurn % 4;
 
-        /* @TODO find better way to get CellState */
-        CellState[] cellstates = {CellState.Blue, CellState.Yellow, CellState.Red, CellState.Green};
-        CellState turnColour = cellstates[playerId];
+        CellState turnColour = CellState.values()[playerId];
 
         Coordinate coordinate = new Coordinate(x-'A',y-'A');
         Piece piece = unplacedPieces[playerId][pieceChar-'A'];
