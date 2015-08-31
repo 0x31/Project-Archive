@@ -27,7 +27,7 @@ public class PiecePreparer extends Application{
 
         primaryStage.setTitle("Square");
         final Group root = new Group();
-        StackPane root2 = new StackPane();
+        //StackPane root2 = new StackPane();
 
         Scene scene = new Scene(root, 300, 300);
         primaryStage.setScene(scene);

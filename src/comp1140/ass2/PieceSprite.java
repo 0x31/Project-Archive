@@ -19,6 +19,8 @@ public class PieceSprite {
          * I want a gap between cells, so I reduce the cell dimension by 10%. I also need to spread the coordinates (which in shape are only
          * 1 away from eachother) such that they are 'cellDim' away form each other.
          */
+
+        //ToDo: get the cells sized appropriately such that one orientation of a monimo occupies the identical pixels as any other orientation
         for (int i = 0; i < piece.shape.getCellNumber(); i++) {
             if (i == 0) {
                 cells[i] = new CellSprite(cellDim - cellDim / 10, Colour.Yellow, cellCoords[i].getX() + (cellCoords[i].getX() - cellCoords[0].getX()) * cellDim,
