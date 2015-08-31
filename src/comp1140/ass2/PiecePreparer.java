@@ -34,7 +34,7 @@ public class PiecePreparer extends Application{
 
 
 
-        final Piece myPiece = new Piece(Shape.G, Colour.Red);
+        final Piece myPiece = new Piece(Shape.G, Colour.Blue);
         myPiece.shape.initialisePiece(new Coordinate(150, 150), 'A');
 
         final Queue<PieceSprite> queue = new LinkedBlockingQueue<>();

@@ -1,5 +1,6 @@
 package comp1140.ass2;
 
+import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -20,19 +21,27 @@ public class CellSprite {
 //        this.yPos = yPos;
         cell = new Rectangle(xPos, yPos, cellDim, cellDim);
         cell.setFill(Color.RED);
-        switch (colour) {
-            case Blue:
-                cell.setFill(Color.BLUE);
-                break;
-            case Yellow:
-                cell.setFill(Color.YELLOW);
-                break;
-            case Red:
-                cell.setFill(Color.RED);
-                break;
-            case Green:
-                cell.setFill(Color.GREEN);
-                break;
+
+        // needed to get the (shitty) bordering effect to work
+        cell.setBlendMode(BlendMode.SRC_OVER);
+
+        if (colour == null) {
+            cell.setFill(Color.BLACK);
+        } else {
+            switch (colour) {
+                case Blue:
+                    cell.setFill(Color.DODGERBLUE);
+                    break;
+                case Yellow:
+                    cell.setFill(Color.YELLOW);
+                    break;
+                case Red:
+                    cell.setFill(Color.RED);
+                    break;
+                case Green:
+                    cell.setFill(Color.GREEN);
+                    break;
+            }
         }
     }
     public Rectangle getShape() {return cell;}
