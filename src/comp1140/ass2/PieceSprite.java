@@ -35,4 +35,10 @@ public class PieceSprite {
             group.getChildren().add(c.getShape());
         }
     }
+
+    public void RemoveShape(Group group) {
+        for (CellSprite c: cells) {
+            group.getChildren().remove(c.getShape());
+        }
+    }
 }

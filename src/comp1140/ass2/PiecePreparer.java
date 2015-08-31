@@ -32,32 +32,33 @@ public class PiecePreparer extends Application{
         Scene scene = new Scene(root, 300, 300);
         primaryStage.setScene(scene);
 
+
+
         final Piece myPiece = new Piece(Shape.G, Colour.Red);
         myPiece.shape.initialisePiece(new Coordinate(150, 150), 'A');
 
+        final Queue<PieceSprite> queue = new LinkedBlockingQueue<>();
+
+        //@ToDo Have clickable buttons
+        //@ToDo Have pretty border
+
         scene.setOnKeyTyped(event -> {
             if (((int) event.getCharacter().charAt(0)) == 97) {
-                root.getChildren().removeAll();
                 myPiece.shape.movePiece(new Coordinate(-CELL_DIM, 0), 0, false);
             }
             if (event.getCharacter().equals("d")) {
-                root.getChildren().removeAll();
                 myPiece.shape.movePiece(new Coordinate(CELL_DIM, 0), 0, false);
             }
             if (event.getCharacter().equals("w")) {
-                root.getChildren().removeAll();
                 myPiece.shape.movePiece(new Coordinate(0, -CELL_DIM), 0, false);
             }
             if (event.getCharacter().equals("s")) {
-                root.getChildren().removeAll();
                 myPiece.shape.movePiece(new Coordinate(0, CELL_DIM), 0, false);
             }
             if (event.getCharacter().equals(".")) {
-                root.getChildren().removeAll();
                 myPiece.shape.movePiece(1, false);
             }
             if (event.getCharacter().equals(",")) {
-                root.getChildren().removeAll();
                 myPiece.shape.movePiece(3, false);
             }
         });
@@ -65,9 +66,12 @@ public class PiecePreparer extends Application{
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100),
                 ae -> {
                     PieceSprite mySprite = new PieceSprite(CELL_DIM, myPiece);
-                    root.getChildren().clear();
+                    if (! queue.isEmpty()) {
+                        PieceSprite myOldSprite = queue.remove();
+                        myOldSprite.RemoveShape(root);
+                    }
                     mySprite.AddShape(root);
-
+                    queue.add(mySprite);
                 }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
