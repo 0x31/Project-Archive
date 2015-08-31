@@ -27,27 +27,8 @@ public class PieceTest {
         yourCoords = yourPiece.shape.getOccupiedCells();
 
 
-  //      System.out.println(myPiece);
-  //      System.out.println(yourPiece);
-
         for (int i = 0; i < myPiece.shape.getCellNumber(); i++) {
             assertTrue(myCoords[i].equals(yourCoords[i]));
         }
-
-        /** Temporarily here, for now, to make this a test. */
-        //assertTrue(true);
-
-        /*Piece myPiece = new Piece(Shape.T, Colour.Red);
-
-        Coordinate[] is     = myPiece.getCoordinates(new Coordinate(0,0), 'A');
-        Coordinate[] should = {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 2, 1), new Coordinate( 1, 2)};
-        for (Coordinate c: is) {
-            System.out.println(c);
-        }
-        for (Coordinate c: should) {
-            System.out.println(c);
-        }
-        //.... I don't know why I can't set them equal
-        assertTrue("Error: getCoordinatesHasFailed", Arrays.equals(is, should)); */
     }
 }
