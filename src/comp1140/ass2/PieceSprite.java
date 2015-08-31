@@ -20,8 +20,13 @@ public class PieceSprite {
          * 1 away from eachother) such that they are 'cellDim' away form each other.
          */
         for (int i = 0; i < piece.shape.getCellNumber(); i++) {
-            cells[i] = new CellSprite(cellDim - cellDim/10, colour, cellCoords[i].getX()+(cellCoords[0].getX()-cellCoords[i].getX())*cellDim,
-                                                            cellCoords[i].getY()+(cellCoords[0].getY()-cellCoords[i].getY())*cellDim);
+            if (i == 0) {
+                cells[i] = new CellSprite(cellDim - cellDim / 10, Colour.Yellow, cellCoords[i].getX() + (cellCoords[i].getX() - cellCoords[0].getX()) * cellDim,
+                        cellCoords[i].getY() + (cellCoords[i].getY() - cellCoords[0].getY()) * cellDim);
+            } else {
+                cells[i] = new CellSprite(cellDim - cellDim / 10, colour, cellCoords[i].getX() + (cellCoords[i].getX() - cellCoords[0].getX()) * cellDim,
+                        cellCoords[i].getY() + (cellCoords[i].getY() - cellCoords[0].getY()) * cellDim);
+            }
         }
     }
 
