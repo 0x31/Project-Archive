@@ -96,6 +96,9 @@ public class BlokGame extends Application {
         int boardSize = 550;
         int gameSize = 690;
 
+        /*
+         * Layout inspired by existing Blokus implementations (found by searching 'blokus online' in Google Images)
+         */
         VBox vbox = new VBox();
 
         HBox top = new HBox();
