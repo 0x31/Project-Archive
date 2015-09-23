@@ -1,10 +1,13 @@
 package comp1140.ass2;
 
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+
 /**
  * Created by ***REMOVED*** on 19/08/15.
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED***
  */
-public class Board {
+public class Board extends GridSprite {
 
     private CellState[][] grid;
 
@@ -79,7 +82,10 @@ public class Board {
         Coordinate[] cells = piece.shape.getOccupiedCells();
         CellState turnColour = CellState.values()[playerId];
         for(Coordinate cell : cells) {
-            if(cell!=null) grid[cell.getY()][cell.getX()] = turnColour;
+            if(cell!=null) {
+                this.setCell(cell, turnColour);
+                grid[cell.getY()][cell.getX()] = turnColour;
+            }
         }
 
         /** Check for monomino */
@@ -108,7 +114,26 @@ public class Board {
      * Initialises a Board object from a string.
      * @param game A string representing the set of moves so far
      */
+
+    public Board(int col, int row, int width, int height, Color color) {
+        super(col, row, width, height, color);
+        grid = new CellState['T'-'A'+1]['T'-'A'+1];
+        for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=CellState.Empty;
+
+        /**
+         * Fill up array of unused pieces
+         */
+        for(int colourIndex = 0; colourIndex<4; colourIndex++) {
+            Colour colour = Colour.values()[colourIndex];
+            unplacedPieces[colourIndex] = new Piece['U'-'A'+1];
+            int i=0;
+            for(Shape shape : Shape.values()) unplacedPieces[colourIndex][i++] = new Piece(shape, colour);
+        }
+
+        /* Loop through moves and play each one */
+    }
     public Board(String game) {
+
         game = game.replace(" ","");
         grid = new CellState['T'-'A'+1]['T'-'A'+1];
         for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=CellState.Empty;
