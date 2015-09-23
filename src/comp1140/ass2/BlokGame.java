@@ -1,16 +1,28 @@
 package comp1140.ass2;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.junit.Test;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Request;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
 
-import java.nio.charset.Charset;
+import java.util.List;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+
 
 /**
  * Created by steveb on 12/08/2015.
@@ -83,12 +95,76 @@ public class BlokGame extends Application {
         return ".";
     }
 
-
-
-
+    public Board board;
+    public PiecePreparer piecePreparer;
 
     @Override
     public void start(Stage primaryStage) {
+        initialise(primaryStage);
+
+        String game = "RCCC RBTA SARR SBCR SHDD TBQD RAOO PBFP LBJH LHLH LGNN TAGN JDKI JBRA OHIM UAHK KDGJ KAPH JARK JAFG UADG UALA UASH QAGD QDCL PCIC MEQE MEBL DDKL MDRE TGJQ OHID EBFA QDON PAIR KBGT IBMM SHMO KDDR RCDK GCFO NAPR QCCQ IDAH FHKQ IHRP FATN LDAD NBIP OHJR DBEM FFFB PBMF BASN AAHN DBBP THMC FGTM BBSD AAME OBRB EBNJ . BBOF MHFC CBJI . . HANR DAHD . . CBMT AAGH . . BBBK . . . AACF . . . .";
+        String[] moves = Board.splitMoves(game);
+        class Index {
+            int index = 0;
+            public Index() {
+            }
+            public void add(int i) {
+                index+=i;
+            }
+            public int value() {
+                return index;
+            }
+        }
+        Index index = new Index();
+
+        board.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+            }
+        });
+
+
+        board.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (index.value() < moves.length) {
+                    if(index.value() > 3) {
+                        if(moves[index.value()]=="." && moves[index.value()-1]=="." && moves[index.value()-2]=="." && moves[index.value()-3]==".") {
+
+                            didFinish = true;
+
+                            Alert a = new Alert(Alert.AlertType.INFORMATION);
+                            a.setTitle("Winner!");
+                            a.setHeaderText("Game ended!");
+                            a.setResizable(true);
+                            String content = "You may have won! Congratulations!";
+                            a.setContentText(content);
+                            a.showAndWait();
+
+                        }
+                    }
+                    board.placePiece(moves[index.value()]);
+                    index.add(1);
+                }
+            }
+        });
+
+
+
+    }
+
+    Group root;
+    public Group getRoot() {
+        return root;
+    }
+
+    boolean didFinish = false;
+
+    public void initialise(Stage primaryStage) {
+
+        primaryStage.setOnCloseRequest(event -> {
+            closingTests(didFinish);
+        });
 
         Group root = new Group();
         Scene scene = new Scene(root, 700, 700);
@@ -103,23 +179,22 @@ public class BlokGame extends Application {
 
         HBox top = new HBox();
         VBox topLeft = new VBox();
-        Node topLeftTop = new GridSprite(20, 10, gameSize-boardSize,boardSize/2, new Color(0,0,1,0.1)).toFX();
-        Node topLeftBottom = new GridSprite(20, 10, gameSize-boardSize,boardSize/2, new Color(1,1,0,0.1)).toFX();
+        Node topLeftTop = new GridSprite(20, 10, gameSize-boardSize,boardSize/2, new Color(0,0,1,0.1));
+        Node topLeftBottom = new GridSprite(20, 10, gameSize-boardSize,boardSize/2, new Color(1,1,0,0.1));
         topLeft.getChildren().addAll(topLeftTop, topLeftBottom);
-        topLeft.setMargin(topLeftTop, new Insets(5,5,10,5));
+        topLeft.setMargin(topLeftTop, new Insets(5, 5, 10, 5));
         topLeft.setMargin(topLeftBottom, new Insets(10, 5, 5, 5));
-        Node board = new GridSprite(20, 20, boardSize,boardSize, Color.LIGHTGRAY,
-                "RCCC RBTA SARR SBCR SHDD TBQD RAOO PBFP LBJH LHLH LGNN TAGN JDKI JBRA OHIM UAHK KDGJ KAPH JARK JAFG UADG UALA UASH QAGD QDCL PCIC MEQE MEBL DDKL MDRE TGJQ OHID EBFA QDON PAIR KBGT IBMM SHMO KDDR RCDK GCFO NAPR QCCQ IDAH FHKQ IHRP FATN LDAD NBIP OHJR DBEM FFFB PBMF BASN AAHN DBBP THMC FGTM BBSD AAME OBRB EBNJ . BBOF MHFC CBJI . . HANR DAHD . . CBMT AAGH . . BBBK . . . AACF"
-        ).toFX();
+        board = new Board(20, 20, boardSize,boardSize, Color.LIGHTGRAY);
         top.getChildren().addAll(topLeft, board);
-        top.setMargin(board, new Insets(5,5,5,5));
+        top.setMargin(board, new Insets(5, 5, 5, 5));
+
 
         HBox bottom = new HBox();
-        Node bottomLeft = new GridSprite(5,5, gameSize-boardSize,gameSize-boardSize,Color.LIGHTGRAY).toFX();
-        Node bottomMiddle = new GridSprite(10,20, boardSize/2,gameSize-boardSize, new Color(1,0,0,0.1)).toFX();
-        Node bottomRight = new GridSprite(10,20, boardSize/2,gameSize-boardSize, new Color(0,1,0,0.1)).toFX();
-        bottom.getChildren().addAll(bottomLeft, bottomMiddle, bottomRight);
-        bottom.setMargin(bottomLeft, new Insets(5,5,5,5));
+        Node piecePreparer = new PiecePreparer(5,5, gameSize-boardSize,gameSize-boardSize,Color.LIGHTGRAY);
+        Node bottomMiddle = new GridSprite(10,20, boardSize/2,gameSize-boardSize, new Color(1,0,0,0.1));
+        Node bottomRight = new GridSprite(10,20, boardSize/2,gameSize-boardSize, new Color(0,1,0,0.1));
+        bottom.getChildren().addAll(piecePreparer, bottomMiddle, bottomRight);
+        bottom.setMargin(piecePreparer, new Insets(5,5,5,5));
         bottom.setMargin(bottomMiddle, new Insets(5,10,5,5));
         bottom.setMargin(bottomRight, new Insets(5,5,5,10));
 
@@ -135,5 +210,98 @@ public class BlokGame extends Application {
 
 
     }
+
+    public void closingTests(boolean finished) {
+
+        boolean allPassed = true;
+
+        // testBoard
+        System.out.print("\u001B[34m" + "Running 'testBoard()'" + "\u001B[0m");
+        if(!testBoard()) {System.out.println("\r\u001B[31m" + "Running 'testBoard()' ✖"); allPassed = false;}
+        else System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");
+
+        // testFinishedGame
+        System.out.print("\u001B[34m" + "Running 'testFinishedGame()'" + "\u001B[0m");
+        if(finished && !testFinishedGame()) {System.out.println("\r\u001B[31m" + "Running 'testFinishedGame()' ✖"); allPassed = false;}
+        else if(!finished) System.out.println("\u001B[34m" + " ✖"  + "\u001B[0m");
+        else System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");
+
+        // testPiecePreparer
+        System.out.print("\u001B[34m" + "Running 'testPiecePreparer()'" + "\u001B[0m");
+        if(!testPiecePreparer()) {System.out.println("\r\u001B[31m" + "Running 'testPiecePreparer()' ✖"); allPassed = false;}
+        else System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");
+
+        // testIntentionalFail
+        System.out.print("\u001B[34m" + "Running 'testIntentionalFail()'" + "\u001B[0m");
+        if(!testIntentionalFail()) {System.out.println("\r\u001B[31m" + "Running 'testIntentionalFail()' ✖"); allPassed = false;}
+        else System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");
+
+        // testIntentionalPass
+        System.out.print("\u001B[34m" + "Running 'testIntentionalPass()'" + "\u001B[0m");
+        if(!testIntentionalPass()) {System.out.println("\r\u001B[31m" + "Running 'testIntentionalPass()' ✖"); allPassed = false;}
+        else System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");
+
+
+        if(allPassed) {
+            System.out.println("\n\u001B[34mAll tests passed!" + "\u001B[0m");
+        }
+        else {
+            System.out.println("\n\u001B[31mSome tests failed!" + "\u001B[0m");
+        }
+
+        /*
+        JUnitCore junit = new JUnitCore();
+        Request test = Request.method(BlokGame.class,"test");
+        Result result = junit.run(ClosingTest);
+        List<Failure> failures = result.getFailures();
+        if(failures.isEmpty()) {
+            System.out.println("\u001B[32mAll closing tests passed!");
+        }
+        else {
+            for (Failure failure : failures) {
+                System.out.println(failure.toString());
+            }
+        }
+        */
+    }
+
+
+    @Test
+    public boolean testBoard() {
+        boolean assertBool = true;
+        assertBool &= (board != null);
+        // Should be true no matter what
+        assertBool &= board.legitimateMove("BBAA")==false;
+        return assertBool;
+    }
+    @Test
+    public boolean testFinishedGame() {
+        boolean assertBool = true;
+        for(char piece = 'A'; piece<='U'; piece++) {
+            for(char orientation = 'A'; orientation<='H'; orientation++) {
+                for(char x = 'A'; x<='T'; x++) {
+                    for(char y = 'A'; y<='T'; y++) {
+                        String move = "" + piece + orientation + x + y;
+                        assertBool &= !board.legitimateMove(move);
+                    }
+                }
+            }
+        }
+        return assertBool;
+    }
+    @Test
+    public boolean testPiecePreparer() {
+        Boolean assert1 = (piecePreparer != null);
+        return assert1;
+    }
+    @Test
+    public boolean testIntentionalFail() {
+        return false;
+    }
+    @Test
+    public boolean testIntentionalPass() {
+        return true;
+    }
+
 
 }
