@@ -85,6 +85,6 @@ public class GridSprite extends GridPane {
     }
 
     public void isClicked(PieceSprite pieceSprite) {
-        System.out.println("GridSprite was clicked in");
+        System.out.println("GridSprite was clicked in - please override this function and tell me what to do!");
     }
 }
