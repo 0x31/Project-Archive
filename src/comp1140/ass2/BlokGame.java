@@ -96,7 +96,7 @@ public class BlokGame extends Application {
     }
 
     public Board board;
-    public PiecePreparer piecePreparer;
+    public PiecePreparerSprite piecePreparerSprite;
 
     @Override
     public void start(Stage primaryStage) {
@@ -190,11 +190,11 @@ public class BlokGame extends Application {
 
 
         HBox bottom = new HBox();
-        Node piecePreparer = new PiecePreparer(5,5, gameSize-boardSize,gameSize-boardSize,Color.LIGHTGRAY);
+        Node piecePreparerSprite = new PiecePreparerSprite(9,9, gameSize-boardSize,gameSize-boardSize,Color.LIGHTGRAY);
         Node bottomMiddle = new GridSprite(10,20, boardSize/2,gameSize-boardSize, new Color(1,0,0,0.1));
         Node bottomRight = new GridSprite(10,20, boardSize/2,gameSize-boardSize, new Color(0,1,0,0.1));
-        bottom.getChildren().addAll(piecePreparer, bottomMiddle, bottomRight);
-        bottom.setMargin(piecePreparer, new Insets(5,5,5,5));
+        bottom.getChildren().addAll(piecePreparerSprite, bottomMiddle, bottomRight);
+        bottom.setMargin(piecePreparerSprite, new Insets(5,5,5,5));
         bottom.setMargin(bottomMiddle, new Insets(5,10,5,5));
         bottom.setMargin(bottomRight, new Insets(5,5,5,10));
 
@@ -226,9 +226,9 @@ public class BlokGame extends Application {
         else if(!finished) System.out.println("\u001B[34m" + " ✖"  + "\u001B[0m");
         else System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");
 
-        // testPiecePreparer
-        System.out.print("\u001B[34m" + "Running 'testPiecePreparer()'" + "\u001B[0m");
-        if(!testPiecePreparer()) {System.out.println("\r\u001B[31m" + "Running 'testPiecePreparer()' ✖"); allPassed = false;}
+        // testpiecePreparerSprite
+        System.out.print("\u001B[34m" + "Running 'testpiecePreparerSprite()'" + "\u001B[0m");
+        if(!testpiecePreparerSprite()) {System.out.println("\r\u001B[31m" + "Running 'testpiecePreparerSprite()' ✖"); allPassed = false;}
         else System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");
 
         // testIntentionalFail
@@ -291,8 +291,8 @@ public class BlokGame extends Application {
         return assertBool;
     }
     @Test
-    public boolean testPiecePreparer() {
-        Boolean assert1 = (piecePreparer != null);
+    public boolean testpiecePreparerSprite() {
+        Boolean assert1 = (piecePreparerSprite != null);
         return assert1;
     }
     @Test

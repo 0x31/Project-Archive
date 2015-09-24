@@ -4,6 +4,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+
 /**
  * Created by nosha on 1/09/15.
  */
@@ -13,6 +15,8 @@ public class GridSprite extends GridPane {
     int ysize;
     int xsize;
     Color color;
+    ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
+
     CellState[][] grid;
 
     public GridSprite() {}
@@ -31,19 +35,13 @@ public class GridSprite extends GridPane {
         this.setVgap(1);
         for(int j=0;j<col;j++) {
             for (int i = 0; i < row; i++) {
-                Color colori =Color.BLACK;
-                switch (grid[j][i]) {
-                    case Blue: colori = Color.BLUE; break;
-                    case Yellow: colori = Color.YELLOW; break;
-                    case Red: colori = Color.RED; break;
-                    case Green: colori = Color.GREEN; break;
-                    case Empty: colori = color; break;
-                }
-                this.add(new Rectangle(xsize, ysize, colori), i, j);
+                this.add(new Rectangle(xsize, ysize, color), i, j);
             }
         }
-        //root.getChildren().addAll(playerGrid);
 
+        for (PieceSprite pieceSprite : pieceSprites) {
+            addToGridPane(pieceSprite);
+        }
     }
 
     public void setCell(Coordinate coord, CellState state) {
@@ -62,5 +60,31 @@ public class GridSprite extends GridPane {
         for( Coordinate coord: coords) {
             setCell(coord, state);
         }
+    }
+    
+    private void addToGridPane(PieceSprite pieceSprite) {
+        for (int i = 0; i<pieceSprite.CELL_COUNT; i++) {
+            this.add(pieceSprite.cells[i], pieceSprite.coordinates[i].getX(), pieceSprite.coordinates[i].getY());
+        }
+    }
+
+    private void removeFromGridPane(PieceSprite pieceSprite) {
+        for (int i = 0; i<pieceSprite.CELL_COUNT; i++) {
+            this.getChildren().remove(pieceSprite.cells[i]);
+        }
+    }
+    
+    public void addPieceSprite(PieceSprite pieceSprite) {
+        pieceSprites.add(pieceSprite);
+        addToGridPane(pieceSprite);
+    }
+
+    public void removePieceSprite(PieceSprite pieceSprite) {
+        pieceSprites.remove(pieceSprite);
+        removeFromGridPane(pieceSprite);
+    }
+
+    public void isClicked(PieceSprite pieceSprite) {
+        System.out.println("GridSprite was clicked in");
     }
 }
