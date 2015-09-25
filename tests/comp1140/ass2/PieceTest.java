@@ -1,8 +1,10 @@
 package comp1140.ass2;
 
+import comp1140.ass2.Game.Colour;
+import comp1140.ass2.Game.Coordinate;
+import comp1140.ass2.Game.Piece;
+import comp1140.ass2.Game.Shape;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.assertTrue;
 

@@ -1,5 +1,6 @@
 package comp1140.ass2;
 
+import comp1140.ass2.Game.Board;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

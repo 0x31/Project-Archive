@@ -1,4 +1,4 @@
-package comp1140.ass2;
+package comp1140.ass2.Game;
 
 /**
  * Created by ***REMOVED*** on 22/08/15.

@@ -1,6 +1,8 @@
-package comp1140.ass2;
+package comp1140.ass2.Game;
 
-import javafx.scene.layout.GridPane;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 /**
@@ -131,7 +133,52 @@ public class Board extends GridSprite {
         }
 
         /* Loop through moves and play each one */
+
+
+        String game = "RCCC RBTA SARR SBCR SHDD TBQD RAOO PBFP LBJH LHLH LGNN TAGN JDKI JBRA OHIM UAHK KDGJ KAPH JARK JAFG UADG UALA UASH QAGD QDCL PCIC MEQE MEBL DDKL MDRE TGJQ OHID EBFA QDON PAIR KBGT IBMM SHMO KDDR RCDK GCFO NAPR QCCQ IDAH FHKQ IHRP FATN LDAD NBIP OHJR DBEM FFFB PBMF BASN AAHN DBBP THMC FGTM BBSD AAME OBRB EBNJ . BBOF MHFC CBJI . . HANR DAHD . . CBMT AAGH . . BBBK . . . AACF . . . .";
+        String[] moves = Board.splitMoves(game);
+        class Index {
+            int index = 0;
+            public Index() {
+            }
+            public void add(int i) {
+                index+=i;
+            }
+            public int value() {
+                return index;
+            }
+        }
+        Index index = new Index();
+
+        Board board = this;
+
+        board.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (index.value() < moves.length) {
+                    if(index.value() > 3) {
+                        if(moves[index.value()]=="." && moves[index.value()-1]=="." && moves[index.value()-2]=="." && moves[index.value()-3]==".") {
+
+                            Alert a = new Alert(Alert.AlertType.INFORMATION);
+                            a.setTitle("Winner!");
+                            a.setHeaderText("Game ended!");
+                            a.setResizable(true);
+                            String content = "You may have won! Congratulations!";
+                            a.setContentText(content);
+                            a.showAndWait();
+
+                        }
+                    }
+                    board.placePiece(moves[index.value()]);
+                    index.add(1);
+                }
+            }
+        });
+
+
     }
+
+
     public Board(String game) {
 
         game = game.replace(" ","");

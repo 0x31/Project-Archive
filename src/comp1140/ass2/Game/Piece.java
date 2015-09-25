@@ -1,6 +1,4 @@
-package comp1140.ass2;
-
-import java.util.List;
+package comp1140.ass2.Game;
 
 /**
  * Created by ***REMOVED*** on 22/08/15.
@@ -11,7 +9,7 @@ import java.util.List;
  *          manipulating the piece from there.
  */
 public class Piece {
-    Shape shape;
+    public Shape shape;
     Colour colour;
 
     /**

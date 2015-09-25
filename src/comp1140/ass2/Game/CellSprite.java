@@ -1,4 +1,4 @@
-package comp1140.ass2;
+package comp1140.ass2.Game;
 
 
 import javafx.event.EventHandler;
