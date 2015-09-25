@@ -1,30 +1,32 @@
 package comp1140.ass2.Game;
 
-import javafx.scene.paint.Color;
+import comp1140.ass2.Scenes.Game;
 
 /**
  * Created by Tim on 23/09/2015.
  */
 public class PiecePreparerSprite extends GridSprite {
 
-    public PiecePreparerSprite(int col, int row, int width, int height, Color color) {
-        super(col, row, width, height, color);
+    public PieceSprite thePieceSprite;
 
-        Piece myPiece1 = new Piece(Shape.B, Colour.Blue);
-        myPiece1.shape.movePiece(new Coordinate(0,0), 0, false);
-        PieceSprite myPieceSprite1 = new PieceSprite(myPiece1, xsize, Colour.Yellow, this);
-        this.addPieceSprite(myPieceSprite1);
-
+    public PiecePreparerSprite(int col, int row, int width, int height, Colour color, Game parent) {
+        super(col, row, width, height, color, parent);
 
         Piece myPiece = new Piece(Shape.E, Colour.Red);
-        myPiece.shape.movePiece(new Coordinate(4,4), 0, false);
-        PieceSprite myPieceSprite = new PieceSprite(myPiece, xsize, Colour.Yellow, this);
-        this.addPieceSprite(myPieceSprite);
-        System.out.println("There is one piece in pieceSprites");
+        myPiece.shape.movePiece(new Coordinate(4, 4), 0, false);
+        thePieceSprite = new PieceSprite(myPiece, xsize, Colour.Red, this);
+        this.addPieceSprite(thePieceSprite);
+
     }
 
     public void showPiece(PieceSprite pieceSprite) {
         //show desired piece
+    }
+
+    public Piece getPiece() {
+        if(thePieceSprite==null) return null;
+        Piece thePiece = thePieceSprite.piece;
+        return thePiece;
     }
 
     public void isClicked(PieceSprite pieceSprite) {
@@ -34,10 +36,15 @@ public class PiecePreparerSprite extends GridSprite {
             c.setFill(Color.BLUEVIOLET);
         }*/
 
-        pieceSprite.gridSprite.removePieceSprite(pieceSprite);
+        removePieceSprite(pieceSprite);
 
         pieceSprite.piece.shape.movePiece(1, false);
 
-        pieceSprite.gridSprite.addPieceSprite(pieceSprite);
+        addPieceSprite(pieceSprite);
+    }
+
+    public void removePiece() {
+        removePieceSprite(thePieceSprite);
+        thePieceSprite = null;
     }
 }

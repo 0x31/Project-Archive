@@ -38,6 +38,11 @@ public class Coordinate {
         return new Coordinate (-y, x);
     }
 
+    // Scaler multiplication
+    public Coordinate times(int c) {
+        return new Coordinate(x*c,y*c);
+    }
+
     public Boolean equals(Coordinate o) {
         return (x == o.x && y == o.y);
     }

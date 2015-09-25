@@ -2,6 +2,7 @@ package comp1140.ass2;/**
  * Created by Tim on 23/09/2015.
  */
 
+import comp1140.ass2.Players.Player;
 import comp1140.ass2.Scenes.*;
 import javafx.application.Application;
 import javafx.scene.Group;

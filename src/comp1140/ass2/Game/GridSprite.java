@@ -1,5 +1,7 @@
 package comp1140.ass2.Game;
 
+import comp1140.ass2.Scenes.Game;
+import javafx.scene.Parent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -14,13 +16,15 @@ public abstract class GridSprite extends GridPane {
     int row;
     int ysize;
     int xsize;
-    Color color;
+
+    Game parent;
+    Colour color;
     ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
 
     public GridSprite() {}
 
-    public GridSprite(int col, int row, int width, int height, Color color) {
-
+    public GridSprite(int col, int row, int width, int height, Colour color, Game parent) {
+        this.parent = parent;
         this.col = col;
         this.row = row;
         this.xsize = Math.floorDiv(width-10, row)-1;
@@ -31,7 +35,8 @@ public abstract class GridSprite extends GridPane {
         this.setVgap(1);
         for(int j=0;j<col;j++) {
             for (int i = 0; i < row; i++) {
-                this.add(new Rectangle(xsize, ysize, color), i, j);
+                CellSprite cell = new CellSprite(xsize, ysize, color,0.1,this); //double width, double height, Colour color, PieceSprite pieceSprite) {
+                this.add(cell, i, j);
             }
         }
 
@@ -47,6 +52,7 @@ public abstract class GridSprite extends GridPane {
     }
 
     private void removeFromGridPane(PieceSprite pieceSprite) {
+        if(pieceSprite==null) return;
         for (int i = 0; i<pieceSprite.CELL_COUNT; i++) {
             this.getChildren().remove(pieceSprite.cells[i]);
         }
@@ -64,5 +70,11 @@ public abstract class GridSprite extends GridPane {
 
     public void isClicked(PieceSprite pieceSprite) {
         System.out.println("GridSprite was clicked in - please override this function and tell me what to do!");
+    }
+
+    public void isClicked(CellSprite cell) {
+        int x = this.getColumnIndex(cell);
+        int y = this.getRowIndex(cell);
+        parent.players[parent.currentPlayer].handleClick(x, y);
     }
 }

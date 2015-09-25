@@ -149,6 +149,10 @@ public enum Shape {
         if (flip) flipPiece();
         for (int i = 0; i < rotateClockwise; i++) rotatePiece();
     }
+    public void setXY(Coordinate newCoord) {
+        shiftPiece(this.occupiedCells[0].times(-1));
+        shiftPiece(newCoord);
+    }
 
     @Override
     public String toString() {

@@ -1,5 +1,6 @@
 package comp1140.ass2.Game;
 
+import comp1140.ass2.Scenes.Game;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
@@ -58,7 +59,7 @@ public class Board extends GridSprite {
      * @param move   a four character string representing a single move
      * @return void  while also changing this.grid
      */
-    public void placePiece(Piece piece) {
+    public boolean placePiece(Piece piece) {
 
         /* Remove piece from unplacedPieces
          * Is this okay? I don't know if using ordinal is a good idea, as the order may change
@@ -78,17 +79,17 @@ public class Board extends GridSprite {
         lastMove[playerId] = (shapeId == 0);
 
         currentTurn=(currentTurn+1)%4;
+        return true;
     }
 
-    public void placePiece(String move) {
-        if(move==".") { currentTurn=(currentTurn+1)%4; return; }
+    public boolean placePiece(String move) {
+        if(move==".") { currentTurn=(currentTurn+1)%4; return true; }
         Colour turnColour = Colour.values()[currentTurn];
         int x         = move.charAt(2)-'A';
         int y         = move.charAt(3)-'A';
         Piece piece = new Piece(move, turnColour);
-        System.out.println(move);
-        System.out.println(x + ", " + y);
         placePiece(piece);
+        return true;
     }
 
 
@@ -116,8 +117,8 @@ public class Board extends GridSprite {
      * @param height
      * @param color
      */
-    public Board(int col, int row, int width, int height, Color color) {
-        super(col, row, width, height, color);
+    public Board(int col, int row, int width, int height, Colour color, Game parent) {
+        super(col, row, width, height, color, parent);
         grid = new Colour['T'-'A'+1]['T'-'A'+1];
         for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=Colour.Empty;
 
@@ -150,6 +151,7 @@ public class Board extends GridSprite {
 
         Board board = this;
 
+        /*
         board.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -172,6 +174,7 @@ public class Board extends GridSprite {
                 }
             }
         });
+        */
 
 
     }

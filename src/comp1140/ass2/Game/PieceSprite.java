@@ -27,7 +27,7 @@ public class PieceSprite {
         this.coordinates = piece.shape.getOccupiedCells();
 
         for (int i = 0; i<CELL_COUNT; i++) {
-            cells[i] = new CellSprite(CELL_DIM,CELL_DIM,colour, this);
+            cells[i] = new CellSprite(CELL_DIM,CELL_DIM,colour, 1, this);
         }
     }
 

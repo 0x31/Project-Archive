@@ -2,8 +2,12 @@ package comp1140.ass2.Scenes;
 
 import comp1140.ass2.*;
 import comp1140.ass2.Game.Board;
+import comp1140.ass2.Game.Colour;
 import comp1140.ass2.Game.Panel;
 import comp1140.ass2.Game.PiecePreparerSprite;
+import comp1140.ass2.Players.EasyBot;
+import comp1140.ass2.Players.Human;
+import comp1140.ass2.Players.Player;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -17,6 +21,17 @@ import javafx.scene.paint.Color;
  */
 public class Game extends Scene {
 
+    public int currentPlayer;
+    public Player[] players;
+    public PiecePreparerSprite piecePreparer;
+    public Board board;
+
+    public void transitionMove() {
+        piecePreparer.removePiece();
+        currentPlayer = (currentPlayer+1) % players.length;
+        players[currentPlayer].think();
+    }
+
     public Game(Group root, double width, double height, Blokus parent) {
         super(root, width, height, Color.WHITE);
         parent.setTitle("Blokus: Play!");
@@ -29,15 +44,18 @@ public class Game extends Scene {
         int gameSize = 690;
 
 
+        Player player0 = new Human(this);
+        Player player1 = new EasyBot(this);
 
-        Node bluePanel = new Panel(20, 10, gameSize-boardSize,boardSize/2, new Color(0,0,1,0.1));
-        Node yellowPanel = new Panel(20, 10, gameSize-boardSize,boardSize/2, new Color(1,1,0,0.1));
-        Node redPanel = new Panel(10,20, boardSize/2,gameSize-boardSize, new Color(1,0,0,0.1));
-        Node panelGreen = new Panel(10,20, boardSize/2,gameSize-boardSize, new Color(0,1,0,0.1));
-        Node board = new Board(20, 20, boardSize,boardSize, Color.LIGHTGRAY);
-        Node piecePreparer = new PiecePreparerSprite(10,10, gameSize-boardSize,gameSize-boardSize,Color.LIGHTGRAY);
+        players = new Player[] {player0, player1};
+        currentPlayer = 0;
 
-
+        Node bluePanel = new Panel(20, 10, gameSize-boardSize,boardSize/2, Colour.Blue, this);
+        Node yellowPanel = new Panel(20, 10, gameSize-boardSize,boardSize/2, Colour.Yellow, this);
+        Node redPanel = new Panel(10,20, boardSize/2,gameSize-boardSize, Colour.Red, this);
+        Node panelGreen = new Panel(10,20, boardSize/2,gameSize-boardSize, Colour.Green, this);
+        board = new Board(20, 20, boardSize,boardSize, Colour.Empty, this);
+        piecePreparer = new PiecePreparerSprite(10,10, gameSize-boardSize,gameSize-boardSize,Colour.Empty, this);
 
 
         //Layout
