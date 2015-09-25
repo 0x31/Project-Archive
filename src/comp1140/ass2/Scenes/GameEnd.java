@@ -13,12 +13,12 @@ import javafx.scene.paint.Color;
 /**
  * Created by nosha on 25/09/15.
  */
-public class Menu extends Scene {
-    public Menu(Group root, double width, double height, Blokus parent) {
+public class GameEnd extends Scene {
+    public GameEnd(Group root, double width, double height, Blokus parent) {
         super(root, width, height, Color.LIGHTBLUE);
         getStylesheets().add("comp1140/ass2/Assets/main.css");
-        parent.setTitle("Blokus: Main Menu");
 
+        parent.setTitle("Blokus: Game ended!");
 
         final ImageView imv = new ImageView();
         final Image image2 = new Image(Blokus.class.getResourceAsStream("Assets/Blokus.png"));
@@ -29,7 +29,7 @@ public class Menu extends Scene {
 
 
         Button button2 = new Button("Play");
-        button2.setOnAction(new EventHandler<ActionEvent>() {public void handle(ActionEvent e) { parent.toGameOptions();
+        button2.setOnAction(new EventHandler<ActionEvent>() {public void handle(ActionEvent e) { parent.toGame();
         }});
         button2.setMinSize(160, 40);
         button2.setLayoutX(350 - button2.getMinWidth() / 2); button2.setLayoutY(360);

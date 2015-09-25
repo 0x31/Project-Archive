@@ -105,7 +105,8 @@ public class Game extends Scene {
 
 
     public Game(Group root, double width, double height, Blokus parent) {
-        super(root, width, height);
+        super(root, width, height, Color.WHITE);
+        parent.setTitle("Blokus: Play!");
 
 
         /**primaryStage.setOnCloseRequest(event -> {

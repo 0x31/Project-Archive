@@ -2,8 +2,7 @@ package comp1140.ass2;/**
  * Created by Tim on 23/09/2015.
  */
 
-import comp1140.ass2.Scenes.Game;
-import comp1140.ass2.Scenes.Menu;
+import comp1140.ass2.Scenes.*;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -16,10 +15,17 @@ public class Blokus extends Application {
     }
 
     Stage primaryStage;
+
     Scene menu;
     Scene game;
     Scene instructions;
     Scene options;
+    Scene gameOptions;
+    Scene gameEnd;
+
+    /*public void changeScene(Scene scene) {
+        this.primaryStage.setScene(scene);
+    }*/
 
     public void toMenu() {
         this.primaryStage.setScene(this.menu);
@@ -37,6 +43,18 @@ public class Blokus extends Application {
         this.primaryStage.setScene(this.options);
     }
 
+    public void toGameOptions() {
+        this.primaryStage.setScene(this.gameOptions);
+    }
+
+    public void toGameEnd() {
+        this.primaryStage.setScene(this.gameEnd);
+    }
+
+    public void setTitle(String title) {
+        this.primaryStage.setTitle(title);
+    }
+
     @Override
     public void start(Stage primaryStage) {
 
@@ -44,8 +62,11 @@ public class Blokus extends Application {
 
         menu = new Menu(new Group(), 700,700, this);
         game = new Game(new Group(), 700,700, this);
+        instructions = new Instructions(new Group(), 700,700, this);
+        options = new Options(new Group(), 700,700, this);
+        gameOptions = new GameOptions(new Group(), 700,700, this);
+        gameEnd = new GameEnd(new Group(), 700,700, this);
 
-        primaryStage.setTitle("Blokus - Thu09i");
         primaryStage.show();
 
         toMenu();
