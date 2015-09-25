@@ -3,10 +3,6 @@ package comp1140.ass2;
 import comp1140.ass2.Game.Board;
 import comp1140.ass2.Game.Piece;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-
-
 /**
  * Created by steveb on 12/08/2015.
  */

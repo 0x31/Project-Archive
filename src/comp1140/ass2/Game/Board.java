@@ -79,16 +79,18 @@ public class Board extends GridSprite {
         /* Remove piece from unplacedPieces */
         unplacedPieces[playerId][pieceChar-'A'] = null;
 
+
         /* Setting the appropriate cells */
         piece.shape.initialisePiece(coordinate,rotation);
-        Coordinate[] cells = piece.shape.getOccupiedCells();
         CellState turnColour = CellState.values()[playerId];
-        for(Coordinate cell : cells) {
+        PieceSprite pieceSprite = new PieceSprite(piece, xsize, Colour.Yellow, this);
+        this.addPieceSprite(pieceSprite);
+        /*for(Coordinate cell : cells) {
             if(cell!=null) {
-                this.setCell(cell, turnColour);
+                //this.setCell(cell, turnColour);
                 grid[cell.getY()][cell.getX()] = turnColour;
             }
-        }
+        }*/
 
         /** Check for monomino */
         lastMove[playerId] = (pieceChar == 'A');
@@ -113,10 +115,13 @@ public class Board extends GridSprite {
     }
 
     /**
-     * Initialises a Board object from a string.
-     * @param game A string representing the set of moves so far
+     * ...
+     * @param col
+     * @param row
+     * @param width
+     * @param height
+     * @param color
      */
-
     public Board(int col, int row, int width, int height, Color color) {
         super(col, row, width, height, color);
         grid = new CellState['T'-'A'+1]['T'-'A'+1];

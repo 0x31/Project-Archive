@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by nosha on 1/09/15.
  */
-public class GridSprite extends GridPane {
+public abstract class GridSprite extends GridPane {
     int col;
     int row;
     int ysize;
@@ -28,8 +28,7 @@ public class GridSprite extends GridPane {
         this.xsize = Math.floorDiv(width-10, row)-1;
         this.ysize = Math.floorDiv(height-10, col)-1;
         this.color = color;
-        Board board = new Board("");
-        grid = board.getGrid();
+        grid = new CellState[col][width];
 
         this.setHgap(1);
         this.setVgap(1);
