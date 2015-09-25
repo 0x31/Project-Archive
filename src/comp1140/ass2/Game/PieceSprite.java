@@ -25,7 +25,7 @@ public class PieceSprite {
         this.color = getFillFromPlayer(colour);
         this.CELL_DIM = CELL_DIM;
         this.cells = new CellSprite[CELL_COUNT];
-        this.coordinates = piece.shape.getOccupiedCells();
+        this.coordinates = piece.getOccupiedCells();
 
         for (int i = 0; i<CELL_COUNT; i++) {
             cells[i] = new CellSprite(CELL_DIM,CELL_DIM,colour, this);

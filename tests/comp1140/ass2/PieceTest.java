@@ -19,14 +19,14 @@ public class PieceTest {
 
         Piece myPiece = new Piece(Shape.S, Colour.Red);
         Coordinate[] myCoords;
-        myPiece.shape.initialisePiece(new Coordinate(5,3), 'C');
-        myCoords = myPiece.shape.getOccupiedCells();
+        myPiece.initialisePiece(new Coordinate(5,3), 'C');
+        myCoords = myPiece.getOccupiedCells();
 
         Piece yourPiece = new Piece(Shape.S, Colour.Red);
         Coordinate[] yourCoords;
-        yourPiece.shape.initialisePiece(new Coordinate(0,0), 'A');
-        yourPiece.shape.movePiece(new Coordinate(5, 3), 2, false);
-        yourCoords = yourPiece.shape.getOccupiedCells();
+        yourPiece.initialisePiece(new Coordinate(0,0), 'A');
+        yourPiece.movePiece(new Coordinate(5, 3), 2, false);
+        yourCoords = yourPiece.getOccupiedCells();
 
 
         for (int i = 0; i < myPiece.shape.getCellNumber(); i++) {

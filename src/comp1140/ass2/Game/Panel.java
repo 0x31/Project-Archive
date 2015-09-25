@@ -13,7 +13,7 @@ public final class Panel extends GridSprite {
 
     ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
     Colour color;
-    PieceSprite temporary = null;
+    public PieceSprite temporary = null;
     Game parent;
 
     public Panel(int col, int row, int width, int height, Colour color, Game parent, boolean vertical) {
@@ -40,7 +40,7 @@ public final class Panel extends GridSprite {
 
     public void addPiece(Shape shape, int x, int y) {
         Piece myPiece = new Piece(shape, color);
-        myPiece.shape.setXY(new Coordinate(x, y));
+        myPiece.setXY(new Coordinate(x, y));
         PieceSprite myPieceSprite = new PieceSprite(myPiece, xsize, this);
         pieceSprites.add(myPieceSprite);
         this.addPieceSprite(myPieceSprite);
@@ -48,10 +48,12 @@ public final class Panel extends GridSprite {
 
     public void isClicked(PieceSprite sprite) {
         if(temporary != null) {
+            System.out.println("temporary back:" + temporary.coordinates[0].toString());
             pieceSprites.add(temporary);
             this.addPieceSprite(temporary);
         }
         temporary = sprite;
+        System.out.println("temporary away:" + temporary.coordinates[0].toString());
         this.removePieceSprite(sprite);
         parent.piecePreparer.addPiece(sprite.piece.shape,color);
         pieceSprites.remove(sprite);

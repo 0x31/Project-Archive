@@ -19,7 +19,7 @@ public class PiecePreparerSprite extends GridSprite {
     public void addPiece(Shape shape, Colour c) {
         removePiece();
         Piece piece = new Piece(shape, c);
-        piece.shape.setXY(new Coordinate(4, 4));
+        piece.setXY(new Coordinate(4, 4));
         thePieceSprite = new PieceSprite(piece, xsize, this);
         this.addPieceSprite(thePieceSprite);
     }
@@ -43,7 +43,7 @@ public class PiecePreparerSprite extends GridSprite {
 
         removePieceSprite(pieceSprite);
 
-        pieceSprite.piece.shape.movePiece(1, false);
+        pieceSprite.piece.movePiece(1, false);
 
         addPieceSprite(pieceSprite);
     }

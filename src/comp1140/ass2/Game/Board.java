@@ -255,8 +255,8 @@ public class Board extends GridSprite {
         if(piece==null) return false;
 
         /** Get array of coordinates */
-        piece.shape.initialisePiece(coordinate,rotation);
-        Coordinate[] cells = piece.shape.getOccupiedCells();                    //Tim's edit: Inserted 'getOccupiedCells'
+        piece.initialisePiece(coordinate,rotation);
+        Coordinate[] cells = piece.getOccupiedCells();                    //Tim's edit: Inserted 'getOccupiedCells'
 
         /** Check that coordinates are empty */
         boolean touchingSide = false;

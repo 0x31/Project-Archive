@@ -24,7 +24,7 @@ public class Human implements Player {
     public void handleClick(int x, int y) {
         Piece piece = parent.piecePreparer.getPiece();
         if(piece!=null) {
-            piece.shape.setXY(new Coordinate(x, y));
+            piece.setXY(new Coordinate(x, y));
             if(makeMove(piece)) {
                 parent.transitionMove();
             }

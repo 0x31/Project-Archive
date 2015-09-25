@@ -25,8 +25,10 @@ public class Game extends Scene {
     public Player[] players;
     public PiecePreparerSprite piecePreparer;
     public Board board;
+    public Panel[] panels;
 
     public void transitionMove() {
+        panels[currentPlayer].temporary = null;
         piecePreparer.removePiece();
         currentPlayer = (currentPlayer+1) % players.length;
         players[currentPlayer].think();
@@ -50,12 +52,14 @@ public class Game extends Scene {
         players = new Player[] {player0, player1};
         currentPlayer = 0;
 
-        Node bluePanel = new Panel(20, 10, gameSize-boardSize,boardSize/2, Colour.Blue, this, true);
-        Node yellowPanel = new Panel(20, 10, gameSize-boardSize,boardSize/2, Colour.Yellow, this, true);
-        Node redPanel = new Panel(10,20, boardSize/2,gameSize-boardSize, Colour.Red, this, false);
-        Node panelGreen = new Panel(10,20, boardSize/2,gameSize-boardSize, Colour.Green, this, false);
+        Panel bluePanel = new Panel(20, 10, gameSize-boardSize,boardSize/2, Colour.Blue, this, true);
+        Panel yellowPanel = new Panel(20, 10, gameSize-boardSize,boardSize/2, Colour.Yellow, this, true);
+        Panel redPanel = new Panel(10,20, boardSize/2,gameSize-boardSize, Colour.Red, this, false);
+        Panel panelGreen = new Panel(10,20, boardSize/2,gameSize-boardSize, Colour.Green, this, false);
         board = new Board(20, 20, boardSize,boardSize, Colour.Empty, this);
         piecePreparer = new PiecePreparerSprite(10,10, gameSize-boardSize,gameSize-boardSize,Colour.Empty, this);
+
+        panels = new Panel[] {bluePanel, yellowPanel, redPanel, panelGreen};
 
 
         //Layout
