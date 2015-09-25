@@ -17,8 +17,9 @@ public class PieceSprite {
     CellSprite[] cells;
     Coordinate[] coordinates;
 
-    public PieceSprite (Piece piece, int CELL_DIM, Colour colour, GridSprite gridSprite) {
+    public PieceSprite (Piece piece, int CELL_DIM, GridSprite gridSprite) {
         this.CELL_COUNT = piece.shape.getCellNumber();
+        Colour colour = piece.colour;
         this.piece = piece;
         this.gridSprite = gridSprite;
         this.color = getFillFromPlayer(colour);
@@ -27,7 +28,7 @@ public class PieceSprite {
         this.coordinates = piece.shape.getOccupiedCells();
 
         for (int i = 0; i<CELL_COUNT; i++) {
-            cells[i] = new CellSprite(CELL_DIM,CELL_DIM,colour, 1, this);
+            cells[i] = new CellSprite(CELL_DIM,CELL_DIM,colour, this);
         }
     }
 

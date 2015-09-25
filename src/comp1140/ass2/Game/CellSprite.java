@@ -30,11 +30,10 @@ public class CellSprite extends Rectangle{
     public CellSprite (double x, double y, double width, double height) {super (x, y, width, height);}
     */
 
-    public CellSprite (double width, double height, Colour color, double opacity, Object parent) {
+    public CellSprite (double width, double height, Colour color, Object parent) {
         super(width, height);
         this.color = color;
         this.setFill(getFillFromPlayer(color));
-        this.setOpacity(opacity);
         this.parent = parent;
 
         CellSprite dummyCell = this;
@@ -55,8 +54,8 @@ public class CellSprite extends Rectangle{
         if      (color == Colour.Blue)      return Color.BLUE;
         else if (color == Colour.Red)       return Color.RED;
         else if (color == Colour.Green)     return Color.GREEN;
-        else if (color == Colour.Yellow)    return Color.YELLOW;
-        return Color.BLACK;
+        else if (color == Colour.Yellow)    return Color.GOLD;
+        return Color.LIGHTGRAY;
     }
 
 }

@@ -50,10 +50,10 @@ public class Game extends Scene {
         players = new Player[] {player0, player1};
         currentPlayer = 0;
 
-        Node bluePanel = new Panel(20, 10, gameSize-boardSize,boardSize/2, Colour.Blue, this);
-        Node yellowPanel = new Panel(20, 10, gameSize-boardSize,boardSize/2, Colour.Yellow, this);
-        Node redPanel = new Panel(10,20, boardSize/2,gameSize-boardSize, Colour.Red, this);
-        Node panelGreen = new Panel(10,20, boardSize/2,gameSize-boardSize, Colour.Green, this);
+        Node bluePanel = new Panel(20, 10, gameSize-boardSize,boardSize/2, Colour.Blue, this, true);
+        Node yellowPanel = new Panel(20, 10, gameSize-boardSize,boardSize/2, Colour.Yellow, this, true);
+        Node redPanel = new Panel(10,20, boardSize/2,gameSize-boardSize, Colour.Red, this, false);
+        Node panelGreen = new Panel(10,20, boardSize/2,gameSize-boardSize, Colour.Green, this, false);
         board = new Board(20, 20, boardSize,boardSize, Colour.Empty, this);
         piecePreparer = new PiecePreparerSprite(10,10, gameSize-boardSize,gameSize-boardSize,Colour.Empty, this);
 

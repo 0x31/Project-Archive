@@ -72,7 +72,7 @@ public class Board extends GridSprite {
 
         /* Setting the appropriate cells */
         Colour turnColour = Colour.values()[playerId];
-        PieceSprite pieceSprite = new PieceSprite(piece, xsize, turnColour, this);
+        PieceSprite pieceSprite = new PieceSprite(piece, xsize, this);
         this.addPieceSprite(pieceSprite);
 
         /** Check for monomino */
@@ -285,5 +285,11 @@ public class Board extends GridSprite {
         if(c.getX()==20 && c.getY()==-1) return validCorners[currentTurn%4];
         if(c.getX()==20 && c.getY()==20) return validCorners[currentTurn%4];
         return grid[c.getY()][c.getX()];
+    }
+
+    public void isClicked(CellSprite cell) {
+        int x = this.getColumnIndex(cell);
+        int y = this.getRowIndex(cell);
+        parent.players[parent.currentPlayer].handleClick(x, y);
     }
 }

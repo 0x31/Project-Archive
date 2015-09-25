@@ -1,6 +1,7 @@
 package comp1140.ass2.Game;
 
 import comp1140.ass2.Scenes.Game;
+import javafx.scene.paint.Color;
 
 /**
  * Created by Tim on 23/09/2015.
@@ -12,11 +13,15 @@ public class PiecePreparerSprite extends GridSprite {
     public PiecePreparerSprite(int col, int row, int width, int height, Colour color, Game parent) {
         super(col, row, width, height, color, parent);
 
-        Piece myPiece = new Piece(Shape.E, Colour.Red);
-        myPiece.shape.movePiece(new Coordinate(4, 4), 0, false);
-        thePieceSprite = new PieceSprite(myPiece, xsize, Colour.Red, this);
-        this.addPieceSprite(thePieceSprite);
 
+    }
+
+    public void addPiece(Shape shape, Colour c) {
+        removePiece();
+        Piece piece = new Piece(shape, c);
+        piece.shape.setXY(new Coordinate(4, 4));
+        thePieceSprite = new PieceSprite(piece, xsize, this);
+        this.addPieceSprite(thePieceSprite);
     }
 
     public void showPiece(PieceSprite pieceSprite) {

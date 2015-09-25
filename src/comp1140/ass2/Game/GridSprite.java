@@ -35,7 +35,7 @@ public abstract class GridSprite extends GridPane {
         this.setVgap(1);
         for(int j=0;j<col;j++) {
             for (int i = 0; i < row; i++) {
-                CellSprite cell = new CellSprite(xsize, ysize, color,0.1,this); //double width, double height, Colour color, PieceSprite pieceSprite) {
+                CellSprite cell = new CellSprite(xsize, ysize, color,this); //double width, double height, Colour color, PieceSprite pieceSprite) {
                 this.add(cell, i, j);
             }
         }
@@ -72,9 +72,8 @@ public abstract class GridSprite extends GridPane {
         System.out.println("GridSprite was clicked in - please override this function and tell me what to do!");
     }
 
-    public void isClicked(CellSprite cell) {
-        int x = this.getColumnIndex(cell);
-        int y = this.getRowIndex(cell);
-        parent.players[parent.currentPlayer].handleClick(x, y);
+    public void isClicked(CellSprite cellSprite) {
+        // Do nothing;
     }
+
 }
