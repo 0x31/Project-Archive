@@ -11,14 +11,14 @@ import javafx.scene.paint.Color;
  */
 public class Board extends GridSprite {
 
-    private CellState[][] grid;
+    private Colour[][] grid;
 
-    private Piece[] unplacedPiecesRed;
-    private Piece[] unplacedPiecesGreen;
-    private Piece[] unplacedPiecesBlue;
-    private Piece[] unplacedPiecesYellow;
+    private boolean[] unplacedPiecesRed = new boolean['U'-'A'+ 1];
+    private boolean[] unplacedPiecesGreen = new boolean['U'-'A'+ 1];
+    private boolean[] unplacedPiecesBlue = new boolean['U'-'A' + 1];
+    private boolean[] unplacedPiecesYellow = new boolean['U' - 'A' + 1];
 
-    private Piece[][] unplacedPieces =
+    private boolean[][] unplacedPieces =
             {unplacedPiecesBlue
             ,unplacedPiecesYellow
             ,unplacedPiecesRed
@@ -27,7 +27,7 @@ public class Board extends GridSprite {
     /**
      * @return Returns this.unplacedPieces;
      */
-    public Piece[][] getUnplacedPieces() {
+    public boolean[][] getUnplacedPieces() {
         return unplacedPieces;
     }
 
@@ -45,9 +45,9 @@ public class Board extends GridSprite {
 
     /**
      *
-     * @return CellState[][] this.grid
+     * @return Colour[][] this.grid
      */
-    public CellState[][] getGrid() {
+    public Colour[][] getGrid() {
         return grid;
     }
 
@@ -58,45 +58,39 @@ public class Board extends GridSprite {
      * @param move   a four character string representing a single move
      * @return void  while also changing this.grid
      */
-    public void placePiece(String move) {
+    public void placePiece(Piece piece) {
 
-        if(move==".") {
-            currentTurn++;
-            return;
-        }
+        /* Remove piece from unplacedPieces
+         * Is this okay? I don't know if using ordinal is a good idea, as the order may change
+         * If a tutor is reading this, then we obviously made the wise decision of keeping ordinal()
+         */
+        int playerId = piece.colour.ordinal();
+        int shapeId = piece.shape.ordinal();
 
-        /* Split up the String move */
-        char pieceChar = move.charAt(0);
-        char rotation  = move.charAt(1);
-        char x         = move.charAt(2);
-        char y         = move.charAt(3);
-
-        int playerId = currentTurn % 4;
-
-        Coordinate coordinate = new Coordinate(x-'A',y-'A');
-        Piece piece = unplacedPieces[playerId][pieceChar-'A'];
-
-        /* Remove piece from unplacedPieces */
-        unplacedPieces[playerId][pieceChar-'A'] = null;
-
+        unplacedPieces[playerId][shapeId] = false;
 
         /* Setting the appropriate cells */
-        piece.shape.initialisePiece(coordinate,rotation);
-        CellState turnColour = CellState.values()[playerId];
-        PieceSprite pieceSprite = new PieceSprite(piece, xsize, Colour.Yellow, this);
+        Colour turnColour = Colour.values()[playerId];
+        PieceSprite pieceSprite = new PieceSprite(piece, xsize, turnColour, this);
         this.addPieceSprite(pieceSprite);
-        /*for(Coordinate cell : cells) {
-            if(cell!=null) {
-                //this.setCell(cell, turnColour);
-                grid[cell.getY()][cell.getX()] = turnColour;
-            }
-        }*/
 
         /** Check for monomino */
-        lastMove[playerId] = (pieceChar == 'A');
+        lastMove[playerId] = (shapeId == 0);
 
-        currentTurn++;
+        currentTurn=(currentTurn+1)%4;
     }
+
+    public void placePiece(String move) {
+        if(move==".") { currentTurn=(currentTurn+1)%4; return; }
+        Colour turnColour = Colour.values()[currentTurn];
+        int x         = move.charAt(2)-'A';
+        int y         = move.charAt(3)-'A';
+        Piece piece = new Piece(move, turnColour);
+        System.out.println(move);
+        System.out.println(x + ", " + y);
+        placePiece(piece);
+    }
+
 
     /**
      * Board's toString function, currently used for debugging.
@@ -104,8 +98,8 @@ public class Board extends GridSprite {
      */
     public String toString() {
         String string = "";
-        for (CellState[] aGrid : grid) {
-            for (CellState anAGrid : aGrid) {
+        for (Colour[] aGrid : grid) {
+            for (Colour anAGrid : aGrid) {
                 /* We use substring instead of charAt to able to subsequently use replace */
                 string += anAGrid.name().substring(0, 1).replace("E", "•") + " ";
             }
@@ -124,17 +118,16 @@ public class Board extends GridSprite {
      */
     public Board(int col, int row, int width, int height, Color color) {
         super(col, row, width, height, color);
-        grid = new CellState['T'-'A'+1]['T'-'A'+1];
-        for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=CellState.Empty;
+        grid = new Colour['T'-'A'+1]['T'-'A'+1];
+        for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=Colour.Empty;
 
         /**
          * Fill up array of unused pieces
          */
-        for(int colourIndex = 0; colourIndex<4; colourIndex++) {
-            Colour colour = Colour.values()[colourIndex];
-            unplacedPieces[colourIndex] = new Piece['U'-'A'+1];
-            int i=0;
-            for(Shape shape : Shape.values()) unplacedPieces[colourIndex][i++] = new Piece(shape, colour);
+        for(boolean[] unplacedPieceList : unplacedPieces) {
+            for(boolean unplacedPiece : unplacedPieceList) {
+                unplacedPiece = true;
+            }
         }
 
         /* Loop through moves and play each one */
@@ -184,20 +177,21 @@ public class Board extends GridSprite {
     }
 
 
+    /* Here for compatibility, please ignore */
     public Board(String game) {
 
         game = game.replace(" ","");
-        grid = new CellState['T'-'A'+1]['T'-'A'+1];
-        for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=CellState.Empty;
+        grid = new Colour['T'-'A'+1]['T'-'A'+1];
+        for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=Colour.Empty;
 
         /**
          * Fill up array of unused pieces
          */
-        for(int colourIndex = 0; colourIndex<4; colourIndex++) {
-            Colour colour = Colour.values()[colourIndex];
-            unplacedPieces[colourIndex] = new Piece['U'-'A'+1];
-            int i=0;
-            for(Shape shape : Shape.values()) unplacedPieces[colourIndex][i++] = new Piece(shape, colour);
+
+        for(boolean[] unplacedPieceList : unplacedPieces) {
+            for(boolean unplacedPiece : unplacedPieceList) {
+                unplacedPiece = true;
+            }
         }
 
         /* Loop through moves and play each one */
@@ -250,10 +244,10 @@ public class Board extends GridSprite {
 
         int playerId = currentTurn % 4;
 
-        CellState turnColour = CellState.values()[playerId];
+        Colour turnColour = Colour.values()[playerId];
 
         Coordinate coordinate = new Coordinate(x-'A',y-'A');
-        Piece piece = unplacedPieces[playerId][pieceChar-'A'];
+        Piece piece = new Piece(move, turnColour);
 
         if(piece==null) return false;
 
@@ -265,7 +259,7 @@ public class Board extends GridSprite {
         boolean touchingSide = false;
         for(Coordinate cell : cells) {
             if(cell.getX()<0 || cell.getX()>19 || cell.getY()<0 || cell.getY()>19) return false;
-            if(grid[cell.getY()][cell.getX()]!=CellState.Empty) return false;
+            if(grid[cell.getY()][cell.getX()]!=Colour.Empty) return false;
             for(Coordinate sideCell : cell.getSideCells())
                 if( cellAt(sideCell) == turnColour) return false;
             for(Coordinate diagonalCell : cell.getDiagonalCells()) {
@@ -276,12 +270,14 @@ public class Board extends GridSprite {
         return touchingSide;
     }
 
-    public CellState cellAt(Coordinate c) {
+    public Colour cellAt(Coordinate c) {
 
-        CellState[] validCorners = {CellState.Empty, CellState.Yellow, CellState.Red, CellState.Green};
+        // I don't know what this is doing - I should have commented it when I wrote it.
+        // Sorry everyone.
+        Colour[] validCorners = {Colour.Empty, Colour.Yellow, Colour.Red, Colour.Green};
 
         /** Check for starting corner */
-        if(c.getX()==-1 && c.getY()==-1) return CellState.Blue;
+        if(c.getX()==-1 && c.getY()==-1) return Colour.Blue;
         if(c.getX()==-1 && c.getY()==20) return validCorners[currentTurn%4];
         if(c.getX()==20 && c.getY()==-1) return validCorners[currentTurn%4];
         if(c.getX()==20 && c.getY()==20) return validCorners[currentTurn%4];

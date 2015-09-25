@@ -20,6 +20,18 @@ public class Piece {
     public Piece(Shape id, Colour c) {
         shape = id; colour = c;
     }
+
+    public Piece(String move, Colour c) {
+        int pieceChar = move.charAt(0)-'A';
+        char rotation = move.charAt(1);
+        int x         = move.charAt(2)-'A';
+        int y         = move.charAt(3)-'A';
+        Coordinate coord = new Coordinate(x, y);
+        shape = Shape.values()[pieceChar];
+        shape.initialisePiece(coord, rotation);
+        colour = c;
+    }
+
     /**
      * Piece's toString function, currently used for debugging.
      * @return String a string representation of the piece, made up of the colour,

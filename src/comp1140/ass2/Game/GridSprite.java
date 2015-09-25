@@ -17,8 +17,6 @@ public abstract class GridSprite extends GridPane {
     Color color;
     ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
 
-    CellState[][] grid;
-
     public GridSprite() {}
 
     public GridSprite(int col, int row, int width, int height, Color color) {
@@ -28,7 +26,6 @@ public abstract class GridSprite extends GridPane {
         this.xsize = Math.floorDiv(width-10, row)-1;
         this.ysize = Math.floorDiv(height-10, col)-1;
         this.color = color;
-        grid = new CellState[col][width];
 
         this.setHgap(1);
         this.setVgap(1);
@@ -43,24 +40,6 @@ public abstract class GridSprite extends GridPane {
         }
     }
 
-    public void setCell(Coordinate coord, CellState state) {
-        Color colori = Color.BLACK;
-        switch (state) {
-            case Blue: colori = Color.BLUE; break;
-            case Yellow: colori = Color.YELLOW; break;
-            case Red: colori = Color.RED; break;
-            case Green: colori = Color.GREEN; break;
-            case Empty: colori = color; break;
-        }
-        this.add(new Rectangle(xsize, ysize, colori), coord.getY(), coord.getX());
-    }
-
-    public void setCells(Coordinate[] coords, CellState state) {
-        for( Coordinate coord: coords) {
-            setCell(coord, state);
-        }
-    }
-    
     private void addToGridPane(PieceSprite pieceSprite) {
         for (int i = 0; i<pieceSprite.CELL_COUNT; i++) {
             this.add(pieceSprite.cells[i], pieceSprite.coordinates[i].getX(), pieceSprite.coordinates[i].getY());

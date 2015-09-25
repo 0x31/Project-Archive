@@ -8,27 +8,27 @@ public enum Shape {
      * An enumeration of every shape,
      * Taking in as parameters the coordinates taken up by the shape with orientation A, origin (0,0)
      */
-    A(new Coordinate( 0, 0)),
-    B(new Coordinate( 0, 0), new Coordinate( 0, 1)),
-    C(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2)),
-    D(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1)),
-    E(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate( 0, 3)),
-    F(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate(-1, 2)),
-    G(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 0, 2)),
-    H(new Coordinate( 0, 0), new Coordinate( 1, 0), new Coordinate( 0, 1), new Coordinate( 1, 1)),
-    I(new Coordinate( 0, 0), new Coordinate( 1, 0), new Coordinate( 1, 1), new Coordinate( 2, 1)),
-    J(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate( 0, 3), new Coordinate( 0, 4)),
-    K(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate(-1, 3), new Coordinate( 0, 3)),
-    L(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate(-1, 2), new Coordinate( 0, 2), new Coordinate(-1, 3)),
-    M(new Coordinate( 0, 0), new Coordinate(-1, 1), new Coordinate( 0, 1), new Coordinate(-1, 2), new Coordinate( 0, 2)),
-    N(new Coordinate( 0, 0), new Coordinate( 1, 0), new Coordinate( 1, 1), new Coordinate( 0, 2), new Coordinate( 1, 2)),
-    O(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 0, 2), new Coordinate( 0, 3)),
-    P(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate(-1, 2), new Coordinate( 0, 2), new Coordinate( 1, 2)),
-    Q(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate( 1, 2), new Coordinate( 2, 2)),
-    R(new Coordinate( 0, 0), new Coordinate( 1, 0), new Coordinate( 1, 1), new Coordinate( 2, 1), new Coordinate( 2, 2)),
-    S(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 2, 1), new Coordinate( 2, 2)),
-    T(new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 2, 1), new Coordinate( 1, 2)),
-    U(new Coordinate( 0, 0), new Coordinate(-1, 1), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 0, 2));
+    A(new Coordinate[] {new Coordinate( 0, 0)}),
+    B(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1)}),
+    C(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2)}),
+    D(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1)}),
+    E(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate( 0, 3)}),
+    F(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate(-1, 2)}),
+    G(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 0, 2)}),
+    H(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 1, 0), new Coordinate( 0, 1), new Coordinate( 1, 1)}),
+    I(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 1, 0), new Coordinate( 1, 1), new Coordinate( 2, 1)}),
+    J(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate( 0, 3), new Coordinate( 0, 4)}),
+    K(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate(-1, 3), new Coordinate( 0, 3)}),
+    L(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate(-1, 2), new Coordinate( 0, 2), new Coordinate(-1, 3)}),
+    M(new Coordinate[] {new Coordinate( 0, 0), new Coordinate(-1, 1), new Coordinate( 0, 1), new Coordinate(-1, 2), new Coordinate( 0, 2)}),
+    N(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 1, 0), new Coordinate( 1, 1), new Coordinate( 0, 2), new Coordinate( 1, 2)}),
+    O(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 0, 2), new Coordinate( 0, 3)}),
+    P(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate(-1, 2), new Coordinate( 0, 2), new Coordinate( 1, 2)}),
+    Q(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2), new Coordinate( 1, 2), new Coordinate( 2, 2)}),
+    R(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 1, 0), new Coordinate( 1, 1), new Coordinate( 2, 1), new Coordinate( 2, 2)}),
+    S(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 2, 1), new Coordinate( 2, 2)}),
+    T(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 2, 1), new Coordinate( 1, 2)}),
+    U(new Coordinate[] {new Coordinate( 0, 0), new Coordinate(-1, 1), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 0, 2)});
 
     private int cellNumber;
     private Coordinate homeCoordinates[];
@@ -41,44 +41,15 @@ public enum Shape {
      * the Shape is initialised using the coordinates of the shape's home position.
      * The homeCoordinates are (statically) steps.
      *
-     * @param coord0 always equal to (0,0), and is the position of the top most, leftmost cell in base position
+     * @param coords always equal to (0,0), and is the position of the top most, leftmost cell in base position
      *               refers to the 'base cell' of a shape
-     * @param coord1 the coordinate of the second topmost, leftmost cell in base position. (Cells are counted in Z formation.
      */
-    Shape(Coordinate coord0) {
-        cellNumber = 1;
+    Shape(Coordinate[] coords) {
+        cellNumber = coords.length;
         homeCoordinates = new Coordinate[cellNumber];  occupiedCells = new Coordinate[cellNumber];
-        homeCoordinates[0] = coord0;                   occupiedCells[0] = coord0;
-    }
-    Shape(Coordinate coord0, Coordinate coord1) {
-        cellNumber = 2;
-        homeCoordinates = new Coordinate[cellNumber];  occupiedCells = new Coordinate[cellNumber];
-        homeCoordinates[0] = coord0;                   occupiedCells[0] = coord0;
-        homeCoordinates[1] = coord1;                   occupiedCells[1] = coord1;
-    }
-    Shape(Coordinate coord0, Coordinate coord1, Coordinate coord2) {
-        cellNumber = 3;
-        homeCoordinates = new Coordinate[cellNumber];  occupiedCells = new Coordinate[cellNumber];
-        homeCoordinates[0] = coord0;                   occupiedCells[0] = coord0;
-        homeCoordinates[1] = coord1;                   occupiedCells[1] = coord1;
-        homeCoordinates[2] = coord2;                   occupiedCells[2] = coord2;
-    }
-    Shape(Coordinate coord0, Coordinate coord1, Coordinate coord2, Coordinate coord3) {
-        cellNumber = 4;
-        homeCoordinates = new Coordinate[cellNumber];  occupiedCells = new Coordinate[cellNumber];
-        homeCoordinates[0] = coord0;                   occupiedCells[0] = coord0;
-        homeCoordinates[1] = coord1;                   occupiedCells[1] = coord1;
-        homeCoordinates[2] = coord2;                   occupiedCells[2] = coord2;
-        homeCoordinates[3] = coord3;                   occupiedCells[3] = coord3;
-    }
-    Shape(Coordinate coord0, Coordinate coord1, Coordinate coord2, Coordinate coord3, Coordinate coord4) {
-        cellNumber = 5;
-        homeCoordinates = new Coordinate[cellNumber];  occupiedCells = new Coordinate[cellNumber];
-        homeCoordinates[0] = coord0;                   occupiedCells[0] = coord0;
-        homeCoordinates[1] = coord1;                   occupiedCells[1] = coord1;
-        homeCoordinates[2] = coord2;                   occupiedCells[2] = coord2;
-        homeCoordinates[3] = coord3;                   occupiedCells[3] = coord3;
-        homeCoordinates[4] = coord4;                   occupiedCells[4] = coord4;
+        for(int i=0;i<cellNumber;i++) {
+            homeCoordinates[i] = coords[i];            occupiedCells[i] = coords[i];
+        }
     }
 
     /**
@@ -129,40 +100,8 @@ public enum Shape {
      * @return void  while also changing occupiedCells
      */
     private void orientatePiece(char orientation) {
-        switch (orientation) {
-            case 'A':
-                break;
-            case 'B':
-                rotatePiece();
-                break;
-            case 'C':
-                rotatePiece();
-                rotatePiece();
-                break;
-            case 'D':
-                rotatePiece();
-                rotatePiece();
-                rotatePiece();
-                break;
-            case 'E':
-                flipPiece();
-                break;
-            case 'F':
-                flipPiece();
-                rotatePiece();
-                break;
-            case 'G':
-                flipPiece();
-                rotatePiece();
-                rotatePiece();
-                break;
-            case 'H':
-                flipPiece();
-                rotatePiece();
-                rotatePiece();
-                rotatePiece();
-                break;
-        }
+        if(orientation>'D') flipPiece();
+        for (int i = 0; i < (orientation-'A')%4; i++) rotatePiece();
     }
 
     /**

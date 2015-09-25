@@ -39,10 +39,13 @@ public class BlokGame {
         /* FIXME */
         int[] scores = new int[4];
         Board board = new Board(game);
+
+        int[] pieceLenghts = new int[] {1,2,3,3,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5};
+
         for(int i=0;i<4;i++) {
-            for(Piece piece : board.getUnplacedPieces()[i]) {
-                if(piece!=null) {
-                    scores[i]-=piece.shape.getCellNumber();
+            for(int j = 0; j < board.getUnplacedPieces()[i].length; j++) {
+                if(board.getUnplacedPieces()[i][j]!=false) {
+                    scores[i] -= pieceLenghts[j];
                 }
             }
             if(scores[i]==0) {
