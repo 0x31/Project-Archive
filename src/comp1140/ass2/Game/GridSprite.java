@@ -2,6 +2,7 @@ package comp1140.ass2.Game;
 
 import comp1140.ass2.Scenes.Game;
 import javafx.scene.Parent;
+import javafx.scene.control.Cell;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -74,6 +75,11 @@ public abstract class GridSprite extends GridPane {
 
     public void isClicked(CellSprite cellSprite) {
         // Do nothing;
+    }
+
+    public void isHovered(CellSprite cell) {
+    }
+    public void isUnhovered() {
     }
 
 }

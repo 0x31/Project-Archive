@@ -35,7 +35,9 @@ public class GameOptions extends Scene {
         final ImageView imv = new ImageView();
         final Image image2 = new Image(Blokus.class.getResourceAsStream("Assets/Blokus.png"));
         imv.setImage(image2);
-        imv.setLayoutX(200); imv.setLayoutY(100);
+        imv.setFitWidth(400);
+        imv.setPreserveRatio(true);
+        imv.setLayoutX(350-200); imv.setLayoutY(40);
         root.getChildren().add(imv);
 
         ListView<String> list = new ListView<String>();

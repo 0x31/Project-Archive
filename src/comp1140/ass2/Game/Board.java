@@ -138,6 +138,14 @@ public class Board extends GridSprite {
             }
         }
 
+
+        this.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                isUnhovered();
+            }
+        });
+
         /* Loop through moves and play each one */
 
 
@@ -318,9 +326,44 @@ public class Board extends GridSprite {
         return grid[c.getY()][c.getX()];
     }
 
+    public void isClicked(PieceSprite sprite) {
+        if(sprite == preview) {
+            int x = sprite.coordinates[0].getX();
+            int y = sprite.coordinates[0].getY();
+            parent.players[parent.currentPlayer].handleClick(x, y);
+        }
+    }
+
     public void isClicked(CellSprite cell) {
         int x = this.getColumnIndex(cell);
         int y = this.getRowIndex(cell);
         parent.players[parent.currentPlayer].handleClick(x, y);
+    }
+    public void isHovered(CellSprite cell) {
+        int x = this.getColumnIndex(cell);
+        int y = this.getRowIndex(cell);
+        Coordinate tempCoord = new Coordinate(x,y);
+        if(previewCoord!=null && tempCoord.equals(previewCoord)) {
+            return;
+        }
+        isUnhovered();
+        previewCoord = tempCoord;
+        Piece piece = parent.piecePreparer.getPiece();
+        if(piece==null) return;
+        piece = piece.clone();
+        piece.setXY(previewCoord);
+        this.previewPiece(piece);
+    }
+    public void isUnhovered() {
+        if(preview != null) {
+            this.removePieceSprite(preview);
+            preview = null;
+        }
+    }
+    public PieceSprite preview;
+    public Coordinate previewCoord;
+    public void previewPiece(Piece piece) {
+        preview = new PieceSprite(piece, xsize, this);
+        this.addPieceSprite(preview);
     }
 }

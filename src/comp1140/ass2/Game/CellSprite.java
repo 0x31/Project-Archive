@@ -59,6 +59,20 @@ public class CellSprite extends Pane {
                 }
             }
         });
+        this.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (parent instanceof GridSprite) {
+                    ((GridSprite) parent).isHovered(dummyCell);
+                }
+            }
+        });
+        this.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                // Check for Board's preview
+            }
+        });
     }
 
     private Color getFillFromPlayer(Colour color) {
