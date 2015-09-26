@@ -61,6 +61,9 @@ public class Board extends GridSprite {
      */
     public boolean placePiece(Piece piece) {
 
+
+        if(!legitimateMove(piece)) return false;
+
         /* Remove piece from unplacedPieces
          * Is this okay? I don't know if using ordinal is a good idea, as the order may change
          * If a tutor is reading this, then we obviously made the wise decision of keeping ordinal()
@@ -74,6 +77,10 @@ public class Board extends GridSprite {
         Colour turnColour = Colour.values()[playerId];
         PieceSprite pieceSprite = new PieceSprite(piece, xsize, this);
         this.addPieceSprite(pieceSprite);
+        // Set Grid for legitimateMove
+        for(Coordinate coord : pieceSprite.coordinates) {
+            grid[coord.getY()][coord.getX()] = turnColour;
+        }
 
         /** Check for monomino */
         lastMove[playerId] = (shapeId == 0);
@@ -235,29 +242,10 @@ public class Board extends GridSprite {
      * @param move
      * @return
      */
-    public boolean legitimateMove(String move) {
 
-        if(move==".") return true;
-
-        /* Split up the String move */
-        char pieceChar = move.charAt(0);
-        char rotation  = move.charAt(1);
-        char x         = move.charAt(2);
-        char y         = move.charAt(3);
-
-        int playerId = currentTurn % 4;
-
-        Colour turnColour = Colour.values()[playerId];
-
-        Coordinate coordinate = new Coordinate(x-'A',y-'A');
-        Piece piece = new Piece(move, turnColour);
-
-        if(piece==null) return false;
-
-        /** Get array of coordinates */
-        piece.initialisePiece(coordinate,rotation);
-        Coordinate[] cells = piece.getOccupiedCells();                    //Tim's edit: Inserted 'getOccupiedCells'
-
+    public boolean legitimateMove(Piece piece) {
+        Coordinate[] cells = piece.getOccupiedCells();
+        Colour turnColour = piece.colour;
         /** Check that coordinates are empty */
         boolean touchingSide = false;
         for(Coordinate cell : cells) {
@@ -271,7 +259,50 @@ public class Board extends GridSprite {
         }
 
         return touchingSide;
+
     }
+
+    public boolean legitimateMove(String move) {
+
+        if (move == ".") return true;
+
+        /* Split up the String move */
+        char pieceChar = move.charAt(0);
+        char rotation = move.charAt(1);
+        char x = move.charAt(2);
+        char y = move.charAt(3);
+
+        int playerId = currentTurn % 4;
+
+        Colour turnColour = Colour.values()[playerId];
+
+        Coordinate coordinate = new Coordinate(x - 'A', y - 'A');
+        Piece piece = new Piece(move, turnColour);
+
+        if (piece == null) return false;
+
+        /** Get array of coordinates */
+        piece.initialisePiece(coordinate, rotation);
+        return legitimateMove(piece);
+    }
+    /**
+        Coordinate[] cells = piece.getOccupiedCells();                    //Tim's edit: Inserted 'getOccupiedCells'
+
+        /** Check that coordinates are empty x/
+        boolean touchingSide = false;
+        for(Coordinate cell : cells) {
+            if(cell.getX()<0 || cell.getX()>19 || cell.getY()<0 || cell.getY()>19) return false;
+            if(grid[cell.getY()][cell.getX()]!=Colour.Empty) return false;
+            for(Coordinate sideCell : cell.getSideCells())
+                if( cellAt(sideCell) == turnColour) return false;
+            for(Coordinate diagonalCell : cell.getDiagonalCells()) {
+                if (cellAt(diagonalCell) == turnColour) touchingSide = true;
+            }
+        }
+
+        return touchingSide;
+    }
+     */
 
     public Colour cellAt(Coordinate c) {
 

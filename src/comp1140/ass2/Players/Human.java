@@ -22,11 +22,14 @@ public class Human implements Player {
 
     @Override
     public void handleClick(int x, int y) {
-        Piece piece = parent.piecePreparer.getPiece();
-        if(piece!=null) {
+        if(parent.piecePreparer.getPiece()!=null) {
+            Piece piece = parent.piecePreparer.getPiece().clone();
             piece.setXY(new Coordinate(x, y));
             if(makeMove(piece)) {
                 parent.transitionMove();
+            }
+            else {
+                System.out.println("Invalid move!");
             }
         }
     }

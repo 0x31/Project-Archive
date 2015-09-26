@@ -31,8 +31,8 @@ public abstract class GridSprite extends GridPane {
         this.ysize = Math.floorDiv(height-10, col)-1;
         this.color = color;
 
-        this.setHgap(1);
-        this.setVgap(1);
+        //this.setHgap(1);
+        //this.setVgap(1);
         for(int j=0;j<col;j++) {
             for (int i = 0; i < row; i++) {
                 CellSprite cell = new CellSprite(xsize, ysize, color,this); //double width, double height, Colour color, PieceSprite pieceSprite) {

@@ -30,10 +30,12 @@ public class Blokus extends Application {
 
     public void toMenu() {
         this.primaryStage.setScene(this.menu);
+        setTitle("Blokus: Main Menu");
     }
 
     public void toGame() {
         this.primaryStage.setScene(this.game);
+        setTitle("Blokus: Play!");
     }
 
     public void toInstructions() {

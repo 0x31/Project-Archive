@@ -26,6 +26,14 @@ public class Options extends Scene {
         imv.setLayoutX(200); imv.setLayoutY(100);
         root.getChildren().add(imv);
 
+        final ImageView imv1 = new ImageView();
+        final Image image3 = new Image(Blokus.class.getResourceAsStream("Assets/blokusbg.png"));
+        imv1.setImage(image3);
+        imv1.setLayoutX(0); imv1.setLayoutY(0);
+        imv1.setFitWidth(700);
+        imv1.setPreserveRatio(true);
+        root.getChildren().add(imv1);
+
 
 
         Button button2 = new Button("Back");

@@ -8,12 +8,6 @@ import comp1140.ass2.Scenes.Game;
  */
 public class ExtremelyHardBot implements Player {
 
-    /* Obviously, if each person were to come up with their bot, ***REMOVED***'s would be the extremely hard bot and
-       Tim's and Holly's would be the easy bot.
-
-       (that was a joke)
-     */
-
     Game parent;
 
     public ExtremelyHardBot(Game parent) {

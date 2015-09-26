@@ -10,9 +10,11 @@ package comp1140.ass2.Game;
  */
 public class Piece {
     public Shape shape;
-    Colour colour;
+    public Colour colour;
     Coordinate[] occupiedCells;
     int cellNumber;
+    int rotation=0;
+    boolean flip = false;
 
     /**
      * Initialises a Piece object from a shape id and a colour
@@ -54,6 +56,7 @@ public class Piece {
         Coordinate shift = new Coordinate (origin.getX() - occupiedCells[0].getX(),
                 origin.getY() - occupiedCells[0].getY());
         this.shiftPiece(shift);
+        flip = !flip;
     }
 
     /**
@@ -67,6 +70,7 @@ public class Piece {
         Coordinate shift = new Coordinate (origin.getX() - occupiedCells[0].getX(),
                 origin.getY() - occupiedCells[0].getY());
         this.shiftPiece(shift);
+        rotation = (rotation+1)%4;
     }
 
     /**
@@ -108,6 +112,12 @@ public class Piece {
         occupiedCells = shape.getCoordinates();
         orientatePiece(orientation);
         shiftPiece(origin);
+    }
+
+    public Piece clone() {
+        Piece piece = new Piece(this.shape,this.colour);
+        piece.movePiece(rotation,flip);
+        return piece;
     }
 
     /**

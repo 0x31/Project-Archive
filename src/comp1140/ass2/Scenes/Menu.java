@@ -21,31 +21,41 @@ public class Menu extends Scene {
 
 
         final ImageView imv = new ImageView();
-        final Image image2 = new Image(Blokus.class.getResourceAsStream("Assets/Blokus.png"));
+        final Image image2 = new Image(Blokus.class.getResourceAsStream("Assets/blokusbg3.png"));
         imv.setImage(image2);
-        imv.setLayoutX(200); imv.setLayoutY(100);
+        imv.setLayoutX(0); imv.setLayoutY(0);
+        imv.setFitWidth(700);
+        imv.setPreserveRatio(true);
         root.getChildren().add(imv);
+
+        final ImageView imv1 = new ImageView();
+        final Image image3 = new Image(Blokus.class.getResourceAsStream("Assets/Blokus.png"));
+        imv1.setImage(image3);
+        imv1.setFitWidth(400);
+        imv1.setPreserveRatio(true);
+        imv1.setLayoutX(350-imv1.getFitWidth()/2); imv1.setLayoutY(40);
+        root.getChildren().add(imv1);
 
 
 
         Button button2 = new Button("Play");
         button2.setOnAction(new EventHandler<ActionEvent>() {public void handle(ActionEvent e) { parent.toGameOptions();
         }});
-        button2.setMinSize(160, 40);
-        button2.setLayoutX(350 - button2.getMinWidth() / 2); button2.setLayoutY(360);
+        button2.setMinSize(160, 60);
+        button2.setLayoutX(150 - button2.getMinWidth() / 2); button2.setLayoutY(600);
         button2.getStyleClass().add("button");
         root.getChildren().add(button2);
 
         Button button0 = new Button("Instructions");
         button0.setOnAction(new EventHandler<ActionEvent>() {public void handle(ActionEvent e) {parent.toInstructions();}});
-        button0.setMinSize(160, 40);
-        button0.setLayoutX(350 - button0.getMinWidth() / 2); button0.setLayoutY(420);
+        button0.setMinSize(160, 60);
+        button0.setLayoutX(350 - button0.getMinWidth() / 2); button0.setLayoutY(600);
         root.getChildren().add(button0);
 
         Button button1 = new Button("Options");
         button1.setOnAction(new EventHandler<ActionEvent>() {public void handle(ActionEvent e) { parent.toOptions(); }});
-        button1.setMinSize(160, 40);
-        button1.setLayoutX(350 - button1.getMinWidth() / 2); button1.setLayoutY(480);
+        button1.setMinSize(160, 60);
+        button1.setLayoutX(550 - button1.getMinWidth() / 2); button1.setLayoutY(600);
         root.getChildren().add(button1);
 
     }

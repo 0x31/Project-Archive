@@ -3,13 +3,14 @@ package comp1140.ass2.Game;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;import java.lang.Override;import java.lang.System;
 
 /**
  * Created by ***REMOVED*** on 31/08/15.
  */
-public class CellSprite extends Rectangle{
+public class CellSprite extends Pane {
     //private int cellDim;
     //private Colour colour;
  //   int xPos;
@@ -31,10 +32,20 @@ public class CellSprite extends Rectangle{
     */
 
     public CellSprite (double width, double height, Colour color, Object parent) {
-        super(width, height);
+        super();
+        super.setMinSize(width, height);
+        //super(width, height);
         this.color = color;
-        this.setFill(getFillFromPlayer(color));
+        //this.setFill(getFillFromPlayer(color));
+        if(color==Colour.Empty) {this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/empty.png'); -fx-background-size: 100%;");}
+        //if(color==Colour.Empty) {this.setStyle("-fx-background-color: lightgray");}
+        if(color==Colour.Red) {this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/red.png'); -fx-background-size: 100%;");}
+        if(color==Colour.Green) {this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/green.png'); -fx-background-size: 100%;");}
+        if(color==Colour.Blue) {this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/blue.png'); -fx-background-size: 100%;");}
+        if(color==Colour.Yellow) {this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/yellow.png'); -fx-background-size: 100%;");}
+
         this.parent = parent;
+        //this.getStyleClass().add(color.name());
 
         CellSprite dummyCell = this;
         this.setOnMouseClicked(new EventHandler<MouseEvent>() {

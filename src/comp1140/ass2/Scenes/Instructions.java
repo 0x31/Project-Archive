@@ -20,11 +20,21 @@ public class Instructions extends Scene {
         getStylesheets().add("comp1140/ass2/Assets/main.css");
         parent.setTitle("Blokus: Instructions");
 
+        final ImageView imv1 = new ImageView();
+        final Image image3 = new Image(Blokus.class.getResourceAsStream("Assets/blokusbg.png"));
+        imv1.setImage(image3);
+        imv1.setLayoutX(0); imv1.setLayoutY(0);
+        imv1.setFitWidth(700);
+        imv1.setPreserveRatio(true);
+        root.getChildren().add(imv1);
+
 
         final ImageView imv = new ImageView();
         final Image image2 = new Image(Blokus.class.getResourceAsStream("Assets/Blokus.png"));
         imv.setImage(image2);
-        imv.setLayoutX(200); imv.setLayoutY(100);
+        imv.setFitWidth(400);
+        imv.setPreserveRatio(true);
+        imv.setLayoutX(350-200); imv.setLayoutY(40);
         root.getChildren().add(imv);
 
 
