@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 public class PiecePreparerSprite extends GridSprite {
 
     public PieceSprite thePieceSprite;
+    public boolean active;
 
     public PiecePreparerSprite(int col, int row, int width, int height, Colour color, Game parent) {
         super(col, row, width, height, color, parent);
@@ -47,7 +48,9 @@ public class PiecePreparerSprite extends GridSprite {
             maxX = Math.max(maxX, coord.getX());
             maxY = Math.max(maxY, coord.getY());
         }
-        piece.setXY(new Coordinate(-minX + (int) Math.floor((5-(maxX-minX))/2), -minY+(int) Math.floor((5-(maxY-minY))/2)));
+        int newX = /* Set to 0,0 */ -minX + /* Use up any leftover space*/ (int) Math.floor((5 - (maxX - minX)) / 2);
+        int newY = /* Set to 0,0 */ -minY + /* Use up any leftover space*/ (int) Math.floor((5 - (maxY - minY)) / 2);
+        piece.setXY(new Coordinate(newX,newY));
         thePieceSprite = new PieceSprite(piece, xsize, this);
         this.addPieceSprite(thePieceSprite);
 
@@ -65,33 +68,24 @@ public class PiecePreparerSprite extends GridSprite {
     }
 
     public void isClicked(PieceSprite pieceSprite) {
-        if(!parent.players[parent.currentPlayer].isHuman()) {
+        if(!active) {
             return;
         }
-        System.out.println("-- -- -- PiecePreparer was clicked in\n");
-
-        /*for (CellSprite c : pieceSprite.getCellSprites()) {
-            c.setFill(Color.BLUEVIOLET);
-        }*/
 
         removePiece();
         Piece piece = pieceSprite.piece;
         piece.movePiece(1, false);
         addPiece(piece);
 
-
-        /*
-        removePieceSprite(pieceSprite);
-        pieceSprite.piece
-
-        pieceSprite.piece.movePiece(1, false);
-
-        addPieceSprite(pieceSprite);
-        */
     }
 
     public void removePiece() {
         removePieceSprite(thePieceSprite);
         thePieceSprite = null;
     }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
 }

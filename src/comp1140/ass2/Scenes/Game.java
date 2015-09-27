@@ -47,7 +47,8 @@ public class Game extends Scene {
     }
 
     public void transitionMove() {
-        panels[currentPlayer].active = false;
+        piecePreparer.setActive(false);
+        panels[currentPlayer].setActive(false);
         panels[currentPlayer].temporary = null;
         piecePreparer.removePiece();
         if(skip[0]&&skip[1]&&skip[2]&&skip[3]) {
@@ -58,8 +59,9 @@ public class Game extends Scene {
         currentPlayer = (currentPlayer+1) % players.length;
         skip[currentPlayer] = false;
         System.out.println("Player " + (currentPlayer+1)+"'s go!");
-        if(players[currentPlayer].getClass()==Human.class) {
-            panels[currentPlayer].active = true;
+        if(players[currentPlayer].isHuman()) {
+            piecePreparer.setActive(true);
+            panels[currentPlayer].setActive(true);
         }
         // Eventually, the bots should get passed a clone of board instead of board itself, so they can't do anything to board
         // directly.
@@ -149,16 +151,16 @@ public class Game extends Scene {
     public void start() {
 
         Player player0 = new EasyBot(0, this);
-        Player player1 = new Human(1, this);
-        Player player2 = new Human(2, this);
+        Player player1 = new EasyBot(1, this);
+        Player player2 = new EasyBot(2, this);
         Player player3 = new EasyBot(3, this);
         players = new Player[] {player0, player1, player2, player3};
         currentPlayer = players.length-1; // When we transition go, it will start with player 0
 
-
-        transitionMove();
+        board.setActive(true);
 
         // BEGIN!
+        transitionMove();
 
     }
 

@@ -16,7 +16,8 @@ public final class Panel extends GridSprite {
     Colour color;
     public PieceSprite temporary = null;
     Game parent;
-    public boolean active = false;
+    boolean active = false;
+
 
     public Panel(int col, int row, int width, int height, Colour color, Game parent, boolean vertical) {
         super(col, row, width, height, color, parent);
@@ -25,6 +26,7 @@ public final class Panel extends GridSprite {
         for(Node node : this.getChildren()) {
             node.setOpacity(0.2);
         }
+        this.setActive(false);
 
 
         if(vertical) {
@@ -115,4 +117,13 @@ public final class Panel extends GridSprite {
         shapes.remove(sprite.piece.shape);
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+        if(active) {
+            this.setOpacity(1);
+        }
+        else {
+            this.setOpacity(0.4);
+        }
+    }
 }

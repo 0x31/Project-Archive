@@ -7,9 +7,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.web.WebView;
 
 /**
  * Created by nosha on 25/09/15.
@@ -28,32 +31,46 @@ public class Instructions extends Scene {
         imv1.setPreserveRatio(true);
         root.getChildren().add(imv1);
 
+        Button button2 = new Button("<");
+        button2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                parent.toMenu();
+            }
+        });
+        button2.setMinSize(40, 40);
+        button2.setMaxSize(40, 40);
+        button2.setLayoutX(30 - button2.getMinWidth() / 2); button2.setLayoutY(10);
+        button2.getStyleClass().add("back");
+        root.getChildren().add(button2);
+
+        Pane pane = new Pane();
+        pane.setMinSize(600, 480);
+        pane.setMaxSize(600, 480);
+        pane.setLayoutX(50);
+        pane.setLayoutY(180);
+        pane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff;" +
+                "-fx-background-insets: 0,30;");
+
+        String url = Blokus.class.getResource("Assets/Instructions/index.html").toExternalForm();
+        WebView web = new WebView();
+        web.setMaxSize(540, 420);
+        web.setLayoutX(30);
+        web.setLayoutY(30);
+        web.getEngine().load(url);
+
+        pane.getChildren().add(web);
+        root.getChildren().add(pane);
+
 
         final ImageView imv = new ImageView();
         final Image image2 = new Image(Blokus.class.getResourceAsStream("Assets/Blokus.png"));
         imv.setImage(image2);
         imv.setFitWidth(400);
         imv.setPreserveRatio(true);
-        imv.setLayoutX(350-200); imv.setLayoutY(40);
+        imv.setLayoutX(350 - 200); imv.setLayoutY(40);
         root.getChildren().add(imv);
 
 
-
-        Button button2 = new Button("Back");
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                parent.toMenu();
-            }
-        });
-        button2.setMinSize(160, 40);
-        button2.setLayoutX(100 - button2.getMinWidth() / 2); button2.setLayoutY(10);
-        button2.getStyleClass().add("button");
-        root.getChildren().add(button2);
-
-        Label label = new Label("Instructions");
-        label.setMinSize(160, 40);
-        label.setLayoutX(350 - label.getMinWidth() / 2); label.setLayoutY(300);
-        root.getChildren().add(label);
 
     }
 }

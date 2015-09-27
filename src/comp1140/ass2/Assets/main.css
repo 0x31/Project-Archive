@@ -11,6 +11,11 @@
     -fx-text-fill: white;
     -fx-font-size: 20px;
 }
+.back {
+    -fx-padding: 0;
+    -fx-font-size: 15px;
+    -fx-font-weight: 900;
+}
 .button:hover {
     -fx-background-color:
     #223355,
@@ -23,4 +28,8 @@
 }
 .button Text {
     -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , 1);
+}
+
+.addPlayer {
+    -fx-background-color: #ff0000;
 }

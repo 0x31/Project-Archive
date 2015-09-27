@@ -16,7 +16,6 @@ public class CellSprite extends Pane {
  //   int xPos;
 //    int yPos;
 
-    Colour color;
     Color fill;
     Object parent = null; //is part of this pieceSprite
 
@@ -34,18 +33,31 @@ public class CellSprite extends Pane {
     public CellSprite (double width, double height, Colour color, Object parent) {
         super();
         super.setMinSize(width, height);
-        //super(width, height);
-        this.color = color;
-        //this.setFill(getFillFromPlayer(color));
-        if(color==Colour.Empty) {this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/empty.png'); -fx-background-size: 100%;");}
-        //if(color==Colour.Empty) {this.setStyle("-fx-background-color: lightgray");}
-        if(color==Colour.Red) {this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/red.png'); -fx-background-size: 100%;");}
-        if(color==Colour.Green) {this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/green.png'); -fx-background-size: 100%;");}
-        if(color==Colour.Blue) {this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/blue.png'); -fx-background-size: 100%;");}
-        if(color==Colour.Yellow) {this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/yellow.png'); -fx-background-size: 100%;");}
-
         this.parent = parent;
+
+        if (color == Colour.Empty) {
+            this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/empty.png'); -fx-background-size: 100%;");
+        }
+        //if(color==Colour.Empty) {this.setStyle("-fx-background-color: lightgray");}
+        if (color == Colour.Red) {
+            this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/red.png'); -fx-background-size: 100%;");
+        }
+        if (color == Colour.Green) {
+            this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/green.png'); -fx-background-size: 100%;");
+        }
+        if (color == Colour.Blue) {
+            this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/blue.png'); -fx-background-size: 100%;");
+        }
+        if (color == Colour.Yellow) {
+            this.setStyle("-fx-background-image: url('comp1140/ass2/Assets/yellow.png'); -fx-background-size: 100%;");
+        }
+
         //this.getStyleClass().add(color.name());
+        eventWatcher();
+
+    }
+
+    private void eventWatcher() {
 
         CellSprite dummyCell = this;
         this.setOnMouseClicked(new EventHandler<MouseEvent>() {

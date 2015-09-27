@@ -2,9 +2,7 @@ package comp1140.ass2.Game;
 
 import comp1140.ass2.Scenes.Game;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 /**
  * Created by ***REMOVED*** on 19/08/15.
@@ -18,6 +16,11 @@ public class Board extends GridSprite {
     private boolean[] unplacedPiecesGreen = new boolean['U'-'A'+ 1];
     private boolean[] unplacedPiecesBlue = new boolean['U'-'A' + 1];
     private boolean[] unplacedPiecesYellow = new boolean['U' - 'A' + 1];
+
+    private boolean active=false;
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     private boolean[][] unplacedPieces =
             {unplacedPiecesBlue
@@ -345,7 +348,7 @@ public class Board extends GridSprite {
         parent.players[parent.currentPlayer].handleClick(x, y);
     }
     public void isHovered(CellSprite cell) {
-        if(!parent.players[parent.currentPlayer].isHuman()) {
+        if(!active || !parent.players[parent.currentPlayer].isHuman()) {
             return;
         }
         int x = this.getColumnIndex(cell);
@@ -360,6 +363,10 @@ public class Board extends GridSprite {
         if(piece==null) return;
         piece = piece.clone();
         piece.setXY(previewCoord);
+        for(Coordinate coord : piece.getOccupiedCells()) {
+            if(coord.getY()>=20 || coord.getY()<0 || coord.getX()>=20 || coord.getX()<0)
+                return;
+        }
         this.previewPiece(piece);
     }
     public void isUnhovered() {
@@ -374,10 +381,10 @@ public class Board extends GridSprite {
         preview = new PieceSprite(piece, xsize, this);
         for(CellSprite cell : preview.cells) {
             if(!this.legitimateMove(piece)) {
-                cell.setOpacity(0.3);
+                cell.setOpacity(0.4);
             }
             else {
-                cell.setOpacity(0.7);
+                cell.setOpacity(0.9);
             }
         }
         this.addPieceSprite(preview);
