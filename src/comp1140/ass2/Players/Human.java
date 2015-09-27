@@ -1,5 +1,6 @@
 package comp1140.ass2.Players;
 
+import comp1140.ass2.Game.Board;
 import comp1140.ass2.Game.Coordinate;
 import comp1140.ass2.Game.Piece;
 import comp1140.ass2.Scenes.Game;
@@ -10,14 +11,12 @@ import comp1140.ass2.Scenes.Game;
 public class Human implements Player {
 
     Game parent;
+    int playerId;
+    Board board;
 
-    public Human(Game parent) {
+    public Human(int playerId, Game parent) {
         this.parent = parent;
-    }
-
-    @Override
-    public boolean makeMove(Piece piece) {
-        return parent.board.placePiece(piece);
+        this.playerId = playerId;
     }
 
     @Override
@@ -25,8 +24,8 @@ public class Human implements Player {
         if(parent.piecePreparer.getPiece()!=null) {
             Piece piece = parent.piecePreparer.getPiece().clone();
             piece.setXY(new Coordinate(x, y));
-            if(makeMove(piece)) {
-                parent.transitionMove();
+            if(board.legitimateMove(piece)) {
+                parent.makeMove(this, piece);
             }
             else {
                 System.out.println("Invalid move!");
@@ -35,9 +34,21 @@ public class Human implements Player {
     }
 
     @Override
-    public void think() {
+    public void think(Board board) {
+        this.board = board;
         // HAHAHA! Humans? Thinking?!
         return; // Nope! Do nothing.
         // i.e. Wait for click();
+    }
+
+    @Override
+    public void skip() {
+        parent.skip[parent.currentPlayer] = true;
+        parent.transitionMove();
+    }
+
+    @Override
+    public boolean isHuman() {
+        return true;
     }
 }

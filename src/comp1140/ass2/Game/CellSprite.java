@@ -65,6 +65,9 @@ public class CellSprite extends Pane {
                 if (parent instanceof GridSprite) {
                     ((GridSprite) parent).isHovered(dummyCell);
                 }
+                if (parent instanceof PieceSprite) {
+                    ((PieceSprite) parent).isHovered(dummyCell);
+                }
             }
         });
         this.setOnMouseExited(new EventHandler<MouseEvent>() {

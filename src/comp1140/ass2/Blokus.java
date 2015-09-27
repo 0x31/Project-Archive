@@ -4,10 +4,13 @@ package comp1140.ass2;/**
 
 import comp1140.ass2.Players.Player;
 import comp1140.ass2.Scenes.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Blokus extends Application {
 
@@ -18,7 +21,7 @@ public class Blokus extends Application {
     Stage primaryStage;
 
     Scene menu;
-    Scene game;
+    Game game;
     Scene instructions;
     Scene options;
     Scene gameOptions;
@@ -36,6 +39,10 @@ public class Blokus extends Application {
     public void toGame() {
         this.primaryStage.setScene(this.game);
         setTitle("Blokus: Play!");
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.millis(1000),
+                ae -> game.start()));
+        timeline.play();
     }
 
     public void toInstructions() {

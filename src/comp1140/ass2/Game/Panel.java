@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public final class Panel extends GridSprite {
 
     ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
-    public ArrayList<Piece> pieces = new ArrayList<>();
+    public ArrayList<Shape> shapes= new ArrayList<>();
     Colour color;
     public PieceSprite temporary = null;
     Game parent;
@@ -81,15 +81,19 @@ public final class Panel extends GridSprite {
         myPiece.setXY(new Coordinate(x, y));
         PieceSprite myPieceSprite = new PieceSprite(myPiece, xsize, this);
         pieceSprites.add(myPieceSprite);
-        pieces.add(myPiece);
+        shapes.add(shape);
         this.addPieceSprite(myPieceSprite);
     }
 
-    public void removePiece(Piece piece) {
-        int index = pieces.indexOf(piece);
+    public void removePiece(Shape shape) {
+        //int index = pieces.indexOf(piece);
+        int index = shapes.indexOf(shape);
+        if(index==-1) return;
+        //System.out.println(pieceSprites.size()+ ", "+pieces.size());
         PieceSprite sprite = pieceSprites.get(index);
         pieceSprites.remove(index);
-        pieces.remove(index);
+        shapes.remove(index);
+        //pieces.remove(index);
         this.removePieceSprite(sprite);
     }
 
@@ -99,14 +103,16 @@ public final class Panel extends GridSprite {
         }
         if(temporary != null) {
             pieceSprites.add(temporary);
-            pieces.add(temporary.piece);
+            shapes.add(temporary.piece.shape);
+            //pieces.add(temporary.piece);
             this.addPieceSprite(temporary);
         }
         temporary = sprite;
         this.removePieceSprite(sprite);
-        parent.piecePreparer.addPiece(sprite.piece.shape, color);
+        parent.piecePreparer.addShape(sprite.piece.shape, color);
         pieceSprites.remove(sprite);
-        pieces.remove(sprite.piece);
+        //pieces.remove(sprite.piece);
+        shapes.remove(sprite.piece.shape);
     }
 
 }

@@ -68,7 +68,8 @@ public class Board extends GridSprite {
          * Is this okay? I don't know if using ordinal is a good idea, as the order may change
          * If a tutor is reading this, then we obviously made the wise decision of keeping ordinal()
          */
-        int playerId = piece.colour.ordinal();
+        //int playerId = piece.colour.ordinal();
+        int playerId = parent.currentPlayer;
         int shapeId = piece.shape.ordinal();
 
         unplacedPieces[playerId][shapeId] = false;
@@ -133,8 +134,8 @@ public class Board extends GridSprite {
          * Fill up array of unused pieces
          */
         for(boolean[] unplacedPieceList : unplacedPieces) {
-            for(boolean unplacedPiece : unplacedPieceList) {
-                unplacedPiece = true;
+            for(int i=0;i<unplacedPieceList.length;i++) {
+                unplacedPieceList[i]=true;
             }
         }
 
@@ -252,6 +253,10 @@ public class Board extends GridSprite {
      */
 
     public boolean legitimateMove(Piece piece) {
+
+        if(!unplacedPieces[parent.currentPlayer][piece.shape.ordinal()]) {
+            return false;
+        }
         Coordinate[] cells = piece.getOccupiedCells();
         Colour turnColour = piece.colour;
         /** Check that coordinates are empty */
@@ -340,6 +345,9 @@ public class Board extends GridSprite {
         parent.players[parent.currentPlayer].handleClick(x, y);
     }
     public void isHovered(CellSprite cell) {
+        if(!parent.players[parent.currentPlayer].isHuman()) {
+            return;
+        }
         int x = this.getColumnIndex(cell);
         int y = this.getRowIndex(cell);
         Coordinate tempCoord = new Coordinate(x,y);
@@ -364,6 +372,14 @@ public class Board extends GridSprite {
     public Coordinate previewCoord;
     public void previewPiece(Piece piece) {
         preview = new PieceSprite(piece, xsize, this);
+        for(CellSprite cell : preview.cells) {
+            if(!this.legitimateMove(piece)) {
+                cell.setOpacity(0.3);
+            }
+            else {
+                cell.setOpacity(0.7);
+            }
+        }
         this.addPieceSprite(preview);
     }
 }

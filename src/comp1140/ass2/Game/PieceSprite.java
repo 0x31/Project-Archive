@@ -41,6 +41,10 @@ public class PieceSprite {
         gridSprite.isClicked(this);
     }
 
+    public void isHovered(CellSprite cellSprite) {
+        gridSprite.isHovered(cellSprite);
+    }
+
     private Color getFillFromPlayer(Colour color) {
         if      (color == Colour.Blue)      return Color.BLUE;
         else if (color == Colour.Red)       return Color.RED;
