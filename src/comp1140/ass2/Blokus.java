@@ -36,12 +36,12 @@ public class Blokus extends Application {
         setTitle("Blokus: Main Menu");
     }
 
-    public void toGame() {
+    public void toGame(int[] players) {
         this.primaryStage.setScene(this.game);
         setTitle("Blokus: Play!");
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(1000),
-                ae -> game.start()));
+                ae -> game.start(players)));
         timeline.play();
     }
 

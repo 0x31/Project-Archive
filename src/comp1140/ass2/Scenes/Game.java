@@ -3,23 +3,20 @@ package comp1140.ass2.Scenes;
 import comp1140.ass2.*;
 import comp1140.ass2.Game.*;
 import comp1140.ass2.Players.EasyBot;
+import comp1140.ass2.Players.ExtremelyHardBot;
 import comp1140.ass2.Players.Human;
 import comp1140.ass2.Players.Player;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
@@ -113,6 +110,7 @@ public class Game extends Scene {
         button0.setMinSize(80, 20);
         button0.setLayoutX(580);
         button0.setLayoutY(4);
+        button0.getStyleClass().add("button1");
         root.getChildren().add(button0);
 
         Button button1 = new Button("Menu");
@@ -124,7 +122,9 @@ public class Game extends Scene {
         button1.setMinSize(80, 20);
         button1.setLayoutX(470);
         button1.setLayoutY(4);
+        button1.getStyleClass().add("button1");
         root.getChildren().add(button1);
+
 
         /*
         Pane pane = new Pane();
@@ -165,9 +165,9 @@ public class Game extends Scene {
 
         Panel greenPanel = new Panel(10, 20, panelCell, Colour.Green, this, false);
         Pane greenPane = new Pane();
-        greenPane.setLayoutX(700-30-panelCell*20); greenPane.setLayoutY(700-30-panelCell*10);
+        greenPane.setLayoutX(700 - 30 - panelCell * 20); greenPane.setLayoutY(700 - 30 - panelCell * 10);
         greenPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
-        greenPane.setMinSize(panelCell * 20 + 20, panelCell*10+20);
+        greenPane.setMinSize(panelCell * 20 + 20, panelCell * 10 + 20);
         greenPanel.setLayoutX(10); greenPanel.setLayoutY(10);
         greenPane.getChildren().add(greenPanel);
 
@@ -175,18 +175,18 @@ public class Game extends Scene {
 
         board = new Board(20, 20, boardCell, Colour.Empty, this);
         Pane boardPane = new Pane();
-        boardPane.setLayoutX(700-30-boardCell*20); boardPane.setLayoutY(700-40-boardCell*20-20-panelCell*10);
+        boardPane.setLayoutX(700 - 30 - boardCell * 20); boardPane.setLayoutY(700 - 40 - boardCell * 20 - 20 - panelCell * 10);
         boardPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
-        boardPane.setMinSize(boardCell * 20 + 20, boardCell*20+20);
+        boardPane.setMinSize(boardCell * 20 + 20, boardCell * 20 + 20);
         board.setLayoutX(10); board.setLayoutY(10);
         boardPane.getChildren().add(board);
 
         int prepCell = 20;
         piecePreparer = new PiecePreparerSprite(5,5, prepCell, Colour.Empty, this);
         Pane prepPane = new Pane();
-        prepPane.setLayoutX(700-80-panelCell*50); prepPane.setLayoutY(700-30-panelCell*10+10);
+        prepPane.setLayoutX(700 - 80 - panelCell * 50); prepPane.setLayoutY(700 - 30 - panelCell * 10 + 10);
         prepPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
-        prepPane.setMinSize(prepCell * 5 + 20, prepCell*5+20);
+        prepPane.setMinSize(prepCell * 5 + 20, prepCell * 5 + 20);
         piecePreparer.setLayoutX(10); piecePreparer.setLayoutY(10);
         prepPane.getChildren().add(piecePreparer);
 
@@ -234,20 +234,38 @@ public class Game extends Scene {
         imv.setImage(image2);
         imv.setFitHeight(60);
         imv.preserveRatioProperty().setValue(true);
-        imv.setLayoutX(30);
+        imv.setLayoutX(700-50*panelCell-80);
         imv.setLayoutY(1);
         root.getChildren().add(imv);
 
     }
 
 
-    public void start() {
+    public void start(int[] playerCodes) {
+        players = new Player[] {null,null,null,null};
 
+        for(int i=0;i<4;i++) {
+            if(playerCodes[i]==0) {
+                players[i] = new EasyBot(i, this);
+            }
+            if(playerCodes[i]==1) {
+                players[i] = new Human(i, this);
+            }
+            if(playerCodes[i]==2) {
+                players[i] = new EasyBot(i, this);
+            }
+            if(playerCodes[i]==3) {
+                players[i] = new ExtremelyHardBot(i, this);
+            }
+        }
+
+        /*
         Player player0 = new Human(0, this);
         Player player1 = new EasyBot(1, this);
         Player player2 = new EasyBot(2, this);
         Player player3 = new EasyBot(3, this);
         players = new Player[] {player0, player1, player2, player3};
+        */
         currentPlayer = players.length-1; // When we transition go, it will start with player 0
 
         board.setActive(true);

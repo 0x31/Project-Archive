@@ -28,6 +28,7 @@ public class GameEnd extends Scene {
 
 
 
+        /*
         Button button2 = new Button("Play");
         button2.setOnAction(new EventHandler<ActionEvent>() {public void handle(ActionEvent e) { parent.toGame();
         }});
@@ -47,6 +48,7 @@ public class GameEnd extends Scene {
         button1.setMinSize(160, 40);
         button1.setLayoutX(350 - button1.getMinWidth() / 2); button1.setLayoutY(480);
         root.getChildren().add(button1);
+        */
 
     }
 }

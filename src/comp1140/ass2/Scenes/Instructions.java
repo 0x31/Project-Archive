@@ -41,6 +41,7 @@ public class Instructions extends Scene {
         button2.setMaxSize(40, 40);
         button2.setLayoutX(30 - button2.getMinWidth() / 2); button2.setLayoutY(10);
         button2.getStyleClass().add("back");
+        button2.getStyleClass().add("button1");
         root.getChildren().add(button2);
 
         Pane pane = new Pane();
