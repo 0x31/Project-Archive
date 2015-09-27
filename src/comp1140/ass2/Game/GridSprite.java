@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public abstract class GridSprite extends GridPane {
     int col;
     int row;
-    int ysize;
+    //int ysize;
     int xsize;
 
     Game parent;
@@ -24,19 +24,20 @@ public abstract class GridSprite extends GridPane {
 
     public GridSprite() {}
 
-    public GridSprite(int col, int row, int width, int height, Colour color, Game parent) {
+    public GridSprite(int col, int row, int xsize, Colour color, Game parent) {
         this.parent = parent;
         this.col = col;
         this.row = row;
-        this.xsize = Math.floorDiv(width-10, row)-1;
-        this.ysize = Math.floorDiv(height-10, col)-1;
+        //this.xsize = Math.floorDiv(width-10, row)-1;
+        //this.ysize = Math.floorDiv(height-10, col)-1;
+        this.xsize = xsize;
         this.color = color;
 
         //this.setHgap(1);
         //this.setVgap(1);
         for(int j=0;j<col;j++) {
             for (int i = 0; i < row; i++) {
-                CellSprite cell = new CellSprite(xsize, ysize, color,this); //double width, double height, Colour color, PieceSprite pieceSprite) {
+                CellSprite cell = new CellSprite(xsize, xsize, color,this); //double width, double height, Colour color, PieceSprite pieceSprite) {
                 this.add(cell, i, j);
             }
         }

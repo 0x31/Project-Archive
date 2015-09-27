@@ -19,8 +19,8 @@ public final class Panel extends GridSprite {
     boolean active = false;
 
 
-    public Panel(int col, int row, int width, int height, Colour color, Game parent, boolean vertical) {
-        super(col, row, width, height, color, parent);
+    public Panel(int col, int row, int size, Colour color, Game parent, boolean vertical) {
+        super(col, row, size, color, parent);
         this.parent = parent;
         this.color = color;
         for(Node node : this.getChildren()) {

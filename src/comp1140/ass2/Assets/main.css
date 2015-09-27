@@ -33,3 +33,7 @@
 .addPlayer {
     -fx-background-color: #ff0000;
 }
+
+.pass {
+    -fx-font-size: 14px;
+}

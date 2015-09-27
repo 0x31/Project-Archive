@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -77,44 +78,122 @@ public class Game extends Scene {
         super(root, width, height, Color.WHITE);
         getStylesheets().add("comp1140/ass2/Assets/main.css");
 
+        final ImageView imv1 = new ImageView();
+        final Image image3 = new Image(Blokus.class.getResourceAsStream("Assets/blokusbg.png"));
+        imv1.setImage(image3);
+        imv1.setLayoutX(0); imv1.setLayoutY(0);
+        imv1.setFitWidth(700);
+        imv1.setPreserveRatio(true);
+        root.getChildren().add(imv1);
+
+
+
 
         /**primaryStage.setOnCloseRequest(event -> {
          closingTests(didFinish);
          }); */
 
         int boardSize = 520;
-        int gameSize = 670;
+        int gameSize = 640;
+
+        int panelCell = 11;
+        int boardCell = 23;
 
 
-        Panel bluePanel = new Panel(20, 10, gameSize - boardSize, boardSize / 2, Colour.Blue, this, true);
-        Panel yellowPanel = new Panel(20, 10, gameSize - boardSize, boardSize / 2, Colour.Yellow, this, true);
-        Panel redPanel = new Panel(10, 20, boardSize / 2, gameSize - boardSize, Colour.Red, this, false);
-        Panel panelGreen = new Panel(10, 20, boardSize / 2, gameSize - boardSize, Colour.Green, this, false);
-        panels = new Panel[]{bluePanel, yellowPanel, redPanel, panelGreen};
 
-        board = new Board(20, 20, boardSize, boardSize, Colour.Empty, this);
-        piecePreparer = new PiecePreparerSprite(5,5, gameSize - boardSize, gameSize - boardSize, Colour.Empty, this);
 
         // MENUBAR
-        HBox menuBar = new HBox();
-        final ImageView imv = new ImageView();
-        final Image image2 = new Image(Blokus.class.getResourceAsStream("Assets/Blokus.png"));
-        imv.setImage(image2);
-        imv.setFitHeight(70);
-        imv.preserveRatioProperty().setValue(true);
-        imv.setLayoutX(10);
-        imv.setLayoutY(1);
+
         Button button0 = new Button("Pass");
         button0.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
             }
         });
-        button0.setMinSize(160, 40);
-        button0.setLayoutX(640 - button0.getMinWidth() / 2);
-        button0.setLayoutY(20);
-        menuBar.setMinSize(700, 70);
-        menuBar.getChildren().addAll(imv, button0);
+        button0.getStyleClass().add("pass");
+        button0.setMinSize(80, 20);
+        button0.setLayoutX(580);
+        button0.setLayoutY(4);
+        root.getChildren().add(button0);
 
+        Button button1 = new Button("Menu");
+        button1.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+            }
+        });
+        button1.getStyleClass().add("pass");
+        button1.setMinSize(80, 20);
+        button1.setLayoutX(470);
+        button1.setLayoutY(4);
+        root.getChildren().add(button1);
+
+        /*
+        Pane pane = new Pane();
+        pane.setMinSize(640, 640);
+        pane.setMaxSize(640, 640);
+        pane.setLayoutX(30);
+        pane.setLayoutY(50);
+        pane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff;" +
+                "-fx-background-insets: 0,10;");
+                */
+
+        int panelHeight = 200;
+        int panelWidth = 140;
+
+        Panel bluePanel = new Panel(20, 10, panelCell, Colour.Blue, this, true);
+        Pane bluePane = new Pane();
+        bluePane.setLayoutX(700-50*panelCell-80); bluePane.setLayoutY(700-80-50*panelCell);
+        bluePane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
+        bluePane.setMinSize(panelCell*10+20, panelCell*20+20);
+        bluePanel.setLayoutX(10); bluePanel.setLayoutY(10);
+        bluePane.getChildren().add(bluePanel);
+
+        Panel yellowPanel = new Panel(20, 10, panelCell, Colour.Yellow, this, true);
+        Pane yellowPane = new Pane();
+        yellowPane.setLayoutX(700-50*panelCell-80); yellowPane.setLayoutY(700-50-30*panelCell);
+        yellowPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
+        yellowPane.setMinSize(panelCell*10+20, panelCell*20+20);
+        yellowPanel.setLayoutX(10); yellowPanel.setLayoutY(10);
+        yellowPane.getChildren().add(yellowPanel);
+
+        Panel redPanel = new Panel(10, 20, panelCell, Colour.Red, this, false);
+        Pane redPane = new Pane();
+        redPane.setLayoutX(700-60-panelCell*40); redPane.setLayoutY(700-30-panelCell*10);
+        redPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
+        redPane.setMinSize(panelCell*20+20, panelCell*10+20);
+        redPanel.setLayoutX(10); redPanel.setLayoutY(10);
+        redPane.getChildren().add(redPanel);
+
+        Panel greenPanel = new Panel(10, 20, panelCell, Colour.Green, this, false);
+        Pane greenPane = new Pane();
+        greenPane.setLayoutX(700-30-panelCell*20); greenPane.setLayoutY(700-30-panelCell*10);
+        greenPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
+        greenPane.setMinSize(panelCell * 20 + 20, panelCell*10+20);
+        greenPanel.setLayoutX(10); greenPanel.setLayoutY(10);
+        greenPane.getChildren().add(greenPanel);
+
+        panels = new Panel[]{bluePanel, yellowPanel, redPanel, greenPanel};
+
+        board = new Board(20, 20, boardCell, Colour.Empty, this);
+        Pane boardPane = new Pane();
+        boardPane.setLayoutX(700-30-boardCell*20); boardPane.setLayoutY(700-40-boardCell*20-20-panelCell*10);
+        boardPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
+        boardPane.setMinSize(boardCell * 20 + 20, boardCell*20+20);
+        board.setLayoutX(10); board.setLayoutY(10);
+        boardPane.getChildren().add(board);
+
+        int prepCell = 20;
+        piecePreparer = new PiecePreparerSprite(5,5, prepCell, Colour.Empty, this);
+        Pane prepPane = new Pane();
+        prepPane.setLayoutX(700-80-panelCell*50); prepPane.setLayoutY(700-30-panelCell*10+10);
+        prepPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
+        prepPane.setMinSize(prepCell * 5 + 20, prepCell*5+20);
+        piecePreparer.setLayoutX(10); piecePreparer.setLayoutY(10);
+        prepPane.getChildren().add(piecePreparer);
+
+        root.getChildren().addAll(bluePane, yellowPane, redPane, greenPane, boardPane, prepPane);
+
+
+        /*
 
         //Layout
         VBox vbox = new VBox();
@@ -138,19 +217,33 @@ public class Game extends Scene {
                 //bottom.setMargin(redPanel, new Insets(5, 10, 5, 5));
                 //bottom.setMargin(panelGreen, new Insets(5, 5, 5, 10));
             }
-            vbox.getChildren().addAll(menuBar, top, bottom);
+            vbox.getChildren().addAll(top, bottom);
             //vbox.setMargin(top, new Insets(5, 5, 0, 5));
             //vbox.setMargin(menuBar, new Insets(1, 1, 1, 1));
             //vbox.setMargin(bottom, new Insets(0, 5, 5, 5));
         }
-        root.getChildren().add(vbox);
+        pane.getChildren().add(vbox);
+        vbox.setLayoutX(10);
+        vbox.setLayoutY(10);
 
+        root.getChildren().add(pane);
+        */
+
+        final ImageView imv = new ImageView();
+        final Image image2 = new Image(Blokus.class.getResourceAsStream("Assets/Blokus.png"));
+        imv.setImage(image2);
+        imv.setFitHeight(60);
+        imv.preserveRatioProperty().setValue(true);
+        imv.setLayoutX(30);
+        imv.setLayoutY(1);
+        root.getChildren().add(imv);
 
     }
 
+
     public void start() {
 
-        Player player0 = new EasyBot(0, this);
+        Player player0 = new Human(0, this);
         Player player1 = new EasyBot(1, this);
         Player player2 = new EasyBot(2, this);
         Player player3 = new EasyBot(3, this);

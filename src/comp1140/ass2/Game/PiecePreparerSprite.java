@@ -11,8 +11,8 @@ public class PiecePreparerSprite extends GridSprite {
     public PieceSprite thePieceSprite;
     public boolean active;
 
-    public PiecePreparerSprite(int col, int row, int width, int height, Colour color, Game parent) {
-        super(col, row, width, height, color, parent);
+    public PiecePreparerSprite(int col, int row, int size, Colour color, Game parent) {
+        super(col, row, size, color, parent);
 
 
     }

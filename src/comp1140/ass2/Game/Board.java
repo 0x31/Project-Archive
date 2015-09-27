@@ -128,8 +128,8 @@ public class Board extends GridSprite {
      * @param height
      * @param color
      */
-    public Board(int col, int row, int width, int height, Colour color, Game parent) {
-        super(col, row, width, height, color, parent);
+    public Board(int col, int row, int size, Colour color, Game parent) {
+        super(col, row, size, color, parent);
         grid = new Colour['T'-'A'+1]['T'-'A'+1];
         for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=Colour.Empty;
 
