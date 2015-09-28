@@ -29,58 +29,90 @@ public final class Panel extends GridSprite {
         this.setActive(false);
 
 
+        // Note: Rotating the panel with setRotation didn't work out well, hence this
         if(vertical) {
-            addPiece(Shape.A, 1, 1);
-            addPiece(Shape.B, 3, 1);
-            addPiece(Shape.C, 5, 1);
-            addPiece(Shape.D, 7, 1);
-            addPiece(Shape.E, 1, 5);
-            addPiece(Shape.F, 2, 13);
-            addPiece(Shape.G, 2, 13);
-            addPiece(Shape.H, 2, 13);
-            addPiece(Shape.I, 2, 13);
-            addPiece(Shape.J, 2, 13);
-            addPiece(Shape.K, 2, 13);
-            addPiece(Shape.L, 2, 13);
-            addPiece(Shape.M, 2, 13);
-            addPiece(Shape.N, 2, 13);
-            addPiece(Shape.O, 2, 13);
-            addPiece(Shape.P, 2, 13);
-            addPiece(Shape.Q, 2, 13);
-            addPiece(Shape.R, 2, 13);
-            addPiece(Shape.S, 2, 13);
-            addPiece(Shape.T, 2, 13);
-            addPiece(Shape.U, 2, 13);
+
+            addPiece(Shape.A, 'H', 0,0);
+            addPiece(Shape.B, 'H', 2,0);
+            addPiece(Shape.J, 'H', 5,0);
+            addPiece(Shape.C, 'H', 0,2);
+            addPiece(Shape.E, 'H', 4,2);
+            addPiece(Shape.Q, 'D', 7,4);
+            addPiece(Shape.K, 'D', 0,4);
+            addPiece(Shape.F, 'G', 5,4);
+            addPiece(Shape.M, 'B', 2,7);
+            addPiece(Shape.H, 'H', 8,6);
+            addPiece(Shape.T, 'H', 1,9);
+
+            addPiece(Shape.P, 'G', 5,10);
+            addPiece(Shape.R, 'G', 7,11);
+            addPiece(Shape.O, 'G', 0,14);
+            addPiece(Shape.U, 'F', 4,13);
+            addPiece(Shape.G, 'E', 9,13);
+            addPiece(Shape.S, 'F', 2,15);
+            addPiece(Shape.I, 'B', 6,17);
+            addPiece(Shape.L, 'G', 1,19);
+            addPiece(Shape.D, 'E', 5,18);
+            addPiece(Shape.N, 'G', 8,19);
+
+
         }
         else {
-            addPiece(Shape.A, 1, 1);
-            addPiece(Shape.B, 1, 3);
-            addPiece(Shape.C, 1, 6);
-            addPiece(Shape.E, 3, 1);
-            addPiece(Shape.J, 5, 1);
-            addPiece(Shape.G, 3, 6);
-            addPiece(Shape.D, 7, 1);
-            addPiece(Shape.F, 7, 6);
-            addPiece(Shape.H, 10, 1);
-            addPiece(Shape.I, 10, 4);
-            addPiece(Shape.J, 14, 1);
-            addPiece(Shape.K, 14, 1);
-            addPiece(Shape.L, 14, 1);
-            addPiece(Shape.M, 14, 1);
-            addPiece(Shape.N, 14, 1);
-            addPiece(Shape.O, 14, 1);
-            addPiece(Shape.P, 14, 1);
-            addPiece(Shape.Q, 14, 1);
-            addPiece(Shape.R, 14, 1);
-            addPiece(Shape.S, 14, 1);
-            addPiece(Shape.T, 14, 1);
-            addPiece(Shape.U, 14, 1);
+            addPiece(Shape.A, 'A', 0,0);
+            addPiece(Shape.B, 'A', 0,2);
+            addPiece(Shape.J, 'A', 0,5);
+            addPiece(Shape.C, 'A', 2,0);
+            addPiece(Shape.E, 'A', 2,4);
+            addPiece(Shape.Q, 'E', 4,7);
+            addPiece(Shape.K, 'E', 4,0);
+            addPiece(Shape.F, 'D', 4,5);
+            addPiece(Shape.M, 'G', 7,2);
+            addPiece(Shape.H, 'A', 6,8);
+            addPiece(Shape.T, 'A', 9,1);
+            addPiece(Shape.P, 'B', 10,5);
+            addPiece(Shape.R, 'B', 11,7);
+            addPiece(Shape.O, 'B', 14, 0);
+            addPiece(Shape.U, 'A', 13,4);
+            addPiece(Shape.G, 'D', 13,9);
+            addPiece(Shape.S, 'A', 15,2);
+            addPiece(Shape.I, 'E', 17,6);
+            addPiece(Shape.L, 'B', 19,1);
+            addPiece(Shape.D, 'D', 18,5);
+            addPiece(Shape.N, 'B', 19,8);
+
+
+
+
+            /*
+
+            addPiece(Shape.B, 'A', 1, 3);
+            addPiece(Shape.C, 'A', 1, 6);
+            addPiece(Shape.E, 'A', 3, 1);
+            addPiece(Shape.J, 'A', 5, 1);
+            addPiece(Shape.G, 'A', 3, 6);
+            addPiece(Shape.D, 'A', 7, 1);
+            addPiece(Shape.F, 'A', 7, 6);
+            addPiece(Shape.H, 'A', 10, 1);
+            addPiece(Shape.I, 'A', 10, 4);
+            addPiece(Shape.J, 'A', 14, 1);
+            addPiece(Shape.K, 'A', 14, 1);
+            addPiece(Shape.L, 'A', 14, 1);
+            addPiece(Shape.M, 'A', 14, 1);
+            addPiece(Shape.N, 'A', 14, 1);
+            addPiece(Shape.O, 'A', 14, 1);
+            addPiece(Shape.P, 'A', 14, 1);
+            addPiece(Shape.Q, 'A', 14, 1);
+            addPiece(Shape.R, 'A', 14, 1);
+            addPiece(Shape.S, 'A', 14, 1);
+            addPiece(Shape.T, 'A', 14, 1);
+            addPiece(Shape.U, 'A', 14, 1);
+            */
         }
     }
 
-    public void addPiece(Shape shape, int x, int y) {
+    public void addPiece(Shape shape, char orientation, int x, int y) {
         Piece myPiece = new Piece(shape, color);
-        myPiece.setXY(new Coordinate(x, y));
+        myPiece.initialisePiece(new Coordinate(x, y),orientation);
         PieceSprite myPieceSprite = new PieceSprite(myPiece, xsize, this);
         pieceSprites.add(myPieceSprite);
         shapes.add(shape);

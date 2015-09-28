@@ -1,6 +1,6 @@
 package comp1140.ass2.Scenes;
 
-import comp1140.ass2.*;
+import comp1140.ass2.Blokus;
 import comp1140.ass2.Game.*;
 import comp1140.ass2.Players.EasyBot;
 import comp1140.ass2.Players.ExtremelyHardBot;
@@ -23,7 +23,9 @@ import javafx.util.Duration;
 /**
  * Created by steveb on 12/08/2015.
  */
-public class Game extends Scene {
+public class GameWithSidebar {
+
+    /*
 
     public int currentPlayer;
     public Player[] players;
@@ -72,7 +74,7 @@ public class Game extends Scene {
     public void endGame() {
     }
 
-    public Game(Group root, double width, double height, Blokus parent) {
+    public GameWithSidebar(Group root, double width, double height, Blokus parent) {
         super(root, width, height, Color.WHITE);
         getStylesheets().add("comp1140/ass2/Assets/main.css");
 
@@ -89,7 +91,7 @@ public class Game extends Scene {
 
         /**primaryStage.setOnCloseRequest(event -> {
          closingTests(didFinish);
-         }); */
+         }); *
 
         int boardSize = 520;
         int gameSize = 640;
@@ -135,68 +137,34 @@ public class Game extends Scene {
         pane.setLayoutY(50);
         pane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff;" +
                 "-fx-background-insets: 0,10;");
-                */
+                *
 
         int panelHeight = 200;
         int panelWidth = 140;
 
-        int prepCell = 20;
-
-        Pane blueHead = new Pane();
-        blueHead.setMinSize(panelCell * 10 + 20, 30);
-        blueHead.setLayoutX(10);
-        blueHead.setLayoutY(10);
-        blueHead.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30);");
-        root.getChildren().add(blueHead);
-
         Panel bluePanel = new Panel(20, 10, panelCell, Colour.Blue, this, true);
         Pane bluePane = new Pane();
-        bluePane.setLayoutX(10); bluePane.setLayoutY(30 + 10);
+        bluePane.setLayoutX(700-50*panelCell-80); bluePane.setLayoutY(700-80-50*panelCell);
         bluePane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
-        bluePane.setMinSize(panelCell * 10 + 20, panelCell * 20 + 20);
+        bluePane.setMinSize(panelCell*10+20, panelCell*20+20);
         bluePanel.setLayoutX(10); bluePanel.setLayoutY(10);
-        bluePane.getChildren().addAll(bluePanel);
-
-
-
-        Pane yellowHead = new Pane();
-        yellowHead.setMinSize(panelCell * 10 + 20, 30);
-        yellowHead.setLayoutX(10);
-        yellowHead.setLayoutY(30 + 10 + 10 + panelCell * 20 + 20);
-        yellowHead.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30);");
-        root.getChildren().add(yellowHead);
+        bluePane.getChildren().add(bluePanel);
 
         Panel yellowPanel = new Panel(20, 10, panelCell, Colour.Yellow, this, true);
         Pane yellowPane = new Pane();
-        yellowPane.setLayoutX(10); yellowPane.setLayoutY(30+10+30+10+panelCell*20+20);
+        yellowPane.setLayoutX(700-50*panelCell-80); yellowPane.setLayoutY(700-50-30*panelCell);
         yellowPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
         yellowPane.setMinSize(panelCell*10+20, panelCell*20+20);
         yellowPanel.setLayoutX(10); yellowPanel.setLayoutY(10);
         yellowPane.getChildren().add(yellowPanel);
 
-
-        Pane redHead = new Pane();
-        redHead.setMinSize(30, panelCell * 10 + 20);
-        redHead.setLayoutX(10+prepCell*5 + 20 + 10);
-        redHead.setLayoutY(30 + 10 + 10 + panelCell * 40 + 30+40);
-        redHead.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30);");
-        root.getChildren().add(redHead);
-
         Panel redPanel = new Panel(10, 20, panelCell, Colour.Red, this, false);
         Pane redPane = new Pane();
-        redPane.setLayoutX(10+prepCell * 5 + 20+10+30); redPane.setLayoutY(700-30-panelCell*10);
+        redPane.setLayoutX(700-60-panelCell*40); redPane.setLayoutY(700-30-panelCell*10);
         redPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
         redPane.setMinSize(panelCell*20+20, panelCell*10+20);
         redPanel.setLayoutX(10); redPanel.setLayoutY(10);
         redPane.getChildren().add(redPanel);
-
-
-        Pane greenHead = new Pane();
-        greenHead.setMinSize(30, panelCell * 10 + 20);
-        greenHead.setLayoutX(700-30-panelCell*20-30);
-        greenHead.setLayoutY(30 + 10 + 10 + panelCell * 40 + 30+40);
-        greenHead.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30);");
-        root.getChildren().add(greenHead);
 
         Panel greenPanel = new Panel(10, 20, panelCell, Colour.Green, this, false);
         Pane greenPane = new Pane();
@@ -216,9 +184,10 @@ public class Game extends Scene {
         board.setLayoutX(10); board.setLayoutY(10);
         boardPane.getChildren().add(board);
 
+        int prepCell = 20;
         piecePreparer = new PiecePreparerSprite(5,5, prepCell, Colour.Empty, this);
         Pane prepPane = new Pane();
-        prepPane.setLayoutX(10); prepPane.setLayoutY(700 - 30 - panelCell * 10 + 10);
+        prepPane.setLayoutX(700 - 80 - panelCell * 50); prepPane.setLayoutY(700 - 30 - panelCell * 10 + 10);
         prepPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
         prepPane.setMinSize(prepCell * 5 + 20, prepCell * 5 + 20);
         piecePreparer.setLayoutX(10); piecePreparer.setLayoutY(10);
@@ -261,9 +230,8 @@ public class Game extends Scene {
         vbox.setLayoutY(10);
 
         root.getChildren().add(pane);
-        */
+        *
 
-        /*
         final ImageView imv = new ImageView();
         final Image image2 = new Image(Blokus.class.getResourceAsStream("Assets/Blokus.png"));
         imv.setImage(image2);
@@ -272,7 +240,27 @@ public class Game extends Scene {
         imv.setLayoutX(700 - 50 * panelCell - 80);
         imv.setLayoutY(1);
         root.getChildren().add(imv);
-        */
+
+        Pane rect = new Pane();
+        rect.setMinSize(51,700);
+        rect.setStyle(
+                "-fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.4) , 10, 0.0 , 5 , 0);"
+        );
+
+        Rectangle rect1 = new Rectangle(0,0,50,550);
+        rect1.setFill(Color.valueOf("rgba(11, 66, 155, 0.9)"));
+        rect.getChildren().add(rect1);
+        Rectangle rect2 = new Rectangle(0,550,50,50);
+        rect2.setFill(Color.valueOf("rgba(237,157, 0, 0.9)"));
+        rect.getChildren().add(rect2);
+        Rectangle rect3 = new Rectangle(0,600,50,50);
+        rect3.setFill(Color.valueOf("rgba(155, 11, 66, 0.9)"));
+        rect.getChildren().add(rect3);
+        Rectangle rect4 = new Rectangle(0,650,50,50);
+        rect4.setFill(Color.valueOf("rgba(66,155, 11, 0.9)"));
+        rect.getChildren().add(rect4);
+
+        root.getChildren().add(rect);
 
     }
 
@@ -295,13 +283,11 @@ public class Game extends Scene {
             }
         }
 
-        /*
         Player player0 = new Human(0, this);
         Player player1 = new EasyBot(1, this);
         Player player2 = new EasyBot(2, this);
         Player player3 = new EasyBot(3, this);
         players = new Player[] {player0, player1, player2, player3};
-        */
         currentPlayer = players.length-1; // When we transition go, it will start with player 0
 
         board.setActive(true);
@@ -312,6 +298,8 @@ public class Game extends Scene {
     }
 
 
+*/
 
 
 }
+
