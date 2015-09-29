@@ -50,6 +50,7 @@ public class EasyBot implements Player {
     }
 
     public void skip() {
+        myPanel.lock();
         parent.skip[parent.currentPlayer] = true;
         parent.transitionMove();
     }

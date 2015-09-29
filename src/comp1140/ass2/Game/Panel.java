@@ -3,6 +3,7 @@ package comp1140.ass2.Game;
 import comp1140.ass2.Scenes.Game;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
@@ -16,11 +17,13 @@ public final class Panel extends GridSprite {
     Colour color;
     public PieceSprite temporary = null;
     Game parent;
+    int size;
     boolean active = false;
 
 
     public Panel(int col, int row, int size, Colour color, Game parent, boolean vertical) {
         super(col, row, size, color, parent);
+        this.size = size;
         this.parent = parent;
         this.color = color;
         for(Node node : this.getChildren()) {
@@ -157,5 +160,14 @@ public final class Panel extends GridSprite {
         else {
             this.setOpacity(0.4);
         }
+    }
+
+    public  void lock() {
+        System.out.println(this.color.toString() + " player can't play anymore");
+        /*Rectangle cover = new Rectangle(size * row, size*col, Color.valueOf("rgba(0, 0, 0, 0.45)"));
+        cover.setLayoutX(10);
+        cover.setLayoutY(10);
+        this.getChildren().add(cover);
+        */
     }
 }

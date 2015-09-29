@@ -33,45 +33,6 @@ public class Game extends Scene {
     public boolean[] skip = {false, false, false, false};
     public Colour[] playerColours = {Colour.Blue, Colour.Yellow, Colour.Red, Colour.Green};
 
-    // All players have to do everything through this interface
-    public void makeMove(Player player, Piece piece) {
-        board.placePiece(piece);
-        //panels[currentPlayer].removePiece(piece);
-        panels[currentPlayer].removePiece(piece.shape);
-
-        Timeline timeline = new Timeline(new KeyFrame(
-                Duration.millis(100),
-                ae -> transitionMove()));
-        timeline.play();
-    }
-
-    public void transitionMove() {
-        piecePreparer.setActive(false);
-        panels[currentPlayer].setActive(false);
-        panels[currentPlayer].temporary = null;
-        piecePreparer.removePiece();
-        if(skip[0]&&skip[1]&&skip[2]&&skip[3]) {
-            endGame();
-            return;
-        }
-
-        currentPlayer = (currentPlayer+1) % players.length;
-        skip[currentPlayer] = false;
-        System.out.println("Player " + (currentPlayer+1)+"'s go!");
-        if(players[currentPlayer].isHuman()) {
-            piecePreparer.setActive(true);
-            panels[currentPlayer].setActive(true);
-        }
-        // Eventually, the bots should get passed a clone of board instead of board itself, so they can't do anything to board
-        // directly.
-        // Also, think about not giving them access to parent
-        //players[currentPlayer].think(board.clone());
-        players[currentPlayer].think(board);
-    }
-
-    public void endGame() {
-    }
-
     public Game(Group root, double width, double height, Blokus parent) {
         super(root, width, height, Color.WHITE);
         getStylesheets().add("comp1140/ass2/Assets/main.css");
@@ -95,12 +56,14 @@ public class Game extends Scene {
         int gameSize = 640;
 
         int panelCell = 11;
-        int boardCell = 23;
 
 
 
 
         // MENUBAR
+        Pane menubar = new Pane();
+        menubar.setMinSize(700,100);
+        menubar.setLayoutY(-100); menubar.setLayoutX(0);
 
         Button button0 = new Button("Pass");
         button0.setOnAction(new EventHandler<ActionEvent>() {
@@ -112,7 +75,7 @@ public class Game extends Scene {
         button0.setLayoutX(580);
         button0.setLayoutY(4);
         button0.getStyleClass().add("button1");
-        root.getChildren().add(button0);
+        menubar.getChildren().add(button0);
 
         Button button1 = new Button("Menu");
         button1.setOnAction(new EventHandler<ActionEvent>() {
@@ -124,7 +87,7 @@ public class Game extends Scene {
         button1.setLayoutX(470);
         button1.setLayoutY(4);
         button1.getStyleClass().add("button1");
-        root.getChildren().add(button1);
+        menubar.getChildren().add(button1);
 
 
         /*
@@ -208,9 +171,10 @@ public class Game extends Scene {
 
         panels = new Panel[]{bluePanel, yellowPanel, redPanel, greenPanel};
 
+        int boardCell = 26;
         board = new Board(20, 20, boardCell, Colour.Empty, this);
         Pane boardPane = new Pane();
-        boardPane.setLayoutX(700 - 30 - boardCell * 20); boardPane.setLayoutY(700 - 40 - boardCell * 20 - 20 - panelCell * 10);
+        boardPane.setLayoutX(panelCell * 10 + 20+10+10); boardPane.setLayoutY(10);
         boardPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
         boardPane.setMinSize(boardCell * 20 + 20, boardCell * 20 + 20);
         board.setLayoutX(10); board.setLayoutY(10);
@@ -310,6 +274,54 @@ public class Game extends Scene {
         transitionMove();
 
     }
+
+
+    // All players have to do everything through this interface
+    public void makeMove(Player player, Piece piece) {
+        board.placePiece(piece);
+        //panels[currentPlayer].removePiece(piece);
+        panels[currentPlayer].removePiece(piece.shape);
+
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.millis(100),
+                ae -> transitionMove()));
+        timeline.play();
+    }
+
+    public void transitionMove() {
+        piecePreparer.setActive(false);
+        panels[currentPlayer].setActive(false);
+        panels[currentPlayer].temporary = null;
+        piecePreparer.removePiece();
+        if(skip[0]&&skip[1]&&skip[2]&&skip[3]) {
+            endGame();
+            return;
+        }
+
+        currentPlayer = (currentPlayer+1) % players.length;
+        if(skip[currentPlayer]){
+            if(skip[0]&&skip[1]&&skip[3]) {
+                return;
+            }
+            transitionMove();
+            return;
+        }
+        System.out.println("Player " + (currentPlayer+1)+"'s go!");
+        if(players[currentPlayer].isHuman()) {
+            piecePreparer.setActive(true);
+            panels[currentPlayer].setActive(true);
+        }
+        // Eventually, the bots should get passed a clone of board instead of board itself, so they can't do anything to board
+        // directly.
+        // Also, think about not giving them access to parent
+        //players[currentPlayer].think(board.clone());
+        players[currentPlayer].think(board);
+    }
+
+    public void endGame() {
+        System.out.println("Game finished!");
+    }
+
 
 
 
