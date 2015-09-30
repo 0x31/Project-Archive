@@ -24,29 +24,43 @@ public class Coordinate {
         return new Coordinate (x + shift.x, y + shift.y);
     }
 
-    /*
-       flips the coordinate across the y=0 axis
+    /**
+     * flips the coordinate across the y=0 axis
+     * @return the new flipped coordinate
      */
     public Coordinate flipCoordinate() {
         return new Coordinate (-x, y);
     }
 
-    /*
-      rotates the coordinate clockwise about (0,0)
+    /**
+     * rotates the coordinate clockwise about (0,0)
+     * @return
      */
     public Coordinate rotateCoordinate() {
         return new Coordinate (-y, x);
     }
 
-    // Scaler multiplication
+    /**
+     * Scalar multiplication
+     * @param c  the scale facter
+     * @return   a new coordinate appropriately scaled
+     */
     public Coordinate times(int c) {
         return new Coordinate(x*c,y*c);
     }
 
+    /**
+     * Equals function
+     * @param o  the other coordinate
+     * @return   true if equal, false if not
+     */
     public Boolean equals(Coordinate o) {
         return (x == o.x && y == o.y);
     }
 
+    /**
+     * @return  a list of all neighbour cells (not including diagonals)
+     */
     public Coordinate[] getSideCells() {
         int count = 4;
         if(x==0 || x==19) count--;
@@ -59,6 +73,9 @@ public class Coordinate {
         return sideCells;
     }
 
+    /**
+     * @return a list of diagonal neighbours
+     */
     public Coordinate[] getDiagonalCells() {
         int count = 4;
         if(x==0 || x==19) count-=2;

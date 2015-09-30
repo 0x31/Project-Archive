@@ -124,9 +124,9 @@ public class Board extends GridSprite {
      * ...
      * @param col
      * @param row
-     * @param width
-     * @param height
+     * @param size
      * @param color
+     * @param parent
      */
     public Board(int col, int row, int size, Colour color, Game parent) {
         super(col, row, size, color, parent);
@@ -251,7 +251,7 @@ public class Board extends GridSprite {
 
     /**
      *
-     * @param move
+     * @param piece
      * @return
      */
 

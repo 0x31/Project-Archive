@@ -11,25 +11,17 @@ import javafx.scene.shape.Rectangle;import java.lang.Override;import java.lang.S
  * Created by ***REMOVED*** on 31/08/15.
  */
 public class CellSprite extends Pane {
-    //private int cellDim;
-    //private Colour colour;
- //   int xPos;
-//    int yPos;
 
     Color fill;
-    Object parent = null; //is part of this pieceSprite
+    Object parent = null;
 
-
-    //Necessary constructors, won't be used
-    /*
-    public CellSprite() {
-        super();
-    }
-    public CellSprite (double width, double height) {super (width, height); }
-    public CellSprite (double width, double height,Paint fill) {super (width, height, fill);}
-    public CellSprite (double x, double y, double width, double height) {super (x, y, width, height);}
-    */
-
+    /**
+     *
+     * @param width  cell dimension
+     * @param height cell dimension
+     * @param color  the colour of the desired cell image
+     * @param parent the piece which the cell will belong to
+     */
     public CellSprite (double width, double height, Colour color, Object parent) {
         super();
         super.setMinSize(width, height);
@@ -57,6 +49,9 @@ public class CellSprite extends Pane {
 
     }
 
+    /**
+     * Collection of event handlers
+     */
     private void eventWatcher() {
 
         CellSprite dummyCell = this;
@@ -90,6 +85,11 @@ public class CellSprite extends Pane {
         });
     }
 
+    /**
+     * Used to translate ass2.Game.Colour into JavaFX.Color
+     * @param color
+     * @return a color from the JavaFX module
+     */
     private Color getFillFromPlayer(Colour color) {
         if      (color == Colour.Blue)      return Color.BLUE;
         else if (color == Colour.Red)       return Color.RED;
