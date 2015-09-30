@@ -1,10 +1,9 @@
 package comp1140.ass2.Game;
 
 /**
- * Created by ***REMOVED*** on 22/08/15.
- * TO DO:
- *        - make interface nicer, at the moment one can only move and orinetate a piece once.
- *          It might be necessary/nicer to be able to say "Shift piece down one, rotate once".
+ * Created by Tim ***REMOVED*** on 22/08/15.
+ * Later edited by ***REMOVED***
+ * @TODO:
  *        - maybe have a different methods. one for initialising based on input, and one for
  *          manipulating the piece from there.
  */
@@ -27,6 +26,12 @@ public class Piece {
         cellNumber = shape.getCellNumber();
     }
 
+    /**
+     * Initialises a Piece object from an string encoded move and a colour
+     *
+     * @param move a string encoding of a move which is 4 characters long
+     * @param c    the colour of the player making the move
+     */
     public Piece(String move, Colour c) {
         int pieceChar = move.charAt(0)-'A';
         char rotation = move.charAt(1);
@@ -49,7 +54,6 @@ public class Piece {
      *
      * @return void  while changing occupiedCells
      */
-    /* flips piece over the x=0 axis, maintaining the piece's origin */
     private void flipPiece() {
         Coordinate origin = new Coordinate (occupiedCells[0].getX(), occupiedCells[0].getY());
         for (int i = 0; i < cellNumber; i++) occupiedCells[i] = occupiedCells[i].flipCoordinate();
@@ -114,6 +118,11 @@ public class Piece {
         shiftPiece(origin);
     }
 
+    /**
+     * Creates a clone of piece
+     *
+     * @return a new piece object with identical field values
+     */
     public Piece clone() {
         Piece piece = new Piece(this.shape,this.colour);
         piece.movePiece(rotation,flip);
@@ -125,7 +134,6 @@ public class Piece {
      * If only a translation is required, set rotateClockwise to 0 and flip to false.
      * If no translation is required, simply omit the shift parameter.
      *
-     * @param shift             a coordinate which sets how much to translate
      * @param rotateClockwise   an int determining the number of times the piece is to be rotated clockwise
      * @param flip              a boolean determining if the piece is to be relfected in the y direction about
      *                          the piece's homecell
@@ -136,12 +144,29 @@ public class Piece {
         for (int i = 0; i < rotateClockwise; i++) rotatePiece();
     }
 
+    /**
+     * Moves a piece to a new coordinate location with a new orientation
+     *
+     * @param newCoord         new location of home cell
+     * @param rotateClockwise  new rotation
+     * @param flip             whether to flip the piece or not
+     *
+     * @return void     while also changing occupiedCels
+     */
     public void movePiece(Coordinate newCoord, int rotateClockwise, boolean flip) {
         setXY(newCoord);
         if (flip) flipPiece();
         for (int i = 0; i < rotateClockwise; i++) rotatePiece();
     }
 
+    /**
+     * Sets a new location for the piece by first shifting it to the origin, then shifting
+     * it to the new desired location
+     *
+     * @param newCoord  new location of home cell
+     *
+     * @return void     while also changing occupiedCels
+     */
     public void setXY(Coordinate newCoord) {
         shiftPiece(this.occupiedCells[0].times(-1));
         shiftPiece(newCoord);

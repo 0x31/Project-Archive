@@ -8,7 +8,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;import java.lang.Override;import java.lang.System;
 
 /**
- * Created by ***REMOVED*** on 31/08/15.
+ * Created by Tim on 31/08/15.
+ * Images inserted by ***REMOVED***
+ * OnMouseEntered/Exited inserted by ***REMOVED***
  */
 public class CellSprite extends Pane {
 
