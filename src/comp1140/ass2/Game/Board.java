@@ -7,7 +7,7 @@ import javafx.scene.input.MouseEvent;
 /**
  * Created by ***REMOVED*** on 19/08/15.
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED***
- * utlises code written by Holly
+ * Contributed to by Holly, ***REMOVED***
  */
 public class Board extends GridSprite {
 
@@ -394,4 +394,24 @@ public class Board extends GridSprite {
             preview.setOpacity(0.9);
         this.addPieceSprite(preview);
     }
+
+    public int[] currentScore() {
+        int[] scores = new int[4];
+
+        int[] pieceLenghts = new int[] {1,2,3,3,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5};
+
+        for(int i=0;i<4;i++) {
+            for(int j = 0; j < getUnplacedPieces()[i].length; j++) {
+                if(getUnplacedPieces()[i][j]!=false) {
+                    scores[i] -= pieceLenghts[j];
+                }
+            }
+            if(scores[i]==0) {
+                if(getLastMove()[i]) scores[i]+=20;
+                else scores[i] += 15;
+            }
+        }
+        return scores;
+    }
+
 }

@@ -9,17 +9,24 @@ import comp1140.ass2.Players.Player;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.*;
 import javafx.util.Duration;
+
+import java.util.ArrayList;
 
 /**
  * Created by steveb on 12/08/2015.
@@ -34,12 +41,17 @@ public class Game extends Scene {
     public boolean[] skip = {false, false, false, false};
     public Colour[] playerColours = {Colour.Blue, Colour.Yellow, Colour.Red, Colour.Green};
     private Group root;
+    private Group realRoot;
 
     public boolean NO_RIGHT_CLICK = true;
 
-    public Game(Group root, double width, double height, Blokus parent) {
-        super(root, width, height, Color.WHITE);
+    public Game(Group realRoot, double width, double height, Blokus parent) {
+        super(realRoot, width, height, Color.WHITE);
+        // This root is here so that when showing the score, I can blur what's underneath - 'root'.
+        Group root = new Group();
+        realRoot.getChildren().add(root);
         this.root = root;
+        this.realRoot = realRoot;
         getStylesheets().add("comp1140/ass2/Assets/main.css");
 
         final ImageView imv1 = new ImageView();
@@ -367,29 +379,68 @@ public class Game extends Scene {
     public void endGame() {
         System.out.println("Game finished!");
 
-        //BLUR_AMOUNT, BLUR_AMOUNT, 3);
-        /**
-        Pane pane = new Pane();
-        pane.setMinSize(700, 700);
-        root.getChildren().add(pane);
-         */
+        int[] score = board.currentScore();
+        int[] positions = new int[4];
+        ArrayList<String> winners = new ArrayList<>();
+        for(int i=0;i<4;i++) {
+            positions[i] =
+                    ((score[i]>=score[(i+1)%4]) ? 0 : 1) +
+                    ((score[i]>=score[(i+2)%4]) ? 0 : 1) +
+                    ((score[i]>=score[(i+3)%4]) ? 0 : 1);
+            System.out.println(positions[i]);
+            if(positions[i]==0)
+                winners.add(playerColours[i].name());
+        }
 
         Pane pane = new Pane();
         pane.setMinSize(700, 700);
-        pane.setStyle("-fx-background-color: rgba(0, 0, 0, 1)");
         pane.setOpacity(0);
-        root.getChildren().add(pane);
-        double BLUR_AMOUNT = 1;
+        realRoot.getChildren().add(pane);
+
+        Rectangle rect = new Rectangle(700,700,Color.valueOf("rgba(0, 0, 0, 0.6)"));
+        pane.getChildren().add(rect);
 
         FadeTransition ft = new FadeTransition(Duration.millis(1000), pane);
         ft.setFromValue(0.0);
-        ft.setToValue(0.3);
+        ft.setToValue(1.0);
         ft.setAutoReverse(true);
         ft.play();
 
-        Effect frostEffect =
+        Effect blur =
                 new GaussianBlur(3);
-        root.setEffect(frostEffect);
+        root.setEffect(blur);
+
+        TextFlow title = new TextFlow();
+        title.setMinWidth(700);
+        Text mainTitle = new Text();
+        if(winners.size()>1) {
+            mainTitle.setText("It's a tie between\n");
+        } else {
+            mainTitle.setText("The winner is\n");
+        }
+        mainTitle.setFont(Font.font("Amble Cn", FontWeight.BOLD, 30));
+        mainTitle.setFill(Color.WHITE);
+        title.getChildren().add(mainTitle);
+        for(String winner : winners) {
+            Text playerText = new Text(((winner+"\n")));
+            playerText.setFont(Font.font("Amble Cn", FontWeight.BOLD, 80));
+            if(winner=="Blue")
+                playerText.setFill(Color.valueOf("rgb(11, 66, 155)"));
+            if(winner=="Yellow")
+                playerText.setFill(Color.valueOf("rgb(237,157, 0)"));
+            if(winner=="Red")
+                playerText.setFill(Color.valueOf("rgb(155, 11, 66)"));
+            if(winner=="Green")
+                playerText.setFill(Color.valueOf("rgb(66,155, 11)"));
+            title.getChildren().add(playerText);
+        }
+        title.setTextAlignment(TextAlignment.CENTER);
+
+        Pane center = new Pane();
+        center.getChildren().add(title);
+        center.setMinSize(700,300);
+        center.setLayoutY(50);
+        pane.getChildren().add(center);
 
     }
 
