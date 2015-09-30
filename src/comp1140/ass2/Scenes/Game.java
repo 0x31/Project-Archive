@@ -2,6 +2,7 @@ package comp1140.ass2.Scenes;
 
 import comp1140.ass2.*;
 import comp1140.ass2.Game.*;
+import comp1140.ass2.LiveTests.GameTests;
 import comp1140.ass2.Players.EasyBot;
 import comp1140.ass2.Players.ExtremelyHardBot;
 import comp1140.ass2.Players.Human;
@@ -23,7 +24,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 import javafx.util.Duration;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -333,7 +337,7 @@ public class Game extends Scene {
         currentPlayerId = (currentPlayerId+1) % players.length;
         currentPlayer = players[currentPlayerId];
         currentPanel = panels[currentPlayerId];
-        System.out.println("Player " + (currentPlayerId + 1) + "'s go!");
+        System.out.print("\rPlayer " + (currentPlayerId + 1) + "'s go!");
 
         hideBadPieces(currentPlayerId);
         if(panels[currentPlayerId].activeShapes.isEmpty()){
@@ -355,7 +359,9 @@ public class Game extends Scene {
      * Shows the game outcome. Is called only when the game ends.
      */
     public void endGame() {
-        System.out.println("Game finished!");
+        System.out.println("\rGame finished!");
+
+        closingTests();
 
         int[] score = board.currentScore();
         int[] positions = new int[4];
@@ -365,7 +371,6 @@ public class Game extends Scene {
                     ((score[i]>=score[(i+1)%4]) ? 0 : 1) +
                     ((score[i]>=score[(i+2)%4]) ? 0 : 1) +
                     ((score[i]>=score[(i+3)%4]) ? 0 : 1);
-            System.out.println(positions[i]);
             if(positions[i]==0)
                 winners.add(playerColours[i].name());
         }
@@ -427,6 +432,13 @@ public class Game extends Scene {
 
         /* Show bars: */
         // 100 233 366 500
+
+        Pane barPane = new Pane();
+        barPane.setMinSize(700, 700);
+        barPane.setLayoutX(0);
+        barPane.setLayoutY(0);
+        realRoot.getChildren().add(barPane);
+
         Rectangle blueBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(11, 66, 155)"));
         blueBar.setLayoutX((700-barWindow)/2 -BAR_WIDTH/2);
         blueBar.setLayoutY(620);
@@ -465,8 +477,8 @@ public class Game extends Scene {
         greenScore.setTextFill(Color.WHITE);
 
 
-        pane.getChildren().addAll(blueBar, yellowBar, redBar, greenBar);
-        pane.getChildren().addAll(blueScore, yellowScore, redScore, greenScore);
+        barPane.getChildren().addAll(blueBar, yellowBar, redBar, greenBar);
+        barPane.getChildren().addAll(blueScore, yellowScore, redScore, greenScore);
 
         Timer animTimer = new Timer(true);
         animTimer.scheduleAtFixedRate(new TimerTask() {
@@ -516,7 +528,54 @@ public class Game extends Scene {
         button5.setLayoutX(30 - button5.getMinWidth() / 2); button5.setLayoutY(10);
         button5.getStyleClass().add("back");
         button5.getStyleClass().add("button1");
-        pane.getChildren().add(button5);
+        realRoot.getChildren().add(button5);
+
+    }
+
+
+
+
+
+
+    public void closingTests() {
+
+        boolean allPassed = true;
+
+        GameTests testClass = new GameTests(this);
+        ArrayList<String> tests = new ArrayList<>(Arrays.asList(
+                new String[] {
+                        "testBoard",
+                        "testFinishedGame",
+                        "testPiecePreparer",
+                        "testIntentionalFail",
+                        "testIntentionalPass"
+        }));
+
+        Class yourClass = GameTests.class;
+        for (Method method : yourClass.getMethods()){
+            if(tests.contains(method.getName())) {
+                try {
+                    System.out.print("\u001B[34m" + "Running '" + method.getName() + "()'" + "\u001B[0m");
+                    Boolean value = (Boolean) method.invoke(testClass);
+                    boolean returnValue = value.booleanValue();
+                    if(!(boolean) returnValue) {
+                        System.out.println("\r\u001B[31m" + "Running '"+method.getName()+"()' ✖"); allPassed = false;
+                    }
+                    else System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");
+                } catch (InvocationTargetException e) {
+                    // ...
+                } catch (IllegalAccessException e) {
+                    // ...
+                } catch (SecurityException e) {
+                    // ...
+                }
+            }
+        }
+
+        if(allPassed)
+            System.out.println("\n\u001B[34mAll tests passed!" + "\u001B[0m");
+        else
+            System.out.println("\n\u001B[31mSome tests failed!" + "\u001B[0m");
 
     }
 

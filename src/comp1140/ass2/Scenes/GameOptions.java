@@ -76,8 +76,8 @@ public class GameOptions extends Scene {
         Button button1 = new Button("+");
         button1.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                buttonState[1]=(buttonState[1]+1)%4;
-                button1.setText(players[buttonState[1]]);
+                buttonState[2]=(buttonState[2]+1)%4;
+                button1.setText(players[buttonState[2]]);
             }
         });
         button1.setMinSize(160, 160);
@@ -90,8 +90,8 @@ public class GameOptions extends Scene {
         Button button2 = new Button("+");
         button2.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                buttonState[2]=(buttonState[2]+1)%4;
-                button2.setText(players[buttonState[2]]);
+                buttonState[1]=(buttonState[1]+1)%4;
+                button2.setText(players[buttonState[1]]);
             }
         });
         button2.setMinSize(160, 160);

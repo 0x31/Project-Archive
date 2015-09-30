@@ -221,7 +221,7 @@ public final class Panel extends GridSprite {
      * Print string when player has to pass, and stop playing. (Will work on displaying this on screen later)
      */
     public  void lock(boolean isHuman) {
-        System.out.println(this.color.toString() + " player can't play anymore");
+        System.out.print("\r"+this.color.toString() + " player can't play anymore");
         /*Rectangle cover = new Rectangle(size * row, size*col, Color.valueOf("rgba(0, 0, 0, 0.45)"));
         cover.setLayoutX(10);
         cover.setLayoutY(10);
