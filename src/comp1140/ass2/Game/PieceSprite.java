@@ -51,4 +51,10 @@ public class PieceSprite {
         else if (color == Colour.Yellow)    return Color.YELLOW;
         return Color.GREY;
     }
+
+    public void setOpacity(double opacity) {
+        for(CellSprite cell : cells) {
+            cell.setOpacity(opacity);
+        }
+    }
 }

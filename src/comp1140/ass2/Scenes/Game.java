@@ -6,18 +6,19 @@ import comp1140.ass2.Players.EasyBot;
 import comp1140.ass2.Players.ExtremelyHardBot;
 import comp1140.ass2.Players.Human;
 import comp1140.ass2.Players.Player;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
@@ -25,16 +26,18 @@ import javafx.util.Duration;
  */
 public class Game extends Scene {
 
-    public int currentPlayer;
+    public int currentPlayerId;
     public Player[] players;
     public PiecePreparerSprite piecePreparer;
     public Board board;
     public Panel[] panels;
     public boolean[] skip = {false, false, false, false};
     public Colour[] playerColours = {Colour.Blue, Colour.Yellow, Colour.Red, Colour.Green};
+    private Group root;
 
     public Game(Group root, double width, double height, Blokus parent) {
         super(root, width, height, Color.WHITE);
+        this.root = root;
         getStylesheets().add("comp1140/ass2/Assets/main.css");
 
         final ImageView imv1 = new ImageView();
@@ -266,12 +269,15 @@ public class Game extends Scene {
         Player player3 = new EasyBot(3, this);
         players = new Player[] {player0, player1, player2, player3};
         */
-        currentPlayer = players.length-1; // When we transition go, it will start with player 0
+        currentPlayerId = players.length-1; // When we transition go, it will start with player 0
 
         board.setActive(true);
 
         // BEGIN!
-        transitionMove();
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.millis(100),
+                ae -> transitionMove()));
+        timeline.play();
 
     }
 
@@ -279,50 +285,111 @@ public class Game extends Scene {
     // All players have to do everything through this interface
     public void makeMove(Player player, Piece piece) {
         board.placePiece(piece);
-        //panels[currentPlayer].removePiece(piece);
-        panels[currentPlayer].removePiece(piece.shape);
+        //panels[currentPlayerId].removePiece(piece);
+        panels[currentPlayerId].removePiece(piece.shape);
 
+        int GAME_SPEED = 2;
         Timeline timeline = new Timeline(new KeyFrame(
-                Duration.millis(100),
+                Duration.millis(Math.pow(10,GAME_SPEED)),
                 ae -> transitionMove()));
         timeline.play();
+        //transitionMove();
     }
+    public void makeMove(String string) {
+        if(string==".") {
+            panels[currentPlayerId].lock(currentPlayer.isHuman());
+            skip[currentPlayerId] = true;
+            transitionMove();
+        }
+    }
+
+    public void hideBadPieces(int currentPlayerId) {
+        Panel panel = panels[currentPlayerId];
+        Colour colour = playerColours[currentPlayerId];
+        for(Shape shape : panel.shapes) {
+            boolean playable = false;
+            for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {
+                for(int x = 0; x<20; x++) {
+                    for(int y = 0; y<20; y++) {
+                        //Piece testPiece = new Piece(piece.shape, piece.colour);
+                        Piece testPiece = new Piece(shape, colour);
+                        testPiece.initialisePiece(new Coordinate(x,y), orientation);
+                        if(board.legitimateMove(testPiece)) {
+                            playable = true;
+                        }
+                    }
+                }
+            }
+            if(!playable) {
+                panel.lockShape(shape);
+            } else {
+               panel.unlockShape(shape);
+            }
+        }
+    }
+
+    public Panel currentPanel;
+    public Player currentPlayer;
 
     public void transitionMove() {
         piecePreparer.setActive(false);
-        panels[currentPlayer].setActive(false);
-        panels[currentPlayer].temporary = null;
+        panels[currentPlayerId].setActive(false);
+        panels[currentPlayerId].temporary = null;
         piecePreparer.removePiece();
         if(skip[0]&&skip[1]&&skip[2]&&skip[3]) {
             endGame();
             return;
         }
 
-        currentPlayer = (currentPlayer+1) % players.length;
-        if(skip[currentPlayer]){
-            if(skip[0]&&skip[1]&&skip[3]) {
-                return;
-            }
-            transitionMove();
-            return;
+        currentPlayerId = (currentPlayerId+1) % players.length;
+        currentPlayer = players[currentPlayerId];
+        currentPanel = panels[currentPlayerId];
+        System.out.println("Player " + (currentPlayerId + 1) + "'s go!");
+
+        hideBadPieces(currentPlayerId);
+        if(panels[currentPlayerId].activeShapes.isEmpty()){
+            skip[currentPlayerId]=true;
+            currentPanel.lock(currentPlayer.isHuman());
+            currentPlayer.confirmPass();
+        } else {
+            players[currentPlayerId].think(board);
+            //players[currentPlayerId].think(board.clone());
+            /* Eventually, the bots should get passed a clone of board instead of board itself, so they can't do anything to board
+             * directly.
+             * Also, think about not giving them access to parent - maybe implement a PlayerController class to control
+             * public/private stuff better
+             */
         }
-        System.out.println("Player " + (currentPlayer+1)+"'s go!");
-        if(players[currentPlayer].isHuman()) {
-            piecePreparer.setActive(true);
-            panels[currentPlayer].setActive(true);
-        }
-        // Eventually, the bots should get passed a clone of board instead of board itself, so they can't do anything to board
-        // directly.
-        // Also, think about not giving them access to parent
-        //players[currentPlayer].think(board.clone());
-        players[currentPlayer].think(board);
     }
 
     public void endGame() {
         System.out.println("Game finished!");
+
+        //BLUR_AMOUNT, BLUR_AMOUNT, 3);
+        /**
+        Pane pane = new Pane();
+        pane.setMinSize(700, 700);
+        root.getChildren().add(pane);
+         */
+
+        Pane pane = new Pane();
+        pane.setMinSize(700, 700);
+        pane.setStyle("-fx-background-color: rgba(0, 0, 0, 1)");
+        pane.setOpacity(0);
+        root.getChildren().add(pane);
+        double BLUR_AMOUNT = 1;
+
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), pane);
+        ft.setFromValue(0.0);
+        ft.setToValue(0.3);
+        ft.setAutoReverse(true);
+        ft.play();
+
+        Effect frostEffect =
+                new GaussianBlur(3);
+        root.setEffect(frostEffect);
+
     }
-
-
 
 
 

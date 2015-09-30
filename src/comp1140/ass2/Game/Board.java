@@ -73,7 +73,7 @@ public class Board extends GridSprite {
          * If a tutor is reading this, then we obviously made the wise decision of keeping ordinal()
          */
         //int playerId = piece.colour.ordinal();
-        int playerId = parent.currentPlayer;
+        int playerId = parent.currentPlayerId;
         int shapeId = piece.shape.ordinal();
 
         unplacedPieces[playerId][shapeId] = false;
@@ -123,7 +123,7 @@ public class Board extends GridSprite {
     }
 
     /**
-     * ...
+     *
      * @param col
      * @param row
      * @param size
@@ -200,7 +200,6 @@ public class Board extends GridSprite {
 
     }
 
-
     /* Here for compatibility, please ignore */
     public Board(String game) {
 
@@ -253,7 +252,7 @@ public class Board extends GridSprite {
 
     public boolean legitimateMove(Piece piece) {
 
-        if(!unplacedPieces[parent.currentPlayer][piece.shape.ordinal()]) {
+        if(!unplacedPieces[parent.currentPlayerId][piece.shape.ordinal()]) {
             return false;
         }
         Coordinate[] cells = piece.getOccupiedCells();
@@ -342,7 +341,7 @@ public class Board extends GridSprite {
         if(sprite == preview) {
             int x = sprite.coordinates[0].getX();
             int y = sprite.coordinates[0].getY();
-            parent.players[parent.currentPlayer].handleClick(x, y);
+            parent.players[parent.currentPlayerId].handleClick(x, y);
         }
     }
 
@@ -353,10 +352,10 @@ public class Board extends GridSprite {
     public void isClicked(CellSprite cell) {
         int x = this.getColumnIndex(cell);
         int y = this.getRowIndex(cell);
-        parent.players[parent.currentPlayer].handleClick(x, y);
+        parent.players[parent.currentPlayerId].handleClick(x, y);
     }
     public void isHovered(CellSprite cell) {
-        if(!active || !parent.players[parent.currentPlayer].isHuman()) {
+        if(!active || !parent.players[parent.currentPlayerId].isHuman()) {
             return;
         }
         int x = this.getColumnIndex(cell);

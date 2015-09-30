@@ -1,6 +1,7 @@
 package comp1140.ass2.Players;
 
 import comp1140.ass2.Game.Board;
+import comp1140.ass2.Game.Panel;
 import comp1140.ass2.Game.Piece;
 import comp1140.ass2.Scenes.Game;
 
@@ -11,6 +12,7 @@ public class ExtremelyHardBot implements Player {
 
     Game parent;
     int playerId;
+    Panel myPanel;
 
     public ExtremelyHardBot(int playerId, Game parent) {
         this.parent = parent;
@@ -28,12 +30,12 @@ public class ExtremelyHardBot implements Player {
     }
 
     @Override
-    public void skip() {
-
+    public boolean isHuman() {
+        return false;
     }
 
     @Override
-    public boolean isHuman() {
-        return false;
+    public void confirmPass() {
+        parent.transitionMove();
     }
 }

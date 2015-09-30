@@ -15,6 +15,7 @@ public final class Panel extends GridSprite {
 
     ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
     public ArrayList<Shape> shapes= new ArrayList<>();
+    public ArrayList<Shape> activeShapes = new ArrayList<>();
     Colour color;
     public PieceSprite temporary = null;
     Game parent;
@@ -128,6 +129,7 @@ public final class Panel extends GridSprite {
         PieceSprite myPieceSprite = new PieceSprite(myPiece, xsize, this);
         pieceSprites.add(myPieceSprite);
         shapes.add(shape);
+        activeShapes.add(shape);
         this.addPieceSprite(myPieceSprite);
     }
 
@@ -143,6 +145,7 @@ public final class Panel extends GridSprite {
         PieceSprite sprite = pieceSprites.get(index);
         pieceSprites.remove(index);
         shapes.remove(index);
+        activeShapes.remove(shape);
         //pieces.remove(index);
         this.removePieceSprite(sprite);
     }
@@ -152,12 +155,13 @@ public final class Panel extends GridSprite {
      * @param sprite
      */
     public void isClicked(PieceSprite sprite) {
-        if(!active) {
+        if(!active || !activeShapes.contains(sprite.piece.shape)) {
             return;
         }
         if(temporary != null) {
             pieceSprites.add(temporary);
             shapes.add(temporary.piece.shape);
+            activeShapes.add(temporary.piece.shape);
             //pieces.add(temporary.piece);
             this.addPieceSprite(temporary);
         }
@@ -167,6 +171,7 @@ public final class Panel extends GridSprite {
         pieceSprites.remove(sprite);
         //pieces.remove(sprite.piece);
         shapes.remove(sprite.piece.shape);
+        activeShapes.remove(sprite.piece.shape);
     }
 
     /**
@@ -183,15 +188,30 @@ public final class Panel extends GridSprite {
         }
     }
 
+    public void lockShape(Shape shape) {
+        activeShapes.remove(shape);
+        pieceSprites.get(shapes.indexOf(shape)).setOpacity(0.4);
+    }
+    public void unlockShape(Shape shape) {
+        if(!activeShapes.contains(shape)) {
+            activeShapes.add(shape);
+            pieceSprites.get(shapes.indexOf(shape)).setOpacity(1);
+        }
+    }
+
     /**
      * Print string when player has to pass, and stop playing. (Will work on displaying this on screen later)
      */
-    public  void lock() {
+    public  void lock(boolean isHuman) {
         System.out.println(this.color.toString() + " player can't play anymore");
         /*Rectangle cover = new Rectangle(size * row, size*col, Color.valueOf("rgba(0, 0, 0, 0.45)"));
         cover.setLayoutX(10);
         cover.setLayoutY(10);
         this.getChildren().add(cover);
         */
+    }
+
+    public void pass() {
+        return;
     }
 }

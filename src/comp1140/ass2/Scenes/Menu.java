@@ -1,13 +1,19 @@
 package comp1140.ass2.Scenes;
 
 import comp1140.ass2.Blokus;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 /**
@@ -59,6 +65,9 @@ public class Menu extends Scene {
         button1.setLayoutX(550 - button1.getMinWidth() / 2); button1.setLayoutY(600);
         button1.getStyleClass().add("button1");
         root.getChildren().add(button1);
+
+
+
 
     }
 }

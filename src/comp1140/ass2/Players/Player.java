@@ -11,7 +11,7 @@ public interface Player {
 
     public void handleClick(int x, int y);
     public void think(Board board);
-    public void skip();
     public boolean isHuman();
+    public void confirmPass();
 
 }

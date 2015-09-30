@@ -43,6 +43,7 @@ public class Blokus extends Application {
                 Duration.millis(1000),
                 ae -> game.start(players)));
         timeline.play();
+        //game.start(players);
     }
 
     public void toInstructions() {
@@ -78,6 +79,7 @@ public class Blokus extends Application {
         gameEnd = new GameEnd(new Group(), 700,700, this);
 
         primaryStage.show();
+
 
         toMenu();
 
