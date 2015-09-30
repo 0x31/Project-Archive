@@ -73,7 +73,7 @@ public class Board extends GridSprite {
          * If a tutor is reading this, then we obviously made the wise decision of keeping ordinal()
          */
         //int playerId = piece.colour.ordinal();
-        int playerId = parent.currentPlayerId;
+        int playerId = (parent!=null) ? parent.currentPlayerId : piece.colour.ordinal();
         int shapeId = piece.shape.ordinal();
 
         unplacedPieces[playerId][shapeId] = false;
@@ -212,8 +212,8 @@ public class Board extends GridSprite {
          */
 
         for(boolean[] unplacedPieceList : unplacedPieces) {
-            for(boolean unplacedPiece : unplacedPieceList) {
-                unplacedPiece = true;
+            for(int i=0;i<unplacedPieceList.length;i++) {
+                unplacedPieceList[i]=true;
             }
         }
 
@@ -252,7 +252,9 @@ public class Board extends GridSprite {
 
     public boolean legitimateMove(Piece piece) {
 
-        if(!unplacedPieces[parent.currentPlayerId][piece.shape.ordinal()]) {
+        int playerId = (parent!=null) ? parent.currentPlayerId : piece.colour.ordinal();
+
+        if(!unplacedPieces[playerId][piece.shape.ordinal()]) {
             return false;
         }
         Coordinate[] cells = piece.getOccupiedCells();
@@ -386,14 +388,10 @@ public class Board extends GridSprite {
     public Coordinate previewCoord;
     public void previewPiece(Piece piece) {
         preview = new PieceSprite(piece, xsize, this);
-        for(CellSprite cell : preview.cells) {
-            if(!this.legitimateMove(piece)) {
-                cell.setOpacity(0.4);
-            }
-            else {
-                cell.setOpacity(0.9);
-            }
-        }
+        if(!this.legitimateMove(piece))
+            preview.setOpacity(0.4);
+        else
+            preview.setOpacity(0.9);
         this.addPieceSprite(preview);
     }
 }

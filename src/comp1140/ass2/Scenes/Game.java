@@ -35,6 +35,8 @@ public class Game extends Scene {
     public Colour[] playerColours = {Colour.Blue, Colour.Yellow, Colour.Red, Colour.Green};
     private Group root;
 
+    public boolean NO_RIGHT_CLICK = true;
+
     public Game(Group root, double width, double height, Blokus parent) {
         super(root, width, height, Color.WHITE);
         this.root = root;

@@ -35,6 +35,7 @@ public class PiecePreparerSprite extends GridSprite {
     }
 
     public void addPiece(Piece piece) {
+
         piece.setXY(new Coordinate(0, 0));
         int minX=0;
         int minY=0;
@@ -48,6 +49,7 @@ public class PiecePreparerSprite extends GridSprite {
         }
         int newX = /* Set to 0,0 */ -minX + /* Use up any leftover space*/ (int) Math.floor((5 - (maxX - minX)) / 2);
         int newY = /* Set to 0,0 */ -minY + /* Use up any leftover space*/ (int) Math.floor((5 - (maxY - minY)) / 2);
+
         piece.setXY(new Coordinate(newX,newY));
         thePieceSprite = new PieceSprite(piece, xsize, this);
         this.addPieceSprite(thePieceSprite);
@@ -73,6 +75,10 @@ public class PiecePreparerSprite extends GridSprite {
         removePiece();
         Piece piece = pieceSprite.piece;
         piece.movePiece(1, false);
+        if(parent.NO_RIGHT_CLICK) {
+            if(piece.rotation==0)
+                piece.movePiece(0,true);
+        }
         addPiece(piece);
 
     }
