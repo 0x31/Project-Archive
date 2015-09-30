@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Created by nosha on 25/09/15.
+ * Edited by Holly on 30/09/15. (not finished editing)
  */
 public final class Panel extends GridSprite {
 
@@ -72,6 +73,7 @@ public final class Panel extends GridSprite {
             addPiece(Shape.M, 'G', 7,2);
             addPiece(Shape.H, 'A', 6,8);
             addPiece(Shape.T, 'A', 9,1);
+
             addPiece(Shape.P, 'B', 10,5);
             addPiece(Shape.R, 'B', 11,7);
             addPiece(Shape.O, 'B', 14, 0);
@@ -113,6 +115,13 @@ public final class Panel extends GridSprite {
         }
     }
 
+    /**
+     * Adds piece to panel
+     * @param shape
+     * @param orientation
+     * @param x
+     * @param y
+     */
     public void addPiece(Shape shape, char orientation, int x, int y) {
         Piece myPiece = new Piece(shape, color);
         myPiece.initialisePiece(new Coordinate(x, y),orientation);
@@ -122,6 +131,10 @@ public final class Panel extends GridSprite {
         this.addPieceSprite(myPieceSprite);
     }
 
+    /**
+     * Removes piece from panel
+     * @param shape
+     */
     public void removePiece(Shape shape) {
         //int index = pieces.indexOf(piece);
         int index = shapes.indexOf(shape);
@@ -134,6 +147,10 @@ public final class Panel extends GridSprite {
         this.removePieceSprite(sprite);
     }
 
+    /**
+     * Pass selected piece in panel to PiecePreparer
+     * @param sprite
+     */
     public void isClicked(PieceSprite sprite) {
         if(!active) {
             return;
@@ -152,6 +169,10 @@ public final class Panel extends GridSprite {
         shapes.remove(sprite.piece.shape);
     }
 
+    /**
+     * Highlight the panel of the player active, dim others
+     * @param active
+     */
     public void setActive(boolean active) {
         this.active = active;
         if(active) {
@@ -162,6 +183,9 @@ public final class Panel extends GridSprite {
         }
     }
 
+    /**
+     * Print string when player has to pass, and stop playing. (Will work on displaying this on screen later)
+     */
     public  void lock() {
         System.out.println(this.color.toString() + " player can't play anymore");
         /*Rectangle cover = new Rectangle(size * row, size*col, Color.valueOf("rgba(0, 0, 0, 0.45)"));

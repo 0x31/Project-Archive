@@ -13,12 +13,10 @@ public class PiecePreparerSprite extends GridSprite {
 
     public PiecePreparerSprite(int col, int row, int size, Colour color, Game parent) {
         super(col, row, size, color, parent);
-
-
     }
 
     /**
-     *
+     *Adds shape to collection of pieces
      * @param shape
      * @param c
      * @param (orientation)

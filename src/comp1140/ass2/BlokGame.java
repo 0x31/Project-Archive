@@ -5,6 +5,8 @@ import comp1140.ass2.Game.Piece;
 
 /**
  * Created by steveb on 12/08/2015.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED***
+ * @author Holly ***REMOVED***, ***REMOVED***
  */
 public class BlokGame {
 
@@ -16,7 +18,6 @@ public class BlokGame {
      * assignment description and the rules of the game.
      */
     public static boolean legitimateGame(String game) {
-        /* FIXME */
         String[] moves = Board.splitMoves(game);
         Board board = new Board("");
         for(String move : moves) {
@@ -36,7 +37,6 @@ public class BlokGame {
      * order specified in the rules of the game, and the scores should be made according to the rules.
      */
     public static int[] scoreGame(String game) {
-        /* FIXME */
         int[] scores = new int[4];
         Board board = new Board(game);
 
@@ -62,7 +62,6 @@ public class BlokGame {
      * @return A four-character string representing the next move.
      */
     public static String makeMove(String game) {
-        /* FIXME */
         Board board = new Board(game);
         for(char piece = 'A'; piece<='U'; piece++) {
             for(char orientation = 'A'; orientation<='H'; orientation++) {

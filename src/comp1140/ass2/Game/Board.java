@@ -94,6 +94,7 @@ public class Board extends GridSprite {
         return true;
     }
 
+
     public boolean placePiece(String move) {
         if(move==".") { currentTurn=(currentTurn+1)%4; return true; }
         Colour turnColour = Colour.values()[currentTurn];
@@ -223,9 +224,9 @@ public class Board extends GridSprite {
     }
 
     /**
-     *sou
+     * Split a string (game) into an array of strings, each representing one move
      * @param game
-     * @return moves  an array of strings, each string representing one move
+     * @return moves: an array of strings, each string representing one move
      */
     public static String[] splitMoves (String game) {
         game = game.replace(" ","");
@@ -250,12 +251,6 @@ public class Board extends GridSprite {
         return moves;
     }
 
-    /**
-     *
-     * @param piece
-     * @return
-     */
-
     public boolean legitimateMove(Piece piece) {
 
         if(!unplacedPieces[parent.currentPlayer][piece.shape.ordinal()]) {
@@ -279,6 +274,11 @@ public class Board extends GridSprite {
 
     }
 
+    /**
+     * Parse a string (move) to check if whether a move is legitimate.
+     * @param move
+     * @return
+     */
     public boolean legitimateMove(String move) {
 
         if (move == ".") return true;
@@ -324,7 +324,6 @@ public class Board extends GridSprite {
     public Colour cellAt(Coordinate c) {
 
         // I don't know what this is doing - I should have commented it when I wrote it.
-        // Sorry everyone.
         Colour[] validCorners = {Colour.Empty, Colour.Yellow, Colour.Red, Colour.Green};
 
         /** Check for starting corner */
@@ -335,6 +334,10 @@ public class Board extends GridSprite {
         return grid[c.getY()][c.getX()];
     }
 
+    /**
+     * Grab coordinates of key cell of a piece when it is clicked.
+     * @param sprite
+     */
     public void isClicked(PieceSprite sprite) {
         if(sprite == preview) {
             int x = sprite.coordinates[0].getX();
@@ -343,6 +346,10 @@ public class Board extends GridSprite {
         }
     }
 
+    /**
+     * Grad coordinates of the grid when a cell is clicked.
+     * @param cell
+     */
     public void isClicked(CellSprite cell) {
         int x = this.getColumnIndex(cell);
         int y = this.getRowIndex(cell);
