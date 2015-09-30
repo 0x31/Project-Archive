@@ -60,7 +60,7 @@ public class Board extends GridSprite {
      * Given a four character String and the identifying number of the current player,
      * sets the grid coordinates to that player's colour where the piece is played.
      *
-     * @param move   a four character string representing a single move
+     * @param piece the piece to place, representing shape, orientation and coordinate
      * @return void  while also changing this.grid
      */
     public boolean placePiece(Piece piece) {
@@ -95,6 +95,11 @@ public class Board extends GridSprite {
     }
 
 
+    /**
+     * See above for placePiece
+     * @param move a 4-char string representing a move
+     * @return
+     */
     public boolean placePiece(String move) {
         if(move==".") { currentTurn=(currentTurn+1)%4; return true; }
         Colour turnColour = Colour.values()[currentTurn];
@@ -123,12 +128,12 @@ public class Board extends GridSprite {
     }
 
     /**
-     *
-     * @param col
-     * @param row
-     * @param size
-     * @param color
-     * @param parent
+     * Creates a new Scene which represents a Blokus board state
+     * @param col the number of columns
+     * @param row the number of rows
+     * @param size the size of the cells
+     * @param color the default colour
+     * @param parent the Game class
      */
     public Board(int col, int row, int size, Colour color, Game parent) {
         super(col, row, size, color, parent);
@@ -201,6 +206,11 @@ public class Board extends GridSprite {
     }
 
     /* Here for compatibility, please ignore */
+
+    /**
+     * See above for description
+     * @param game a string containing a previous set of moves
+     */
     public Board(String game) {
 
         game = game.replace(" ","");
@@ -250,6 +260,11 @@ public class Board extends GridSprite {
         return moves;
     }
 
+    /**
+     * Same as below, but for piece
+     * @param piece the piece to check
+     * @return
+     */
     public boolean legitimateMove(Piece piece) {
 
         int playerId = (parent!=null) ? parent.currentPlayerId : piece.colour.ordinal();
@@ -276,9 +291,10 @@ public class Board extends GridSprite {
     }
 
     /**
-     * Parse a string (move) to check if whether a move is legitimate.
+     * Parse a string (move) to check if the move is legitimate.
      * @param move
-     * @return
+     * @return the ligitness of the move
+     * (if legit is replacing legitimate, then legitness can replace legitimacy)
      */
     public boolean legitimateMove(String move) {
 
@@ -303,25 +319,11 @@ public class Board extends GridSprite {
         piece.initialisePiece(coordinate, rotation);
         return legitimateMove(piece);
     }
+
     /**
-        Coordinate[] cells = piece.getOccupiedCells();                    //Tim's edit: Inserted 'getOccupiedCells'
-
-        /** Check that coordinates are empty x/
-        boolean touchingSide = false;
-        for(Coordinate cell : cells) {
-            if(cell.getX()<0 || cell.getX()>19 || cell.getY()<0 || cell.getY()>19) return false;
-            if(grid[cell.getY()][cell.getX()]!=Colour.Empty) return false;
-            for(Coordinate sideCell : cell.getSideCells())
-                if( cellAt(sideCell) == turnColour) return false;
-            for(Coordinate diagonalCell : cell.getDiagonalCells()) {
-                if (cellAt(diagonalCell) == turnColour) touchingSide = true;
-            }
-        }
-
-        return touchingSide;
-    }
+     * @param c the coordinate to check at
+     * @return the Colour at a particular cell, including corners for starting positions
      */
-
     public Colour cellAt(Coordinate c) {
 
         // I don't know what this is doing - I should have commented it when I wrote it.
@@ -378,6 +380,10 @@ public class Board extends GridSprite {
         }
         this.previewPiece(piece);
     }
+
+    /**
+     * When a cell in the grid triggers a MouseExited event
+     */
     public void isUnhovered() {
         if(preview != null) {
             this.removePieceSprite(preview);
@@ -386,6 +392,11 @@ public class Board extends GridSprite {
     }
     public PieceSprite preview;
     public Coordinate previewCoord;
+
+    /**
+     * Shows a shadow of the piece under the cursor
+     * @param piece the shape/orientation to render
+     */
     public void previewPiece(Piece piece) {
         preview = new PieceSprite(piece, xsize, this);
         if(!this.legitimateMove(piece))
@@ -395,6 +406,10 @@ public class Board extends GridSprite {
         this.addPieceSprite(preview);
     }
 
+    /**
+     * Taken from BlokGame, returns the score
+     * @return the game's current score
+     */
     public int[] currentScore() {
         int[] scores = new int[4];
 

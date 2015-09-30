@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
 /**
- * Created by nosha on 25/09/15.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, 25/09/15, from code written by Holly in old class
  * Edited by Holly on 30/09/15. (not finished editing)
  */
 public final class Panel extends GridSprite {
@@ -23,6 +23,15 @@ public final class Panel extends GridSprite {
     boolean active = false;
 
 
+    /**
+     * See GridSprite for parameter description
+     * @param col
+     * @param row
+     * @param size
+     * @param color
+     * @param parent
+     * @param vertical boolean representing whether the Panel is vertical (blue,yellow) or horizontal (red,green)
+     */
     public Panel(int col, int row, int size, Colour color, Game parent, boolean vertical) {
         super(col, row, size, color, parent);
         this.size = size;
@@ -188,10 +197,19 @@ public final class Panel extends GridSprite {
         }
     }
 
+    /**
+     * If a piece can't be placed, make it non-clickable and dim it
+     * @param shape the unplayable piece
+     */
     public void lockShape(Shape shape) {
         activeShapes.remove(shape);
         pieceSprites.get(shapes.indexOf(shape)).setOpacity(0.4);
     }
+
+    /**
+     * Reverts lockShape(Shape shape)
+     * @param shape the shape to undim
+     */
     public void unlockShape(Shape shape) {
         if(!activeShapes.contains(shape)) {
             activeShapes.add(shape);
@@ -211,6 +229,9 @@ public final class Panel extends GridSprite {
         */
     }
 
+    /**
+     * No long used, can be removed, unless it comes in handy for lock();
+     */
     public void pass() {
         return;
     }

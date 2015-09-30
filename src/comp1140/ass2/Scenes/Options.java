@@ -6,16 +6,26 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 /**
- * Created by nosha on 25/09/15.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, on 25/09/15
  */
 public class Options extends Scene {
+    /**
+     * Creates a new Options scene
+     * Not implemented yet - gives the user options to change things like
+     * sound (maybe?), theme (maybe?)
+     * as well as giving some information about the team of developers behind Blokus - Team Thu09i
+     *
+     * @param root required by Scene
+     * @param width required by Scene
+     * @param height required by Scene
+     * @param parent to access scene changing methods
+     */
     public Options(Group root, double width, double height, Blokus parent) {
         super(root, width, height, Color.LIGHTBLUE);
         getStylesheets().add("comp1140/ass2/Assets/main.css");

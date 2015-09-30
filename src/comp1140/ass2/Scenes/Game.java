@@ -9,27 +9,27 @@ import comp1140.ass2.Players.Player;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
- * Created by steveb on 12/08/2015.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, 25/10/2015
+ * Code taken from Holly in an old class
  */
 public class Game extends Scene {
 
@@ -42,11 +42,20 @@ public class Game extends Scene {
     public Colour[] playerColours = {Colour.Blue, Colour.Yellow, Colour.Red, Colour.Green};
     private Group root;
     private Group realRoot;
+    private Blokus parent;
 
     public boolean NO_RIGHT_CLICK = true;
 
+    /**
+     * Creates a new Game, which is a Scene containing all the required graphics to play Blokus
+     * @param realRoot the Group to add things too
+     * @param width for super()
+     * @param height for super()
+     * @param parent to access functions from Blokus (class)
+     */
     public Game(Group realRoot, double width, double height, Blokus parent) {
         super(realRoot, width, height, Color.WHITE);
+        this.parent = parent;
         // This root is here so that when showing the score, I can blur what's underneath - 'root'.
         Group root = new Group();
         realRoot.getChildren().add(root);
@@ -54,6 +63,7 @@ public class Game extends Scene {
         this.realRoot = realRoot;
         getStylesheets().add("comp1140/ass2/Assets/main.css");
 
+        /* Set background image */
         final ImageView imv1 = new ImageView();
         final Image image3 = new Image(Blokus.class.getResourceAsStream("Assets/blokusbg.png"));
         imv1.setImage(image3);
@@ -61,19 +71,6 @@ public class Game extends Scene {
         imv1.setFitWidth(700);
         imv1.setPreserveRatio(true);
         root.getChildren().add(imv1);
-
-
-
-
-        /**primaryStage.setOnCloseRequest(event -> {
-         closingTests(didFinish);
-         }); */
-
-        int boardSize = 520;
-        int gameSize = 640;
-
-        int panelCell = 11;
-
 
 
 
@@ -107,19 +104,7 @@ public class Game extends Scene {
         menubar.getChildren().add(button1);
 
 
-        /*
-        Pane pane = new Pane();
-        pane.setMinSize(640, 640);
-        pane.setMaxSize(640, 640);
-        pane.setLayoutX(30);
-        pane.setLayoutY(50);
-        pane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff;" +
-                "-fx-background-insets: 0,10;");
-                */
-
-        int panelHeight = 200;
-        int panelWidth = 140;
-
+        int panelCell = 11;
         int prepCell = 20;
 
         Pane blueHead = new Pane();
@@ -208,41 +193,8 @@ public class Game extends Scene {
         root.getChildren().addAll(bluePane, yellowPane, redPane, greenPane, boardPane, prepPane);
 
 
-        /*
-
         //Layout
-        VBox vbox = new VBox();
-        {
-            HBox top = new HBox();
-            {
-                VBox topLeft = new VBox();
-                {
-                    topLeft.getChildren().addAll(bluePanel, yellowPanel);
-                    //topLeft.setMargin(bluePanel, new Insets(5, 5, 5, 5));
-                    //topLeft.setMargin(yellowPanel, new Insets(5, 5, 5, 5));
-                }
-                top.getChildren().addAll(topLeft, board);
-                //top.setMargin(board, new Insets(5, 5, 5, 5));
-                top.setMargin(board, new Insets(5, 50, 5, 5));
-            }
-            HBox bottom = new HBox();
-            {
-                bottom.getChildren().addAll(piecePreparer, redPanel, panelGreen);
-                //bottom.setMargin(piecePreparer, new Insets(5, 5, 5, 5));
-                //bottom.setMargin(redPanel, new Insets(5, 10, 5, 5));
-                //bottom.setMargin(panelGreen, new Insets(5, 5, 5, 10));
-            }
-            vbox.getChildren().addAll(top, bottom);
-            //vbox.setMargin(top, new Insets(5, 5, 0, 5));
-            //vbox.setMargin(menuBar, new Insets(1, 1, 1, 1));
-            //vbox.setMargin(bottom, new Insets(0, 5, 5, 5));
-        }
-        pane.getChildren().add(vbox);
-        vbox.setLayoutX(10);
-        vbox.setLayoutY(10);
-
-        root.getChildren().add(pane);
-        */
+        //VBox vbox = new VBox();
 
         /*
         final ImageView imv = new ImageView();
@@ -258,21 +210,26 @@ public class Game extends Scene {
     }
 
 
+    /**
+     * Starts a new game
+     * @param playerCodes represent whether each player is a Human, and Easy Bot, Hard or not playing (for now, only
+     *                    Human and Easy are supported)
+     */
     public void start(int[] playerCodes) {
         players = new Player[] {null,null,null,null};
 
         for(int i=0;i<4;i++) {
             if(playerCodes[i]==0) {
-                players[i] = new EasyBot(i, this);
+                players[i] = new EasyBot(this);
             }
             if(playerCodes[i]==1) {
-                players[i] = new Human(i, this);
+                players[i] = new Human(this);
             }
             if(playerCodes[i]==2) {
-                players[i] = new EasyBot(i, this);
+                players[i] = new EasyBot(this);
             }
             if(playerCodes[i]==3) {
-                players[i] = new ExtremelyHardBot(i, this);
+                players[i] = new ExtremelyHardBot(this);
             }
         }
 
@@ -296,7 +253,11 @@ public class Game extends Scene {
     }
 
 
-    // All players have to do everything through this interface
+    /**
+     * The interface for players to make moves
+     * @param player a reference to the player calling the method
+     * @param piece the desired piece to play
+     */
     public void makeMove(Player player, Piece piece) {
         board.placePiece(piece);
         //panels[currentPlayerId].removePiece(piece);
@@ -309,6 +270,12 @@ public class Game extends Scene {
         timeline.play();
         //transitionMove();
     }
+
+    /**
+     * Used to handle passes - and in the future for handling bots that return strings instead of pieces, if that's
+     * how the competition will work
+     * @param string
+     */
     public void makeMove(String string) {
         if(string==".") {
             panels[currentPlayerId].lock(currentPlayer.isHuman());
@@ -317,6 +284,10 @@ public class Game extends Scene {
         }
     }
 
+    /**
+     * Checks for unplayable Shapes
+     * @param currentPlayerId which player to check for
+     */
     public void hideBadPieces(int currentPlayerId) {
         Panel panel = panels[currentPlayerId];
         Colour colour = playerColours[currentPlayerId];
@@ -345,6 +316,10 @@ public class Game extends Scene {
     public Panel currentPanel;
     public Player currentPlayer;
 
+    /**
+     * Run between two goes - to set and unset panels and the piecepreparer,
+     * to check for game ends, etc...
+     */
     public void transitionMove() {
         piecePreparer.setActive(false);
         panels[currentPlayerId].setActive(false);
@@ -376,6 +351,9 @@ public class Game extends Scene {
         }
     }
 
+    /**
+     * Shows the game outcome. Is called only when the game ends.
+     */
     public void endGame() {
         System.out.println("Game finished!");
 
@@ -438,9 +416,107 @@ public class Game extends Scene {
 
         Pane center = new Pane();
         center.getChildren().add(title);
-        center.setMinSize(700,300);
+        center.setMinSize(700, 300);
         center.setLayoutY(50);
         pane.getChildren().add(center);
+
+
+        int barWindow = 300;
+        int BAR_WIDTH = 50;
+        int MAX_SCORE = 1+2+3+3+4+4+4+4+4+5+5+5+5+5+5+5+5+5+5+5+5 + 20;
+
+        /* Show bars: */
+        // 100 233 366 500
+        Rectangle blueBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(11, 66, 155)"));
+        blueBar.setLayoutX((700-barWindow)/2 -BAR_WIDTH/2);
+        blueBar.setLayoutY(620);
+        Label blueScore = new Label(MAX_SCORE+ score[0] + "");
+        blueScore.setLayoutX((700 - barWindow)/ 2+10 - BAR_WIDTH/2);
+        blueScore.setLayoutY(580);
+        blueScore.setTextFill(Color.WHITE);
+        blueScore.setStyle("-fx-font-size: 18;");
+
+        Rectangle yellowBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(237,157, 0)"));
+        yellowBar.setLayoutX((700-barWindow)/2+barWindow/3-BAR_WIDTH/2);
+        yellowBar.setLayoutY(620);
+        Label yellowScore = new Label(MAX_SCORE+score[1] + "");
+        yellowScore.setLayoutX((700-barWindow)/2 + 1*barWindow/3+10 - BAR_WIDTH/2);
+        yellowScore.setLayoutY(580);
+        yellowScore.setStyle("-fx-font-size: 18");
+        yellowScore.setTextFill(Color.WHITE);
+
+        Rectangle redBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(155, 11, 66)"));
+        redBar.setLayoutX((700 - barWindow)/2+2*barWindow/3 - BAR_WIDTH/2);
+        redBar.setLayoutY(620);
+        Label redScore = new Label(MAX_SCORE+score[2]+"");
+        redScore.setLayoutX((700-barWindow)/2 + 2*barWindow/3 + 10 - BAR_WIDTH/2);
+        redScore.setLayoutY(580);
+        redScore.setStyle("-fx-font-size: 18;");
+        redScore.setTextFill(Color.WHITE);
+
+
+        Rectangle greenBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(66,155, 11)"));
+        greenBar.setLayoutX((700-barWindow)/2+barWindow-BAR_WIDTH/2);
+        greenBar.setLayoutY(620);
+        Label greenScore = new Label(MAX_SCORE+score[3]+"");
+        greenScore.setLayoutX((700-barWindow)/2 + 3*barWindow/3+10 - BAR_WIDTH/2);
+        greenScore.setLayoutY(580);
+        greenScore.setStyle("-fx-font-size: 18;");
+        greenScore.setTextFill(Color.WHITE);
+
+
+        pane.getChildren().addAll(blueBar, yellowBar, redBar, greenBar);
+        pane.getChildren().addAll(blueScore, yellowScore, redScore, greenScore);
+
+        Timer animTimer = new Timer(true);
+        animTimer.scheduleAtFixedRate(new TimerTask() {
+
+            int i = 0;
+            int barSize = 3;
+
+            @Override
+            public void run() {
+                if (i < MAX_SCORE) {
+                    if(score[0]+MAX_SCORE>i) {
+                        blueBar.setHeight(blueBar.getHeight() + barSize);
+                        blueBar.setLayoutY(blueBar.getLayoutY() - barSize);
+                        blueScore.setLayoutY(blueScore.getLayoutY() - barSize);
+                    }
+                    if (score[1]+MAX_SCORE>i) {
+                        yellowBar.setHeight(yellowBar.getHeight() + barSize);
+                        yellowBar.setLayoutY(yellowBar.getLayoutY() - barSize);
+                        yellowScore.setLayoutY(yellowScore.getLayoutY() - barSize);
+                    }
+                    if(score[2]+MAX_SCORE>i) {
+                        redBar.setHeight(redBar.getHeight() + barSize);
+                        redBar.setLayoutY(redBar.getLayoutY() - barSize);
+                        redScore.setLayoutY(redScore.getLayoutY() - barSize);
+                    }
+                    if(score[3]+MAX_SCORE>i) {
+                        greenBar.setHeight(greenBar.getHeight() + barSize);
+                        greenBar.setLayoutY(greenBar.getLayoutY() - barSize);
+                        greenScore.setLayoutY(greenScore.getLayoutY() - barSize);
+                    }
+                } else {
+                    this.cancel();
+                }
+
+                i++;
+            }
+        }, 100, 20);
+
+        Button button5 = new Button("<");
+        button5.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                parent.toMenu();
+            }
+        });
+        button5.setMinSize(40, 40);
+        button5.setMaxSize(40, 40);
+        button5.setLayoutX(30 - button5.getMinWidth() / 2); button5.setLayoutY(10);
+        button5.getStyleClass().add("back");
+        button5.getStyleClass().add("button1");
+        pane.getChildren().add(button5);
 
     }
 

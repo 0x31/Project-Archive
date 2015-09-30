@@ -1,12 +1,13 @@
 package comp1140.ass2;
 
 import comp1140.ass2.Game.Board;
-import comp1140.ass2.Game.Piece;
 
 /**
  * Created by steveb on 12/08/2015.
- * @author ***REMOVED*** ***REMOVED***, ***REMOVED***
  * @author Holly ***REMOVED***, ***REMOVED***
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** - makeMove
+ *
+ * This class is no longer used in the jar
  */
 public class BlokGame {
 

@@ -17,9 +17,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 /**
- * Created by nosha on 25/09/15.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, on 25/09/15
  */
 public class Menu extends Scene {
+    /**
+     * Creates a new Menu scene
+     * @param root required by Scene
+     * @param width required by Scene
+     * @param height required by Scene
+     * @param parent to access scene changing methods
+     */
     public Menu(Group root, double width, double height, Blokus parent) {
         super(root, width, height, Color.LIGHTBLUE);
         getStylesheets().add("comp1140/ass2/Assets/main.css");

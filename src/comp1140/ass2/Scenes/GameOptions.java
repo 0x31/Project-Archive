@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 /**
- * Created by nosha on 25/09/15.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, on 25/09/15
  */
 public class GameOptions extends Scene {
     public GameOptions(Group root, double width, double height, Blokus parent) {
@@ -40,15 +40,6 @@ public class GameOptions extends Scene {
         imv.setPreserveRatio(true);
         imv.setLayoutX(350-200); imv.setLayoutY(40);
         root.getChildren().add(imv);
-
-        /*ListView<String> list = new ListView<String>();
-        ObservableList<String> items = FXCollections.observableArrayList(
-                "Humam","Easy Bot","Medium Bot","Hard Bot","None");
-        list.setItems(items);
-        list.setMaxHeight(125);
-        root.getChildren().add(list);
-        */
-
 
         Button button5 = new Button("<");
         button5.setOnAction(new EventHandler<ActionEvent>() {
@@ -124,22 +115,19 @@ public class GameOptions extends Scene {
         button3.getStyleClass().add("green");
         root.getChildren().add(button3);
 
-        //Button button1 = new Button("Green?: Bot");button1.setOnAction(new EventHandler<ActionEvent>() {public void handle(ActionEvent e) { parent.toGame(); }}); button1.setMinSize(160, 40); button1.setLayoutX(200 - button1.getMinWidth() / 2); button1.setLayoutY(500); button1.getStyleClass().add("button"); root.getChildren().add(button1);
-        //Button button3 = new Button("Blue: Bot");button3.setOnAction(new EventHandler<ActionEvent>() {public void handle(ActionEvent e) { parent.toGame(); }}); button3.setMinSize(160, 40); button3.setLayoutX(500 - button3.getMinWidth() / 2); button3.setLayoutY(300); button3.getStyleClass().add("button"); root.getChildren().add(button3);
-        //Button button4 = new Button("Blue Bot");button4.setOnAction(new EventHandler<ActionEvent>() {public void handle(ActionEvent e) { parent.toGame(); }}); button4.setMinSize(160, 40); button4.setLayoutX(500 - button4.getMinWidth() / 2); button4.setLayoutY(500); button4.getStyleClass().add("button"); root.getChildren().add(button4);
-        Button button = new Button("Play!");button.setOnAction(new EventHandler<ActionEvent>() {
+        Button button = new Button("Play!");
+        button.getStyleClass().add("button1");
+        button.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                if(buttonState[0]+buttonState[1]+buttonState[2]+buttonState[3]==0) {
-
-                }
-                else {
+                //if(buttonState[0]+buttonState[1]+buttonState[2]+buttonState[3]==0) {
+                //}
+                //else {
                     parent.toGame(buttonState);
-                }
+                //}
             }
-        }); button.setMinSize(160, 40); button.setLayoutX(350 - button.getMinWidth() / 2); button.setLayoutY(620); button.getStyleClass().add("button"); root.getChildren().add(button);
+        }); button.setMinSize(160, 40); button.setLayoutX(350 - button.getMinWidth() / 2); button.setLayoutY(620);
+        button.getStyleClass().add("button"); root.getChildren().add(button);
 
-
-        // Increment button layoutY by 60 (eg 360, 420, 480, etc)
 
 
     }

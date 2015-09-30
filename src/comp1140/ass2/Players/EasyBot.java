@@ -7,19 +7,25 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by nosha on 25/09/15.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** on 25/09/15, with segments taken from Holly's code
  */
 public class EasyBot implements Player {
 
     Game parent;
-    Panel myPanel;
-    int playerId;
 
-    public EasyBot(int playerId, Game parent) {
+    /**
+     *
+     * @param parent
+     */
+    public EasyBot(Game parent) {
         this.parent = parent;
-        this.playerId = playerId;
     }
 
+    /**
+     * If a user clicks on the board, nothing should happen, since it's not their turn
+     * @param x the clicked cell's x value in the grid
+     * @param y the clicked cell's y value in the grid
+     */
     @Override
     public void handleClick(int x, int y) {
         // Alert user it's not their turn?
@@ -28,7 +34,7 @@ public class EasyBot implements Player {
 
     @Override
     public void think(Board board) {
-        myPanel = parent.panels[parent.currentPlayerId];
+        Panel myPanel = parent.panels[parent.currentPlayerId];
         Colour colour = parent.playerColours[parent.currentPlayerId];
         for(Shape shape : shuffle(myPanel.activeShapes)) {
             for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {

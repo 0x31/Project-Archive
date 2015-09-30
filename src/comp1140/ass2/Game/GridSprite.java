@@ -10,8 +10,7 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
 /**
- * Created by nosha on 1/09/15.
- * @author ***REMOVED*** ***REMOVED***, ***REMOVED***
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, 01/09/15
  * Edited later by Tim:
  *  - click handling
  *  - use of cellSprite
@@ -28,6 +27,14 @@ public abstract class GridSprite extends GridPane {
 
     public GridSprite() {}
 
+    /**
+     * Creates a new GridPane to display cells
+     * @param col number of columns
+     * @param row number of rows
+     * @param xsize cell size
+     * @param color default cell colour
+     * @param parent the class which instantiates this class
+     */
     public GridSprite(int col, int row, int xsize, Colour color, Game parent) {
         this.parent = parent;
         this.col = col;
@@ -100,7 +107,7 @@ public abstract class GridSprite extends GridPane {
      * @param pieceSprite
      */
     public void isClicked(PieceSprite pieceSprite) {
-        System.out.println("GridSprite was clicked in - please override this function and tell me what to do!");
+        //System.out.println("GridSprite was clicked in - please override this function and tell me what to do!");
     }
 
     /**

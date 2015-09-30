@@ -4,20 +4,26 @@ import comp1140.ass2.Game.*;
 import comp1140.ass2.Scenes.Game;
 
 /**
- * Created by nosha on 25/09/15.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** on 25/09/15.
  */
 public class Human implements Player {
 
     Game parent;
-    int playerId;
-    Panel myPanel;
     Board board;
 
-    public Human(int playerId, Game parent) {
+    /**
+     * Gives birth to a new human
+     * @param parent the Game class
+     */
+    public Human(Game parent) {
         this.parent = parent;
-        this.playerId = playerId;
     }
 
+    /**
+     * Handle clicks on the board
+     * @param x the clicked cell's column
+     * @param y the clicked cell's row
+     */
     @Override
     public void handleClick(int x, int y) {
         if(parent.piecePreparer.getPiece()!=null) {
@@ -32,6 +38,10 @@ public class Human implements Player {
         }
     }
 
+    /**
+     * The human doesn't think - besides setting the piecePreparer and Panel to active
+     * @param board
+     */
     @Override
     public void think(Board board) {
         this.board = board;
@@ -44,11 +54,19 @@ public class Human implements Player {
         // i.e. Wait for click();
     }
 
+    /**
+     * Identifies that this Player uses the PiecePreparer and Panel
+     * @return
+     */
     @Override
     public boolean isHuman() {
         return true;
     }
 
+    /**
+     * Change to have a button requiring clicking before being passed
+     * (Only for the first pass)
+     */
     @Override
     public void confirmPass() {
         parent.transitionMove();
