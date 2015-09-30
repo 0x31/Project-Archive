@@ -48,6 +48,7 @@ public abstract class GridSprite extends GridPane {
     }
 
     /**
+     * Takes a piece and adds each cell pane to gridpane
      *
      * @param pieceSprite
      */
@@ -57,33 +58,67 @@ public abstract class GridSprite extends GridPane {
         }
     }
 
+    /**
+     * Takes a piece and removes each cell pane form gridpane
+     *
+     * @param pieceSprite
+     */
     private void removeFromGridPane(PieceSprite pieceSprite) {
         if(pieceSprite==null) return;
         for (int i = 0; i<pieceSprite.CELL_COUNT; i++) {
             this.getChildren().remove(pieceSprite.cells[i]);
         }
     }
-    
+
+    /**
+     * Adds a piece to the collection of pieces as well as the grid pane itself
+     *
+     * @param pieceSprite
+     */
     public void addPieceSprite(PieceSprite pieceSprite) {
         pieceSprites.add(pieceSprite);
         addToGridPane(pieceSprite);
     }
 
+    /**
+     * Removes a piece from the collection of pieces as well as form the grid pane itself
+     *
+     * @param pieceSprite
+     */
     public void removePieceSprite(PieceSprite pieceSprite) {
         pieceSprites.remove(pieceSprite);
         removeFromGridPane(pieceSprite);
     }
 
+    /**
+     * Overrideable function which is utilised in responding appropriately to onClick events
+     *
+     * @param pieceSprite
+     */
     public void isClicked(PieceSprite pieceSprite) {
         System.out.println("GridSprite was clicked in - please override this function and tell me what to do!");
     }
 
+    /**
+     * Overrideable function which is utilised in responding appropriately to onClick events
+     *
+     * @param cellSprite
+     */
     public void isClicked(CellSprite cellSprite) {
         // Do nothing;
     }
 
+    /**
+     * Overrideable function which is utilised in responding appropriately to hover events
+     *
+     * @param cell
+     */
     public void isHovered(CellSprite cell) {
     }
+
+    /**
+     * Overrideable function which is utilised in responding appropriately to unhover events
+     */
     public void isUnhovered() {
     }
 
