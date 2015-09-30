@@ -1,6 +1,8 @@
 package comp1140.ass2.Game;
 
 import comp1140.ass2.Scenes.Game;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 /**
@@ -21,7 +23,6 @@ public class PiecePreparerSprite extends GridSprite {
      *
      * @param shape
      * @param c
-     * @param (orientation)
      */
     public void addShape(Shape shape, Colour c) {
         removePiece();
@@ -76,7 +77,59 @@ public class PiecePreparerSprite extends GridSprite {
         Piece piece = pieceSprite.piece;
         piece.movePiece(1, false);
         addPiece(piece);
+    }
 
+    public void isClicked(CellSprite cellSprite) {
+        if(!active) {
+            return;
+        }
+
+        Piece piece = thePieceSprite.piece;
+        piece.movePiece(1, false);
+        removePiece();
+        addPiece(piece);
+    }
+
+    public void isRightClicked(CellSprite cellSprite) {
+        if(!active) {
+            return;
+        }
+
+        Piece piece = thePieceSprite.piece;
+        piece.movePiece(0, true);
+        removePiece();
+        addPiece(piece);
+    }
+
+    public void isRightClicked(PieceSprite pieceSprite) {
+        if(!active) {
+            return;
+        }
+
+        Piece piece = thePieceSprite.piece;
+        piece.movePiece(0, true);
+        removePiece();
+        addPiece(piece);
+    }
+
+
+    private void eventWatcher() {
+        /**
+         * @TODO Get PiecePreparerSprite to respond to any click in its vicinity as well as right clicks for flipping the piece
+         */
+        PiecePreparerSprite dummyPP = this;
+
+        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (!dummyPP.active) {
+                    Piece piece = dummyPP.thePieceSprite.piece;
+                    removePiece();
+                    piece.movePiece(1, false);
+                    addPiece(piece);
+                }
+            }
+        });
     }
 
     public void removePiece() {

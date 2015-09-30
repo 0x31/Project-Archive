@@ -60,7 +60,6 @@ public class Board extends GridSprite {
      * Given a four character String and the identifying number of the current player,
      * sets the grid coordinates to that player's colour where the piece is played.
      *
-     * @param move   a four character string representing a single move
      * @return void  while also changing this.grid
      */
     public boolean placePiece(Piece piece) {
@@ -341,6 +340,11 @@ public class Board extends GridSprite {
             int y = sprite.coordinates[0].getY();
             parent.players[parent.currentPlayer].handleClick(x, y);
         }
+    }
+
+    /** @TODO get shadow to update as piece is rotated */
+    public void isRightClicked(PieceSprite sprite) {
+        parent.piecePreparer.isClicked(sprite);
     }
 
     public void isClicked(CellSprite cell) {

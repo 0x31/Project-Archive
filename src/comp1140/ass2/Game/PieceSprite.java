@@ -36,8 +36,13 @@ public class PieceSprite {
     }
 
     public void isClicked(CellSprite cellSprite) {
-        //System.out.println("-- -- Piece was clicked");
+        System.out.println("-- -- Piece was clicked");
         gridSprite.isClicked(this);
+    }
+
+    public void isRightClicked(CellSprite cellSprite) {
+        System.out.println("-- -- Piece was rightClicked");
+        gridSprite.isRightClicked(this);
     }
 
     public void isHovered(CellSprite cellSprite) {

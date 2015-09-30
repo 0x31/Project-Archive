@@ -2,6 +2,7 @@ package comp1140.ass2.Game;
 
 
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -62,11 +63,25 @@ public class CellSprite extends Pane {
         this.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(parent instanceof PieceSprite) {
-                    ((PieceSprite) parent).isClicked(dummyCell);
-                }
-                if(parent instanceof GridSprite) {
-                    ((GridSprite) parent).isClicked(dummyCell);
+                System.out.println("Cell was clicked");
+                if (event.getButton() == MouseButton.SECONDARY) {
+                    System.out.println("-- click was rightClick");
+                    if (parent instanceof PieceSprite) {
+                        //System.out.println("Cell rightClicked");
+                        ((PieceSprite) parent).isRightClicked(dummyCell);
+                    }
+                    if(parent instanceof GridSprite) {
+                        //System.out.println("Cell rightClicked");
+                        ((GridSprite) parent).isRightClicked(dummyCell);
+                    }
+                } else {
+                    System.out.println("-- click was not rightClick");
+                    if (parent instanceof PieceSprite) {
+                        ((PieceSprite) parent).isClicked(dummyCell);
+                    }
+                    if (parent instanceof GridSprite) {
+                        ((GridSprite) parent).isClicked(dummyCell);
+                    }
                 }
             }
         });
