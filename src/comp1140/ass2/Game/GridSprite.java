@@ -47,6 +47,10 @@ public abstract class GridSprite extends GridPane {
         }
     }
 
+    /**
+     *
+     * @param pieceSprite
+     */
     private void addToGridPane(PieceSprite pieceSprite) {
         for (int i = 0; i<pieceSprite.CELL_COUNT; i++) {
             this.add(pieceSprite.cells[i], pieceSprite.coordinates[i].getX(), pieceSprite.coordinates[i].getY());
