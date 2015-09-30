@@ -1,7 +1,11 @@
 package comp1140.ass2.Game;
 
 /**
- * Created by ***REMOVED*** on 19/08/15.
+ * Created by ***REMOVED*** on 19/08/15
+ * Later edited by Tim:
+ *  - shift
+ *  - flip
+ *  - rotate
  */
 public class Coordinate {
     private int x;

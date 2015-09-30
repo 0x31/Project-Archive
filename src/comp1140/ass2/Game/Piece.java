@@ -1,11 +1,9 @@
 package comp1140.ass2.Game;
 
 /**
- * Created by Tim ***REMOVED*** on 22/08/15.
+ * @author Tim ***REMOVED***, ***REMOVED***
  * Later edited by ***REMOVED***
- * @TODO:
- *        - maybe have a different methods. one for initialising based on input, and one for
- *          manipulating the piece from there.
+ *
  */
 public class Piece {
     public Shape shape;

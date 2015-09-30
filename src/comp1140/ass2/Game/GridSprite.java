@@ -11,6 +11,10 @@ import java.util.ArrayList;
 
 /**
  * Created by nosha on 1/09/15.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED***
+ * Edited later by Tim:
+ *  - click handling
+ *  - use of cellSprite
  */
 public abstract class GridSprite extends GridPane {
     int col;
