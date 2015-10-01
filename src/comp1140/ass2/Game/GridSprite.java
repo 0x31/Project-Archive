@@ -46,6 +46,8 @@ public abstract class GridSprite extends GridPane {
 
         //this.setHgap(1);
         //this.setVgap(1);
+
+        //puts a neutral cellSprite at every location
         for(int j=0;j<col;j++) {
             for (int i = 0; i < row; i++) {
                 CellSprite cell = new CellSprite(xsize, xsize, color,this); //double width, double height, Colour color, PieceSprite pieceSprite) {
@@ -110,12 +112,33 @@ public abstract class GridSprite extends GridPane {
         //System.out.println("GridSprite was clicked in - please override this function and tell me what to do!");
     }
 
+
     /**
      * Overrideable function which is utilised in responding appropriately to onClick events
      *
      * @param cellSprite
      */
     public void isClicked(CellSprite cellSprite) {
+        // Do nothing;
+    }
+
+    /**
+     * Overrideable function which is utilised in responding appropriately to onClick events
+     *
+     * @param pieceSprite
+     */
+    public void isRightClicked(PieceSprite pieceSprite) {
+        System.out.println("-- -- -- in Default GridSprite RightClick for pieceSprite");
+        // Do nothing;
+    }
+
+    /**
+     * Overrideable function which is utilised in responding appropriately to onClick events
+     *
+     * @param cellSprite
+     */
+    public void isRightClicked(CellSprite cellSprite) {
+        System.out.println("-- -- -- in Default GridSprite RightClick for cellSprite");
         // Do nothing;
     }
 

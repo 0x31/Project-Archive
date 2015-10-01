@@ -53,6 +53,11 @@ public class PieceSprite {
         gridSprite.isClicked(this);
     }
 
+    public void isRightClicked(CellSprite cellSprite) {
+        System.out.println("-- -- Piece was rightClicked");
+        gridSprite.isRightClicked(this);
+    }
+
     /**
      * Handles cells being mouseover-ed
      * @param cellSprite which cell was mouseover-ed

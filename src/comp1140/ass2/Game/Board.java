@@ -321,6 +321,11 @@ public class Board extends GridSprite {
         }
     }
 
+    /** @TODO get shadow to update as piece is rotated */
+    public void isRightClicked(PieceSprite sprite) {
+        parent.piecePreparer.isClicked(sprite);
+    }
+
     /**
      * Grad coordinates of the grid when a cell is clicked.
      * @param cell
