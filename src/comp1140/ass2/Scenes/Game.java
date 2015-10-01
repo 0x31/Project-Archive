@@ -48,7 +48,7 @@ public class Game extends Scene {
     private Group realRoot;
     private Blokus parent;
 
-    public boolean NO_RIGHT_CLICK = true;
+    public boolean NO_RIGHT_CLICK = false;
 
     /**
      * Creates a new Game, which is a Scene containing all the required graphics to play Blokus
