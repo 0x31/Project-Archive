@@ -330,6 +330,7 @@ public class Board extends GridSprite {
      * Grad coordinates of the grid when a cell is clicked.
      * @param cell
      */
+
     public void isClicked(CellSprite cell) {
         int x = this.getColumnIndex(cell);
         int y = this.getRowIndex(cell);
@@ -351,10 +352,10 @@ public class Board extends GridSprite {
         if(piece==null) return;
         piece = piece.clone();
         piece.setXY(previewCoord);
-        for(Coordinate coord : piece.getOccupiedCells()) {
+        /*for(Coordinate coord : piece.getOccupiedCells()) {
             if(coord.getY()>=20 || coord.getY()<0 || coord.getX()>=20 || coord.getX()<0)
                 return;
-        }
+        }*/
         this.previewPiece(piece);
     }
 
@@ -366,6 +367,7 @@ public class Board extends GridSprite {
             this.removePieceSprite(preview);
             preview = null;
         }
+        previewCoord = null;
     }
     public PieceSprite preview;
     public Coordinate previewCoord;

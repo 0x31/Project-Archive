@@ -2,7 +2,6 @@ package comp1140.ass2.LiveTests;
 
 import comp1140.ass2.Game.Board;
 import comp1140.ass2.Scenes.Game;
-import org.junit.Test;
 
 /**
  * Created by nosha on 1/10/15.
@@ -15,7 +14,7 @@ public class GameTests {
         this.game = game;
     }
 
-    @Test
+    //@Test
     public boolean testBoard() {
         Board board = game.board;
         boolean assertBool = true;
@@ -24,7 +23,7 @@ public class GameTests {
         assertBool &= board.legitimateMove("BBAA")==false;
         return assertBool;
     }
-    @Test
+    //@Test
     public boolean testFinishedGame() {
         Board board = game.board;
         boolean assertBool = true;
@@ -40,19 +39,17 @@ public class GameTests {
         }
         return assertBool;
     }
-    @Test
+    //@Test
     public boolean testPiecePreparer() {
         Boolean assert1 = (game.piecePreparer != null);
         return assert1;
     }
-    @Test
+    //@Test
     public boolean testIntentionalFail() {
         return false;
     }
-    @Test
+    //@Test
     public boolean testIntentionalPass() {
         return true;
     }
-
-
 }
