@@ -2,7 +2,7 @@ package comp1140.ass2.Game;
 
 /**
  * @author Tim ***REMOVED***, ***REMOVED***
- * Later edited by ***REMOVED***
+ * Minor edits by ***REMOVED***, ***REMOVED***
  *
  */
 public class Piece {

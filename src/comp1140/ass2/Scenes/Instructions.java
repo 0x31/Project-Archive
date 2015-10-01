@@ -15,9 +15,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
 
 /**
- * Created by nosha on 25/09/15.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, on 25/09/15
  */
 public class Instructions extends Scene {
+    /**
+     * Creates a new Instruction Scene, which uses a webview to display the instructions, stored in a
+     * HTML file. Instructions taken from http://www.educationallearninggames.com/how-to-play-blokus-game-rules.asp
+     * @param root required by Scene
+     * @param width required by Scene
+     * @param height required by Scene
+     * @param parent used to accedd the Blokus scene handling methods
+     */
     public Instructions(Group root, double width, double height, Blokus parent) {
         super(root, width, height, Color.LIGHTBLUE);
         getStylesheets().add("comp1140/ass2/Assets/main.css");

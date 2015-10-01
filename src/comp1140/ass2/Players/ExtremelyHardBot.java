@@ -1,25 +1,28 @@
 package comp1140.ass2.Players;
 
 import comp1140.ass2.Game.Board;
+import comp1140.ass2.Game.Panel;
 import comp1140.ass2.Game.Piece;
 import comp1140.ass2.Scenes.Game;
 
 /**
- * Created by nosha on 25/09/15.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** on 25/09/15.
+ * There's nothing here so no point in marking yet
  */
 public class ExtremelyHardBot implements Player {
 
     Game parent;
-    int playerId;
 
-    public ExtremelyHardBot(int playerId, Game parent) {
+    /**
+     * Creates a new ExtemelyHardBot
+     * @param parent the Game class
+     */
+    public ExtremelyHardBot(Game parent) {
         this.parent = parent;
-        this.playerId = playerId;
     }
 
     @Override
     public void handleClick(int x, int y) {
-
     }
 
     @Override
@@ -28,12 +31,12 @@ public class ExtremelyHardBot implements Player {
     }
 
     @Override
-    public void skip() {
-
+    public boolean isHuman() {
+        return false;
     }
 
     @Override
-    public boolean isHuman() {
-        return false;
+    public void confirmPass() {
+        parent.transitionMove();
     }
 }

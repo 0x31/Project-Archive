@@ -1,8 +1,12 @@
-package comp1140.ass2;/**
+package comp1140.ass2;
+
+/**
  * Created by Tim on 23/09/2015.
+ * Edited by ***REMOVED***, ***REMOVED***, 25/09/2015 - updated FX
+ *
+ * This is the Main Class
  */
 
-import comp1140.ass2.Players.Player;
 import comp1140.ass2.Scenes.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -25,26 +29,33 @@ public class Blokus extends Application {
     Scene instructions;
     Scene options;
     Scene gameOptions;
-    Scene gameEnd;
 
-    /*public void changeScene(Scene scene) {
-        this.primaryStage.setScene(scene);
-    }*/
-
+    /**
+     * Sets the scene to the Menu
+     */
     public void toMenu() {
         this.primaryStage.setScene(this.menu);
         setTitle("Blokus: Main Menu");
     }
 
+    /**
+     * Creates a new Game and sets the scene to it
+     * @param players
+     */
     public void toGame(int[] players) {
+        game = new Game(new Group(), 700,700, this);
         this.primaryStage.setScene(this.game);
         setTitle("Blokus: Play!");
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(1000),
                 ae -> game.start(players)));
         timeline.play();
+        //game.start(players);
     }
 
+    /**
+     * The rest of these methods set the scene - is seen in toMenu()
+     */
     public void toInstructions() {
         this.primaryStage.setScene(this.instructions);
     }
@@ -54,53 +65,29 @@ public class Blokus extends Application {
     }
 
     public void toGameOptions() {
+        gameOptions = new GameOptions(new Group(), 700,700, this);
         this.primaryStage.setScene(this.gameOptions);
-    }
-
-    public void toGameEnd() {
-        this.primaryStage.setScene(this.gameEnd);
     }
 
     public void setTitle(String title) {
         this.primaryStage.setTitle(title);
     }
 
+    /**
+     * This is THE MAIN FUNCTION that creates EVERYTHING. It's pretty important
+     * It's pretty important.
+     * @param primaryStage required by JavaFX
+     */
     @Override
     public void start(Stage primaryStage) {
-
         this.primaryStage = primaryStage;
 
         menu = new Menu(new Group(), 700,700, this);
-        game = new Game(new Group(), 700,700, this);
         instructions = new Instructions(new Group(), 700,700, this);
         options = new Options(new Group(), 700,700, this);
-        gameOptions = new GameOptions(new Group(), 700,700, this);
-        gameEnd = new GameEnd(new Group(), 700,700, this);
 
         primaryStage.show();
-
         toMenu();
-
-
-        /*
-        Group root = new Group();
-        Scene scene = new Scene(root, 700, 700);
-
-        int boardSize = 550;
-        int gameSize = 690;
-
-        /*
-         * Layout inspired by existing Blokus implementations (found by searching 'blokus online' in Google Images)
-         *
-        VBox vbox = new VBox(); //main window
-        //Node main = new PiecePreparerSprite(9,9, gameSize-boardSize,gameSize-boardSize,Color.LIGHTGRAY);    //piecePreparer, SMALL
-        Node main = new PiecePreparerSprite(9,9, gameSize,gameSize,Color.LIGHTGRAY);                          //piecePreparer, LARGE
-
-        root.getChildren().add(main);
-
-        primaryStage.setTitle("Blokus - Thu09i");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        */
     }
+
 }

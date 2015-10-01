@@ -2,41 +2,72 @@ package comp1140.ass2.Scenes;
 
 import comp1140.ass2.*;
 import comp1140.ass2.Game.*;
+import comp1140.ass2.LiveTests.GameTests;
 import comp1140.ass2.Players.EasyBot;
 import comp1140.ass2.Players.ExtremelyHardBot;
 import comp1140.ass2.Players.Human;
 import comp1140.ass2.Players.Player;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.*;
 import javafx.util.Duration;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
- * Created by steveb on 12/08/2015.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, 25/10/2015
+ * Code taken from Holly in an old class
  */
 public class Game extends Scene {
 
-    public int currentPlayer;
+    public int currentPlayerId;
     public Player[] players;
     public PiecePreparerSprite piecePreparer;
     public Board board;
     public Panel[] panels;
     public boolean[] skip = {false, false, false, false};
     public Colour[] playerColours = {Colour.Blue, Colour.Yellow, Colour.Red, Colour.Green};
+    private Group root;
+    private Group realRoot;
+    private Blokus parent;
 
-    public Game(Group root, double width, double height, Blokus parent) {
-        super(root, width, height, Color.WHITE);
+    public boolean NO_RIGHT_CLICK = true;
+
+    /**
+     * Creates a new Game, which is a Scene containing all the required graphics to play Blokus
+     * @param realRoot the Group to add things too
+     * @param width for super()
+     * @param height for super()
+     * @param parent to access functions from Blokus (class)
+     */
+    public Game(Group realRoot, double width, double height, Blokus parent) {
+        super(realRoot, width, height, Color.WHITE);
+        this.parent = parent;
+        // This root is here so that when showing the score, I can blur what's underneath - 'root'.
+        Group root = new Group();
+        realRoot.getChildren().add(root);
+        this.root = root;
+        this.realRoot = realRoot;
         getStylesheets().add("comp1140/ass2/Assets/main.css");
 
+        /* Set background image */
         final ImageView imv1 = new ImageView();
         final Image image3 = new Image(Blokus.class.getResourceAsStream("Assets/blokusbg.png"));
         imv1.setImage(image3);
@@ -44,19 +75,6 @@ public class Game extends Scene {
         imv1.setFitWidth(700);
         imv1.setPreserveRatio(true);
         root.getChildren().add(imv1);
-
-
-
-
-        /**primaryStage.setOnCloseRequest(event -> {
-         closingTests(didFinish);
-         }); */
-
-        int boardSize = 520;
-        int gameSize = 640;
-
-        int panelCell = 11;
-
 
 
 
@@ -90,19 +108,7 @@ public class Game extends Scene {
         menubar.getChildren().add(button1);
 
 
-        /*
-        Pane pane = new Pane();
-        pane.setMinSize(640, 640);
-        pane.setMaxSize(640, 640);
-        pane.setLayoutX(30);
-        pane.setLayoutY(50);
-        pane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff;" +
-                "-fx-background-insets: 0,10;");
-                */
-
-        int panelHeight = 200;
-        int panelWidth = 140;
-
+        int panelCell = 11;
         int prepCell = 20;
 
         Pane blueHead = new Pane();
@@ -191,41 +197,8 @@ public class Game extends Scene {
         root.getChildren().addAll(bluePane, yellowPane, redPane, greenPane, boardPane, prepPane);
 
 
-        /*
-
         //Layout
-        VBox vbox = new VBox();
-        {
-            HBox top = new HBox();
-            {
-                VBox topLeft = new VBox();
-                {
-                    topLeft.getChildren().addAll(bluePanel, yellowPanel);
-                    //topLeft.setMargin(bluePanel, new Insets(5, 5, 5, 5));
-                    //topLeft.setMargin(yellowPanel, new Insets(5, 5, 5, 5));
-                }
-                top.getChildren().addAll(topLeft, board);
-                //top.setMargin(board, new Insets(5, 5, 5, 5));
-                top.setMargin(board, new Insets(5, 50, 5, 5));
-            }
-            HBox bottom = new HBox();
-            {
-                bottom.getChildren().addAll(piecePreparer, redPanel, panelGreen);
-                //bottom.setMargin(piecePreparer, new Insets(5, 5, 5, 5));
-                //bottom.setMargin(redPanel, new Insets(5, 10, 5, 5));
-                //bottom.setMargin(panelGreen, new Insets(5, 5, 5, 10));
-            }
-            vbox.getChildren().addAll(top, bottom);
-            //vbox.setMargin(top, new Insets(5, 5, 0, 5));
-            //vbox.setMargin(menuBar, new Insets(1, 1, 1, 1));
-            //vbox.setMargin(bottom, new Insets(0, 5, 5, 5));
-        }
-        pane.getChildren().add(vbox);
-        vbox.setLayoutX(10);
-        vbox.setLayoutY(10);
-
-        root.getChildren().add(pane);
-        */
+        //VBox vbox = new VBox();
 
         /*
         final ImageView imv = new ImageView();
@@ -241,21 +214,26 @@ public class Game extends Scene {
     }
 
 
+    /**
+     * Starts a new game
+     * @param playerCodes represent whether each player is a Human, and Easy Bot, Hard or not playing (for now, only
+     *                    Human and Easy are supported)
+     */
     public void start(int[] playerCodes) {
         players = new Player[] {null,null,null,null};
 
         for(int i=0;i<4;i++) {
             if(playerCodes[i]==0) {
-                players[i] = new EasyBot(i, this);
+                players[i] = new EasyBot(this);
             }
             if(playerCodes[i]==1) {
-                players[i] = new Human(i, this);
+                players[i] = new Human(this);
             }
             if(playerCodes[i]==2) {
-                players[i] = new EasyBot(i, this);
+                players[i] = new EasyBot(this);
             }
             if(playerCodes[i]==3) {
-                players[i] = new ExtremelyHardBot(i, this);
+                players[i] = new ExtremelyHardBot(this);
             }
         }
 
@@ -266,63 +244,340 @@ public class Game extends Scene {
         Player player3 = new EasyBot(3, this);
         players = new Player[] {player0, player1, player2, player3};
         */
-        currentPlayer = players.length-1; // When we transition go, it will start with player 0
+        currentPlayerId = players.length-1; // When we transition go, it will start with player 0
 
         board.setActive(true);
 
         // BEGIN!
-        transitionMove();
-
-    }
-
-
-    // All players have to do everything through this interface
-    public void makeMove(Player player, Piece piece) {
-        board.placePiece(piece);
-        //panels[currentPlayer].removePiece(piece);
-        panels[currentPlayer].removePiece(piece.shape);
-
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(100),
                 ae -> transitionMove()));
         timeline.play();
+
     }
 
+
+    /**
+     * The interface for players to make moves
+     * @param player a reference to the player calling the method
+     * @param piece the desired piece to play
+     */
+    public void makeMove(Player player, Piece piece) {
+        board.placePiece(piece);
+        //panels[currentPlayerId].removePiece(piece);
+        panels[currentPlayerId].removePiece(piece.shape);
+
+        int GAME_SPEED = 2;
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.millis(Math.pow(10,GAME_SPEED)),
+                ae -> transitionMove()));
+        timeline.play();
+        //transitionMove();
+    }
+
+    /**
+     * Used to handle passes - and in the future for handling bots that return strings instead of pieces, if that's
+     * how the competition will work
+     * @param string
+     */
+    public void makeMove(String string) {
+        if(string==".") {
+            panels[currentPlayerId].lock(currentPlayer.isHuman());
+            skip[currentPlayerId] = true;
+            transitionMove();
+        }
+    }
+
+    /**
+     * Checks for unplayable Shapes
+     * @param currentPlayerId which player to check for
+     */
+    public void hideBadPieces(int currentPlayerId) {
+        Panel panel = panels[currentPlayerId];
+        Colour colour = playerColours[currentPlayerId];
+        for(Shape shape : panel.shapes) {
+            boolean playable = false;
+            for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {
+                for(int x = 0; x<20; x++) {
+                    for(int y = 0; y<20; y++) {
+                        //Piece testPiece = new Piece(piece.shape, piece.colour);
+                        Piece testPiece = new Piece(shape, colour);
+                        testPiece.initialisePiece(new Coordinate(x,y), orientation);
+                        if(board.legitimateMove(testPiece)) {
+                            playable = true;
+                        }
+                    }
+                }
+            }
+            if(!playable) {
+                panel.lockShape(shape);
+            } else {
+               panel.unlockShape(shape);
+            }
+        }
+    }
+
+    public Panel currentPanel;
+    public Player currentPlayer;
+
+    /**
+     * Run between two goes - to set and unset panels and the piecepreparer,
+     * to check for game ends, etc...
+     */
     public void transitionMove() {
         piecePreparer.setActive(false);
-        panels[currentPlayer].setActive(false);
-        panels[currentPlayer].temporary = null;
+        panels[currentPlayerId].setActive(false);
+        panels[currentPlayerId].temporary = null;
         piecePreparer.removePiece();
         if(skip[0]&&skip[1]&&skip[2]&&skip[3]) {
             endGame();
             return;
         }
 
-        currentPlayer = (currentPlayer+1) % players.length;
-        if(skip[currentPlayer]){
-            if(skip[0]&&skip[1]&&skip[3]) {
-                return;
-            }
-            transitionMove();
-            return;
+        currentPlayerId = (currentPlayerId+1) % players.length;
+        currentPlayer = players[currentPlayerId];
+        currentPanel = panels[currentPlayerId];
+        System.out.print("\rPlayer " + (currentPlayerId + 1) + "'s go!");
+
+        hideBadPieces(currentPlayerId);
+        if(panels[currentPlayerId].activeShapes.isEmpty()){
+            skip[currentPlayerId]=true;
+            currentPanel.lock(currentPlayer.isHuman());
+            currentPlayer.confirmPass();
+        } else {
+            players[currentPlayerId].think(board);
+            //players[currentPlayerId].think(board.clone());
+            /* Eventually, the bots should get passed a clone of board instead of board itself, so they can't do anything to board
+             * directly.
+             * Also, think about not giving them access to parent - maybe implement a PlayerController class to control
+             * public/private stuff better
+             */
         }
-        System.out.println("Player " + (currentPlayer+1)+"'s go!");
-        if(players[currentPlayer].isHuman()) {
-            piecePreparer.setActive(true);
-            panels[currentPlayer].setActive(true);
-        }
-        // Eventually, the bots should get passed a clone of board instead of board itself, so they can't do anything to board
-        // directly.
-        // Also, think about not giving them access to parent
-        //players[currentPlayer].think(board.clone());
-        players[currentPlayer].think(board);
     }
 
+    /**
+     * Shows the game outcome. Is called only when the game ends.
+     */
     public void endGame() {
-        System.out.println("Game finished!");
+        System.out.println("\rGame finished!");
+
+        closingTests();
+
+        int[] score = board.currentScore();
+        int[] positions = new int[4];
+        ArrayList<String> winners = new ArrayList<>();
+        for(int i=0;i<4;i++) {
+            positions[i] =
+                    ((score[i]>=score[(i+1)%4]) ? 0 : 1) +
+                    ((score[i]>=score[(i+2)%4]) ? 0 : 1) +
+                    ((score[i]>=score[(i+3)%4]) ? 0 : 1);
+            if(positions[i]==0)
+                winners.add(playerColours[i].name());
+        }
+
+        Pane pane = new Pane();
+        pane.setMinSize(700, 700);
+        pane.setOpacity(0);
+        realRoot.getChildren().add(pane);
+
+        Rectangle rect = new Rectangle(700,700,Color.valueOf("rgba(0, 0, 0, 0.6)"));
+        pane.getChildren().add(rect);
+
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), pane);
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.setAutoReverse(true);
+        ft.play();
+
+        Effect blur =
+                new GaussianBlur(3);
+        root.setEffect(blur);
+
+        TextFlow title = new TextFlow();
+        title.setMinWidth(700);
+        Text mainTitle = new Text();
+        if(winners.size()>1) {
+            mainTitle.setText("It's a tie between\n");
+        } else {
+            mainTitle.setText("The winner is\n");
+        }
+        mainTitle.setFont(Font.font("Amble Cn", FontWeight.BOLD, 30));
+        mainTitle.setFill(Color.WHITE);
+        title.getChildren().add(mainTitle);
+        for(String winner : winners) {
+            Text playerText = new Text(((winner+"\n")));
+            playerText.setFont(Font.font("Amble Cn", FontWeight.BOLD, 80));
+            if(winner=="Blue")
+                playerText.setFill(Color.valueOf("rgb(11, 66, 155)"));
+            if(winner=="Yellow")
+                playerText.setFill(Color.valueOf("rgb(237,157, 0)"));
+            if(winner=="Red")
+                playerText.setFill(Color.valueOf("rgb(155, 11, 66)"));
+            if(winner=="Green")
+                playerText.setFill(Color.valueOf("rgb(66,155, 11)"));
+            title.getChildren().add(playerText);
+        }
+        title.setTextAlignment(TextAlignment.CENTER);
+
+        Pane center = new Pane();
+        center.getChildren().add(title);
+        center.setMinSize(700, 300);
+        center.setLayoutY(50);
+        pane.getChildren().add(center);
+
+
+        int barWindow = 300;
+        int BAR_WIDTH = 50;
+        int MAX_SCORE = 1+2+3+3+4+4+4+4+4+5+5+5+5+5+5+5+5+5+5+5+5 + 20;
+
+        /* Show bars: */
+        // 100 233 366 500
+
+        Pane barPane = new Pane();
+        barPane.setMinSize(700, 700);
+        barPane.setLayoutX(0);
+        barPane.setLayoutY(0);
+        realRoot.getChildren().add(barPane);
+
+        Rectangle blueBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(11, 66, 155)"));
+        blueBar.setLayoutX((700-barWindow)/2 -BAR_WIDTH/2);
+        blueBar.setLayoutY(620);
+        Label blueScore = new Label(MAX_SCORE+ score[0] + "");
+        blueScore.setLayoutX((700 - barWindow)/ 2+10 - BAR_WIDTH/2);
+        blueScore.setLayoutY(580);
+        blueScore.setTextFill(Color.WHITE);
+        blueScore.setStyle("-fx-font-size: 18;");
+
+        Rectangle yellowBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(237,157, 0)"));
+        yellowBar.setLayoutX((700-barWindow)/2+barWindow/3-BAR_WIDTH/2);
+        yellowBar.setLayoutY(620);
+        Label yellowScore = new Label(MAX_SCORE+score[1] + "");
+        yellowScore.setLayoutX((700-barWindow)/2 + 1*barWindow/3+10 - BAR_WIDTH/2);
+        yellowScore.setLayoutY(580);
+        yellowScore.setStyle("-fx-font-size: 18");
+        yellowScore.setTextFill(Color.WHITE);
+
+        Rectangle redBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(155, 11, 66)"));
+        redBar.setLayoutX((700 - barWindow)/2+2*barWindow/3 - BAR_WIDTH/2);
+        redBar.setLayoutY(620);
+        Label redScore = new Label(MAX_SCORE+score[2]+"");
+        redScore.setLayoutX((700-barWindow)/2 + 2*barWindow/3 + 10 - BAR_WIDTH/2);
+        redScore.setLayoutY(580);
+        redScore.setStyle("-fx-font-size: 18;");
+        redScore.setTextFill(Color.WHITE);
+
+
+        Rectangle greenBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(66,155, 11)"));
+        greenBar.setLayoutX((700-barWindow)/2+barWindow-BAR_WIDTH/2);
+        greenBar.setLayoutY(620);
+        Label greenScore = new Label(MAX_SCORE+score[3]+"");
+        greenScore.setLayoutX((700-barWindow)/2 + 3*barWindow/3+10 - BAR_WIDTH/2);
+        greenScore.setLayoutY(580);
+        greenScore.setStyle("-fx-font-size: 18;");
+        greenScore.setTextFill(Color.WHITE);
+
+
+        barPane.getChildren().addAll(blueBar, yellowBar, redBar, greenBar);
+        barPane.getChildren().addAll(blueScore, yellowScore, redScore, greenScore);
+
+        Timer animTimer = new Timer(true);
+        animTimer.scheduleAtFixedRate(new TimerTask() {
+
+            int i = 0;
+            int barSize = 3;
+
+            @Override
+            public void run() {
+                if (i < MAX_SCORE) {
+                    if(score[0]+MAX_SCORE>i) {
+                        blueBar.setHeight(blueBar.getHeight() + barSize);
+                        blueBar.setLayoutY(blueBar.getLayoutY() - barSize);
+                        blueScore.setLayoutY(blueScore.getLayoutY() - barSize);
+                    }
+                    if (score[1]+MAX_SCORE>i) {
+                        yellowBar.setHeight(yellowBar.getHeight() + barSize);
+                        yellowBar.setLayoutY(yellowBar.getLayoutY() - barSize);
+                        yellowScore.setLayoutY(yellowScore.getLayoutY() - barSize);
+                    }
+                    if(score[2]+MAX_SCORE>i) {
+                        redBar.setHeight(redBar.getHeight() + barSize);
+                        redBar.setLayoutY(redBar.getLayoutY() - barSize);
+                        redScore.setLayoutY(redScore.getLayoutY() - barSize);
+                    }
+                    if(score[3]+MAX_SCORE>i) {
+                        greenBar.setHeight(greenBar.getHeight() + barSize);
+                        greenBar.setLayoutY(greenBar.getLayoutY() - barSize);
+                        greenScore.setLayoutY(greenScore.getLayoutY() - barSize);
+                    }
+                } else {
+                    this.cancel();
+                }
+
+                i++;
+            }
+        }, 100, 20);
+
+        Button button5 = new Button("<");
+        button5.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                parent.toMenu();
+            }
+        });
+        button5.setMinSize(40, 40);
+        button5.setMaxSize(40, 40);
+        button5.setLayoutX(30 - button5.getMinWidth() / 2); button5.setLayoutY(10);
+        button5.getStyleClass().add("back");
+        button5.getStyleClass().add("button1");
+        realRoot.getChildren().add(button5);
+
     }
 
 
+
+
+
+
+    public void closingTests() {
+
+        boolean allPassed = true;
+
+        GameTests testClass = new GameTests(this);
+        ArrayList<String> tests = new ArrayList<>(Arrays.asList(
+                new String[] {
+                        "testBoard",
+                        "testFinishedGame",
+                        "testPiecePreparer",
+                        "testIntentionalFail",
+                        "testIntentionalPass"
+        }));
+
+        Class yourClass = GameTests.class;
+        for (Method method : yourClass.getMethods()){
+            if(tests.contains(method.getName())) {
+                try {
+                    System.out.print("\u001B[34m" + "Running '" + method.getName() + "()'" + "\u001B[0m");
+                    Boolean value = (Boolean) method.invoke(testClass);
+                    boolean returnValue = value.booleanValue();
+                    if(!(boolean) returnValue) {
+                        System.out.println("\r\u001B[31m" + "Running '"+method.getName()+"()' ✖"); allPassed = false;
+                    }
+                    else System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");
+                } catch (InvocationTargetException e) {
+                    // ...
+                } catch (IllegalAccessException e) {
+                    // ...
+                } catch (SecurityException e) {
+                    // ...
+                }
+            }
+        }
+
+        if(allPassed)
+            System.out.println("\n\u001B[34mAll tests passed!" + "\u001B[0m");
+        else
+            System.out.println("\n\u001B[31mSome tests failed!" + "\u001B[0m");
+
+    }
 
 
 

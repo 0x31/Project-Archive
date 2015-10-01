@@ -8,12 +8,14 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
 /**
- * Created by nosha on 25/09/15.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, 25/09/15, from code written by Holly in old class
+ * Edited by Holly on 30/09/15. (not finished editing)
  */
 public final class Panel extends GridSprite {
 
     ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
     public ArrayList<Shape> shapes= new ArrayList<>();
+    public ArrayList<Shape> activeShapes = new ArrayList<>();
     Colour color;
     public PieceSprite temporary = null;
     Game parent;
@@ -21,6 +23,15 @@ public final class Panel extends GridSprite {
     boolean active = false;
 
 
+    /**
+     * See GridSprite for parameter description
+     * @param col
+     * @param row
+     * @param size
+     * @param color
+     * @param parent
+     * @param vertical boolean representing whether the Panel is vertical (blue,yellow) or horizontal (red,green)
+     */
     public Panel(int col, int row, int size, Colour color, Game parent, boolean vertical) {
         super(col, row, size, color, parent);
         this.size = size;
@@ -72,6 +83,7 @@ public final class Panel extends GridSprite {
             addPiece(Shape.M, 'G', 7,2);
             addPiece(Shape.H, 'A', 6,8);
             addPiece(Shape.T, 'A', 9,1);
+
             addPiece(Shape.P, 'B', 10,5);
             addPiece(Shape.R, 'B', 11,7);
             addPiece(Shape.O, 'B', 14, 0);
@@ -113,15 +125,27 @@ public final class Panel extends GridSprite {
         }
     }
 
+    /**
+     * Adds piece to panel
+     * @param shape
+     * @param orientation
+     * @param x
+     * @param y
+     */
     public void addPiece(Shape shape, char orientation, int x, int y) {
         Piece myPiece = new Piece(shape, color);
         myPiece.initialisePiece(new Coordinate(x, y),orientation);
         PieceSprite myPieceSprite = new PieceSprite(myPiece, xsize, this);
         pieceSprites.add(myPieceSprite);
         shapes.add(shape);
+        activeShapes.add(shape);
         this.addPieceSprite(myPieceSprite);
     }
 
+    /**
+     * Removes piece from panel
+     * @param shape
+     */
     public void removePiece(Shape shape) {
         //int index = pieces.indexOf(piece);
         int index = shapes.indexOf(shape);
@@ -130,17 +154,23 @@ public final class Panel extends GridSprite {
         PieceSprite sprite = pieceSprites.get(index);
         pieceSprites.remove(index);
         shapes.remove(index);
+        activeShapes.remove(shape);
         //pieces.remove(index);
         this.removePieceSprite(sprite);
     }
 
+    /**
+     * Pass selected piece in panel to PiecePreparer
+     * @param sprite
+     */
     public void isClicked(PieceSprite sprite) {
-        if(!active) {
+        if(!active || !activeShapes.contains(sprite.piece.shape)) {
             return;
         }
         if(temporary != null) {
             pieceSprites.add(temporary);
             shapes.add(temporary.piece.shape);
+            activeShapes.add(temporary.piece.shape);
             //pieces.add(temporary.piece);
             this.addPieceSprite(temporary);
         }
@@ -150,8 +180,13 @@ public final class Panel extends GridSprite {
         pieceSprites.remove(sprite);
         //pieces.remove(sprite.piece);
         shapes.remove(sprite.piece.shape);
+        activeShapes.remove(sprite.piece.shape);
     }
 
+    /**
+     * Highlight the panel of the player active, dim others
+     * @param active
+     */
     public void setActive(boolean active) {
         this.active = active;
         if(active) {
@@ -162,12 +197,42 @@ public final class Panel extends GridSprite {
         }
     }
 
-    public  void lock() {
-        System.out.println(this.color.toString() + " player can't play anymore");
+    /**
+     * If a piece can't be placed, make it non-clickable and dim it
+     * @param shape the unplayable piece
+     */
+    public void lockShape(Shape shape) {
+        activeShapes.remove(shape);
+        pieceSprites.get(shapes.indexOf(shape)).setOpacity(0.4);
+    }
+
+    /**
+     * Reverts lockShape(Shape shape)
+     * @param shape the shape to undim
+     */
+    public void unlockShape(Shape shape) {
+        if(!activeShapes.contains(shape)) {
+            activeShapes.add(shape);
+            pieceSprites.get(shapes.indexOf(shape)).setOpacity(1);
+        }
+    }
+
+    /**
+     * Print string when player has to pass, and stop playing. (Will work on displaying this on screen later)
+     */
+    public  void lock(boolean isHuman) {
+        System.out.print("\r"+this.color.toString() + " player can't play anymore");
         /*Rectangle cover = new Rectangle(size * row, size*col, Color.valueOf("rgba(0, 0, 0, 0.45)"));
         cover.setLayoutX(10);
         cover.setLayoutY(10);
         this.getChildren().add(cover);
         */
+    }
+
+    /**
+     * No long used, can be removed, unless it comes in handy for lock();
+     */
+    public void pass() {
+        return;
     }
 }

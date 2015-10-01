@@ -33,13 +33,20 @@ public enum Shape {
     private int cellNumber;
     private Coordinate[] coordinates;
 
+    /**
+     * @return the number of cells in the shape
+     */
     public int getCellNumber() {
         return cellNumber;
     }
 
+    /**
+     * @return A clone of the Coordinate array
+     */
     public Coordinate[] getCoordinates() {
         return coordinates.clone();
     }
+
     /**
      * the Shape is initialised using the coordinates of the shape's home position.
      * The homeCoordinates are (statically) steps.

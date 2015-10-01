@@ -7,19 +7,25 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by nosha on 25/09/15.
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** on 25/09/15, with segments taken from Holly's code
  */
 public class EasyBot implements Player {
 
     Game parent;
-    Panel myPanel;
-    int playerId;
 
-    public EasyBot(int playerId, Game parent) {
+    /**
+     *
+     * @param parent
+     */
+    public EasyBot(Game parent) {
         this.parent = parent;
-        this.playerId = playerId;
     }
 
+    /**
+     * If a user clicks on the board, nothing should happen, since it's not their turn
+     * @param x the clicked cell's x value in the grid
+     * @param y the clicked cell's y value in the grid
+     */
     @Override
     public void handleClick(int x, int y) {
         // Alert user it's not their turn?
@@ -28,9 +34,9 @@ public class EasyBot implements Player {
 
     @Override
     public void think(Board board) {
-        myPanel = parent.panels[parent.currentPlayer];
-        Colour colour = parent.playerColours[parent.currentPlayer];
-        for(Shape shape : shuffle(myPanel.shapes)) {
+        Panel myPanel = parent.panels[parent.currentPlayerId];
+        Colour colour = parent.playerColours[parent.currentPlayerId];
+        for(Shape shape : shuffle(myPanel.activeShapes)) {
             for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {
                 parent.piecePreparer.addShape(shape, colour, orientation);
                 for(int x = 0; x<20; x++) {
@@ -46,18 +52,17 @@ public class EasyBot implements Player {
                 }
             }
         }
-        skip();
-    }
-
-    public void skip() {
-        myPanel.lock();
-        parent.skip[parent.currentPlayer] = true;
-        parent.transitionMove();
+        parent.makeMove(".");
     }
 
     @Override
     public boolean isHuman() {
         return false;
+    }
+
+    @Override
+    public void confirmPass() {
+        parent.transitionMove();
     }
 
     static Shape[] shuffle(ArrayList<Shape> pieces)
