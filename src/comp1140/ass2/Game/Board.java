@@ -177,37 +177,9 @@ public class Board extends GridSprite {
 
         Board board = this;
 
-        /*
-        board.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (index.value() < moves.length) {
-                    if(index.value() > 3) {
-                        if(moves[index.value()]=="." && moves[index.value()-1]=="." && moves[index.value()-2]=="." && moves[index.value()-3]==".") {
-
-                            Alert a = new Alert(Alert.AlertType.INFORMATION);
-                            a.setTitle("Winner!");
-                            a.setHeaderText("Game ended!");
-                            a.setResizable(true);
-                            String content = "You may have won! Congratulations!";
-                            a.setContentText(content);
-                            a.showAndWait();
-
-                        }
-                    }
-                    board.placePiece(moves[index.value()]);
-                    index.add(1);
-                }
-            }
-        });
-        */
-
-
     }
 
-    /* Here for compatibility, please ignore */
-
-    /**
+    /** Here for compatibility, please ignore
      * See above for description
      * @param game a string containing a previous set of moves
      */
@@ -331,9 +303,9 @@ public class Board extends GridSprite {
 
         /** Check for starting corner */
         if(c.getX()==-1 && c.getY()==-1) return Colour.Blue;
-        if(c.getX()==-1 && c.getY()==20) return validCorners[currentTurn%4];
-        if(c.getX()==20 && c.getY()==-1) return validCorners[currentTurn%4];
-        if(c.getX()==20 && c.getY()==20) return validCorners[currentTurn%4];
+        if(c.getX()==-1 && c.getY()==20) return Colour.Green;
+        if(c.getX()==20 && c.getY()==-1) return Colour.Yellow;
+        if(c.getX()==20 && c.getY()==20) return Colour.Red;
         return grid[c.getY()][c.getX()];
     }
 

@@ -27,7 +27,6 @@ public class GameTests {
     @Test
     public boolean testFinishedGame() {
         Board board = game.board;
-        // Adjust for remaining pieces arrays
         boolean assertBool = true;
         for(char piece = 'A'; piece<='U'; piece++) {
             for(char orientation = 'A'; orientation<='H'; orientation++) {

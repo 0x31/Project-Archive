@@ -33,7 +33,7 @@ public class Human implements Player {
                 parent.makeMove(this, piece);
             }
             else {
-                System.out.println("Invalid move!");
+                System.out.print("\rInvalid move!");
             }
         }
     }
