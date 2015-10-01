@@ -36,7 +36,8 @@ public class EasyBot implements Player {
     public void think(Board board) {
         Panel myPanel = parent.panels[parent.currentPlayerId];
         Colour colour = parent.playerColours[parent.currentPlayerId];
-        for(Shape shape : shuffle(myPanel.activeShapes)) {
+        Shape[] shuffled = shuffle(myPanel.activeShapes);
+        for(Shape shape : shuffled) {
             for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {
                 parent.piecePreparer.addShape(shape, colour, orientation);
                 for(int x = 0; x<20; x++) {
