@@ -81,6 +81,10 @@ public class Blokus extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        primaryStage.setMaxHeight(700);
+        primaryStage.setMaxWidth(700);
+        primaryStage.setMinHeight(700);
+        primaryStage.setMinWidth(700);
 
         menu = new Menu(new Group(), 700,700, this);
         instructions = new Instructions(new Group(), 700,700, this);

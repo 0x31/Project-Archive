@@ -28,8 +28,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -350,9 +348,7 @@ public class Game extends Scene {
         if(panels[currentPlayerId].activeShapes.isEmpty()){
             currentPlayer.pass();
         } else {
-
             // Gives the player 10 seconds to complete their turn (unless it's a human)
-
             final CountDownLatch latch = new CountDownLatch(1);
             final String[] move = new String[] {"."};
             Thread t = new Thread(new Runnable() {
@@ -368,13 +364,6 @@ public class Game extends Scene {
                     Duration.millis(Math.pow(1,GAME_SPEED)),
                     ae -> makeMove(move[0])));
             timeline.play();
-
-            //players[currentPlayerId].think(board.clone());
-            /* Eventually, the bots should get passed a clone of board instead of board itself, so they can't do anything to board
-             * directly.
-             * Also, think about not giving them access to parent - maybe implement a PlayerController class to control
-             * public/private stuff better
-             */
         }
     }
 
@@ -383,177 +372,17 @@ public class Game extends Scene {
      */
     public void endGame() {
         System.out.println("\rGame finished!");
-        System.out.println(board.toString());
 
         closingTests();
-
-        int[] score = board.currentScore();
-        int[] positions = new int[4];
-        ArrayList<String> winners = new ArrayList<>();
-        for(int i=0;i<4;i++) {
-            positions[i] =
-                    ((score[i]>=score[(i+1)%4]) ? 0 : 1) +
-                    ((score[i]>=score[(i+2)%4]) ? 0 : 1) +
-                    ((score[i]>=score[(i+3)%4]) ? 0 : 1);
-            if(positions[i]==0)
-                winners.add(playerColours[i].name());
-        }
-
-        Pane pane = new Pane();
-        pane.setMinSize(700, 700);
-        pane.setOpacity(0);
-        realRoot.getChildren().add(pane);
-
-        Rectangle rect = new Rectangle(700,700,Color.valueOf("rgba(0, 0, 0, 0.6)"));
-        pane.getChildren().add(rect);
-
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), pane);
-        ft.setFromValue(0.0);
-        ft.setToValue(1.0);
-        ft.setAutoReverse(true);
-        ft.play();
 
         Effect blur =
                 new GaussianBlur(3);
         root.setEffect(blur);
 
-        TextFlow title = new TextFlow();
-        title.setMinWidth(700);
-        Text mainTitle = new Text();
-        if(winners.size()>1) {
-            mainTitle.setText("It's a tie between\n");
-        } else {
-            mainTitle.setText("The winner is\n");
-        }
-        mainTitle.setFont(Font.font("Amble Cn", FontWeight.BOLD, 30));
-        mainTitle.setFill(Color.WHITE);
-        title.getChildren().add(mainTitle);
-        for(String winner : winners) {
-            Text playerText = new Text(((winner+"\n")));
-            playerText.setFont(Font.font("Amble Cn", FontWeight.BOLD, 80));
-            if(winner=="Blue")
-                playerText.setFill(Color.valueOf("rgb(11, 66, 155)"));
-            if(winner=="Yellow")
-                playerText.setFill(Color.valueOf("rgb(237,157, 0)"));
-            if(winner=="Red")
-                playerText.setFill(Color.valueOf("rgb(155, 11, 66)"));
-            if(winner=="Green")
-                playerText.setFill(Color.valueOf("rgb(66,155, 11)"));
-            title.getChildren().add(playerText);
-        }
-        title.setTextAlignment(TextAlignment.CENTER);
 
-        Pane center = new Pane();
-        center.getChildren().add(title);
-        center.setMinSize(700, 300);
-        center.setLayoutY(50);
-        pane.getChildren().add(center);
+        End endPane = new End(board.currentScore(), playerColours, parent);
 
-
-        int barWindow = 300;
-        int BAR_WIDTH = 50;
-        int MAX_SCORE = 1+2+3+3+4+4+4+4+4+5+5+5+5+5+5+5+5+5+5+5+5 + 20;
-
-        /* Show bars: */
-        // 100 233 366 500
-
-        Pane barPane = new Pane();
-        barPane.setMinSize(700, 700);
-        barPane.setLayoutX(0);
-        barPane.setLayoutY(0);
-        realRoot.getChildren().add(barPane);
-
-        Rectangle blueBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(11, 66, 155)"));
-        blueBar.setLayoutX((700-barWindow)/2 -BAR_WIDTH/2);
-        blueBar.setLayoutY(620);
-        Label blueScore = new Label(MAX_SCORE+ score[0] + "");
-        blueScore.setLayoutX((700 - barWindow)/ 2+10 - BAR_WIDTH/2);
-        blueScore.setLayoutY(580);
-        blueScore.setTextFill(Color.WHITE);
-        blueScore.setStyle("-fx-font-size: 18;");
-
-        Rectangle yellowBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(237,157, 0)"));
-        yellowBar.setLayoutX((700-barWindow)/2+barWindow/3-BAR_WIDTH/2);
-        yellowBar.setLayoutY(620);
-        Label yellowScore = new Label(MAX_SCORE+score[1] + "");
-        yellowScore.setLayoutX((700-barWindow)/2 + 1*barWindow/3+10 - BAR_WIDTH/2);
-        yellowScore.setLayoutY(580);
-        yellowScore.setStyle("-fx-font-size: 18");
-        yellowScore.setTextFill(Color.WHITE);
-
-        Rectangle redBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(155, 11, 66)"));
-        redBar.setLayoutX((700 - barWindow)/2+2*barWindow/3 - BAR_WIDTH/2);
-        redBar.setLayoutY(620);
-        Label redScore = new Label(MAX_SCORE+score[2]+"");
-        redScore.setLayoutX((700-barWindow)/2 + 2*barWindow/3 + 10 - BAR_WIDTH/2);
-        redScore.setLayoutY(580);
-        redScore.setStyle("-fx-font-size: 18;");
-        redScore.setTextFill(Color.WHITE);
-
-
-        Rectangle greenBar = new Rectangle(BAR_WIDTH, 0, Color.valueOf("rgb(66,155, 11)"));
-        greenBar.setLayoutX((700-barWindow)/2+barWindow-BAR_WIDTH/2);
-        greenBar.setLayoutY(620);
-        Label greenScore = new Label(MAX_SCORE+score[3]+"");
-        greenScore.setLayoutX((700-barWindow)/2 + 3*barWindow/3+10 - BAR_WIDTH/2);
-        greenScore.setLayoutY(580);
-        greenScore.setStyle("-fx-font-size: 18;");
-        greenScore.setTextFill(Color.WHITE);
-
-
-        barPane.getChildren().addAll(blueBar, yellowBar, redBar, greenBar);
-        barPane.getChildren().addAll(blueScore, yellowScore, redScore, greenScore);
-
-        Timer animTimer = new Timer(true);
-        animTimer.scheduleAtFixedRate(new TimerTask() {
-
-            int i = 0;
-            int barSize = 3;
-
-            @Override
-            public void run() {
-                if (i < MAX_SCORE) {
-                    if(score[0]+MAX_SCORE>i) {
-                        blueBar.setHeight(blueBar.getHeight() + barSize);
-                        //blueBar.setLayoutY(blueBar.getLayoutY() - barSize);
-                        blueBar.setLayoutY(500);
-                        //blueScore.setLayoutY(blueScore.getLayoutY() - barSize);
-                    }
-                    if (score[1]+MAX_SCORE>i) {
-                        yellowBar.setHeight(yellowBar.getHeight() + barSize);
-                        yellowBar.setLayoutY(yellowBar.getLayoutY() - barSize);
-                        yellowScore.setLayoutY(yellowScore.getLayoutY() - barSize);
-                    }
-                    if(score[2]+MAX_SCORE>i) {
-                        redBar.setHeight(redBar.getHeight() + barSize);
-                        redBar.setLayoutY(redBar.getLayoutY() - barSize);
-                        redScore.setLayoutY(redScore.getLayoutY() - barSize);
-                    }
-                    if(score[3]+MAX_SCORE>i) {
-                        greenBar.setHeight(greenBar.getHeight() + barSize);
-                        greenBar.setLayoutY(greenBar.getLayoutY() - barSize);
-                        greenScore.setLayoutY(greenScore.getLayoutY() - barSize);
-                    }
-                } else {
-                    this.cancel();
-                }
-
-                i++;
-            }
-        }, 100, 20);
-
-        Button button5 = new Button("<");
-        button5.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                parent.toMenu();
-            }
-        });
-        button5.setMinSize(40, 40);
-        button5.setMaxSize(40, 40);
-        button5.setLayoutX(30 - button5.getMinWidth() / 2); button5.setLayoutY(10);
-        button5.getStyleClass().add("back");
-        button5.getStyleClass().add("button1");
-        realRoot.getChildren().add(button5);
+        realRoot.getChildren().add(endPane);
 
     }
 

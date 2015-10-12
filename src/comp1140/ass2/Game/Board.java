@@ -129,20 +129,22 @@ public class Board extends GridSprite {
      */
     public String toString() {
         String string = "";
-        for(String move : moves) {
-            string += move+" ";
+        for (String move : moves) {
+            string += move + " ";
         }
         return string;
-        /*
+    }
+
+    public String gridToString() {
+        String string = "";
         for (Colour[] aGrid : grid) {
             for (Colour anAGrid : aGrid) {
-                /* We use substring instead of charAt to able to subsequently use replace * /
+                /* We use substring instead of charAt to able to subsequently use replace */
                 string += anAGrid.name().substring(0, 1).replace("E", "•") + " ";
             }
             string += "\n";
         }
         return string;
-        */
     }
 
     /**
