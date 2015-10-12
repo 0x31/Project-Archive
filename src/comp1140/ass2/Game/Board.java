@@ -25,6 +25,8 @@ public class Board extends GridSprite {
         this.active = active;
     }
 
+    private boolean displayable = true;
+
     private boolean[][] unplacedPieces =
             {unplacedPiecesBlue
             ,unplacedPiecesYellow
@@ -87,7 +89,9 @@ public class Board extends GridSprite {
         /* Setting the appropriate cells */
         Colour turnColour = Colour.values()[playerId];
         PieceSprite pieceSprite = new PieceSprite(piece, xsize, this);
-        this.addPieceSprite(pieceSprite);
+        if(displayable) {
+            this.addPieceSprite(pieceSprite);
+        }
         // Set Grid for legitimateMove
         for(Coordinate coord : pieceSprite.coordinates) {
             grid[coord.getY()][coord.getX()] = turnColour;
@@ -198,6 +202,8 @@ public class Board extends GridSprite {
      * @param game a string containing a previous set of moves
      */
     public Board(String game) {
+        // Won't be displayed as a GridPane
+        displayable = false;
 
         game = game.replace(" ", "");
         grid = new Colour['T'-'A'+1]['T'-'A'+1];

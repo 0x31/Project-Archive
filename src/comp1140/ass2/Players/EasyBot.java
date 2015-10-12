@@ -46,7 +46,7 @@ public class EasyBot implements Player {
                         Piece testPiece = new Piece(shape, colour);
                         testPiece.initialisePiece(new Coordinate(x,y), orientation);
                         if(parent.board.legitimateMove(testPiece)) {
-                            parent.piecePreparer.addShape(shape, colour, orientation);
+                            //parent.piecePreparer.addShape(shape, colour, orientation);
                             //parent.makeMove(this, testPiece);
                             return testPiece.toString();
                         }

@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, 25/10/2015
@@ -348,11 +350,25 @@ public class Game extends Scene {
         if(panels[currentPlayerId].activeShapes.isEmpty()){
             currentPlayer.pass();
         } else {
+
+            // Gives the player 10 seconds to complete their turn (unless it's a human)
+
+            final CountDownLatch latch = new CountDownLatch(1);
+            final String[] move = new String[] {"."};
+            Thread t = new Thread(new Runnable() {
+                public void run() {
+                    move[0] = currentPlayer.think(board.toString());
+                    latch.countDown(); // Release await() in the test thread.
+                }}); t.start();
+            try { latch.await(10, TimeUnit.SECONDS);
+            } catch (InterruptedException e) { e.printStackTrace();}
+
             int GAME_SPEED = 2;
             Timeline timeline = new Timeline(new KeyFrame(
-                    Duration.millis(Math.pow(10,GAME_SPEED)),
-                    ae -> makeMove(currentPlayer.think(board.toString()))));
+                    Duration.millis(Math.pow(1,GAME_SPEED)),
+                    ae -> makeMove(move[0])));
             timeline.play();
+
             //players[currentPlayerId].think(board.clone());
             /* Eventually, the bots should get passed a clone of board instead of board itself, so they can't do anything to board
              * directly.
@@ -499,8 +515,9 @@ public class Game extends Scene {
                 if (i < MAX_SCORE) {
                     if(score[0]+MAX_SCORE>i) {
                         blueBar.setHeight(blueBar.getHeight() + barSize);
-                        blueBar.setLayoutY(blueBar.getLayoutY() - barSize);
-                        blueScore.setLayoutY(blueScore.getLayoutY() - barSize);
+                        //blueBar.setLayoutY(blueBar.getLayoutY() - barSize);
+                        blueBar.setLayoutY(500);
+                        //blueScore.setLayoutY(blueScore.getLayoutY() - barSize);
                     }
                     if (score[1]+MAX_SCORE>i) {
                         yellowBar.setHeight(yellowBar.getHeight() + barSize);
