@@ -33,27 +33,29 @@ public class EasyBot implements Player {
     }
 
     @Override
-    public void think(Board board) {
+    public String think(String string) {
+        Board board = new Board(string);
         Panel myPanel = parent.panels[parent.currentPlayerId];
         Colour colour = parent.playerColours[parent.currentPlayerId];
         Shape[] shuffled = shuffle(myPanel.activeShapes);
         for(Shape shape : shuffled) {
             for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {
-                parent.piecePreparer.addShape(shape, colour, orientation);
                 for(int x = 0; x<20; x++) {
                     for(int y = 0; y<20; y++) {
                         //Piece testPiece = new Piece(piece.shape, piece.colour);
                         Piece testPiece = new Piece(shape, colour);
                         testPiece.initialisePiece(new Coordinate(x,y), orientation);
                         if(parent.board.legitimateMove(testPiece)) {
-                            parent.makeMove(this, testPiece);
-                            return;
+                            parent.piecePreparer.addShape(shape, colour, orientation);
+                            //parent.makeMove(this, testPiece);
+                            return testPiece.toString();
                         }
                     }
                 }
             }
         }
-        parent.makeMove(".");
+        return ".";
+        //parent.makeMove(".");
     }
 
     @Override
@@ -62,8 +64,8 @@ public class EasyBot implements Player {
     }
 
     @Override
-    public void confirmPass() {
-        parent.transitionMove();
+    public void pass() {
+        parent.makeMove(".");
     }
 
     static Shape[] shuffle(ArrayList<Shape> pieces)

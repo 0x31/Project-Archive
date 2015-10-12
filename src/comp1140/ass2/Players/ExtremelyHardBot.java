@@ -25,8 +25,8 @@ public class ExtremelyHardBot implements Player {
     }
 
     @Override
-    public void think(Board board) {
-        parent.transitionMove();
+    public String think(String string) {
+        return ".";
     }
 
     public int scoreMove(Board board, Piece testPiece, int playerID) {
@@ -102,7 +102,7 @@ public class ExtremelyHardBot implements Player {
     }
 
     @Override
-    public void confirmPass() {
-        parent.transitionMove();
+    public void pass() {
+        parent.makeMove(".");
     }
 }

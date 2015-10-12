@@ -46,7 +46,7 @@ public final class Panel extends GridSprite {
         // Note: Rotating the panel with setRotation didn't work out well, hence this
         if(vertical) {
 
-            addPiece(Shape.A, 'H', 0,0);
+            addPiece(Shape.A, 'H', 0, 0);
             addPiece(Shape.B, 'H', 2,0);
             addPiece(Shape.J, 'H', 5,0);
             addPiece(Shape.C, 'H', 0,2);

@@ -30,7 +30,7 @@ public class Human implements Player {
             Piece piece = parent.piecePreparer.getPiece().clone();
             piece.setXY(new Coordinate(x, y));
             if(board.legitimateMove(piece)) {
-                parent.makeMove(this, piece);
+                parent.makeMove(piece.toString());
             }
             else {
                 System.out.print("\rInvalid move!");
@@ -40,17 +40,17 @@ public class Human implements Player {
 
     /**
      * The human doesn't think - besides setting the piecePreparer and Panel to active
-     * @param board
+     * @param string represents the board as a string
      */
     @Override
-    public void think(Board board) {
-        this.board = board;
+    public String think(String string) {
+        this.board = new Board(string);
         parent.piecePreparer.setActive(true);
         parent.currentPanel.setActive(true);
         //if(stuck())
         //    parent.makeMove(".");
         // HAHAHA! Humans? Thinking?!
-        return; // Nope! Do nothing.
+        return ""; // Nope! Do nothing.
         // i.e. Wait for click();
     }
 
@@ -68,8 +68,8 @@ public class Human implements Player {
      * (Only for the first pass)
      */
     @Override
-    public void confirmPass() {
-        parent.transitionMove();
+    public void pass() {
+        parent.makeMove(".");
     }
 
 }

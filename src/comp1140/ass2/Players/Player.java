@@ -10,8 +10,8 @@ import comp1140.ass2.Scenes.Game;
 public interface Player {
 
     public void handleClick(int x, int y);
-    public void think(Board board);
+    public String think(String string);
     public boolean isHuman();
-    public void confirmPass();
+    public void pass();
 
 }

@@ -4,6 +4,8 @@ import comp1140.ass2.Scenes.Game;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
+
 /**
  * Created by ***REMOVED*** on 19/08/15.
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED***
@@ -28,6 +30,10 @@ public class Board extends GridSprite {
             ,unplacedPiecesYellow
             ,unplacedPiecesRed
             ,unplacedPiecesGreen};
+
+
+    ArrayList<String> moves = new ArrayList<>();
+
 
     /**
      * @return Returns this.unplacedPieces;
@@ -90,6 +96,8 @@ public class Board extends GridSprite {
         /** Check for monomino */
         lastMove[playerId] = (shapeId == 0);
 
+        moves.add(piece.toString());
+
         currentTurn=(currentTurn+1)%4;
         return true;
     }
@@ -101,7 +109,7 @@ public class Board extends GridSprite {
      * @return
      */
     public boolean placePiece(String move) {
-        if(move==".") { currentTurn=(currentTurn+1)%4; return true; }
+        if(move==".") { currentTurn=(currentTurn+1)%4; moves.add("."); return true; }
         Colour turnColour = Colour.values()[currentTurn];
         int x         = move.charAt(2)-'A';
         int y         = move.charAt(3)-'A';
@@ -117,14 +125,20 @@ public class Board extends GridSprite {
      */
     public String toString() {
         String string = "";
+        for(String move : moves) {
+            string += move+" ";
+        }
+        return string;
+        /*
         for (Colour[] aGrid : grid) {
             for (Colour anAGrid : aGrid) {
-                /* We use substring instead of charAt to able to subsequently use replace */
+                /* We use substring instead of charAt to able to subsequently use replace * /
                 string += anAGrid.name().substring(0, 1).replace("E", "•") + " ";
             }
             string += "\n";
         }
         return string;
+        */
     }
 
     /**
@@ -185,7 +199,7 @@ public class Board extends GridSprite {
      */
     public Board(String game) {
 
-        game = game.replace(" ","");
+        game = game.replace(" ", "");
         grid = new Colour['T'-'A'+1]['T'-'A'+1];
         for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=Colour.Empty;
 

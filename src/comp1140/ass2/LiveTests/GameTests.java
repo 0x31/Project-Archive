@@ -25,18 +25,18 @@ public class GameTests {
     }
     //@Test
     public boolean testFinishedGame() {
-        Board board = game.board;
         boolean assertBool = true;
-        for(char piece = 'A'; piece<='U'; piece++) {
-            for(char orientation = 'A'; orientation<='H'; orientation++) {
-                for(char x = 'A'; x<='T'; x++) {
-                    for(char y = 'A'; y<='T'; y++) {
-                        String move = "" + piece + orientation + x + y;
-                        assertBool &= !board.legitimateMove(move);
+            Board board = game.board;
+            for (char piece = 'A'; piece <= 'U'; piece++) {
+                for (char orientation = 'A'; orientation <= 'H'; orientation++) {
+                    for (char x = 'A'; x <= 'T'; x++) {
+                        for (char y = 'A'; y <= 'T'; y++) {
+                            String move = "" + piece + orientation + x + y;
+                            assertBool &= !board.legitimateMove(move);
+                        }
                     }
                 }
             }
-        }
         return assertBool;
     }
     //@Test

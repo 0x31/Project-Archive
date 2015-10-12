@@ -262,18 +262,6 @@ public class Game extends Scene {
      * @param player a reference to the player calling the method
      * @param piece the desired piece to play
      */
-    public void makeMove(Player player, Piece piece) {
-        board.placePiece(piece);
-        //panels[currentPlayerId].removePiece(piece);
-        panels[currentPlayerId].removePiece(piece.shape);
-
-        int GAME_SPEED = 2;
-        Timeline timeline = new Timeline(new KeyFrame(
-                Duration.millis(Math.pow(10,GAME_SPEED)),
-                ae -> transitionMove()));
-        timeline.play();
-        //transitionMove();
-    }
 
     /**
      * Used to handle passes - and in the future for handling bots that return strings instead of pieces, if that's
@@ -281,9 +269,25 @@ public class Game extends Scene {
      * @param string
      */
     public void makeMove(String string) {
-        if(string==".") {
+        if(string.equals("")) {
+            // DO nothing
+            return;
+        }
+        else if(string==".") {
+            board.placePiece(".");
+
             panels[currentPlayerId].lock(currentPlayer.isHuman());
             skip[currentPlayerId] = true;
+
+            transitionMove();
+        }
+        else {
+            board.placePiece(string);
+
+            int pieceChar = string.charAt(0)-'A';
+            Shape shape = Shape.values()[pieceChar];
+            panels[currentPlayerId].removePiece(shape);
+
             transitionMove();
         }
     }
@@ -330,6 +334,7 @@ public class Game extends Scene {
         panels[currentPlayerId].temporary = null;
         piecePreparer.removePiece();
         if(skip[0]&&skip[1]&&skip[2]&&skip[3]) {
+            currentPlayerId = (currentPlayerId+1) % players.length;
             endGame();
             return;
         }
@@ -341,11 +346,13 @@ public class Game extends Scene {
 
         hideBadPieces(currentPlayerId);
         if(panels[currentPlayerId].activeShapes.isEmpty()){
-            skip[currentPlayerId]=true;
-            currentPanel.lock(currentPlayer.isHuman());
-            currentPlayer.confirmPass();
+            currentPlayer.pass();
         } else {
-            players[currentPlayerId].think(board);
+            int GAME_SPEED = 2;
+            Timeline timeline = new Timeline(new KeyFrame(
+                    Duration.millis(Math.pow(10,GAME_SPEED)),
+                    ae -> makeMove(currentPlayer.think(board.toString()))));
+            timeline.play();
             //players[currentPlayerId].think(board.clone());
             /* Eventually, the bots should get passed a clone of board instead of board itself, so they can't do anything to board
              * directly.
@@ -360,6 +367,7 @@ public class Game extends Scene {
      */
     public void endGame() {
         System.out.println("\rGame finished!");
+        System.out.println(board.toString());
 
         closingTests();
 

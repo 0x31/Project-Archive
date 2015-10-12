@@ -95,6 +95,6 @@ public class Coordinate {
 
     @Override
     public String toString() {
-        return "(" + x + "," + y + ")";
+        return Character.toString((char) (x+'A')) + Character.toString((char) (y+'A'));
     }
 }

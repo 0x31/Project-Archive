@@ -123,7 +123,7 @@ public class Piece {
      */
     public Piece clone() {
         Piece piece = new Piece(this.shape,this.colour);
-        piece.movePiece(rotation,flip);
+        piece.movePiece(rotation, flip);
         return piece;
     }
 
@@ -172,10 +172,12 @@ public class Piece {
 
     @Override
     public String toString() {
-        String retString = shape.name() + " is at coordinates: ";
-        for(int j = 0; j<cellNumber; j++) retString = retString + ", " + occupiedCells[j];
-        return retString;
+        String shapeS = shape.toString();
+        String orienS = Character.toString((char) (((flip) ? 4 : 0) + rotation + 'A'));
+        String coordS = occupiedCells[0].toString();
+        return shapeS + orienS + coordS;
     }
+
     /**
      * Piece's toString function, currently used for debugging.
      * @return String a string representation of the piece, made up of the colour,

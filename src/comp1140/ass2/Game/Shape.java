@@ -62,7 +62,10 @@ public enum Shape {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return Character.toString((char)(this.ordinal()+'A'));
+    }
 }
 
 
