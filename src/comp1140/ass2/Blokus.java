@@ -30,6 +30,11 @@ public class Blokus extends Application {
     Scene options;
     Scene gameOptions;
 
+    public final boolean DEBUG = true;
+    public final int GAME_SPEED = 2;
+    public final int BOT_TIME = 10; // but 0 for no time limit
+
+
     /**
      * Sets the scene to the Menu
      */
@@ -81,9 +86,9 @@ public class Blokus extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        primaryStage.setMaxHeight(700);
+        primaryStage.setMaxHeight(722);
         primaryStage.setMaxWidth(700);
-        primaryStage.setMinHeight(700);
+        primaryStage.setMinHeight(722);
         primaryStage.setMinWidth(700);
 
         menu = new Menu(new Group(), 700,700, this);

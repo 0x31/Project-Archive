@@ -81,8 +81,8 @@ public class GameOptions extends Scene {
             }
         });
         button1.setMinSize(160, 160);
-        button1.setLayoutX(260 - button1.getMinWidth() / 2);
-        button1.setLayoutY(440);
+        button1.setLayoutX(440 - button1.getMinWidth() / 2);
+        button1.setLayoutY(260);
         button1.getStyleClass().add("addPlayer");
         button1.getStyleClass().add("red");
         root.getChildren().add(button1);
@@ -95,8 +95,8 @@ public class GameOptions extends Scene {
             }
         });
         button2.setMinSize(160, 160);
-        button2.setLayoutX(440 - button2.getMinWidth() / 2);
-        button2.setLayoutY(260);
+        button2.setLayoutX(260 - button2.getMinWidth() / 2);
+        button2.setLayoutY(440);
         button2.getStyleClass().add("addPlayer");
         button2.getStyleClass().add("yellow");
         root.getChildren().add(button2);

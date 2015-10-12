@@ -41,7 +41,11 @@ public class Game extends Scene {
     public Player[] players;
     public PiecePreparerSprite piecePreparer;
     public Board board;
+
     public Panel[] panels;
+    public Pane[] panelHeads;
+    public Pane[] panelBorders;
+
     public boolean[] skip = {false, false, false, false};
     public Colour[] playerColours = {Colour.Blue, Colour.Yellow, Colour.Red, Colour.Green};
     private Group root;
@@ -127,7 +131,6 @@ public class Game extends Scene {
         bluePane.getChildren().addAll(bluePanel);
 
 
-
         Pane yellowHead = new Pane();
         yellowHead.setMinSize(panelCell * 10 + 20, 30);
         yellowHead.setLayoutX(10);
@@ -176,6 +179,8 @@ public class Game extends Scene {
         greenPane.getChildren().add(greenPanel);
 
         panels = new Panel[]{bluePanel, yellowPanel, redPanel, greenPanel};
+        panelHeads = new Pane[]{blueHead, yellowHead, redHead, greenHead};
+        panelBorders = new Pane[]{bluePane,yellowPane,redPane,greenPane};
 
         int boardCell = 26;
         board = new Board(20, 20, boardCell, Colour.Empty, this);
@@ -321,6 +326,17 @@ public class Game extends Scene {
         }
     }
 
+    public void updatePanels(int currentPlayerId) {
+        int nextPlayerId = (currentPlayerId+1) % players.length;
+        for(int i=0; i<panels.length; i++) {
+            panelBorders[i].setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
+            panelHeads[i].setStyle("-fx-background-color: rgba(0, 0, 0, 0.30);");
+        }
+        String[] borders = new String[] {"rgba(0,0,0,0.5)","rgba(0,0,0,0.5)","rgba(0,0,0,0.5)","rgba(0,0,0,0.5)"};
+        panelBorders[nextPlayerId].setStyle("-fx-background-color: "+borders[nextPlayerId]+", #ffffff;  -fx-background-insets: 0,10;");
+        panelHeads[nextPlayerId].setStyle("-fx-background-color: "+borders[nextPlayerId]);
+    }
+
     public Panel currentPanel;
     public Player currentPlayer;
 
@@ -329,10 +345,13 @@ public class Game extends Scene {
      * to check for game ends, etc...
      */
     public void transitionMove() {
+        updatePanels(currentPlayerId);
         piecePreparer.setActive(false);
         panels[currentPlayerId].setActive(false);
         panels[currentPlayerId].temporary = null;
         piecePreparer.removePiece();
+
+        // Check for the end of the game
         if(skip[0]&&skip[1]&&skip[2]&&skip[3]) {
             currentPlayerId = (currentPlayerId+1) % players.length;
             endGame();
@@ -342,7 +361,7 @@ public class Game extends Scene {
         currentPlayerId = (currentPlayerId+1) % players.length;
         currentPlayer = players[currentPlayerId];
         currentPanel = panels[currentPlayerId];
-        System.out.print("\rPlayer " + (currentPlayerId + 1) + "'s go!");
+        if(parent.DEBUG) System.out.print("\rPlayer " + (currentPlayerId + 1) + "'s go!");
 
         hideBadPieces(currentPlayerId);
         if(panels[currentPlayerId].activeShapes.isEmpty()){
@@ -356,12 +375,15 @@ public class Game extends Scene {
                     move[0] = currentPlayer.think(board.toString());
                     latch.countDown(); // Release await() in the test thread.
                 }}); t.start();
-            try { latch.await(10, TimeUnit.SECONDS);
+            try {
+                if(parent.BOT_TIME==0)
+                    latch.await();
+                else
+                    latch.await(parent.BOT_TIME, TimeUnit.SECONDS);
             } catch (InterruptedException e) { e.printStackTrace();}
 
-            int GAME_SPEED = 2;
             Timeline timeline = new Timeline(new KeyFrame(
-                    Duration.millis(Math.pow(1,GAME_SPEED)),
+                    Duration.millis(Math.pow(10,parent.GAME_SPEED)),
                     ae -> makeMove(move[0])));
             timeline.play();
         }
@@ -371,19 +393,14 @@ public class Game extends Scene {
      * Shows the game outcome. Is called only when the game ends.
      */
     public void endGame() {
-        System.out.println("\rGame finished!");
+        if(parent.DEBUG) System.out.println("\rGame finished!");
 
         closingTests();
 
-        Effect blur =
-                new GaussianBlur(3);
-        root.setEffect(blur);
-
+        root.setEffect(new GaussianBlur(3));
 
         End endPane = new End(board.currentScore(), playerColours, parent);
-
         realRoot.getChildren().add(endPane);
-
     }
 
 
@@ -416,13 +433,9 @@ public class Game extends Scene {
                         System.out.println("\r\u001B[31m" + "Running '"+method.getName()+"()' ✖"); allPassed = false;
                     }
                     else System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");
-                } catch (InvocationTargetException e) {
-                    // ...
-                } catch (IllegalAccessException e) {
-                    // ...
-                } catch (SecurityException e) {
-                    // ...
-                }
+                } catch (InvocationTargetException e) {}
+                  catch (IllegalAccessException e) {}
+                  catch (SecurityException e) {}
             }
         }
 
