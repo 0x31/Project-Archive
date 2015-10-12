@@ -1,13 +1,16 @@
 package comp1140.ass2.Players;
 
-import comp1140.ass2.Game.*;
+import comp1140.ass2.Game.Board;
+import comp1140.ass2.Game.Colour;
+import comp1140.ass2.Game.Coordinate;
+import comp1140.ass2.Game.Panel;
 import comp1140.ass2.Scenes.Game;
 
 /**
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** on 25/09/15.
  * There's nothing here so no point in marking yet
  */
-public class ExtremelyHardBot implements Player {
+public class GreedyBot implements Player {
 
     Game parent;
 
@@ -15,7 +18,7 @@ public class ExtremelyHardBot implements Player {
      * Creates a new ExtremelyHardBot
      * @param parent the Game class
      */
-    public ExtremelyHardBot(Game parent) {
+    public GreedyBot(Game parent) {
         this.parent = parent;
     }
 
