@@ -81,7 +81,7 @@ public class Board extends GridSprite {
          * If a tutor is reading this, then we obviously made the wise decision of keeping ordinal()
          */
         //int playerId = piece.colour.ordinal();
-        int playerId = (parent!=null) ? parent.currentPlayerId : piece.colour.ordinal();
+        int playerId = (parent!=null) ? parent.currentColourId : piece.colour.ordinal();
         int shapeId = piece.shape.ordinal();
 
         unplacedPieces[playerId][shapeId] = false;
@@ -261,7 +261,7 @@ public class Board extends GridSprite {
      */
     public boolean legitimateMove(Piece piece) {
 
-        int playerId = (parent!=null) ? parent.currentPlayerId : piece.colour.ordinal();
+        int playerId = (parent!=null) ? parent.currentColourId : piece.colour.ordinal();
 
         if(!unplacedPieces[playerId][piece.shape.ordinal()]) {
             return false;
@@ -339,7 +339,7 @@ public class Board extends GridSprite {
         if(sprite == preview) {
             int x = sprite.coordinates[0].getX();
             int y = sprite.coordinates[0].getY();
-            parent.players[parent.currentPlayerId].handleClick(x, y);
+            parent.currentPlayer.handleClick(x, y);
         }
     }
 
@@ -356,10 +356,10 @@ public class Board extends GridSprite {
     public void isClicked(CellSprite cell) {
         int x = this.getColumnIndex(cell);
         int y = this.getRowIndex(cell);
-        parent.players[parent.currentPlayerId].handleClick(x, y);
+        parent.currentPlayer.handleClick(x, y);
     }
     public void isHovered(CellSprite cell) {
-        if(!active || !parent.players[parent.currentPlayerId].isHuman()) {
+        if(!active || !parent.currentPlayer.isHuman()) {
             return;
         }
         int x = this.getColumnIndex(cell);

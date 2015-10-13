@@ -35,8 +35,8 @@ public class EasyBot implements Player {
     @Override
     public String think(String string) {
         Board board = new Board(string);
-        Panel myPanel = parent.panels[parent.currentPlayerId];
-        Colour colour = parent.playerColours[parent.currentPlayerId];
+        Panel myPanel = parent.panels[parent.currentColourId];
+        Colour colour = parent.playerColours[parent.currentColourId];
         Shape[] shuffled = shuffle(myPanel.activeShapes);
         for(Shape shape : shuffled) {
             for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {
@@ -45,7 +45,7 @@ public class EasyBot implements Player {
                         //Piece testPiece = new Piece(piece.shape, piece.colour);
                         Piece testPiece = new Piece(shape, colour);
                         testPiece.initialisePiece(new Coordinate(x,y), orientation);
-                        if(parent.board.legitimateMove(testPiece)) {
+                        if(board.legitimateMove(testPiece)) {
                             //parent.piecePreparer.addShape(shape, colour, orientation);
                             //parent.makeMove(this, testPiece);
                             return testPiece.toString();

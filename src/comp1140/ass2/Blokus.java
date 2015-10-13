@@ -18,6 +18,22 @@ import javafx.util.Duration;
 
 public class Blokus extends Application {
 
+
+    // Prints debug information
+    // Should be disabled for final deliverable
+    public final boolean DEBUG = true;
+
+    // A time delay for the bots, so appear a bit more human
+    // For future: Should only apply to Easy_Bots
+    // Or perhaps a *minimum* delay
+    public int GAME_SPEED = 3;
+
+    // time limit for bots in seconds. Set to 0 for no time limit.
+    public final int BOT_TIME = 10;
+
+
+
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -29,10 +45,6 @@ public class Blokus extends Application {
     Scene instructions;
     Scene options;
     Scene gameOptions;
-
-    public final boolean DEBUG = true;
-    public int GAME_SPEED = 3;
-    public final int BOT_TIME = 10; // but 0 for no time limit
 
 
     /**
@@ -86,10 +98,6 @@ public class Blokus extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        primaryStage.setMaxHeight(722);
-        primaryStage.setMaxWidth(700);
-        primaryStage.setMinHeight(722);
-        primaryStage.setMinWidth(700);
 
         menu = new Menu(new Group(), 700,700, this);
         instructions = new Instructions(new Group(), 700,700, this);
@@ -98,5 +106,4 @@ public class Blokus extends Application {
         primaryStage.show();
         toMenu();
     }
-
 }
