@@ -29,8 +29,8 @@ public class ExtremelyHardBot implements Player {
     public String think(String string) {
         Board board = new Board(string);
         int playerID = parent.currentPlayerId;
-        Panel myPanel = parent.panels[parent.currentPlayerId];
-        Colour myColour = parent.playerColours[playerID];
+        //Panel myPanel = parent.panels[parent.currentPlayerId];
+        //Colour myColour = parent.playerColours[playerID];
         String bestMove = ".";
         int bestScore = 0;
         int currentScore;
@@ -39,65 +39,60 @@ public class ExtremelyHardBot implements Player {
         /**
          * builds all possible moves as a string and tests the scores of all the legal moves
          */
-        for(char shape = 'A'; shape<'V'; shape++) {
-            for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {
-                for(char x = 'A'; x<'U'; x++) {
-                    for(char y = 'A'; y<'U'; y++) {
-                        String testMove = "" + shape + orientation + x + y;
-                        if(board.legitimateMove(testMove)) {
-                            Board testBoard = new Board(string);
-                            testBoard.placePiece(testMove);
-                            currentScore = lookahead(1, testBoard.toString()+"...", playerID); //passes a board which has the next three players pass
-                            if (currentScore > bestScore) {
-                                bestMove = testMove;
-                                bestScore = currentScore;
-                            }
-                        }
-                    }
-                }
+        for (String move : playableMoves(board)) {
+            Board testBoard = placePieceAndPass(board, move);
+            currentScore = getUltimateScore(testBoard, playerID, 1);
+            if (currentScore > bestScore) {
+                bestMove = move;
+                bestScore = currentScore;
             }
         }
         return bestMove;
     }
 
-    private int lookahead(int iterations, String boardString, int playerID) {
-        int bestScore = 0;
-        int currentScore;
-        Board board = new Board(boardString);
+    private int getUltimateScore(Board board, int playerID, int lookahead) {
+        if (lookahead == 0) {
+            return scoreBoard(board, playerID);
+        } else {
+            int bestScore = 0;
+            int currentScore;
 
-        /**
-         * builds all possible moves as a string and tests the scores of all the legal moves
-         */
+            for (String move : playableMoves(board)) {
+                Board testBoard = placePieceAndPass(board, move);
+                currentScore = scoreBoard(testBoard, playerID);
 
-        for(char shape = 'A'; shape<'V'; shape++) {
-            for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {
-                for (char x = 'A'; x < 'U'; x++) {
-                    for (char y = 'A'; y < 'U'; y++) {
-                        String testMove = "" + shape + orientation + x + y;
-                        if (board.legitimateMove(testMove)) {
-                            if (iterations > 0) {
-                                Board testBoard = new Board(boardString);
-                                testBoard.placePiece(testMove);
-                                currentScore = lookahead(iterations - 1, testBoard.toString() + "...", playerID);
-                            } else {
-                                currentScore = scoreMove(board, testMove, playerID);
-                            }
-                            if (currentScore > bestScore) bestScore = currentScore;
-                        }
-                    }
+                if (currentScore > bestScore) {
+                    bestScore = currentScore;
                 }
             }
+            return bestScore;
         }
-        return bestScore;
     }
 
-    private ArrayList<String> playableMoves(Board board, int playerID) {
+    /**
+     * places piece and then inserts three passes for opponents
+     */
+    private Board placePieceAndPass(Board board, String move) {
+        Board retBoard = new Board(board.toString() + move + "...");
+        return retBoard;
+    }
+
+    /**
+     * returns a list of all possible playable moves
+     * @param board
+     * @return
+     */
+    private ArrayList<String> playableMoves(Board board) {
         ArrayList<String> moves = new ArrayList<>();
-        for(char shape = 'A'; shape<'V'; shape++) {
-            for (char orientation : new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}) {
+
+        //four nested for loops to generate all possible (legal and illegal) string representations of moves
+        for (char shape = 'A'; shape<'V'; shape++) {
+            for (char orientation = 'A'; orientation < 'I'; orientation++) {
                 for (char x = 'A'; x < 'U'; x++) {
                     for (char y = 'A'; y < 'U'; y++) {
                         String testMove = "" + shape + orientation + x + y;
+
+                        // if the move is legal, it is added to list
                         if (board.legitimateMove(testMove)) {
                             moves.add(testMove);
                         }
@@ -105,18 +100,10 @@ public class ExtremelyHardBot implements Player {
                 }
             }
         }
-        if (moves.size() == 0) {
-            moves.add(".");
-        }
         return moves;
     }
 
-    private int scoreBoard(Board board, int playerID) {
-        return 30*placedCellCount(board, playerID) + weightedBoardCoverage(board, playerID);
-    }
-
-    private int scoreMove(Board board, String testMove, int playerID) {
-        board.placePiece(testMove);
+    public int scoreBoard(Board board, int playerID) {
         return 30*placedCellCount(board, playerID) + weightedBoardCoverage(board, playerID);
     }
 
@@ -193,20 +180,20 @@ public class ExtremelyHardBot implements Player {
         int homeY = 0;
         switch (playerID) {
             case 0: homeX = 0;
-                    homeY = 0;
-                    break;
+                homeY = 0;
+                break;
 
             case 1: homeX = 19;
-                    homeY = 0;
-                    break;
+                homeY = 0;
+                break;
 
             case 2: homeX = 19;
-                    homeY = 19;
-                    break;
+                homeY = 19;
+                break;
 
             case 3: homeX = 0;
-                    homeY = 19;
-                    break;
+                homeY = 19;
+                break;
         }
 
         for (int x = 0; x < board.getGrid().length; x++) {
@@ -221,30 +208,11 @@ public class ExtremelyHardBot implements Player {
                     for (Coordinate diagonalCell : cell.getDiagonalCells()) {
                         if (board.cellAt(diagonalCell) == Colour.values()[playerID]) touchingCorner = true;
                     }
-                    if (touchingCorner && !(touchingSide)) {
-                        int x_dist = Math.abs(homeX-x);
-                        int y_dist = Math.abs(homeY-y);
-
-                        weightedCornerCells += weightingDistance(x_dist) + weightingDistance(y_dist);
-                    }
+                    if (touchingCorner && !(touchingSide)) weightedCornerCells += Math.abs(homeX - x) + Math.abs(homeY - y);
                 }
             }
         }
-        return weightedCornerCells;
-    }
-
-    /**
-     * A formula which was derived to give the most weighting to cells (11,11) (where home cell is (0,0)) in
-     * an attempt to get the bot to try and gain centre control first
-     * @param dist
-     * @return
-     */
-    private double weightingDistance(int dist) {
-        double result = 0.0026*(Math.pow(dist,4)) - 0.112*(Math.pow(dist, 3)) + 1.39 * (Math.pow(dist,2)) - 3.521*dist + 1.247;
-        if (result < 0) {
-            return 0;
-        }
-        return result;
+        return weightedCornerCells/10;
     }
 
     @Override

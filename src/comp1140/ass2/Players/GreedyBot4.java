@@ -6,6 +6,8 @@ import comp1140.ass2.Game.Coordinate;
 import comp1140.ass2.Game.Panel;
 import comp1140.ass2.Scenes.Game;
 
+import java.util.ArrayList;
+
 /**
  * @author Tim ***REMOVED***, ***REMOVED*** 13/10/15
  */
@@ -15,6 +17,7 @@ public class GreedyBot4 implements Player {
 
     /**
      * Creates a new ExtremelyHardBot
+     *
      * @param parent the Game class
      */
     public GreedyBot4(Game parent) {
@@ -29,8 +32,8 @@ public class GreedyBot4 implements Player {
     public String think(String string) {
         Board board = new Board(string);
         int playerID = parent.currentPlayerId;
-        Panel myPanel = parent.panels[parent.currentPlayerId];
-        Colour myColour = parent.playerColours[playerID];
+        //Panel myPanel = parent.panels[parent.currentPlayerId];
+        //Colour myColour = parent.playerColours[playerID];
         String bestMove = ".";
         int bestScore = 0;
         int currentScore;
@@ -39,25 +42,41 @@ public class GreedyBot4 implements Player {
         /**
          * builds all possible moves as a string and tests the scores of all the legal moves
          */
-        for(char shape = 'A'; shape<'V'; shape++) {
-            for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {
-                for(char x = 'A'; x<'U'; x++) {
-                    for(char y = 'A'; y<'U'; y++) {
+        for (String move : playableMoves(board)) {
+            Board testBoard = new Board(string);
+            currentScore = scoreMove(testBoard, move, playerID);
+            if (currentScore > bestScore) {
+                bestMove = move;
+                bestScore = currentScore;
+            }
+        }
+        return bestMove;
+    }
+
+    /**
+     * returns a list of all possible playable moves
+     * @param board
+     * @return
+     */
+    private ArrayList<String> playableMoves(Board board) {
+        ArrayList<String> moves = new ArrayList<>();
+
+        //four nested for loops to generate all possible (legal and illegal) string representations of moves
+        for (char shape = 'A'; shape<'V'; shape++) {
+            for (char orientation = 'A'; orientation < 'I'; orientation++) {
+                for (char x = 'A'; x < 'U'; x++) {
+                    for (char y = 'A'; y < 'U'; y++) {
                         String testMove = "" + shape + orientation + x + y;
-                        if(board.legitimateMove(testMove)) {
-                            Board testBoard = new Board(string);
-                            currentScore = scoreMove (testBoard, testMove, playerID);
-                            if (currentScore > bestScore) {
-                                bestMove = testMove;
-                                bestScore = currentScore;
-                            }
+
+                        // if the move is legal, it is added to list
+                        if (board.legitimateMove(testMove)) {
+                            moves.add(testMove);
                         }
                     }
                 }
             }
         }
-
-        return bestMove;
+        return moves;
     }
 
     public int scoreMove(Board board, String testMove, int playerID) {
