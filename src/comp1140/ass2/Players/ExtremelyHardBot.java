@@ -25,9 +25,15 @@ public class ExtremelyHardBot implements Player {
     public void handleClick(int x, int y) {
     }
 
+
+    /**
+     * is all broken cause all my functions are side effecting.... :(
+     * @param boardStr
+     * @return
+     */
     @Override
-    public String think(String string) {
-        Board board = new Board(string);
+    public String think(String boardStr) {
+        Board testBoard = new Board(boardStr);
         int playerID = parent.currentPlayerId;
         //Panel myPanel = parent.panels[parent.currentPlayerId];
         //Colour myColour = parent.playerColours[playerID];
@@ -35,31 +41,38 @@ public class ExtremelyHardBot implements Player {
         int bestScore = 0;
         int currentScore;
 
-
         /**
          * builds all possible moves as a string and tests the scores of all the legal moves
          */
-        for (String move : playableMoves(board)) {
-            Board testBoard = placePieceAndPass(board, move);
-            currentScore = getUltimateScore(testBoard, playerID, 1);
+        for (String move : playableMoves(testBoard)) {
+            placePieceAndPass(testBoard, move);
+            currentScore = getUltimateScore(testBoard, playerID, 0);
+
             if (currentScore > bestScore) {
-                bestMove = move;
+                System.out.println("bestMove updated");
                 bestScore = currentScore;
+                bestMove = move;
             }
         }
+        System.out.println(bestMove + " with score " + bestScore);
+
         return bestMove;
     }
 
     private int getUltimateScore(Board board, int playerID, int lookahead) {
+        Board testBoard = new Board(board.toString());
+
         if (lookahead == 0) {
-            return scoreBoard(board, playerID);
+            System.out.println("-- ultimateScore: " + scoreBoard(testBoard, playerID));
+            //return scoreBoard(board, playerID);
+            return placedCellCount(testBoard, playerID);
         } else {
             int bestScore = 0;
             int currentScore;
 
-            for (String move : playableMoves(board)) {
-                Board testBoard = placePieceAndPass(board, move);
-                currentScore = scoreBoard(testBoard, playerID);
+            for (String move : playableMoves(testBoard)) {
+                testBoard = placePieceAndPass(testBoard, move);
+                currentScore = scoreBoard(testBoard, playerID);  //replace with getUltimateScore later
 
                 if (currentScore > bestScore) {
                     bestScore = currentScore;
@@ -73,8 +86,7 @@ public class ExtremelyHardBot implements Player {
      * places piece and then inserts three passes for opponents
      */
     private Board placePieceAndPass(Board board, String move) {
-        Board retBoard = new Board(board.toString() + move + "...");
-        return retBoard;
+        return new Board(board.toString() + move + "...");
     }
 
     /**
@@ -84,7 +96,7 @@ public class ExtremelyHardBot implements Player {
      */
     private ArrayList<String> playableMoves(Board board) {
         ArrayList<String> moves = new ArrayList<>();
-
+        Board testBoard = new Board(board.toString());
         //four nested for loops to generate all possible (legal and illegal) string representations of moves
         for (char shape = 'A'; shape<'V'; shape++) {
             for (char orientation = 'A'; orientation < 'I'; orientation++) {
@@ -93,7 +105,7 @@ public class ExtremelyHardBot implements Player {
                         String testMove = "" + shape + orientation + x + y;
 
                         // if the move is legal, it is added to list
-                        if (board.legitimateMove(testMove)) {
+                        if (testBoard.legitimateMove(testMove)) {
                             moves.add(testMove);
                         }
                     }
@@ -104,7 +116,8 @@ public class ExtremelyHardBot implements Player {
     }
 
     public int scoreBoard(Board board, int playerID) {
-        return 30*placedCellCount(board, playerID) + weightedBoardCoverage(board, playerID);
+        Board testBoard = new Board(board.toString());
+        return 30*placedCellCount(testBoard, playerID) + weightedBoardCoverage(testBoard, playerID);
     }
 
     /**
@@ -114,14 +127,17 @@ public class ExtremelyHardBot implements Player {
      * @return
      */
     private int placedCellCount(Board board, int playerID) {
+        Board testBoard = new Board(board.toString());
+
         int cellCount = 0;
-        for (Colour[] cellColourList : board.getGrid()) {
+        for (Colour[] cellColourList : testBoard.getGrid()) {
             for (Colour cellColour : cellColourList) {
                 if (Colour.values()[playerID] == cellColour) {
                     cellCount += 1;
                 }
             }
         }
+        System.out.println("-- -- placedCellCount: " + cellCount);
         return cellCount;
     }
 
@@ -132,6 +148,7 @@ public class ExtremelyHardBot implements Player {
      * @return
      */
     private int unplacedCellCount(Board board, int playerID) {
+        Board testBoard = new Board(board.toString());
         return 89 - placedCellCount(board, playerID);
     }
 
@@ -143,18 +160,19 @@ public class ExtremelyHardBot implements Player {
      * @return
      */
     public int boardCoverage(Board board, int playerID) {
+        Board testBoard = new Board(board.toString());
         int cornerCells = 0;
-        for (int x = 0; x < board.getGrid().length; x++) {
-            for (int y = 0; y < board.getGrid().length; y++) {
+        for (int x = 0; x < testBoard.getGrid().length; x++) {
+            for (int y = 0; y < testBoard.getGrid().length; y++) {
                 Coordinate cell = new Coordinate(x,y);
-                if(board.cellAt(cell) == Colour.Empty) {
+                if(testBoard.cellAt(cell) == Colour.Empty) {
                     boolean touchingSide = false;
                     for (Coordinate sideCell : cell.getSideCells()) {
-                        if (board.cellAt(sideCell) == Colour.values()[playerID]) touchingSide = true;
+                        if (testBoard.cellAt(sideCell) == Colour.values()[playerID]) touchingSide = true;
                     }
                     boolean touchingCorner = false;
                     for (Coordinate diagonalCell : cell.getDiagonalCells()) {
-                        if (board.cellAt(diagonalCell) == Colour.values()[playerID]) touchingCorner = true;
+                        if (testBoard.cellAt(diagonalCell) == Colour.values()[playerID]) touchingCorner = true;
                     }
                     if (touchingCorner && !(touchingSide)) cornerCells++;
                 }
@@ -172,6 +190,8 @@ public class ExtremelyHardBot implements Player {
      * @return
      */
     public int weightedBoardCoverage(Board board, int playerID) {
+        Board testBoard = new Board(board.toString());
+
         int cornerCells = 0;
         int weightedCornerCells = 0;
 
@@ -196,17 +216,17 @@ public class ExtremelyHardBot implements Player {
                 break;
         }
 
-        for (int x = 0; x < board.getGrid().length; x++) {
-            for (int y = 0; y < board.getGrid().length; y++) {
+        for (int x = 0; x < testBoard.getGrid().length; x++) {
+            for (int y = 0; y < testBoard.getGrid().length; y++) {
                 Coordinate cell = new Coordinate(x,y);
-                if(board.cellAt(cell) == Colour.Empty) {
+                if(testBoard.cellAt(cell) == Colour.Empty) {
                     boolean touchingSide = false;
                     for (Coordinate sideCell : cell.getSideCells()) {
-                        if (board.cellAt(sideCell) == Colour.values()[playerID]) touchingSide = true;
+                        if (testBoard.cellAt(sideCell) == Colour.values()[playerID]) touchingSide = true;
                     }
                     boolean touchingCorner = false;
                     for (Coordinate diagonalCell : cell.getDiagonalCells()) {
-                        if (board.cellAt(diagonalCell) == Colour.values()[playerID]) touchingCorner = true;
+                        if (testBoard.cellAt(diagonalCell) == Colour.values()[playerID]) touchingCorner = true;
                     }
                     if (touchingCorner && !(touchingSide)) weightedCornerCells += Math.abs(homeX - x) + Math.abs(homeY - y);
                 }

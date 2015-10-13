@@ -230,10 +230,10 @@ public class Game extends Scene {
                 human = true;
             }
             if(playerCodes[i]==2) {
-                players[i] = new GreedyBot4(this);
+                players[i] = new EasyBot(this);
             }
             if(playerCodes[i]==3) {
-                players[i] = new ExtremelyHardBot(this);
+                players[i] = new GreedyBot4(this);
             }
         }
 
