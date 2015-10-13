@@ -31,7 +31,7 @@ public class Blokus extends Application {
     Scene gameOptions;
 
     public final boolean DEBUG = true;
-    public final int GAME_SPEED = 2;
+    public int GAME_SPEED = 3;
     public final int BOT_TIME = 10; // but 0 for no time limit
 
 

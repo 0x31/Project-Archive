@@ -219,6 +219,7 @@ public class Game extends Scene {
      */
     public void start(int[] playerCodes) {
         players = new Player[] {null,null,null,null};
+        boolean human = false;
 
         for(int i=0;i<4;i++) {
             if(playerCodes[i]==0) {
@@ -226,6 +227,7 @@ public class Game extends Scene {
             }
             if(playerCodes[i]==1) {
                 players[i] = new Human(this);
+                human = true;
             }
             if(playerCodes[i]==2) {
                 players[i] = new GreedyBot3(this);
@@ -234,6 +236,9 @@ public class Game extends Scene {
                 players[i] = new GreedyBot4(this);
             }
         }
+
+        if (human == false) {parent.GAME_SPEED = 0;}
+        else {parent.GAME_SPEED = 3}
 
         /*
         Player player0 = new Human(0, this);
