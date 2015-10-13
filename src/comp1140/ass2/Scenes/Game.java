@@ -238,7 +238,7 @@ public class Game extends Scene {
         }
 
         if (human == false) {parent.GAME_SPEED = 0;}
-        else {parent.GAME_SPEED = 3}
+        else {parent.GAME_SPEED = 3;}
 
         /*
         Player player0 = new Human(0, this);
