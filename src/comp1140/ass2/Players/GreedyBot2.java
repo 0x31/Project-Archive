@@ -10,7 +10,7 @@ import comp1140.ass2.Scenes.Game;
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** on 25/09/15.
  * There's nothing here so no point in marking yet
  */
-public class GreedyBot implements Player {
+public class GreedyBot2 implements Player {
 
     Game parent;
 
@@ -18,7 +18,7 @@ public class GreedyBot implements Player {
      * Creates a new ExtremelyHardBot
      * @param parent the Game class
      */
-    public GreedyBot(Game parent) {
+    public GreedyBot2(Game parent) {
         this.parent = parent;
     }
 
@@ -63,7 +63,7 @@ public class GreedyBot implements Player {
 
     public int scoreMove(Board board, String testMove, int playerID) {
         board.placePiece(testMove);
-        return placedCellCount(board, playerID) + boardCoverage(board, playerID);
+        return 15*placedCellCount(board, playerID) + weightedBoardCoverage(board, playerID);
     }
 
     /**
@@ -122,6 +122,57 @@ public class GreedyBot implements Player {
         return cornerCells;
     }
 
+
+    /**
+     * Factors in available corners for future moves, as well as how evenly distributed pieces are throughout the board
+     *  this would be achieved by weighting the centre tiles heavier than the outer tiles, as well as tiles further from
+     *  starting position
+     * @param board
+     * @return
+     */
+    public int weightedBoardCoverage(Board board, int playerID) {
+        int cornerCells = 0;
+        int weightedCornerCells = 0;
+
+        //setting the starting position
+        int homeX = 0;
+        int homeY = 0;
+        switch (playerID) {
+            case 0: homeX = 0;
+                    homeY = 0;
+                    break;
+
+            case 1: homeX = 19;
+                    homeY = 0;
+                    break;
+
+            case 2: homeX = 19;
+                    homeY = 19;
+                    break;
+
+            case 3: homeX = 0;
+                    homeY = 19;
+                    break;
+        }
+
+        for (int x = 0; x < board.getGrid().length; x++) {
+            for (int y = 0; y < board.getGrid().length; y++) {
+                Coordinate cell = new Coordinate(x,y);
+                if(board.cellAt(cell) == Colour.Empty) {
+                    boolean touchingSide = false;
+                    for (Coordinate sideCell : cell.getSideCells()) {
+                        if (board.cellAt(sideCell) == Colour.values()[playerID]) touchingSide = true;
+                    }
+                    boolean touchingCorner = false;
+                    for (Coordinate diagonalCell : cell.getDiagonalCells()) {
+                        if (board.cellAt(diagonalCell) == Colour.values()[playerID]) touchingCorner = true;
+                    }
+                    if (touchingCorner && !(touchingSide)) weightedCornerCells += Math.abs(homeX - x) + Math.abs(homeY - y);
+                }
+            }
+        }
+        return weightedCornerCells/10;
+    }
 
     @Override
     public boolean isHuman() {

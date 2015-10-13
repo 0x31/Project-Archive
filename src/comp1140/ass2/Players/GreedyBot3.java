@@ -1,15 +1,16 @@
 package comp1140.ass2.Players;
 
-import comp1140.ass2.Game.*;
+import comp1140.ass2.Game.Board;
+import comp1140.ass2.Game.Colour;
+import comp1140.ass2.Game.Coordinate;
+import comp1140.ass2.Game.Panel;
 import comp1140.ass2.Scenes.Game;
-
-import java.util.ArrayList;
 
 /**
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** on 25/09/15.
  * There's nothing here so no point in marking yet
  */
-public class ExtremelyHardBot implements Player {
+public class GreedyBot3 implements Player {
 
     Game parent;
 
@@ -17,7 +18,7 @@ public class ExtremelyHardBot implements Player {
      * Creates a new ExtremelyHardBot
      * @param parent the Game class
      */
-    public ExtremelyHardBot(Game parent) {
+    public GreedyBot3(Game parent) {
         this.parent = parent;
     }
 
@@ -46,8 +47,7 @@ public class ExtremelyHardBot implements Player {
                         String testMove = "" + shape + orientation + x + y;
                         if(board.legitimateMove(testMove)) {
                             Board testBoard = new Board(string);
-                            testBoard.placePiece(testMove);
-                            currentScore = lookahead(1, testBoard.toString()+"...", playerID); //passes a board which has the next three players pass
+                            currentScore = scoreMove (testBoard, testMove, playerID);
                             if (currentScore > bestScore) {
                                 bestMove = testMove;
                                 bestScore = currentScore;
@@ -57,65 +57,11 @@ public class ExtremelyHardBot implements Player {
                 }
             }
         }
+
         return bestMove;
     }
 
-    private int lookahead(int iterations, String boardString, int playerID) {
-        int bestScore = 0;
-        int currentScore;
-        Board board = new Board(boardString);
-
-        /**
-         * builds all possible moves as a string and tests the scores of all the legal moves
-         */
-
-        for(char shape = 'A'; shape<'V'; shape++) {
-            for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {
-                for (char x = 'A'; x < 'U'; x++) {
-                    for (char y = 'A'; y < 'U'; y++) {
-                        String testMove = "" + shape + orientation + x + y;
-                        if (board.legitimateMove(testMove)) {
-                            if (iterations > 0) {
-                                Board testBoard = new Board(boardString);
-                                testBoard.placePiece(testMove);
-                                currentScore = lookahead(iterations - 1, testBoard.toString() + "...", playerID);
-                            } else {
-                                currentScore = scoreMove(board, testMove, playerID);
-                            }
-                            if (currentScore > bestScore) bestScore = currentScore;
-                        }
-                    }
-                }
-            }
-        }
-        return bestScore;
-    }
-
-    private ArrayList<String> playableMoves(Board board, int playerID) {
-        ArrayList<String> moves = new ArrayList<>();
-        for(char shape = 'A'; shape<'V'; shape++) {
-            for (char orientation : new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}) {
-                for (char x = 'A'; x < 'U'; x++) {
-                    for (char y = 'A'; y < 'U'; y++) {
-                        String testMove = "" + shape + orientation + x + y;
-                        if (board.legitimateMove(testMove)) {
-                            moves.add(testMove);
-                        }
-                    }
-                }
-            }
-        }
-        if (moves.size() == 0) {
-            moves.add(".");
-        }
-        return moves;
-    }
-
-    private int scoreBoard(Board board, int playerID) {
-        return 30*placedCellCount(board, playerID) + weightedBoardCoverage(board, playerID);
-    }
-
-    private int scoreMove(Board board, String testMove, int playerID) {
+    public int scoreMove(Board board, String testMove, int playerID) {
         board.placePiece(testMove);
         return 30*placedCellCount(board, playerID) + weightedBoardCoverage(board, playerID);
     }
@@ -221,30 +167,11 @@ public class ExtremelyHardBot implements Player {
                     for (Coordinate diagonalCell : cell.getDiagonalCells()) {
                         if (board.cellAt(diagonalCell) == Colour.values()[playerID]) touchingCorner = true;
                     }
-                    if (touchingCorner && !(touchingSide)) {
-                        int x_dist = Math.abs(homeX-x);
-                        int y_dist = Math.abs(homeY-y);
-
-                        weightedCornerCells += weightingDistance(x_dist) + weightingDistance(y_dist);
-                    }
+                    if (touchingCorner && !(touchingSide)) weightedCornerCells += Math.abs(homeX - x) + Math.abs(homeY - y);
                 }
             }
         }
-        return weightedCornerCells;
-    }
-
-    /**
-     * A formula which was derived to give the most weighting to cells (11,11) (where home cell is (0,0)) in
-     * an attempt to get the bot to try and gain centre control first
-     * @param dist
-     * @return
-     */
-    private double weightingDistance(int dist) {
-        double result = 0.0026*(Math.pow(dist,4)) - 0.112*(Math.pow(dist, 3)) + 1.39 * (Math.pow(dist,2)) - 3.521*dist + 1.247;
-        if (result < 0) {
-            return 0;
-        }
-        return result;
+        return weightedCornerCells/10;
     }
 
     @Override

@@ -3,10 +3,7 @@ package comp1140.ass2.Scenes;
 import comp1140.ass2.*;
 import comp1140.ass2.Game.*;
 import comp1140.ass2.LiveTests.GameTests;
-import comp1140.ass2.Players.EasyBot;
-import comp1140.ass2.Players.ExtremelyHardBot;
-import comp1140.ass2.Players.Human;
-import comp1140.ass2.Players.Player;
+import comp1140.ass2.Players.*;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -232,10 +229,10 @@ public class Game extends Scene {
                 players[i] = new Human(this);
             }
             if(playerCodes[i]==2) {
-                players[i] = new EasyBot(this);
+                players[i] = new GreedyBot3(this);
             }
             if(playerCodes[i]==3) {
-                players[i] = new ExtremelyHardBot(this);
+                players[i] = new GreedyBot4(this);
             }
         }
 
