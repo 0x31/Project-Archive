@@ -6,10 +6,13 @@ import comp1140.ass2.Game.Coordinate;
 import comp1140.ass2.Game.Panel;
 import comp1140.ass2.Scenes.Game;
 
+import java.util.ArrayList;
+
 /**
- * @author Tim ***REMOVED***, ***REMOVED*** 13/10/15
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** on 25/09/15.
+ * There's nothing here so no point in marking yet
  */
-public class GreedyBot4 implements Player {
+public class GreedyBot4broken implements Player {
 
     Game parent;
 
@@ -17,7 +20,7 @@ public class GreedyBot4 implements Player {
      * Creates a new ExtremelyHardBot
      * @param parent the Game class
      */
-    public GreedyBot4(Game parent) {
+    public GreedyBot4broken(Game parent) {
         this.parent = parent;
     }
 
@@ -34,30 +37,49 @@ public class GreedyBot4 implements Player {
         String bestMove = ".";
         int bestScore = 0;
         int currentScore;
-
+        ArrayList<String> moves = playableMoves(board, playerID);
 
         /**
          * builds all possible moves as a string and tests the scores of all the legal moves
          */
+
+        for(String move : moves) {
+            Board testBoard = new Board(move);
+            currentScore = scoreMove(testBoard, move, playerID);
+            System.out.println("Current score is: " + currentScore);
+            if (currentScore > bestScore) {
+                System.out.println("Move updated");
+                bestMove = move;
+                bestScore = currentScore;
+            }
+            System.out.println("Best score found: " + bestScore);
+        }
+        System.out.println("Returning move...");
+        System.out.println(bestMove);
+        return bestMove;
+    }
+
+    private ArrayList<String> playableMoves(Board board, int playerID) {
+        ArrayList<String> moves = new ArrayList<>();
         for(char shape = 'A'; shape<'V'; shape++) {
-            for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {
-                for(char x = 'A'; x<'U'; x++) {
-                    for(char y = 'A'; y<'U'; y++) {
+            for (char orientation : new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}) {
+                for (char x = 'A'; x < 'U'; x++) {
+                    for (char y = 'A'; y < 'U'; y++) {
                         String testMove = "" + shape + orientation + x + y;
-                        if(board.legitimateMove(testMove)) {
-                            Board testBoard = new Board(string);
-                            currentScore = scoreMove (testBoard, testMove, playerID);
-                            if (currentScore > bestScore) {
-                                bestMove = testMove;
-                                bestScore = currentScore;
-                            }
+                        if (board.legitimateMove(testMove)) {
+                            //System.out.println(testMove);
+                            moves.add(testMove);
                         }
                     }
                 }
             }
         }
-
-        return bestMove;
+        if (moves.size() == 0) {
+            System.out.println("no moves found");
+            moves.add(".");
+        }
+        System.out.println("list made");
+        return moves;
     }
 
     public int scoreMove(Board board, String testMove, int playerID) {
@@ -80,6 +102,7 @@ public class GreedyBot4 implements Player {
                 }
             }
         }
+        System.out.println("---- Placed cell count: " + cellCount);
         return cellCount;
     }
 
@@ -170,7 +193,8 @@ public class GreedyBot4 implements Player {
                 }
             }
         }
-        return weightedCornerCells/10;
+        System.out.println("---- Weighted corner cell count: " + weightedCornerCells);
+        return weightedCornerCells;
     }
 
     @Override
