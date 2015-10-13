@@ -241,7 +241,7 @@ public class ExtremelyHardBot implements Player {
     }
 
     @Override
-    public void pass() {
+    public void pass(Game parent) {
         parent.makeMove(".");
     }
 }

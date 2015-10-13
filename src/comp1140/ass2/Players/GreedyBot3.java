@@ -180,7 +180,7 @@ public class GreedyBot3 implements Player {
     }
 
     @Override
-    public void pass() {
+    public void pass(Game parent) {
         parent.makeMove(".");
     }
 }

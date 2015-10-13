@@ -48,10 +48,15 @@ public class Board extends GridSprite {
 
     private boolean[] lastMove = new boolean[]{false, false, false, false};
 
+    public int getCurrentTurn() {
+        return currentTurn;
+    }
+
     /**
      *
      * @return Returns an array of booleans denoting which player's last turn was placing a monimo
      */
+
     public boolean[] getLastMove() {
         return lastMove;
     }

@@ -64,7 +64,7 @@ public class EasyBot implements Player {
     }
 
     @Override
-    public void pass() {
+    public void pass(Game parent) {
         parent.makeMove(".");
     }
 

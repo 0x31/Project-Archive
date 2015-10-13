@@ -354,7 +354,7 @@ public class Game extends Scene {
                     labelPlayer[i].setText("Greeedy3".replace("","\n").trim());
             }
             if(playerCodes[i]==5) {
-                players.add(new GreedyBot4(this));
+                players.add(new GreedyBot4());
             }
         }
         if(!humans)
@@ -489,7 +489,6 @@ public class Game extends Scene {
         for(int i=0; i<panels.length; i++) {
             panelBorders[i].setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
             panelHeads[i].setStyle("-fx-background-color: rgba(0, 0, 0, 0.30);");
-            System.out.println(currentColourId);
             panelAll[i].setStyle("-fx-background-color: rgba(0,0,0,0);-fx-background-insets: 0;");
             labelName[i].setTextFill(Paint.valueOf("rgba(255,255,255,0.4)"));
             labelPlayer[i].setTextFill(Paint.valueOf("rgba(255,255,255,0.4)"));
@@ -551,6 +550,7 @@ public class Game extends Scene {
         piecePreparer.removePiece();
 
         currentColourId = (currentColourId +1) % 4;
+        assert(currentColourId==board.getCurrentTurn());
         // Check for the end of the game
         if(skip[0]&&skip[1]&&skip[2]&&skip[3]) {
             endGame();
@@ -568,7 +568,7 @@ public class Game extends Scene {
 
         hideBadPieces(currentColourId);
         if(panels[currentColourId].activeShapes.isEmpty()){
-            currentPlayer.pass();
+            currentPlayer.pass(this);
         } else {
             // Gives the player 10 seconds to complete their turn (unless it's a human)
             final CountDownLatch latch = new CountDownLatch(1);

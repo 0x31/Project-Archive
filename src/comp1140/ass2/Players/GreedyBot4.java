@@ -13,15 +13,10 @@ import java.util.ArrayList;
  */
 public class GreedyBot4 implements Player {
 
-    Game parent;
-
     /**
      * Creates a new ExtremelyHardBot
-     *
-     * @param parent the Game class
      */
-    public GreedyBot4(Game parent) {
-        this.parent = parent;
+    public GreedyBot4() {
     }
 
     @Override
@@ -31,7 +26,8 @@ public class GreedyBot4 implements Player {
     @Override
     public String think(String string) {
         Board board = new Board(string);
-        int playerID = parent.currentPlayerId;
+        //int playerID = parent.currentPlayerId;
+        int playerID = board.getCurrentTurn();
         //Panel myPanel = parent.panels[parent.currentPlayerId];
         //Colour myColour = parent.playerColours[playerID];
         String bestMove = ".";
@@ -198,7 +194,7 @@ public class GreedyBot4 implements Player {
     }
 
     @Override
-    public void pass() {
+    public void pass(Game parent) {
         parent.makeMove(".");
     }
 }

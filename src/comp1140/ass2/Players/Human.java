@@ -68,7 +68,7 @@ public class Human implements Player {
      * (Only for the first pass)
      */
     @Override
-    public void pass() {
+    public void pass(Game parent) {
         parent.makeMove(".");
     }
 

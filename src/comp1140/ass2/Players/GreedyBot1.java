@@ -129,7 +129,7 @@ public class GreedyBot1 implements Player {
     }
 
     @Override
-    public void pass() {
+    public void pass(Game parent) {
         parent.makeMove(".");
     }
 }

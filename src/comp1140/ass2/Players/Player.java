@@ -12,6 +12,6 @@ public interface Player {
     public void handleClick(int x, int y);
     public String think(String string);
     public boolean isHuman();
-    public void pass();
+    public void pass(Game parent);
 
 }
