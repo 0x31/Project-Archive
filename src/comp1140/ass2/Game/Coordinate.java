@@ -6,6 +6,9 @@ package comp1140.ass2.Game;
  *  - shift
  *  - flip
  *  - rotate
+ *
+ *  Groups two ints together so a coordinate can be handled easily.
+ *  Provides a range of useful functions regarding to coordinate transformations
  */
 public class Coordinate {
     private final int x;

@@ -192,7 +192,11 @@ public class GreedyBot4 implements Player {
                     for (Coordinate diagonalCell : cell.getDiagonalCells()) {
                         if (board.cellAt(diagonalCell) == Colour.values()[playerID]) touchingCorner = true;
                     }
-                    if (touchingCorner && !(touchingSide)) weightedCornerCells += Math.abs(homeX - x) + Math.abs(homeY - y);
+
+                    // the product of the distance is chosen in order to give preference to heading to the centre
+                    // as well as spreading to the other side of the board as quickly as possible
+                    // the bot relies on being blocked eventually in order to start to spread outwards
+                    if (touchingCorner && !(touchingSide)) weightedCornerCells += Math.abs(homeX - x) * Math.abs(homeY - y);
                 }
             }
         }

@@ -5,6 +5,7 @@ package comp1140.ass2.Game;
  * @author ***REMOVED***, ***REMOVED***, minor edits
  *
  * Piece represents a set of cells from a shape with colour, rotation and position
+ * Also provided is an interface to handle piece transformations
  */
 public class Piece {
 

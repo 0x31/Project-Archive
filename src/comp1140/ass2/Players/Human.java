@@ -48,11 +48,9 @@ public class Human implements Player {
         this.board = new Board(string);
         parent.piecePreparer.setActive(true);
         parent.currentPanel.setActive(true);
-        //if(stuck())
-        //    parent.makeMove(".");
-        // HAHAHA! Humans? Thinking?!
-        return ""; // Nope! Do nothing.
-        // i.e. Wait for click();
+
+        // Wait for click()
+        return "";
     }
 
     /**

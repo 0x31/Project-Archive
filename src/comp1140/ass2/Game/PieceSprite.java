@@ -3,6 +3,10 @@ package comp1140.ass2.Game;
 
 /**
  * @author Tim, ***REMOVED*** on 31/08/15.
+ *
+ * A PieceSprite is an FX representation of a piece.
+ * Each cell is represented by a CellSprite
+ * PieceSprites handle click events through their cells being clicked on
  */
 public class PieceSprite {
     final int CELL_COUNT;
