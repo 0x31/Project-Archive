@@ -2,15 +2,18 @@ package comp1140.ass2.Game;
 
 /**
  * @author Tim ***REMOVED***, ***REMOVED***
- * Minor edits by ***REMOVED***, ***REMOVED***
+ * @author ***REMOVED***, ***REMOVED***, minor edits
  *
+ * Piece represents a set of cells from a shape with colour, rotation and position
  */
 public class Piece {
+
     public final Shape shape;
     public final Colour colour;
-    Coordinate[] occupiedCells;
+    public int rotation=0;
+
+    private Coordinate[] occupiedCells;
     private final int cellNumber;
-    int rotation=0;
     private boolean flip = false;
 
     /**

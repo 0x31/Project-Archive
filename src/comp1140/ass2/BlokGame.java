@@ -40,23 +40,8 @@ public class BlokGame {
      * order specified in the rules of the game, and the scores should be made according to the rules.
      */
     public static int[] scoreGame(String game) {
-        int[] scores = new int[4];
         Board board = new Board(game);
-
-        int[] pieceLenghts = new int[] {1,2,3,3,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5};
-
-        for(int i=0;i<4;i++) {
-            for(int j = 0; j < board.getUnplacedPieces()[i].length; j++) {
-                if(board.getUnplacedPieces()[i][j]) {
-                    scores[i] -= pieceLenghts[j];
-                }
-            }
-            if(scores[i]==0) {
-                if(board.getLastMove()[i]) scores[i]+=20;
-                else scores[i] += 15;
-            }
-        }
-        return scores;
+        return board.currentScore();
     }
 
     /**
@@ -67,20 +52,6 @@ public class BlokGame {
     public static String makeMove(String game) {
         Player bot = new GreedyBot4();
         return bot.think(game);
-        /*
-        Board board = new Board(game);
-        for(char piece = 'A'; piece<='U'; piece++) {
-            for(char orientation = 'A'; orientation<='H'; orientation++) {
-                for(char x = 'A'; x<='T'; x++) {
-                    for(char y = 'A'; y<='T'; y++) {
-                        String move = "" + piece + orientation + x + y;
-                        if (board.legitimateMove(move)) return move;
-                    }
-                }
-            }
-        }
-        return ".";
-        */
     }
 
 }

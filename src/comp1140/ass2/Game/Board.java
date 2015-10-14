@@ -1,91 +1,76 @@
 package comp1140.ass2.Game;
 
 import comp1140.ass2.Scenes.Game;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 
 /**
- * Created by ***REMOVED*** on 19/08/15.
- * @author ***REMOVED*** ***REMOVED***, ***REMOVED***
- * Contributed to by Holly, ***REMOVED***
+ * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, on 19/09/15
+ * @author Holly, ***REMOVED***, some contributions
+ * @author Tim, clicking
+ *
+ * Board implements the logisitics of the Blokus board, including
+ *  1. Playing moves
+ *  2. Scoring
+ *  3. Displaying the pieces
  */
 public class Board extends GridSprite {
 
     private final Colour[][] grid;
-
     private final boolean[] unplacedPiecesRed = new boolean['U'-'A'+ 1];
     private final boolean[] unplacedPiecesGreen = new boolean['U'-'A'+ 1];
     private final boolean[] unplacedPiecesBlue = new boolean['U'-'A' + 1];
     private final boolean[] unplacedPiecesYellow = new boolean['U' - 'A' + 1];
-
     private boolean active=false;
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     private boolean displayable = true;
-
     private final boolean[][] unplacedPieces =
             {unplacedPiecesBlue
             ,unplacedPiecesYellow
             ,unplacedPiecesRed
             ,unplacedPiecesGreen};
-
-
     private final ArrayList<String> moves = new ArrayList<>();
-
-
-    /**
-     * @return Returns this.unplacedPieces;
-     */
-    public boolean[][] getUnplacedPieces() {
-        return unplacedPieces;
-    }
-
     private int currentTurn;
-
     private final boolean[] lastMove = new boolean[]{false, false, false, false};
-
-    public int getCurrentTurn() {
-        return currentTurn;
-    }
+    private PieceSprite preview;
+    private Coordinate previewCoord;
 
     /**
-     *
-     * @return Returns an array of booleans denoting which player's last turn was placing a monimo
+     * @return the 2D array of booleans representing whether a piece has been placed
      */
-
-    public boolean[] getLastMove() {
-        return lastMove;
-    }
+    public boolean[][] getUnplacedPieces() { return unplacedPieces; }
 
     /**
-     *
-     * @return Colour[][] this.grid
+     * @return the current turn as an int (where 0=blue, ..., 4=green)
+     */
+    public int getCurrentTurn() { return currentTurn; }
+
+    /**
+     * @param active the state the board should be set to; inactive makes the board unhoverable
+     */
+    public void setActive(boolean active) { this.active = active; }
+
+    /**
+     * @return Returns an array of booleans denoting which player's last turn was placing a monomino
+     */
+    public boolean[] getLastMove() { return lastMove;}
+
+    /**
+     * @return the grid of the board as a 2D array of cells (Colours)
      */
     public Colour[][] getGrid() {
         return grid;
     }
 
     /**
-     * Given a four character String and the identifying number of the current player,
-     * sets the grid coordinates to that player's colour where the piece is played.
-     *
+     * Takes a Piece and transfers it to the board, after checking that the move is valid
      * @param piece the piece to place, representing shape, orientation and coordinate
-     * @return void  while also changing this.grid
+     * @return the exiting status of the function
      */
     private boolean placePiece(Piece piece) {
 
-
         if(!legitimateMove(piece)) return false;
 
-        /* Remove piece from unplacedPieces
-         * Is this okay? I don't know if using ordinal is a good idea, as the order may change
-         * If a tutor is reading this, then we obviously made the wise decision of keeping ordinal()
-         */
-        //int playerId = piece.colour.ordinal();
+        /* Remove piece from unplacedPieces */
         int playerId = (parent!=null) ? parent.currentColourId : piece.colour.ordinal();
         int shapeId = piece.shape.ordinal();
 
@@ -97,12 +82,12 @@ public class Board extends GridSprite {
         if(displayable) {
             this.addPieceSprite(pieceSprite);
         }
-        // Set Grid for legitimateMove
+        /* Set Grid for legitimateMove */
         for(Coordinate coord : pieceSprite.coordinates) {
             grid[coord.getY()][coord.getX()] = turnColour;
         }
 
-        /** Check for monomino */
+        /* Check for monomino */
         lastMove[playerId] = (shapeId == 0);
 
         moves.add(piece.toString());
@@ -111,134 +96,101 @@ public class Board extends GridSprite {
         return true;
     }
 
-
     /**
-     * See above for placePiece
-     * @param move a 4-char string representing a move
-     * @return
+     * Given a four character String, plays the encoded move, after checking it's validity.
+     * Converts the string into a Piece and then calls placePiece(Piece piece)
+     * @param move a 4 character string representing a shape, orientation and coordinate
+     * @return the exiting status of the function
      */
     public boolean placePiece(String move) {
         if(move==".") { currentTurn=(currentTurn+1)%4; moves.add("."); return true; }
         Colour turnColour = Colour.values()[currentTurn];
-        //int x         = move.charAt(2)-'A';
-        //int y         = move.charAt(3)-'A';
         Piece piece = new Piece(move, turnColour);
         placePiece(piece);
         return true;
     }
 
-
     /**
-     * Board's toString function, currently used for debugging.
-     * @return String a string representation of the board, made up of the intials of each colour.
+     * @return A String encoding of the board, based on the board's past moves
      */
     public String toString() {
         String string = "";
-        for (String move : moves) {
+        for (String move : moves)
             string += move + " ";
-        }
         return string;
     }
 
+    /**
+     * @return A String representation of the board's grid, used for testing and debugging
+     */
     public String gridToString() {
         String string = "";
+        /* substring() is used instead of charAt to able to subsequently use replace */
         for (Colour[] aGrid : grid) {
-            for (Colour anAGrid : aGrid) {
-                /* We use substring instead of charAt to able to subsequently use replace */
+            for (Colour anAGrid : aGrid)
                 string += anAGrid.name().substring(0, 1).replace("E", "•") + " ";
-            }
             string += "\n";
         }
         return string;
     }
 
     /**
-     * Creates a new Scene which represents a Blokus board state
-     * @param col the number of columns
-     * @param row the number of rows
-     * @param size the size of the cells
-     * @param color the default colour
-     * @param parent the Game class
+     * Initialises a new Board to be displayed in a JavaFX app
+     * @param col the number of columns in the grid
+     * @param row the number of rows in the grid
+     * @param size the size to be used when displaying the cells
+     * @param color the background colour of the grid
+     * @param parent the parent Game class
      */
     public Board(int col, int row, int size, Colour color, Game parent) {
         super(col, row, size, color, parent);
+
+        /* Initialise the grid */
         grid = new Colour['T'-'A'+1]['T'-'A'+1];
         for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=Colour.Empty;
 
-        /**
-         * Fill up array of unused pieces
-         */
-        for(boolean[] unplacedPieceList : unplacedPieces) {
-            for(int i=0;i<unplacedPieceList.length;i++) {
+        /* Fill up array of unused pieces */
+        for(boolean[] unplacedPieceList : unplacedPieces)
+            for(int i=0;i<unplacedPieceList.length;i++)
                 unplacedPieceList[i]=true;
-            }
-        }
 
-
-        this.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                isUnhovered();
-            }
-        });
-
-        /* Loop through moves and play each one */
-
-
-        //String game = "RCCC RBTA SARR SBCR SHDD TBQD RAOO PBFP LBJH LHLH LGNN TAGN JDKI JBRA OHIM UAHK KDGJ KAPH JARK JAFG UADG UALA UASH QAGD QDCL PCIC MEQE MEBL DDKL MDRE TGJQ OHID EBFA QDON PAIR KBGT IBMM SHMO KDDR RCDK GCFO NAPR QCCQ IDAH FHKQ IHRP FATN LDAD NBIP OHJR DBEM FFFB PBMF BASN AAHN DBBP THMC FGTM BBSD AAME OBRB EBNJ . BBOF MHFC CBJI . . HANR DAHD . . CBMT AAGH . . BBBK . . . AACF . . . .";
-        //String[] moves = Board.splitMoves(game);
-        /*class Index {
-            int index = 0;
-            public Index() {
-            }
-            public void add(int i) {
-                index+=i;
-            }
-            public int value() {
-                return index;
-            }
-        }
-        Index index = new Index();
-
-        Board board = this;
-        */
+        /* When the mouse leaves the board, hide the Display piece */
+        this.setOnMouseExited(event -> isUnhovered());
 
     }
 
-    /** Here for compatibility, please ignore
-     * See above for description
-     * @param game a string containing a previous set of moves
+    /**
+     * Construct a new Board not for JavaFX displaying
+     * @param game a string encoding of a game containing a previous set of moves
      */
     public Board(String game) {
-        // Won't be displayed as a GridPane
+        /* Won't be displayed as a GridPane */
         displayable = false;
 
+        /* Fill up array of unused pieces */
+        for(boolean[] unplacedPieceList : unplacedPieces)
+            for(int i=0;i<unplacedPieceList.length;i++)
+                unplacedPieceList[i]=true;
+
+        /* Initialise the grid from the String */
         game = game.replace(" ", "");
         grid = new Colour['T'-'A'+1]['T'-'A'+1];
         for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=Colour.Empty;
-
-        /**
-         * Fill up array of unused pieces
-         */
-
-        for(boolean[] unplacedPieceList : unplacedPieces) {
-            for(int i=0;i<unplacedPieceList.length;i++) {
-                unplacedPieceList[i]=true;
-            }
-        }
-
-        /* Loop through moves and play each one */
         String[] moves = splitMoves(game);
         for(String move : moves) placePiece(move);
     }
 
     /**
-     * Split a string (game) into an array of strings, each representing one move
-     * @param game
-     * @return moves: an array of strings, each string representing one move
+     * Split a string encoding into an array of strings, each representing a single move
+     * @param game the string encoding of a game
+     * @return moves an array of strings, each one representing a single move
      */
     public static String[] splitMoves (String game) {
+
+        /* An array is used instead of an ArrayList for compatibility */
         game = game.replace(" ","");
+
+        /* Work out how long the array should be */
         int passCount = game.length() - game.replace(".","").length();
         int moveCount = (game.length() - passCount) / 4;
         int totalCount = passCount + moveCount;
@@ -261,9 +213,9 @@ public class Board extends GridSprite {
     }
 
     /**
-     * Same as below, but for piece
-     * @param piece the piece to check
-     * @return
+     * Checks that a potential Piece move is legitimate
+     * @param piece the move encoded as a piece to check
+     * @return the legitimacy of the move
      */
     public boolean legitimateMove(Piece piece) {
 
@@ -291,55 +243,51 @@ public class Board extends GridSprite {
     }
 
     /**
-     * Parse a string (move) to check if the move is legitimate.
-     * @param move
-     * @return the ligitness of the move
-     * (if legit is replacing legitimate, then legitness can replace legitimacy)
+     * Parse a string representing a single move to check the move's legitimacy
+     * Works by converting the string into a Piece and then calling legitimateMove(Piece piece)
+     * @param move the string representing a single move to check
+     * @return the legitimacy of the move
      */
     public boolean legitimateMove(String move) {
 
         if (move == ".") return true;
-
-        /* Split up the String move */
-        char pieceChar = move.charAt(0);
-        char rotation = move.charAt(1);
-        char x = move.charAt(2);
-        char y = move.charAt(3);
-
-        int playerId = currentTurn % 4;
-
-        Colour turnColour = Colour.values()[playerId];
-
-        Coordinate coordinate = new Coordinate(x - 'A', y - 'A');
+        Colour turnColour = Colour.values()[currentTurn];
         Piece piece = new Piece(move, turnColour);
-
         if (piece == null) return false;
 
-        /** Get array of coordinates */
-        piece.initialisePiece(coordinate, rotation);
         return legitimateMove(piece);
     }
 
     /**
-     * @param c the coordinate to check at
-     * @return the Colour at a particular cell, including corners for starting positions
+     * Given a Coordinate, returns the cell on the board at the location, including corners for starting positions
+     * @param c the coordinate to query
+     * @return the cell (as a Colour) at the location
      */
     public Colour cellAt(Coordinate c) {
 
-        // I don't know what this is doing - I should have commented it when I wrote it.
-        //Colour[] validCorners = {Colour.Empty, Colour.Yellow, Colour.Red, Colour.Green};
-
-        /** Check for starting corner */
+        /* Check for starting corners */
         if(c.getX()==-1 && c.getY()==-1) return Colour.Blue;
         if(c.getX()==-1 && c.getY()==20) return Colour.Green;
         if(c.getX()==20 && c.getY()==-1) return Colour.Yellow;
         if(c.getX()==20 && c.getY()==20) return Colour.Red;
+
+        /* Not a corner */
         return grid[c.getY()][c.getX()];
     }
 
     /**
-     * Grab coordinates of key cell of a piece when it is clicked.
-     * @param sprite
+     * When the board is clicked, determine the coordinate of the cell clicked and pass it to the current player
+     * @param cell the cell under the mouse for the click event
+     */
+    public void isClicked(CellSprite cell) {
+        int x = getColumnIndex(cell);
+        int y = getRowIndex(cell);
+        parent.currentPlayer.handleClick(x, y);
+    }
+
+    /**
+     * Deals with the Preview piece getting in the way of clicks
+     * @param sprite the PieceSprite on the board that was clicked
      */
     public void isClicked(PieceSprite sprite) {
         if(sprite == preview) {
@@ -349,46 +297,45 @@ public class Board extends GridSprite {
         }
     }
 
-    /** @TODO get shadow to update as piece is rotated */
+    /**
+     * Deals with the board being right-clicked
+     * @param sprite the PieceSprite on the board that was right-clicked
+     */
     public void isRightClicked(PieceSprite sprite) {
         parent.piecePreparer.isClicked(sprite);
+        Piece piece = parent.piecePreparer.getPiece();
+        if(piece==null) return;
+        piece = piece.copy();
+        piece.setXY(previewCoord);
+        isUnhovered();
+        previewPiece(piece);
     }
 
     /**
-     * Grad coordinates of the grid when a cell is clicked.
-     * @param cell
+     * Previews a Preview piece (or shadow piece) under the mouse when a cell is hovered over
+     * @param cell the CellSprite being hovered over by the mouse
      */
-
-    public void isClicked(CellSprite cell) {
-        int x = getColumnIndex(cell);
-        int y = getRowIndex(cell);
-        parent.currentPlayer.handleClick(x, y);
-    }
     public void isHovered(CellSprite cell) {
-        if(!active || !parent.currentPlayer.isHuman()) {
+        if(!active || parent.currentPlayer==null || !parent.currentPlayer.isHuman())
             return;
-        }
         int x = getColumnIndex(cell);
         int y = getRowIndex(cell);
         Coordinate tempCoord = new Coordinate(x,y);
-        if(previewCoord!=null && tempCoord.equals(previewCoord)) {
+        if(previewCoord!=null && tempCoord.equals(previewCoord))
             return;
-        }
+
+        /* Remove the previous shadow piece */
         isUnhovered();
         previewCoord = tempCoord;
         Piece piece = parent.piecePreparer.getPiece();
         if(piece==null) return;
         piece = piece.copy();
         piece.setXY(previewCoord);
-        /*for(Coordinate coord : piece.getOccupiedCells()) {
-            if(coord.getY()>=20 || coord.getY()<0 || coord.getX()>=20 || coord.getX()<0)
-                return;
-        }*/
         this.previewPiece(piece);
     }
 
     /**
-     * When a cell in the grid triggers a MouseExited event
+     * Remove the current preview piece under the mouse
      */
     public void isUnhovered() {
         if(preview != null) {
@@ -397,12 +344,10 @@ public class Board extends GridSprite {
         }
         previewCoord = null;
     }
-    private PieceSprite preview;
-    private Coordinate previewCoord;
 
     /**
-     * Shows a shadow of the piece under the cursor
-     * @param piece the shape/orientation to render
+     * Displays a transparent Piece on top of the board (above other pieces)
+     * @param piece the Piece to place
      */
     private void previewPiece(Piece piece) {
         preview = new PieceSprite(piece, xsize, this);
@@ -414,20 +359,17 @@ public class Board extends GridSprite {
     }
 
     /**
-     * Taken from BlokGame, returns the score
-     * @return the game's current score
+     * Returns the score of a game
+     * @return an array of ints representing the score of each player
      */
     public int[] currentScore() {
         int[] scores = new int[4];
-
         int[] pieceLenghts = new int[] {1,2,3,3,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5};
 
         for(int i=0;i<4;i++) {
-            for(int j = 0; j < getUnplacedPieces()[i].length; j++) {
-                if(getUnplacedPieces()[i][j]) {
+            for(int j = 0; j < getUnplacedPieces()[i].length; j++)
+                if(getUnplacedPieces()[i][j])
                     scores[i] -= pieceLenghts[j];
-                }
-            }
             if(scores[i]==0) {
                 if(getLastMove()[i]) scores[i]+=20;
                 else scores[i] += 15;

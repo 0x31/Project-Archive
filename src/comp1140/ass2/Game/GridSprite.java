@@ -6,87 +6,60 @@ import java.util.ArrayList;
 
 /**
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, 01/09/15
- * Edited later by Tim:
+ * @author Tim, updating:
  *  - click handling
  *  - use of cellSprite
+ *
+ *  GridSprite represents a grid of cells as a JavaFX GridPane
+ *  It is an abstract class, extended by Board, Panel and PiecePreparerSprite
  */
 abstract class GridSprite extends GridPane {
-    private int col;
-    private int row;
-    //int ysize;
-    int xsize;
-
     Game parent;
-    private Colour color;
+    public int xsize;
     private final ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
 
     GridSprite() {}
 
     /**
      * Creates a new GridPane to display cells
-     * @param col number of columns
-     * @param row number of rows
-     * @param xsize cell size
-     * @param color default cell colour
-     * @param parent the class which instantiates this class
+     * @param col the number of columns in the grid
+     * @param row the number of rows in the grid
+     * @param xsize the dimension for displaying cells
+     * @param color the default background colour
+     * @param parent the Game class which instantiates this class
      */
     GridSprite(int col, int row, int xsize, Colour color, Game parent) {
         this.parent = parent;
-        this.col = col;
-        this.row = row;
-        //this.xsize = Math.floorDiv(width-10, row)-1;
-        //this.ysize = Math.floorDiv(height-10, col)-1;
         this.xsize = xsize;
-        this.color = color;
 
-        //this.setHgap(1);
-        //this.setVgap(1);
-
-        //puts a neutral cellSprite at every location
+        /* Puts a neutral cellSprite at every location */
         for(int j=0;j<col;j++) {
             for (int i = 0; i < row; i++) {
-                CellSprite cell = new CellSprite(xsize, xsize, color,this); //double width, double height, Colour color, PieceSprite pieceSprite) {
+                CellSprite cell = new CellSprite(xsize, xsize, color,this);
                 this.add(cell, i, j);
             }
         }
-
-        for (PieceSprite pieceSprite : pieceSprites) {
+        for (PieceSprite pieceSprite : pieceSprites)
             addToGridPane(pieceSprite);
-        }
     }
 
     /**
-     * Takes a piece and adds each cell pane to gridpane
-     *
-     * @param pieceSprite
+     * Takes a PieceSprite and adds each CellSprite pane to the GridSprite
+     * @param pieceSprite the piece being added to the GridSprite
      */
     private void addToGridPane(PieceSprite pieceSprite) {
         for (int i = 0; i<pieceSprite.CELL_COUNT; i++) {
             int x = pieceSprite.coordinates[i].getX();
             int y = pieceSprite.coordinates[i].getY();
-            if(y>=20 || y<0 || x>=20 || x<0) {
+            if(y>=20 || y<0 || x>=20 || x<0)
                 return;
-            }
             this.add(pieceSprite.cells[i], pieceSprite.coordinates[i].getX(), pieceSprite.coordinates[i].getY());
         }
     }
 
     /**
-     * Takes a piece and removes each cell pane form gridpane
-     *
-     * @param pieceSprite
-     */
-    private void removeFromGridPane(PieceSprite pieceSprite) {
-        if(pieceSprite==null) return;
-        for (int i = 0; i<pieceSprite.CELL_COUNT; i++) {
-            this.getChildren().remove(pieceSprite.cells[i]);
-        }
-    }
-
-    /**
-     * Adds a piece to the collection of pieces as well as the grid pane itself
-     *
-     * @param pieceSprite
+     * Add a PieceSprite to the GridSprite
+     * @param pieceSprite the piece to be added
      */
     void addPieceSprite(PieceSprite pieceSprite) {
         pieceSprites.add(pieceSprite);
@@ -94,66 +67,49 @@ abstract class GridSprite extends GridPane {
     }
 
     /**
-     * Removes a piece from the collection of pieces as well as form the grid pane itself
-     *
-     * @param pieceSprite
+     * Removes a given PieceSprite form the GridSprite
+     * @param pieceSprite the piece to remove
      */
     void removePieceSprite(PieceSprite pieceSprite) {
         pieceSprites.remove(pieceSprite);
-        removeFromGridPane(pieceSprite);
+        if(pieceSprite==null) return;
+        for (int i = 0; i<pieceSprite.CELL_COUNT; i++)
+            this.getChildren().remove(pieceSprite.cells[i]);
     }
 
     /**
-     * Overrideable function which is utilised in responding appropriately to onClick events
-     *
-     * @param pieceSprite
+     * (override-able) respond appropriately to an onClick event
+     * @param pieceSprite the PieceSprite being clicked upon
      */
-    public void isClicked(PieceSprite pieceSprite) {
-        //System.out.println("GridSprite was clicked in - please override this function and tell me what to do!");
-    }
-
+    public void isClicked(PieceSprite pieceSprite) {}
 
     /**
-     * Overrideable function which is utilised in responding appropriately to onClick events
-     *
-     * @param cellSprite
+     * (override-able) respond appropriately to an onClick event
+     * @param cellSprite the CellSprite being clicked upon
      */
-    public void isClicked(CellSprite cellSprite) {
-        // Do nothing;
-    }
+    public void isClicked(CellSprite cellSprite) {}
 
     /**
-     * Overrideable function which is utilised in responding appropriately to onClick events
-     *
-     * @param pieceSprite
+     * (override-able) respond appropriately to a right-click event
+     * @param pieceSprite the PieceSprite being clicked upon
      */
-    public void isRightClicked(PieceSprite pieceSprite) {
-        System.out.println("-- -- -- in Default GridSprite RightClick for pieceSprite");
-        // Do nothing;
-    }
+    public void isRightClicked(PieceSprite pieceSprite) {}
 
     /**
-     * Overrideable function which is utilised in responding appropriately to onClick events
-     *
-     * @param cellSprite
+     * (override-able) respond appropriately to a right-click event
+     * @param cellSprite the CellSprite being clicked upon
      */
-    public void isRightClicked(CellSprite cellSprite) {
-        System.out.println("-- -- -- in Default GridSprite RightClick for cellSprite");
-        // Do nothing;
-    }
+    public void isRightClicked(CellSprite cellSprite) {}
 
     /**
-     * Overrideable function which is utilised in responding appropriately to hover events
-     *
-     * @param cell
+     * (override-able) respond appropriately to hover events
+     * @param cell the CellSprite being hovered over
      */
-    public void isHovered(CellSprite cell) {
-    }
+    public void isHovered(CellSprite cell) {}
 
     /**
-     * Overrideable function which is utilised in responding appropriately to unhover events
+     * (override-able) respond appropriately to un-hovering
      */
-    public void isUnhovered() {
-    }
+    public void isUnhovered() {}
 
 }

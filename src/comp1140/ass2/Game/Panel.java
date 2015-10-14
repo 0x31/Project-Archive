@@ -6,46 +6,41 @@ import java.util.ArrayList;
 
 /**
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, 25/09/15, from code written by Holly in old class
- * Edited by Holly on 30/09/15. (not finished editing)
- * Edited by Tim on 14/10/15
+ * @author Holly on 30/09/15
+ * @author by Tim on 14/10/15, updating:
  *   - repaired vertical panel layout to neatly show pieces
  *
+ * Panel displays the available pieces of a player
  */
 public final class Panel extends GridSprite {
 
-    private final ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
     public final ArrayList<Shape> shapes= new ArrayList<>();
     public final ArrayList<Shape> activeShapes = new ArrayList<>();
-    private final Colour color;
     public PieceSprite temporary = null;
+
+    private final ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
+    private final Colour color;
     private final Game parent;
-    private final int size;
     private boolean active = false;
 
-
     /**
-     * See GridSprite for parameter description
-     * @param col
-     * @param row
-     * @param size
-     * @param color
-     * @param parent
+     * Creates a new Panel to display the pieces of a player
+     * @param col the number of columns in the grid
+     * @param row the number of rows in the grid
+     * @param size the dimension for displaying cells
+     * @param color the default background colour
+     * @param parent the Game class which instantiates this class
      * @param vertical boolean representing whether the Panel is vertical (blue,yellow) or horizontal (red,green)
      */
     public Panel(int col, int row, int size, Colour color, Game parent, boolean vertical) {
         super(col, row, size, color, parent);
-        this.size = size;
         this.parent = parent;
         this.color = color;
-        for(Node node : this.getChildren()) {
+        for(Node node : this.getChildren())
             node.setOpacity(0.2);
-        }
         this.setActive(false);
 
-
-        // Note: Rotating the panel with setRotation didn't work out well, hence this
         if(vertical) {
-
             addPiece(Shape.A, 'H', 0, 0);
             addPiece(Shape.B, 'H', 2,0);
             addPiece(Shape.J, 'H', 5,0);
@@ -57,7 +52,6 @@ public final class Panel extends GridSprite {
             addPiece(Shape.M, 'B', 2,7);
             addPiece(Shape.H, 'H', 8,6);
             addPiece(Shape.T, 'H', 1,9);
-
             addPiece(Shape.P, 'G', 5,10);
             addPiece(Shape.R, 'G', 7,11);
             addPiece(Shape.O, 'G', 0,14);
@@ -68,8 +62,6 @@ public final class Panel extends GridSprite {
             addPiece(Shape.L, 'G', 1,19);
             addPiece(Shape.D, 'E', 5,18);
             addPiece(Shape.N, 'G', 8,19);
-
-
         }
         else {
             addPiece(Shape.A, 'A', 0,0);
@@ -83,7 +75,6 @@ public final class Panel extends GridSprite {
             addPiece(Shape.M, 'G', 7,2);
             addPiece(Shape.H, 'A', 6,8);
             addPiece(Shape.T, 'A', 9,1);
-
             addPiece(Shape.P, 'B', 10,5);
             addPiece(Shape.R, 'B', 11,7);
             addPiece(Shape.O, 'B', 14, 0);
@@ -94,43 +85,15 @@ public final class Panel extends GridSprite {
             addPiece(Shape.L, 'B', 19,1);
             addPiece(Shape.D, 'D', 18,5);
             addPiece(Shape.N, 'B', 19,8);
-
-
-
-
-            /*
-
-            addPiece(Shape.B, 'A', 1, 3);
-            addPiece(Shape.C, 'A', 1, 6);
-            addPiece(Shape.E, 'A', 3, 1);
-            addPiece(Shape.J, 'A', 5, 1);
-            addPiece(Shape.G, 'A', 3, 6);
-            addPiece(Shape.D, 'A', 7, 1);
-            addPiece(Shape.F, 'A', 7, 6);
-            addPiece(Shape.H, 'A', 10, 1);
-            addPiece(Shape.I, 'A', 10, 4);
-            addPiece(Shape.J, 'A', 14, 1);
-            addPiece(Shape.K, 'A', 14, 1);
-            addPiece(Shape.L, 'A', 14, 1);
-            addPiece(Shape.M, 'A', 14, 1);
-            addPiece(Shape.N, 'A', 14, 1);
-            addPiece(Shape.O, 'A', 14, 1);
-            addPiece(Shape.P, 'A', 14, 1);
-            addPiece(Shape.Q, 'A', 14, 1);
-            addPiece(Shape.R, 'A', 14, 1);
-            addPiece(Shape.S, 'A', 14, 1);
-            addPiece(Shape.T, 'A', 14, 1);
-            addPiece(Shape.U, 'A', 14, 1);
-            */
         }
     }
 
     /**
-     * Adds piece to panel
-     * @param shape
-     * @param orientation
-     * @param x
-     * @param y
+     * Adds a Shape to the Panel
+     * @param shape the shape to add to the Panel
+     * @param orientation the orientation to set the shape to
+     * @param x the x-value to move the shape to
+     * @param y the y-value to move the shape to
      */
     private void addPiece(Shape shape, char orientation, int x, int y) {
         Piece myPiece = new Piece(shape, color);
@@ -143,58 +106,46 @@ public final class Panel extends GridSprite {
     }
 
     /**
-     * Removes piece from panel
-     * @param shape
+     * Removes a Shape from the Panel
+     * @param shape the shape to remove from the Panel
      */
     public void removePiece(Shape shape) {
-        //int index = pieces.indexOf(piece);
         int index = shapes.indexOf(shape);
         if(index==-1) return;
-        //System.out.println(pieceSprites.size()+ ", "+pieces.size());
         PieceSprite sprite = pieceSprites.get(index);
         pieceSprites.remove(index);
         shapes.remove(index);
         activeShapes.remove(shape);
-        //pieces.remove(index);
         this.removePieceSprite(sprite);
     }
 
     /**
-     * Pass selected piece in panel to PiecePreparer
-     * @param sprite
+     * Handle click events by passing the selected piece to the PiecePreparer
+     * @param sprite the sprite triggering the click event
      */
     public void isClicked(PieceSprite sprite) {
-        if(!active || !activeShapes.contains(sprite.piece.shape)) {
-            return;
-        }
+        if(!active || !activeShapes.contains(sprite.piece.shape)) return;
         if(temporary != null) {
             pieceSprites.add(temporary);
             shapes.add(temporary.piece.shape);
             activeShapes.add(temporary.piece.shape);
-            //pieces.add(temporary.piece);
             this.addPieceSprite(temporary);
         }
         temporary = sprite;
         this.removePieceSprite(sprite);
         parent.piecePreparer.addShape(sprite.piece.shape, color);
         pieceSprites.remove(sprite);
-        //pieces.remove(sprite.piece);
         shapes.remove(sprite.piece.shape);
         activeShapes.remove(sprite.piece.shape);
     }
 
     /**
-     * Highlight the panel of the player active, dim others
-     * @param active
+     * If the Panel is un-active, set the opacity to 40%
+     * @param active a boolean representing whether the Panel is active
      */
     public void setActive(boolean active) {
         this.active = active;
-        if(active) {
-            this.setOpacity(1);
-        }
-        else {
-            this.setOpacity(0.4);
-        }
+        this.setOpacity(active?1:0.4);
     }
 
     /**
@@ -218,10 +169,11 @@ public final class Panel extends GridSprite {
     }
 
     /**
-     * Print string when player has to pass, and stop playing. (Will work on displaying this on screen later)
+     * If the user is a Human, display a Pass button before skipping them
      */
     public  void lock(boolean isHuman) {
-        System.out.print("\r"+this.color.toString() + " player can't play anymore");
+        if(!isHuman) return;
+
         /*Rectangle cover = new Rectangle(size * row, size*col, Color.valueOf("rgba(0, 0, 0, 0.45)"));
         cover.setLayoutX(10);
         cover.setLayoutY(10);
@@ -229,9 +181,4 @@ public final class Panel extends GridSprite {
         */
     }
 
-    /**
-     * No long used, can be removed, unless it comes in handy for lock();
-     */
-    public void pass() {
-    }
 }
