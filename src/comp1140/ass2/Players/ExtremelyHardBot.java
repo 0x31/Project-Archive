@@ -2,7 +2,6 @@ package comp1140.ass2.Players;
 
 import comp1140.ass2.Game.*;
 import comp1140.ass2.Scenes.Game;
-
 import java.util.ArrayList;
 
 /**
@@ -11,7 +10,7 @@ import java.util.ArrayList;
  */
 public class ExtremelyHardBot implements Player {
 
-    Game parent;
+    private final Game parent;
 
     /**
      * Creates a new ExtremelyHardBot
@@ -115,7 +114,7 @@ public class ExtremelyHardBot implements Player {
         return moves;
     }
 
-    public int scoreBoard(Board board, int playerID) {
+    private int scoreBoard(Board board, int playerID) {
         Board testBoard = new Board(board.toString());
         return 30*placedCellCount(testBoard, playerID) + weightedBoardCoverage(testBoard, playerID);
     }
@@ -189,7 +188,7 @@ public class ExtremelyHardBot implements Player {
      * @param board
      * @return
      */
-    public int weightedBoardCoverage(Board board, int playerID) {
+    private int weightedBoardCoverage(Board board, int playerID) {
         Board testBoard = new Board(board.toString());
 
         int cornerCells = 0;

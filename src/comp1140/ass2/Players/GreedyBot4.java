@@ -3,7 +3,6 @@ package comp1140.ass2.Players;
 import comp1140.ass2.Game.Board;
 import comp1140.ass2.Game.Colour;
 import comp1140.ass2.Game.Coordinate;
-import comp1140.ass2.Game.Panel;
 import comp1140.ass2.Scenes.Game;
 
 import java.util.ArrayList;
@@ -75,7 +74,7 @@ public class GreedyBot4 implements Player {
         return moves;
     }
 
-    public int scoreMove(Board board, String testMove, int playerID) {
+    private int scoreMove(Board board, String testMove, int playerID) {
         board.placePiece(testMove);
         return 30*placedCellCount(board, playerID) + weightedBoardCoverage(board, playerID);
     }
@@ -144,7 +143,7 @@ public class GreedyBot4 implements Player {
      * @param board
      * @return
      */
-    public int weightedBoardCoverage(Board board, int playerID) {
+    private int weightedBoardCoverage(Board board, int playerID) {
         int cornerCells = 0;
         int weightedCornerCells = 0;
 

@@ -1,7 +1,5 @@
 package comp1140.ass2.Players;
 
-import comp1140.ass2.Game.Board;
-import comp1140.ass2.Game.Piece;
 import comp1140.ass2.Scenes.Game;
 
 /**
@@ -9,9 +7,9 @@ import comp1140.ass2.Scenes.Game;
  */
 public interface Player {
 
-    public void handleClick(int x, int y);
-    public String think(String string);
-    public boolean isHuman();
-    public void pass(Game parent);
+    void handleClick(int x, int y);
+    String think(String string);
+    boolean isHuman();
+    void pass(Game parent);
 
 }

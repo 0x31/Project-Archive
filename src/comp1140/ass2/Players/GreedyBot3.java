@@ -12,7 +12,7 @@ import comp1140.ass2.Scenes.Game;
  */
 public class GreedyBot3 implements Player {
 
-    Game parent;
+    private final Game parent;
 
     /**
      * Creates a new ExtremelyHardBot
@@ -61,7 +61,7 @@ public class GreedyBot3 implements Player {
         return bestMove;
     }
 
-    public int scoreMove(Board board, String testMove, int playerID) {
+    private int scoreMove(Board board, String testMove, int playerID) {
         board.placePiece(testMove);
         return 30*placedCellCount(board, playerID) + weightedBoardCoverage(board, playerID);
     }
@@ -130,7 +130,7 @@ public class GreedyBot3 implements Player {
      * @param board
      * @return
      */
-    public int weightedBoardCoverage(Board board, int playerID) {
+    private int weightedBoardCoverage(Board board, int playerID) {
         int cornerCells = 0;
         int weightedCornerCells = 0;
 

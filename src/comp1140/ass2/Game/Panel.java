@@ -2,25 +2,23 @@ package comp1140.ass2.Game;
 
 import comp1140.ass2.Scenes.Game;
 import javafx.scene.Node;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
 
 /**
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, 25/09/15, from code written by Holly in old class
  * Edited by Holly on 30/09/15. (not finished editing)
+ *
  */
 public final class Panel extends GridSprite {
 
-    ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
-    public ArrayList<Shape> shapes= new ArrayList<>();
-    public ArrayList<Shape> activeShapes = new ArrayList<>();
-    Colour color;
+    private final ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
+    public final ArrayList<Shape> shapes= new ArrayList<>();
+    public final ArrayList<Shape> activeShapes = new ArrayList<>();
+    private final Colour color;
     public PieceSprite temporary = null;
-    Game parent;
-    int size;
-    boolean active = false;
+    private final Game parent;
+    private final int size;
+    private boolean active = false;
 
 
     /**
@@ -132,9 +130,9 @@ public final class Panel extends GridSprite {
      * @param x
      * @param y
      */
-    public void addPiece(Shape shape, char orientation, int x, int y) {
+    private void addPiece(Shape shape, char orientation, int x, int y) {
         Piece myPiece = new Piece(shape, color);
-        myPiece.initialisePiece(new Coordinate(x, y),orientation);
+        myPiece.initialisePiece(new Coordinate(x, y), orientation);
         PieceSprite myPieceSprite = new PieceSprite(myPiece, xsize, this);
         pieceSprites.add(myPieceSprite);
         shapes.add(shape);
@@ -233,6 +231,5 @@ public final class Panel extends GridSprite {
      * No long used, can be removed, unless it comes in handy for lock();
      */
     public void pass() {
-        return;
     }
 }

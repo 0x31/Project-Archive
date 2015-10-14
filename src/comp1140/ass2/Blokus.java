@@ -31,21 +31,15 @@ public class Blokus extends Application {
     // time limit for bots in seconds. Set to 0 for no time limit.
     public final int BOT_TIME = 10;
 
-
-
-
     public static void main(String[] args) {
         launch(args);
     }
 
-    Stage primaryStage;
+    private Stage primaryStage;
 
-    Scene menu;
-    Game game;
-    Scene instructions;
-    Scene options;
-    Scene gameOptions;
-
+    private Scene menu;
+    private Scene instructions;
+    private Scene options;
 
     /**
      * Sets the scene to the Menu
@@ -57,11 +51,11 @@ public class Blokus extends Application {
 
     /**
      * Creates a new Game and sets the scene to it
-     * @param players
+     * @param players the ordinal of the players (eg human, easy bot, etc.) chosen for the game
      */
     public void toGame(int[] players) {
-        game = new Game(new Group(), 700,700, this);
-        this.primaryStage.setScene(this.game);
+        Game game = new Game(new Group(), 700,700, this);
+        this.primaryStage.setScene(game);
         setTitle("Blokus: Play!");
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(1000),
@@ -82,8 +76,8 @@ public class Blokus extends Application {
     }
 
     public void toGameOptions() {
-        gameOptions = new GameOptions(new Group(), 700,700, this);
-        this.primaryStage.setScene(this.gameOptions);
+        Scene gameOptions = new GameOptions(new Group(), 700,700, this);
+        this.primaryStage.setScene(gameOptions);
     }
 
     public void setTitle(String title) {

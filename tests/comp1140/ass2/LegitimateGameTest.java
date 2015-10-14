@@ -6,11 +6,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by steveb on 12/08/2015.
+ * @author steveb on 12/08/2015.
  */
 public class LegitimateGameTest {
 
-    private static String[] game = {
+    private static final String[] game = {
             "RCCC", // legitimate start
             "RCAA", // illegal start, off board
             "RBTA", // illegal start; must play into blue corner  first

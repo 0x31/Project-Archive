@@ -5,7 +5,6 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import java.lang.Override;
 
 /**
@@ -17,8 +16,7 @@ import java.lang.Override;
  */
 public class CellSprite extends Pane {
 
-    Color fill;
-    Object parent = null;
+    private Object parent = null;
 
     /**
      *

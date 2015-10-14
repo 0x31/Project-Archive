@@ -8,8 +8,8 @@ import comp1140.ass2.Scenes.Game;
  */
 public class Human implements Player {
 
-    Game parent;
-    Board board;
+    private final Game parent;
+    private Board board;
 
     /**
      * Gives birth to a new human
@@ -27,7 +27,7 @@ public class Human implements Player {
     @Override
     public void handleClick(int x, int y) {
         if(parent.piecePreparer.getPiece()!=null) {
-            Piece piece = parent.piecePreparer.getPiece().clone();
+            Piece piece = parent.piecePreparer.getPiece().copy();
             piece.setXY(new Coordinate(x, y));
             if(board.legitimateMove(piece)) {
                 parent.makeMove(piece.toString());

@@ -37,27 +37,27 @@ public class Game extends Scene {
     public int currentColourId;
     public int currentPlayerId;
     //public Player[] players;
-    public ArrayList<Player> players = new ArrayList<>();
-    public PiecePreparerSprite piecePreparer;
-    public Board board;
+    private final ArrayList<Player> players = new ArrayList<>();
+    public final PiecePreparerSprite piecePreparer;
+    public final Board board;
 
-    public Panel[] panels;
-    public Pane[] panelHeads;
-    public Pane[] panelBorders;
-    public Pane[] panelAll;
-    public Label[] labelScore;
-    public Label[] labelPlayer;
-    public Label[] labelName;
+    public final Panel[] panels;
+    private final Pane[] panelHeads;
+    private final Pane[] panelBorders;
+    private final Pane[] panelAll;
+    private final Label[] labelScore;
+    private final Label[] labelPlayer;
+    private final Label[] labelName;
 
-    public int turn = 0;
+    private int turn = 0;
 
-    public boolean[] skip = {false, false, false, false};
-    public Colour[] playerColours = {Colour.Blue, Colour.Yellow, Colour.Red, Colour.Green};
-    private Group root;
-    private Group realRoot;
-    private Blokus parent;
+    private final boolean[] skip = {false, false, false, false};
+    public final Colour[] playerColours = {Colour.Blue, Colour.Yellow, Colour.Red, Colour.Green};
+    private final Group root;
+    private final Group realRoot;
+    private final Blokus parent;
 
-    public boolean NO_RIGHT_CLICK = false;
+    public final boolean NO_RIGHT_CLICK = false;
 
     /**
      * Creates a new Game, which is a Scene containing all the required graphics to play Blokus
@@ -434,7 +434,6 @@ public class Game extends Scene {
     public void makeMove(String string) {
         if(string.equals("")) {
             // DO nothing
-            return;
         }
         else if(string==".") {
             board.placePiece(".");
@@ -459,7 +458,7 @@ public class Game extends Scene {
      * Checks for unplayable Shapes
      * @param currentPlayerId which player to check for
      */
-    public void hideBadPieces(int currentPlayerId) {
+    private void hideBadPieces(int currentPlayerId) {
         Panel panel = panels[currentPlayerId];
         Colour colour = playerColours[currentPlayerId];
         for(Shape shape : panel.shapes) {
@@ -484,7 +483,7 @@ public class Game extends Scene {
         }
     }
 
-    public void updatePanels(int currentColourId) {
+    private void updatePanels(int currentColourId) {
         String[] borders = new String[] {"rgba(24,88,196,0.6)","rgba(237,197,0,0.6)","rgba(175,2,16,0.6)","rgba(39,136,37,0.6)"};
         for(int i=0; i<panels.length; i++) {
             panelBorders[i].setStyle("-fx-background-color: rgba(0, 0, 0, 0.30), #ffffff; -fx-background-insets: 0,10;");
@@ -524,7 +523,7 @@ public class Game extends Scene {
     public Player currentPlayer;
 
 
-    public Player nextPlayer() {
+    private Player nextPlayer() {
         if(players.size() != 3) {
             currentPlayerId = currentColourId % players.size();
             return players.get(currentColourId % players.size());
@@ -543,7 +542,7 @@ public class Game extends Scene {
      * Run between two goes - to set and unset panels and the piecepreparer,
      * to check for game ends, etc...
      */
-    public void transitionMove() {
+    private void transitionMove() {
         piecePreparer.setActive(false);
         panels[currentColourId].setActive(false);
         panels[currentColourId].temporary = null;
@@ -597,7 +596,7 @@ public class Game extends Scene {
     /**
      * Shows the game outcome. Is called only when the game ends.
      */
-    public void endGame() {
+    private void endGame() {
         if(parent.DEBUG) System.out.println("\rGame finished!");
 
         closingTests();
@@ -625,7 +624,7 @@ public class Game extends Scene {
 
 
 
-    public void closingTests() {
+    private void closingTests() {
 
         boolean allPassed = true;
 
@@ -646,7 +645,7 @@ public class Game extends Scene {
                     System.out.print("\u001B[34m" + "Running '" + method.getName() + "()'" + "\u001B[0m");
                     Boolean value = (Boolean) method.invoke(testClass);
                     boolean returnValue = value.booleanValue();
-                    if(!(boolean) returnValue) {
+                    if(!returnValue) {
                         System.out.println("\r\u001B[31m" + "Running '"+method.getName()+"()' ✖"); allPassed = false;
                     }
                     else System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");

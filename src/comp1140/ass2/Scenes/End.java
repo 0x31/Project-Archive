@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * @author ***REMOVED*** on 12/10/2015.
  */
-public class End extends Pane {
+class End extends Pane {
     public End(int[] score, Colour[] playerColours, int number, Blokus parent) {
 
         Pane pane = new Pane();

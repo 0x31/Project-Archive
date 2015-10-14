@@ -5,11 +5,11 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by steveb on 12/08/2015.
+ * @author steveb on 12/08/2015.
  */
 public class MakeMoveTest {
 
-    private static String[] game = {
+    private static final String[] game = {
             "RCCC",
             "RCCC RBTA SARR SBCR",
             "RCCC RBTA SARR SBCR SHDD TBQD RAOO PBFP LBJH LHLH LGNN TAGN JDKI JBRA",

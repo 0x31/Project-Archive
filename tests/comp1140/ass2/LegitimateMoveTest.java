@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
 /**
- * Created by ***REMOVED*** on 21/08/15.
+ * @author ***REMOVED*** on 21/08/15.
  */
 public class LegitimateMoveTest {
 

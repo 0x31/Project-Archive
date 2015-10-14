@@ -5,10 +5,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by steveb on 12/08/2015.
+ * @author steveb on 12/08/2015.
  */
 public class ScoreGameTest {
-    private static String[] game = {
+    private static final String[] game = {
             "RCCC RBTA SARR SBCR SHDD TBQD RAOO PBFP LBJH LHLH LGNN TAGN JDKI JBRA OHIM UAHK KDGJ KAPH JARK JAFG UADG UALA UASH QAGD QDCL PCIC MEQE MEBL DDKL MDRE TGJQ OHID EBFA QDON PAIR KBGT IBMM SHMO KDDR RCDK GCFO NAPR QCCQ IDAH FHKQ IHRP FATN LDAD NBIP OHJR DBEM FFFB PBMF BASN AAHN DBBP THMC FGTM BBSD AAME OBRB EBNJ . BBOF MHFC CBJI . . HANR DAHD . . CBMT AAGH . . BBBK . . . AACF",
     };
 

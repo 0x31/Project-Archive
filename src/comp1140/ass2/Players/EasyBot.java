@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class EasyBot implements Player {
 
-    Game parent;
+    final Game parent;
 
     /**
      *
@@ -68,7 +68,7 @@ public class EasyBot implements Player {
         parent.makeMove(".");
     }
 
-    static Shape[] shuffle(ArrayList<Shape> pieces)
+    private static Shape[] shuffle(ArrayList<Shape> pieces)
     {
         Shape[] ar = new Shape[pieces.size()];
         pieces.toArray(ar);

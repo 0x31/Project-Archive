@@ -4,10 +4,10 @@ import comp1140.ass2.Game.Board;
 import comp1140.ass2.Scenes.Game;
 
 /**
- * Created by nosha on 1/10/15.
+ * @author ***REMOVED*** on 1/10/15.
  */
 public class GameTests {
-    Game game;
+    private final Game game;
 
 
     public GameTests(Game game) {
@@ -20,7 +20,7 @@ public class GameTests {
         boolean assertBool = true;
         assertBool &= (board != null);
         // Should be true no matter what
-        assertBool &= board.legitimateMove("BBAA")==false;
+        assertBool &= !board.legitimateMove("BBAA");
         return assertBool;
     }
     //@Test

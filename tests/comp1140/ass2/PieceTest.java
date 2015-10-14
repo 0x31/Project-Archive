@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by ***REMOVED*** on 22/08/15.
+ * @author ***REMOVED*** on 22/08/15.
  */
 public class PieceTest {
     public static void main(String[] args) {
