@@ -7,6 +7,8 @@ import java.util.ArrayList;
 /**
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, 25/09/15, from code written by Holly in old class
  * Edited by Holly on 30/09/15. (not finished editing)
+ * Edited by Tim on 14/10/15
+ *   - repaired vertical panel layout to neatly show pieces
  *
  */
 public final class Panel extends GridSprite {
@@ -51,7 +53,7 @@ public final class Panel extends GridSprite {
             addPiece(Shape.E, 'H', 4,2);
             addPiece(Shape.Q, 'D', 7,4);
             addPiece(Shape.K, 'D', 0,4);
-            addPiece(Shape.F, 'G', 5,4);
+            addPiece(Shape.F, 'E', 5,4);
             addPiece(Shape.M, 'B', 2,7);
             addPiece(Shape.H, 'H', 8,6);
             addPiece(Shape.T, 'H', 1,9);
@@ -59,10 +61,10 @@ public final class Panel extends GridSprite {
             addPiece(Shape.P, 'G', 5,10);
             addPiece(Shape.R, 'G', 7,11);
             addPiece(Shape.O, 'G', 0,14);
-            addPiece(Shape.U, 'F', 4,13);
+            addPiece(Shape.U, 'F', 6,13);
             addPiece(Shape.G, 'E', 9,13);
-            addPiece(Shape.S, 'F', 2,15);
-            addPiece(Shape.I, 'B', 6,17);
+            addPiece(Shape.S, 'F', 4,17);
+            addPiece(Shape.I, 'B', 7,15);
             addPiece(Shape.L, 'G', 1,19);
             addPiece(Shape.D, 'E', 5,18);
             addPiece(Shape.N, 'G', 8,19);
