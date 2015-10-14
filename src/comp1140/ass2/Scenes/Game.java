@@ -76,8 +76,10 @@ public class Game extends Scene {
         this.realRoot = realRoot;
         getStylesheets().add("comp1140/ass2/Assets/main.css");
 
-        final Font fontSmall = Font.loadFont(Blokus.class.getResourceAsStream("Assets/PressStart2P.ttf"),8);
-        final Font fontLarge = Font.loadFont(Blokus.class.getResourceAsStream("Assets/PressStart2P.ttf"),16);
+        //final Font fontSmall = Font.loadFont(Blokus.class.getResourceAsStream("Assets/PressStart2P.ttf"),8);
+        //final Font fontLarge = Font.loadFont(Blokus.class.getResourceAsStream("Assets/PressStart2P.ttf"),16);
+        final Font fontSmall = Font.font("Verdana",8);
+        final Font fontLarge = Font.font("Verdana", 16);
 
         /* Set background image */
         final ImageView imv1 = new ImageView();
@@ -92,7 +94,7 @@ public class Game extends Scene {
 
         // MENUBAR
         Pane menubar = new Pane();
-        menubar.setMinSize(700,100);
+        menubar.setMinSize(700, 100);
         menubar.setLayoutY(00); menubar.setLayoutX(0);
 
         Button button0 = new Button("Pass");
