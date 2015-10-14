@@ -8,14 +8,15 @@ import java.util.Random;
 
 /**
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** on 25/09/15, with segments taken from Holly's code
+ * Commented by Holly, 14/10/15
  */
 public class EasyBot implements Player {
 
     final Game parent;
 
     /**
-     *
-     * @param parent
+     * Creates new EasyBot
+     * @param parent the Game class
      */
     public EasyBot(Game parent) {
         this.parent = parent;
@@ -28,10 +29,15 @@ public class EasyBot implements Player {
      */
     @Override
     public void handleClick(int x, int y) {
-        // Alert user it's not their turn?
+        //#TODO: Alert user it's not their turn?
         // Or do nothing
     }
 
+    /**
+     * Easybot produces a next move
+     * @param string representing the current game of played pieces
+     * @return a string which represents the next move
+     */
     @Override
     public String think(String string) {
         Board board = new Board(string);
@@ -58,16 +64,29 @@ public class EasyBot implements Player {
         //parent.makeMove(".");
     }
 
+    /**
+     * Easybot is not human
+     * @return false
+     */
     @Override
     public boolean isHuman() {
         return false;
     }
 
+    /**
+     * Passes when no moves can be made
+     * @param parent the Game class
+     */
     @Override
     public void pass(Game parent) {
         parent.makeMove(".");
     }
 
+    /**
+     * Randomly shuffles array of Pieces
+     * @param pieces game pieces
+     * @return a shuffled array of Pieces, where the same Pieces are in a different order
+     */
     private static Shape[] shuffle(ArrayList<Shape> pieces)
     {
         Shape[] ar = new Shape[pieces.size()];

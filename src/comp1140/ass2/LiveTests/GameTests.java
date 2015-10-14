@@ -5,15 +5,30 @@ import comp1140.ass2.Scenes.Game;
 
 /**
  * @author ***REMOVED*** on 1/10/15.
+ *
+ * The LiveTests package is used as an alternative to JUnit tests to run after the game has ended
+ *
+ * Why did we not use JUnit tests?
+ *      * JUnit doesn't easily allow tests to be run after JavaFX has run. We wanted tests that would run after every
+ *        match to confirm that nothing went wrong.
+ *      * JUnit tests can't easily be an existing state (eg a finished game) to test
  */
 public class GameTests {
+
     private final Game game;
 
 
+    /**
+     * Instantiate a new set of GameTests
+     * @param game
+     */
     public GameTests(Game game) {
         this.game = game;
     }
 
+    /**
+     * @return true if the board appears to be acting normally
+     */
     //@Test
     public boolean testBoard() {
         Board board = game.board;
@@ -23,6 +38,10 @@ public class GameTests {
         assertBool &= !board.legitimateMove("BBAA");
         return assertBool;
     }
+
+    /**
+     * @return true if the game did indeed finish and didn't miss any moves
+     */
     //@Test
     public boolean testFinishedGame() {
         boolean assertBool = true;
@@ -39,16 +58,27 @@ public class GameTests {
             }
         return assertBool;
     }
+
+    /**
+     * @return true if the PiecePreparer appears to be acting normally
+     */
     //@Test
     public boolean testPiecePreparer() {
         Boolean assert1 = (game.piecePreparer != null);
         return assert1;
     }
+
+    /**
+     * @return false
+     */
     //@Test
     public boolean testIntentionalFail() {
         return false;
     }
-    //@Test
+
+    /**
+     * @return true
+     */
     public boolean testIntentionalPass() {
         return true;
     }

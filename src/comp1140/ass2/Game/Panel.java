@@ -133,7 +133,7 @@ public final class Panel extends GridSprite {
         }
         temporary = sprite;
         this.removePieceSprite(sprite);
-        parent.piecePreparer.addShape(sprite.piece.shape, color);
+        parent.piecePreparer.addShape(sprite.piece.shape, color,sprite.piece.toString().charAt(1));
         pieceSprites.remove(sprite);
         shapes.remove(sprite.piece.shape);
         activeShapes.remove(sprite.piece.shape);

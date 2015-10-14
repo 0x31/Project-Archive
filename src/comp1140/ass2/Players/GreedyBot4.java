@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 /**
  * @author Tim ***REMOVED***, ***REMOVED*** 13/10/15
+ * Commented by Holly, 14/10/15
+ * #TODO: Commenting unfinished.
  */
 public class GreedyBot4 implements Player {
 
@@ -18,10 +20,20 @@ public class GreedyBot4 implements Player {
     public GreedyBot4() {
     }
 
+    /**
+     * Nothing happens if a user clicks on the board, as it is not their turn
+     * @param x the clicked cell's x value in grid
+     * @param y the clicked cell's y value in grid
+     */
     @Override
     public void handleClick(int x, int y) {
     }
 
+    /**
+     * GreedyBot4 thinks of the best next move
+     * @param string representing the current game of played pieces
+     * @return a string representing the next best move
+     */
     @Override
     public String think(String string) {
         Board board = new Board(string);
@@ -33,9 +45,9 @@ public class GreedyBot4 implements Player {
         int bestScore = 0;
         int currentScore;
 
-
         /**
-         * builds all possible moves as a string and tests the scores of all the legal moves
+         * builds all possible moves as a string and tests the scores of all the legal moves to take
+         * the move with highest score
          */
         for (String move : playableMoves(board)) {
             Board testBoard = new Board(string);
@@ -50,8 +62,8 @@ public class GreedyBot4 implements Player {
 
     /**
      * returns a list of all possible playable moves
-     * @param board
-     * @return
+     * @param board the Board class
+     * @return an array of strings representing moves
      */
     private ArrayList<String> playableMoves(Board board) {
         ArrayList<String> moves = new ArrayList<>();
@@ -80,10 +92,10 @@ public class GreedyBot4 implements Player {
     }
 
     /**
-     * Returns how many cells are currently placed on board by this player, using Board
-     * @param board
-     * @param playerID
-     * @return
+     * Returns how many cells are currently placed on board by this player
+     * @param board the Board class
+     * @param playerID integer representing the current player
+     * @return integer cellCount
      */
     private int placedCellCount(Board board, int playerID) {
         int cellCount = 0;
@@ -98,21 +110,21 @@ public class GreedyBot4 implements Player {
     }
 
     /**
-     * Returns how many cells are currently unplaced on board by this player, using Board
-     * @param board
-     * @param playerID
-     * @return
+     * Returns how many cells are currently unplaced on board by this player
+     * @param board the Board class
+     * @param playerID integer representing the current player
+     * @return integer count of unplaced cells
      */
     private int unplacedCellCount(Board board, int playerID) {
         return 89 - placedCellCount(board, playerID);
     }
 
     /**
-     * Factors in available corners for future moves, as well as how evenly distributed pieces are throughout the board
+     *  Factors in available corners for future moves, as well as how evenly distributed pieces are throughout the board
      *  this would be achieved by weighting the centre tiles heavier than the outer tiles, as well as tiles further from
      *  starting position
-     * @param board
-     * @return
+     * @param board the Board class
+     * @return integer
      */
     public int boardCoverage(Board board, int playerID) {
         int cornerCells = 0;
@@ -140,8 +152,8 @@ public class GreedyBot4 implements Player {
      * Factors in available corners for future moves, as well as how evenly distributed pieces are throughout the board
      *  this would be achieved by weighting the centre tiles heavier than the outer tiles, as well as tiles further from
      *  starting position
-     * @param board
-     * @return
+     * @param board the Board class
+     * @return integer
      */
     private int weightedBoardCoverage(Board board, int playerID) {
         int cornerCells = 0;
@@ -187,11 +199,19 @@ public class GreedyBot4 implements Player {
         return weightedCornerCells/10;
     }
 
+    /**
+     * GreedyBot4 is not human
+     * @return false
+     */
     @Override
     public boolean isHuman() {
         return false;
     }
 
+    /**
+     * Passes when no moves can be made
+     * @param parent the Game class
+     */
     @Override
     public void pass(Game parent) {
         parent.makeMove(".");

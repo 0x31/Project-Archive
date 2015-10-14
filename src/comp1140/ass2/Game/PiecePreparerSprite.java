@@ -1,13 +1,11 @@
 package comp1140.ass2.Game;
 
 import comp1140.ass2.Scenes.Game;
-import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 
 /**
- * Created by Tim on 23/09/2015.
- * Some edits by ***REMOVED*** to work with Board/Panel
+ * @author Tim on 23/09/2015.
+ * @author ***REMOVED***, minor edits to work with Board/Panel
  */
 public class PiecePreparerSprite extends GridSprite {
 
@@ -89,22 +87,38 @@ public class PiecePreparerSprite extends GridSprite {
     }
 
     /**
+     * Flip the piece being shown
+     */
+    public void flipPiece() {
+        Piece piece = thePieceSprite.piece;
+        piece.movePiece(0, true);
+        removePiece();
+        addPiece(piece);
+    }
+
+    /**
+     * Rotate the piece being shown
+     */
+    public void rotatePiece() {
+        Piece piece = thePieceSprite.piece;
+        piece.movePiece(1, false);
+        removePiece();
+        addPiece(piece);
+    }
+
+
+
+    /**
      * Watch for clicks on the entire preparer for rotating and flipping the piece
      */
     private void eventWatcher() {
         this.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 if(!active) return;
-                Piece piece = thePieceSprite.piece;
-                piece.movePiece(0, true);
-                removePiece();
-                addPiece(piece);
+                flipPiece();
             } else {
                 if(!active) return;
-                Piece piece = thePieceSprite.piece;
-                piece.movePiece(1, false);
-                removePiece();
-                addPiece(piece);
+                rotatePiece();
             }
         });
     }

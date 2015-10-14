@@ -302,10 +302,10 @@ public class Board extends GridSprite {
      * @param sprite the PieceSprite on the board that was right-clicked
      */
     public void isRightClicked(PieceSprite sprite) {
-        parent.piecePreparer.isClicked(sprite);
+        parent.piecePreparer.rotatePiece();
         Piece piece = parent.piecePreparer.getPiece();
         if(piece==null) return;
-        piece = piece.copy();
+        piece = new Piece(piece);
         piece.setXY(previewCoord);
         isUnhovered();
         previewPiece(piece);
@@ -329,7 +329,7 @@ public class Board extends GridSprite {
         previewCoord = tempCoord;
         Piece piece = parent.piecePreparer.getPiece();
         if(piece==null) return;
-        piece = piece.copy();
+        piece = new Piece(piece);
         piece.setXY(previewCoord);
         this.previewPiece(piece);
     }

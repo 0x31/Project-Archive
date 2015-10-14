@@ -14,6 +14,14 @@ import javafx.scene.paint.Color;
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, on 25/09/15
  */
 public class GameOptions extends Scene {
+    /**
+     * Creates a new GameOptions Scene, which contains four buttons allowing the player to choose number of players and
+     * opponents by toggling between None, Human, EasyBot, GreedyBot4.
+     * @param root required by Scene
+     * @param width required by Scene
+     * @param height required by Scene
+     * @param parent the main Blokus class
+     */
     public GameOptions(Group root, double width, double height, Blokus parent) {
         super(root, width, height, Color.LIGHTBLUE);
         getStylesheets().add("comp1140/ass2/Assets/main.css");
