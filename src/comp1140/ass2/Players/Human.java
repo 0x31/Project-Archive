@@ -28,7 +28,7 @@ public class Human implements Player {
     @Override
     public void handleClick(int x, int y) {
         if(parent.piecePreparer.getPiece()!=null) {
-            Piece piece = parent.piecePreparer.getPiece().copy();
+            Piece piece = new Piece(parent.piecePreparer.getPiece());
             piece.setXY(new Coordinate(x, y));
             if(board.legitimateMove(piece)) {
                 parent.makeMove(piece.toString());

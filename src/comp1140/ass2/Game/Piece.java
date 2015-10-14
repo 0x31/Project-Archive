@@ -11,10 +11,10 @@ public class Piece {
     public final Shape shape;
     public final Colour colour;
     public int rotation=0;
+    public boolean flip = false;
 
     private Coordinate[] occupiedCells;
     private final int cellNumber;
-    private boolean flip = false;
 
     /**
      * Initialises a Piece object from a shape id and a colour
@@ -29,7 +29,6 @@ public class Piece {
 
     /**
      * Initialises a Piece object from an string encoded move and a colour
-     *
      * @param move a string encoding of a move which is 4 characters long
      * @param c    the colour of the player making the move
      */
@@ -46,14 +45,15 @@ public class Piece {
         colour = c;
     }
 
+    /**
+     * @return the array of cells (as Coordinates) the Piece is made up of
+     */
     public Coordinate[] getOccupiedCells() {
-        return occupiedCells;
+        return occupiedCells.clone();
     }
 
     /**
      * Flips a piece in the y direction, maintaining the coordinate of the piece's base cell
-     *
-     * @return void  while changing occupiedCells
      */
     private void flipPiece() {
         Coordinate origin = new Coordinate (occupiedCells[0].getX(), occupiedCells[0].getY());
@@ -66,8 +66,6 @@ public class Piece {
 
     /**
      * Rotates a piece about the piece's origin cell
-     *
-     * @return void  while also changing occupiedCells
      */
     private void rotatePiece() {
         Coordinate origin = new Coordinate (occupiedCells[0].getX(), occupiedCells[0].getY());
@@ -79,15 +77,12 @@ public class Piece {
     }
 
     /**
-     *
      * Given a four character String and the identifying number of the current player,
      * sets the grid coordinates to that player's colour where the piece is played.
-     *
      * @param orientation   a character denoting the desired orientation. 'A','B','C','D' are rotation by 0, 90, 180
      *                      and 270 degrees respectively.
      *                      'E','F','G','H' are reflections in the y axis followed by rotations of 0, 90, 180 and 270
      *                      degrees respectively
-     * @return void  while also changing occupiedCells
      */
     private void orientatePiece(char orientation) {
         if(orientation>'D') flipPiece();
@@ -97,9 +92,7 @@ public class Piece {
     /**
      * Translates a piece a certain number of cells in the x direction and a certain number
      * of cells in the y direction
-     *
      * @param shift     a coordinate object representing the desired shift amount in the x and y direction
-     * @return void     while also changing occupiedCells
      */
     private void shiftPiece(Coordinate shift) {
         for (int i = 0; i < cellNumber; i++) occupiedCells[i] = occupiedCells[i].shiftCoordinate(shift);
@@ -108,51 +101,45 @@ public class Piece {
     /**
      * Used to set the initial position of the piece. Can be used multiple times and can be a handy
      * 'reset' function.
-     *
      * @param origin        a coordinate which sets where the base cell will go
      * @param orientation   a char from 'A' - 'H' which sets the initial orientation of the piece
-     * @return void         while also changing occupiedCells
      */
     public void initialisePiece(Coordinate origin, char orientation) {
         occupiedCells = shape.getCoordinates();
+        flip = false;
+        rotation = 0;
         orientatePiece(orientation);
         shiftPiece(origin);
     }
 
     /**
      * Creates a copy of piece
-     *
      * @return a new piece object with identical field values
      */
-    public Piece copy() {
-        Piece piece = new Piece(this.shape,this.colour);
-        piece.movePiece(rotation, flip);
-        return piece;
+    public Piece(Piece original) {
+        this(original.toString(), original.colour);
     }
+
 
     /**
      * This function encapsulates all transformations: translation, rotation, reflection.
      * If only a translation is required, set rotateClockwise to 0 and flip to false.
      * If no translation is required, simply omit the shift parameter.
-     *
      * @param rotateClockwise   an int determining the number of times the piece is to be rotated clockwise
      * @param flip              a boolean determining if the piece is to be relfected in the y direction about
      *                          the piece's homecell
-     * @return void         while also changing occupiedCells
      */
     public void movePiece(int rotateClockwise, boolean flip) {
-        if (flip) flipPiece();
-        for (int i = 0; i < rotateClockwise; i++) rotatePiece();
+        int newRotation = (((flip&&rotation%2==1)?2:0) + rotateClockwise + rotation)%4;
+        boolean newFlip = flip ^ this.flip;
+        initialisePiece(getOccupiedCells()[0],(char) (newRotation +((newFlip)?4:0)+'A'));
     }
 
     /**
      * Moves a piece to a new coordinate location with a new orientation
-     *
      * @param newCoord         new location of home cell
      * @param rotateClockwise  new rotation
      * @param flip             whether to flip the piece or not
-     *
-     * @return void     while also changing occupiedCels
      */
     public void movePiece(Coordinate newCoord, int rotateClockwise, boolean flip) {
         setXY(newCoord);
@@ -163,16 +150,17 @@ public class Piece {
     /**
      * Sets a new location for the piece by first shifting it to the origin, then shifting
      * it to the new desired location
-     *
      * @param newCoord  new location of home cell
-     *
-     * @return void     while also changing occupiedCels
      */
     public void setXY(Coordinate newCoord) {
         shiftPiece(this.occupiedCells[0].times(-1));
         shiftPiece(newCoord);
     }
 
+    /**
+     * Piece's toString function, according to Board's encoding scheme
+     * @return string encoding of the piece, comprised of colour, shape and the home coordinate
+     */
     @Override
     public String toString() {
         String shapeS = shape.toString();
@@ -180,12 +168,5 @@ public class Piece {
         String coordS = occupiedCells[0].toString();
         return shapeS + orienS + coordS;
     }
-
-    /**
-     * Piece's toString function, currently used for debugging.
-     * @return String a string representation of the piece, made up of the colour,
-     *         shape and coordinates of each cell.
-     */
-
 
 }

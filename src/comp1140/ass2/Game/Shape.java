@@ -1,13 +1,13 @@
 package comp1140.ass2.Game;
 
 /**
- * @author ***REMOVED*** on 22/08/15.
+ * @author Tim, ***REMOVED*** on 22/08/15.
+ * @author ***REMOVED***, edited for simpler intantiation
+ *
+ * An enumeration of every shape,
+ * Taking in as parameters the coordinates taken up by the shape with orientation A, origin (0,0)
  */
 public enum Shape {
-    /**
-     * An enumeration of every shape,
-     * Taking in as parameters the coordinates taken up by the shape with orientation A, origin (0,0)
-     */
     A(new Coordinate[] {new Coordinate( 0, 0)}),
     B(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1)}),
     C(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 0, 2)}),
@@ -48,21 +48,18 @@ public enum Shape {
     }
 
     /**
-     * the Shape is initialised using the coordinates of the shape's home position.
-     * The homeCoordinates are (statically) steps.
-     *
-     * @param coords always equal to (0,0), and is the position of the top most, leftmost cell in base position
-     *               refers to the 'base cell' of a shape
+     * the Shape is initialised using (0,0) as the coordinates of the shape's home coordinate
+     * @param coords the array of home coordinates
      */
     Shape(Coordinate[] coords) {
         cellNumber = coords.length;
         coordinates = new Coordinate[cellNumber];
         coordinates = coords.clone();
-        //for (int i = 0; i < cellNumber; i++) {
-        //    coordinates[i] = coords[i];
-        //}
     }
 
+    /**
+     * @return a string encoding of the Shape, matching the Board's encoding scheme
+     */
     @Override
     public String toString() {
         return Character.toString((char)(this.ordinal()+'A'));

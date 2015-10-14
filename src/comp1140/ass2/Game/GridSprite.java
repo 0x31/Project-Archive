@@ -52,7 +52,7 @@ abstract class GridSprite extends GridPane {
             int x = pieceSprite.coordinates[i].getX();
             int y = pieceSprite.coordinates[i].getY();
             if(y>=20 || y<0 || x>=20 || x<0)
-                return;
+                continue;
             this.add(pieceSprite.cells[i], pieceSprite.coordinates[i].getX(), pieceSprite.coordinates[i].getY());
         }
     }

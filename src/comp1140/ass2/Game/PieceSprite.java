@@ -1,18 +1,13 @@
 package comp1140.ass2.Game;
 
 
-import javafx.scene.paint.Color;
-
 /**
- * @author ***REMOVED*** on 31/08/15.
+ * @author Tim, ***REMOVED*** on 31/08/15.
  */
 public class PieceSprite {
     final int CELL_COUNT;
-    private final int CELL_DIM;
-    
     final Piece piece;
-    private final Color color;
-    
+
     private final GridSprite gridSprite;
     final CellSprite[] cells;
     final Coordinate[] coordinates;
@@ -28,8 +23,6 @@ public class PieceSprite {
         Colour colour = piece.colour;
         this.piece = piece;
         this.gridSprite = gridSprite;
-        this.color = getFillFromPlayer(colour);
-        this.CELL_DIM = CELL_DIM;
         this.cells = new CellSprite[CELL_COUNT];
         this.coordinates = piece.getOccupiedCells();
         for (int i = 0; i<CELL_COUNT; i++) {
@@ -38,23 +31,18 @@ public class PieceSprite {
     }
 
     /**
-     * @return cells, the array of CellSprites
-     */
-    public CellSprite[] getCellSprites() {
-        return cells;
-    }
-
-    /**
      * Handles cells being clicked
      * @param cellSprite which cell was clicked
      */
     public void isClicked(CellSprite cellSprite) {
-        //System.out.println("-- -- Piece was clicked");
         gridSprite.isClicked(this);
     }
 
+    /**
+     * Handles cells being right-clicked
+     * @param cellSprite which cell was clicked
+     */
     public void isRightClicked(CellSprite cellSprite) {
-        System.out.println("-- -- Piece was rightClicked");
         gridSprite.isRightClicked(this);
     }
 
@@ -64,19 +52,6 @@ public class PieceSprite {
      */
     public void isHovered(CellSprite cellSprite) {
         gridSprite.isHovered(cellSprite);
-    }
-
-    /**
-     * Convert a Colour to a JavaFX Color
-     * @param color the Colour to convert
-     * @return the converted JavaFX Color
-     */
-    private Color getFillFromPlayer(Colour color) {
-        if      (color == Colour.Blue)      return Color.BLUE;
-        else if (color == Colour.Red)       return Color.RED;
-        else if (color == Colour.Green)     return Color.GREEN;
-        else if (color == Colour.Yellow)    return Color.YELLOW;
-        return Color.GREY;
     }
 
     /**

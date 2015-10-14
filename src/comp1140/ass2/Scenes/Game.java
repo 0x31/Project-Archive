@@ -75,7 +75,9 @@ public class Game extends Scene {
         this.root = root;
         this.realRoot = realRoot;
         getStylesheets().add("comp1140/ass2/Assets/main.css");
-        getStylesheets().add("https://fonts.googleapis.com/css?family=Press+Start+2P");
+
+        final Font fontSmall = Font.loadFont(Blokus.class.getResourceAsStream("Assets/PressStart2P.ttf"),8);
+        final Font fontLarge = Font.loadFont(Blokus.class.getResourceAsStream("Assets/PressStart2P.ttf"),16);
 
         /* Set background image */
         final ImageView imv1 = new ImageView();
@@ -91,7 +93,7 @@ public class Game extends Scene {
         // MENUBAR
         Pane menubar = new Pane();
         menubar.setMinSize(700,100);
-        menubar.setLayoutY(-100); menubar.setLayoutX(0);
+        menubar.setLayoutY(00); menubar.setLayoutX(0);
 
         Button button0 = new Button("Pass");
         button0.setOnAction(new EventHandler<ActionEvent>() {
@@ -116,6 +118,7 @@ public class Game extends Scene {
         button1.setLayoutY(4);
         button1.getStyleClass().add("button1");
         menubar.getChildren().add(button1);
+        root.getChildren().add(menubar);
 
 
         int panelCell = 11;
@@ -129,19 +132,19 @@ public class Game extends Scene {
         blueHead.setMaxSize(panelCell * 10 + 20, 30);
         blueHead.setStyle("-fx-background-color: rgba(0, 0, 0, 0.30);");
         Label blueLabel = new Label(" 00");
-        blueLabel.setFont(Font.font("Press Start 2P", FontWeight.NORMAL, 16));
+        blueLabel.setFont(fontLarge);
         blueLabel.setTextFill(Color.valueOf("rgba(255,255,255,0.8)"));
         blueLabel.setLayoutX(75);
         blueLabel.setLayoutY(12);
         blueHead.getChildren().add(blueLabel);
         Label blueName = new Label("Player 1");
-        blueName.setFont(Font.font("Press Start 2P", FontWeight.NORMAL, 8));
+        blueName.setFont(fontSmall);
         blueName.setTextFill(Color.valueOf("rgba(255,255,255,0.4)"));
         blueName.setLayoutX(10);
         blueName.setLayoutY(12);
         blueHead.getChildren().add(blueName);
         Label bluePlayer = new Label("Human");
-        bluePlayer.setFont(Font.font("Press Start 2P", FontWeight.NORMAL, 8));
+        bluePlayer.setFont(fontSmall);
         bluePlayer.setTextFill(Color.valueOf("rgba(255,255,255,0.4)"));
         bluePlayer.setLayoutX(10);
         bluePlayer.setLayoutY(20);
@@ -539,7 +542,7 @@ public class Game extends Scene {
     }
 
     /**
-     * Run between two goes - to set and unset panels and the piecepreparer,
+     * Run between two goes - to set and unset panels and the piece-preparer,
      * to check for game ends, etc...
      */
     private void transitionMove() {
@@ -558,7 +561,6 @@ public class Game extends Scene {
 
         currentPlayer = nextPlayer();
         turn++;
-
 
         updatePanels(currentColourId);
 
@@ -597,33 +599,30 @@ public class Game extends Scene {
      * Shows the game outcome. Is called only when the game ends.
      */
     private void endGame() {
-        if(parent.DEBUG) System.out.println("\rGame finished!");
-
-        closingTests();
+        if(parent.DEBUG) {
+            System.out.println("\rGame finished!");
+            closingTests();
+        }
 
         root.setEffect(new GaussianBlur(3));
 
         int[] score = board.currentScore();
         int playerN = players.size();
-        if(playerN==3) {
-            score = new int[] {score[0],score[1],score[2]};
-        }
-        if(playerN==2) {
-            score = new int[] {score[0]+score[2],score[1]+score[3]};
-        }
-        if(playerN==1) {
-            score = new int[] {score[0]+score[1]+score[2]+score[3]};
+        switch (playerN) {
+            case 3: score = new int[] {score[0],score[1],score[2]}; break;
+            case 2: score = new int[] {score[0]+score[2],score[1]+score[3]}; break;
+            case 1: score = new int[] {score[0]+score[1]+score[2]+score[3]}; break;
         }
 
         End endPane = new End(score, playerColours, playerN, parent);
         realRoot.getChildren().add(endPane);
     }
 
-
-
-
-
-
+    /**
+     * Runs tests after a game has finished, checking for things li ke:
+     *      1. The game did indeed finish (there were no possible moves)
+     *      2. All the componenets behaved properly
+     */
     private void closingTests() {
 
         boolean allPassed = true;
@@ -634,7 +633,7 @@ public class Game extends Scene {
                         "testBoard",
                         "testFinishedGame",
                         "testPiecePreparer",
-                        "testIntentionalFail",
+                        //"testIntentionalFail",
                         "testIntentionalPass"
         }));
 
@@ -648,10 +647,10 @@ public class Game extends Scene {
                     if(!returnValue) {
                         System.out.println("\r\u001B[31m" + "Running '"+method.getName()+"()' ✖"); allPassed = false;
                     }
-                    else System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");
-                } catch (InvocationTargetException e) {}
-                  catch (IllegalAccessException e) {}
-                  catch (SecurityException e) {}
+                    else if(parent.DEBUG) System.out.println("\u001B[34m" + " ✔"  + "\u001B[0m");
+                } catch (InvocationTargetException e) {return;}
+                  catch (IllegalAccessException e) {return;}
+                  catch (SecurityException e) {return;}
             }
         }
 
