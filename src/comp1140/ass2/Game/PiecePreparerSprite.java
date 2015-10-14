@@ -37,6 +37,7 @@ public class PiecePreparerSprite extends GridSprite {
         Piece piece = new Piece(shape, c);
         addPiece(piece);
     }
+    
 
     /**
      * Add a shape to the preparer though addPiece
