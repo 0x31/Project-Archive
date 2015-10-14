@@ -1,264 +1,130 @@
-<html>
-
-<head>
-    <style>
-        #shadow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 1);
-        }
-        body {
-            padding: 20px;
-        }
-    </style>
-</head>
-<body>
+<style>
+    #shadow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        box-shadow: inset 0 0 20px 0 rgba(0, 0, 0, 1);
+    }
+    body {
+        padding: 20px;
+    }
+    h1 {
+        color: #ff0900;
+    }
+    h3 {
+        color: #0066FF;
+    }
+    ul {
+        list-style-type: square;
+    }
+</style>
 <div id="shadow"></div>
-    <h1>Instructions</h1>
-<span style="font-size: 11pt"><font color="#0000FF">HOW TO BLOKUS GAME<br>
-</font>
-        <br>
-		<font color="#800080">Blokus Game Components</font></span></b></font></p><ul>
-        <li><p style="margin-left: 20; margin-right: 20">
-            <font face="Arial">
-          <span style="font-size: 11pt">Blokus Game Board
-          (400 squares)</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20">
-            <font face="Arial">
-          <span style="font-size: 11pt">84 game pieces (four
-          21-piece sets of red, green, blue, and yellow)</span></font></li>
-    </ul>
-    <p style="margin-left: 20; margin-right: 20">
-        <font face="Arial">
-        <span style="font-size: 11pt">Note:&nbsp; Each of the
-        sets contains 21 pieces, each a different shape.&nbsp; The 21 red,
-        green, blue, and yellow pieces in each set include:</span></font><ul>
-        <li><p style="margin-left: 20; margin-right: 20">
-            <font face="Arial">
-                <span style="font-size: 11pt">1 one-square piece</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20">
-            <font face="Arial">
-          <span style="font-size: 11pt">1 piece with 2
-          squares</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20">
-            <font face="Arial">
-          <span style="font-size: 11pt">2 pieces with 3
-          squares</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20">
-            <font face="Arial">
-          <span style="font-size: 11pt">5 pieces with 4
-          squares</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20">
-            <font face="Arial">
-          <span style="font-size: 11pt">12 pieces with 5
-          squares</span></font></li>
-    </ul>
-    <p style="margin-left: 20; margin-right: 20">
-        <font face="Arial" color="#800080"><b>
-            <span style="font-size: 11pt">Goal of the Game</span></b></font><p style="margin-left: 20; margin-right: 20">
-        <font face="Arial">
-        <span style="font-size: 11pt">Each player has to fit as many of his/her 21 pieces on the board as
-        possible.</span></font><p style="margin-left: 20; margin-right: 20" align="center">
-        <font face="Arial" color="#0000FF"><b>
-            <span style="font-size: 11pt">HOW TO PLAY</span></b></font><p style="margin-left: 20; margin-right: 20" align="left">
-        <font face="Arial">
-            <b><span style="font-size: 11pt">1.&nbsp; </span> </b>
-        <span style="font-size: 11pt">Each player chooses a color and places that set of 21
-        pieces in front of his/her side of the board.&nbsp; The order of play is
-        as follows: blue, yellow, red, and then green.</span></font><p style="margin-left: 20; margin-right: 20" align="left">
-        <font face="Arial">
-            <b><span style="font-size: 11pt">2.&nbsp; </span> </b>
-        <span style="font-size: 11pt">The first player (blue) places any of his/her pieces in
-        a corner square.&nbsp; Play proceeds clockwise around the board (yellow,
-        red, and green), each player putting their first piece down in one of
-        the corner squares.</span></font><p style="margin-left: 20; margin-right: 20" align="left">
-        <font face="Arial">
-            <b><span style="font-size: 11pt">3.&nbsp; </span> </b>
-        <span style="font-size: 11pt">Play continues as each player lays down one piece during
-        a turn.</span></font><ul>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">Each new
-          piece must touch at least one other piece of the same color, but only
-          at the corners.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">No flat
-          edges of same color pieces can touch.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">There
-          are no restrictions on how pieces of different colors can touch one
-          another.</span></font></li>
-    </ul>
-    <p style="margin-left: 20; margin-right: 20" align="left">
-        <font face="Arial"><b>
-            <span style="font-size: 11pt">4.&nbsp; </span>
-        </b><span style="font-size: 11pt">Whenever a player is unable to place one of his/her remaining pieces
-        on the board, that player must pass his/her turn.</span></font><p style="margin-left: 20; margin-right: 20" align="left">
-        <font face="Arial"><font color="#800080">
-            <b><span style="font-size: 11pt">End of Game<br>
-        </span>
-            </b></font><span style="font-size: 11pt">The game ends when all players are blocked from laying down any more
-        of their pieces.&nbsp; This also includes any players who may have
-        placed all of their pieces on the board.&nbsp; Scores are tallied, and
-        the player with the highest score is the winner.</span></font><p style="margin-left: 20; margin-right: 20" align="left">
-        <font face="Arial" color="#800080">
-            <b><span style="font-size: 11pt">Scoring</span></b></font><ul>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">Each
-          player counts the number of unit squares in his/her remaining pieces
-          (1 unit square = -1 point).</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">A player
-          earns +15 points if all his/her pieces have been placed on the board
-          plus 5 additional bonus points if the last piece placed on the board
-          was the smallest piece (one square).</span></font></li>
-    </ul>
-    <p style="margin-left: 20; margin-right: 20" align="left">
-        <font face="Arial"><font color="#800080"><b>
-        <span style="font-size: 11pt">Duration of
-        Game<br>
-        </span>
-        </b></font><span style="font-size: 11pt">Games typically last 20 - 30 min.</span></font><p style="margin-left: 20; margin-right: 20" align="center">
-        <font face="Arial" color="#0000FF">
-            <b><span style="font-size: 11pt">GAME VARIATIONS</span></b></font><p style="margin-left: 20; margin-right: 20" align="left">
-        <font face="Arial">
-            <b><span style="font-size: 11pt"><font color="#800080">Teams</font> </span> </b>
-            <span style="font-size: 11pt">(two teams of two players - four players total)</span></font><ul>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">The
-          playing order stays the same:&nbsp; blue, yellow, red, and then green.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">One team
-          controls the blue and red pieces, and the other team controls the
-          yellow and green pieces.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">At the
-          end of the game, each team calculates its score by adding the scores
-          of its members.&nbsp; The winners are the players of the team with the
-          highest score.</span></font></li>
-    </ul>
-    <p style="margin-left: 20; margin-right: 20" align="left">
-        <font face="Arial" color="#800080"><b>
-        <span style="font-size: 11pt">One-Player
-        Brain Teaser</span></b></font><ul>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial"><b>
-                <span style="font-size: 11pt">Eighty-four - </span> </b>
-          <span style="font-size: 11pt">Play as four separate players in a standard
-          four-player game with the aim of getting all 84 pieces on the board.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial"><b>
-                <span style="font-size: 11pt">4-Square Game</span></b><span style="font-size: 11pt"> - There are 20 four-square pieces in the set.&nbsp;
-          The challenge is to fit these 20 four-square pieces into an 8 × 10
-          rectangular area.&nbsp; Each piece must touch the corner of a piece of
-          the same color, but no touching can occur along the flat edge of a
-          same-color piece.</span></font></li>
-    </ul>
-    <p style="margin-left: 20; margin-right: 20" align="left">
-        <font face="Arial" color="#800080"><b>
-            <span style="font-size: 11pt">Two Players</span></b></font><ul>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">The
-          playing order stays the same: blue, yellow, red, and then green.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">One
-          player controls the blue and red pieces, and the other player controls
-          the yellow and green pieces.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">At the
-          end of the game each player calculates his/her score by adding the
-          scores for their colors.&nbsp; The winner is the player with the
-          highest score.</span></font></li>
-    </ul>
-    <p style="margin-left: 20; margin-right: 20" align="left">
-        <font face="Arial" color="#800080"><b>
-        <span style="font-size: 11pt">Three
-        Players</span></b></font><ul>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">Each
-          player chooses one color; the players alternate playing the extra
-          color.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">The
-          player order stays the same: blue, yellow, red, and then green.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">Final
-          scores are calculated in the same way as standard 4-player games.&nbsp;
-          The score of the shared color is ignored.</span></font></li>
-    </ul>
-    <p style="margin-left: 20; margin-right: 20" align="center">
-        <font face="Arial" color="#800080"><b>
-        <span style="font-size: 11pt">STRATEGY
-        TIPS</span></b></font><ul>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">At the
-          beginning of the game, move towards the center of the board in order
-          to take up a maximum amount of space.&nbsp; If you remain confined to
-          the corner you start in, you will not be able to put down many pieces.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">Try to
-          place the largest pieces on the board at the beginning of the game.&nbsp;
-          If you save them for the end of the game, there may not be space for
-          them.&nbsp; Keep an eye on the corners of your pieces - make sure you
-          have options for your next move.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">Take
-          advantage of the characteristics of your pieces.&nbsp; Their shapes
-          give them different offensive or defensive potential, so learn to use
-          them accordingly.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">Throughout the game, keep one or more means of escape on each side of
-          the area containing your color (or colors).</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">Block
-          your opponent by covering his or her most advanced corners to prevent
-          him or her from moving forward.&nbsp; Note:&nbsp; Be patient - it is
-          sometimes better to hang back slightly from the opponent's pieces and
-          let your opponent expose him or herself so that you can then block him
-          or her more effectively.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">Take
-          note of the squares where no other player can play and keep these
-          spaces (and their corresponding pieces) in reserve while you play in a
-          more exposed area.&nbsp; You can always come back to the protected
-          spaces later.</span></font></li>
-        <li><p style="margin-left: 20; margin-right: 20" align="left">
-            <font face="Arial">
-          <span style="font-size: 11pt">When
-          playing, keep in mind not only your remaining pieces, but also your
-          opponent's remaining pieces.&nbsp; Your opponent may not be able to
-          exploit an empty area if he or she doesn't have the correct pieces.</span></font></li>
-    </ul>
-    <p style="margin-left: 20; margin-right: 20" align="left">
-        <font face="Arial">
-        <span style="font-size: 11pt">Remember:&nbsp;
-        Players who put all their pieces on the board can gain up to 20 points.&nbsp;
-        Prevent your opponent from putting all of his or her pieces on the board
-        even if this prevents you from placing some of your own pieces on the
-        board. </span>
-        </font>
 
-</body>
-</html>
+
+
+<h1>HOW TO BLOKUS GAME</h1>
+
+<h2>COMPONENTS</h2>
+
+<ul>
+    <li>Blokus Game Board (400 squares)</li>
+    <li>84 game pieces (four 21-piece sets of red, green, blue, and yellow)</li>
+Note:  Each of the sets contains 21 pieces, each a different shape.  The 21 red, green, blue, and yellow pieces in each set include:
+    <li>1 one-square piece</li>
+    <li>1 piece with 2 squares</li>
+    <li>2 pieces with 3 squares</li>
+    <li>5 pieces with 4 squares</li>
+    <li>12 pieces with 5 squares</li>
+</ul>
+
+<h2>HOW TO PLAY</h2>
+
+<h3>Goal of the Game</h3>
+
+Each player has to fit as many of his/her 21 pieces on the board as possible.
+
+<h3>Gameplay</h3>
+
+<ol>
+
+    <li>Each player chooses a color and places that set of 21 pieces in front of his/her side of the board.  The order of play is as follows: blue, yellow, red, and then green.</li>
+    <li>The first player (blue) places any of his/her pieces in a corner square.  Play proceeds clockwise around the board (yellow, red, and green), each player putting their first piece down in one of the corner squares.</li>
+    <li>Play continues as each player lays down one piece during a turn.</li>
+        Each new piece must touch at least one other piece of the same color, but only at the corners.
+        No flat edges of same color pieces can touch.
+        There are no restrictions on how pieces of different colors can touch one another.
+    <li>Whenever a player is unable to place one of his/her remaining pieces on the board, that player must pass his/her turn.</li>
+</ol>
+
+<h3>End of Game</h3>
+The game ends when all players are blocked from laying down any more of their pieces.  This also includes any players who may have placed all of their pieces on the board.  Scores are tallied, and the player with the highest score is the winner.
+
+<h3>Scoring</h3>
+
+Each player counts the number of unit squares in his/her remaining pieces (1 unit square = -1 point).
+
+A player earns +15 points if all his/her pieces have been placed on the board plus 5 additional bonus points if the last piece placed on the board was the smallest piece (one square).
+
+<h3>Duration of Game</h3>
+Games typically last 20 - 30 min.
+
+<h2>GAME VARIATIONS</h2>
+
+<h3>Teams (two teams of two players - four players total)</h3>
+
+<ul>
+    <li>The playing order stays the same:  blue, yellow, red, and then green.</li>
+
+    <li>One team controls the blue and red pieces, and the other team controls the yellow and green pieces.</li>
+
+    <li>At the end of the game, each team calculates its score by adding the scores of its members.  The winners are the players of the team with the highest score.</li>
+    </ul>
+
+<h3>One-Player Brain Teaser</h3>
+<ul>
+    <li>Eighty-four - Play as four separate players in a standard four-player game with the aim of getting all 84 pieces on the board.</li>
+
+    <li>4-Square Game - There are 20 four-square pieces in the set.  The challenge is to fit these 20 four-square pieces into an 8 × 10 rectangular area.  Each piece must touch the corner of a piece of the same color, but no touching can occur along the flat edge of a same-color piece.</li>
+</ul>
+
+<h3>Two Players</h3>
+
+<ul>
+    <li>The playing order stays the same: blue, yellow, red, and then green.</li>
+
+    <li>One player controls the blue and red pieces, and the other player controls the yellow and green pieces.</li>
+
+    <li>At the end of the game each player calculates his/her score by adding the scores for their colors.  The winner is the player with the highest score.</li>
+</ul>
+
+<h3>Three Players</h3>
+<ul>
+    <li>Each player chooses one color; the players alternate playing the extra color.</li>
+
+    <li>The player order stays the same: blue, yellow, red, and then green.</li>
+
+    <li>Final scores are calculated in the same way as standard 4-player games.  The score of the shared color is ignored.</li>
+</ul>
+
+<h2>STRATEGY TIPS</h2>
+
+<ul>
+    <li>At the beginning of the game, move towards the center of the board in order to take up a maximum amount of space.  If you remain confined to the corner you start in, you will not be able to put down many pieces.</li>
+
+    <li>Try to place the largest pieces on the board at the beginning of the game.  If you save them for the end of the game, there may not be space for them.  Keep an eye on the corners of your pieces - make sure you have options for your next move.</li>
+
+    <li>Take advantage of the characteristics of your pieces.  Their shapes give them different offensive or defensive potential, so learn to use them accordingly.</li>
+
+    <li>Throughout the game, keep one or more means of escape on each side of the area containing your color (or colors).</li>
+
+    <li>Block your opponent by covering his or her most advanced corners to prevent him or her from moving forward.  Note:  Be patient - it is sometimes better to hang back slightly from the opponent's pieces and let your opponent expose him or herself so that you can then block him or her more effectively.</li>
+
+    <li>Take note of the squares where no other player can play and keep these spaces (and their corresponding pieces) in reserve while you play in a more exposed area.  You can always come back to the protected spaces later.</li>
+
+    <li>When playing, keep in mind not only your remaining pieces, but also your opponent's remaining pieces.  Your opponent may not be able to exploit an empty area if he or she doesn't have the correct pieces.</li>
+
+    <li>Remember:  Players who put all their pieces on the board can gain up to 20 points.  Prevent your opponent from putting all of his or her pieces on the board even if this prevents you from placing some of your own pieces on the board.</li>
+
+</ul>

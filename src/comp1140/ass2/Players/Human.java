@@ -8,8 +8,8 @@ import comp1140.ass2.Scenes.Game;
  */
 public class Human implements Player {
 
-    Game parent;
-    Board board;
+    private final Game parent;
+    private Board board;
 
     /**
      * Gives birth to a new human
@@ -27,10 +27,10 @@ public class Human implements Player {
     @Override
     public void handleClick(int x, int y) {
         if(parent.piecePreparer.getPiece()!=null) {
-            Piece piece = parent.piecePreparer.getPiece().clone();
+            Piece piece = parent.piecePreparer.getPiece().copy();
             piece.setXY(new Coordinate(x, y));
             if(board.legitimateMove(piece)) {
-                parent.makeMove(this, piece);
+                parent.makeMove(piece.toString());
             }
             else {
                 System.out.print("\rInvalid move!");
@@ -40,17 +40,17 @@ public class Human implements Player {
 
     /**
      * The human doesn't think - besides setting the piecePreparer and Panel to active
-     * @param board
+     * @param string represents the board as a string
      */
     @Override
-    public void think(Board board) {
-        this.board = board;
+    public String think(String string) {
+        this.board = new Board(string);
         parent.piecePreparer.setActive(true);
         parent.currentPanel.setActive(true);
         //if(stuck())
         //    parent.makeMove(".");
         // HAHAHA! Humans? Thinking?!
-        return; // Nope! Do nothing.
+        return ""; // Nope! Do nothing.
         // i.e. Wait for click();
     }
 
@@ -68,8 +68,8 @@ public class Human implements Player {
      * (Only for the first pass)
      */
     @Override
-    public void confirmPass() {
-        parent.transitionMove();
+    public void pass(Game parent) {
+        parent.makeMove(".");
     }
 
 }

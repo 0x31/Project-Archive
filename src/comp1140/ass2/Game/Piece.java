@@ -6,12 +6,12 @@ package comp1140.ass2.Game;
  *
  */
 public class Piece {
-    public Shape shape;
-    public Colour colour;
+    public final Shape shape;
+    public final Colour colour;
     Coordinate[] occupiedCells;
-    int cellNumber;
+    private final int cellNumber;
     int rotation=0;
-    boolean flip = false;
+    private boolean flip = false;
 
     /**
      * Initialises a Piece object from a shape id and a colour
@@ -117,13 +117,13 @@ public class Piece {
     }
 
     /**
-     * Creates a clone of piece
+     * Creates a copy of piece
      *
      * @return a new piece object with identical field values
      */
-    public Piece clone() {
+    public Piece copy() {
         Piece piece = new Piece(this.shape,this.colour);
-        piece.movePiece(rotation,flip);
+        piece.movePiece(rotation, flip);
         return piece;
     }
 
@@ -172,10 +172,12 @@ public class Piece {
 
     @Override
     public String toString() {
-        String retString = shape.name() + " is at coordinates: ";
-        for(int j = 0; j<cellNumber; j++) retString = retString + ", " + occupiedCells[j];
-        return retString;
+        String shapeS = shape.toString();
+        String orienS = Character.toString((char) (((flip) ? 4 : 0) + rotation + 'A'));
+        String coordS = occupiedCells[0].toString();
+        return shapeS + orienS + coordS;
     }
+
     /**
      * Piece's toString function, currently used for debugging.
      * @return String a string representation of the piece, made up of the colour,

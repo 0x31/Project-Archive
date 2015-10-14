@@ -1,12 +1,7 @@
 package comp1140.ass2.Game;
 
 import comp1140.ass2.Scenes.Game;
-import javafx.scene.Parent;
-import javafx.scene.control.Cell;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
 
 /**
@@ -15,17 +10,17 @@ import java.util.ArrayList;
  *  - click handling
  *  - use of cellSprite
  */
-public abstract class GridSprite extends GridPane {
-    int col;
-    int row;
+abstract class GridSprite extends GridPane {
+    private int col;
+    private int row;
     //int ysize;
     int xsize;
 
     Game parent;
-    Colour color;
-    ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
+    private Colour color;
+    private final ArrayList<PieceSprite> pieceSprites = new ArrayList<>();
 
-    public GridSprite() {}
+    GridSprite() {}
 
     /**
      * Creates a new GridPane to display cells
@@ -35,7 +30,7 @@ public abstract class GridSprite extends GridPane {
      * @param color default cell colour
      * @param parent the class which instantiates this class
      */
-    public GridSprite(int col, int row, int xsize, Colour color, Game parent) {
+    GridSprite(int col, int row, int xsize, Colour color, Game parent) {
         this.parent = parent;
         this.col = col;
         this.row = row;
@@ -67,6 +62,11 @@ public abstract class GridSprite extends GridPane {
      */
     private void addToGridPane(PieceSprite pieceSprite) {
         for (int i = 0; i<pieceSprite.CELL_COUNT; i++) {
+            int x = pieceSprite.coordinates[i].getX();
+            int y = pieceSprite.coordinates[i].getY();
+            if(y>=20 || y<0 || x>=20 || x<0) {
+                return;
+            }
             this.add(pieceSprite.cells[i], pieceSprite.coordinates[i].getX(), pieceSprite.coordinates[i].getY());
         }
     }
@@ -88,7 +88,7 @@ public abstract class GridSprite extends GridPane {
      *
      * @param pieceSprite
      */
-    public void addPieceSprite(PieceSprite pieceSprite) {
+    void addPieceSprite(PieceSprite pieceSprite) {
         pieceSprites.add(pieceSprite);
         addToGridPane(pieceSprite);
     }
@@ -98,7 +98,7 @@ public abstract class GridSprite extends GridPane {
      *
      * @param pieceSprite
      */
-    public void removePieceSprite(PieceSprite pieceSprite) {
+    void removePieceSprite(PieceSprite pieceSprite) {
         pieceSprites.remove(pieceSprite);
         removeFromGridPane(pieceSprite);
     }

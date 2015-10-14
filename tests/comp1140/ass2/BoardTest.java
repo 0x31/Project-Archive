@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by ***REMOVED*** on 21/08/15.
+ * @author ***REMOVED*** on 21/08/15.
  */
 public class BoardTest {
 
@@ -16,6 +16,10 @@ public class BoardTest {
         );
         String is = board.toString();
         String should =
+                "RCCC RBTA SARR SBCR SHDD TBQD RAOO PBFP LBJH LHLH LGNN TAGN JDKI JBRA OHIM UAHK KDGJ KAPH JARK JAFG UADG UALA UASH QAGD QDCL PCIC MEQE MEBL DDKL MDRE TGJQ OHID EBFA QDON PAIR KBGT IBMM SHMO KDDR RCDK GCFO NAPR QCCQ IDAH FHKQ IHRP FATN LDAD NBIP OHJR DBEM FFFB PBMF BASN AAHN DBBP THMC FGTM BBSD AAME OBRB EBNJ . BBOF MHFC CBJI . . HANR DAHD . . CBMT AAGH . . ";
+
+        String gridIs = board.gridToString();
+        String gridShould =
                 "B • B B B B • Y Y Y • Y • Y Y Y Y Y • Y \n" +
                 "B B • G G G B B Y • Y Y Y • B B B B Y Y \n" +
                 "• B B G • B B B Y • • Y B B • • B Y Y • \n" +
@@ -38,5 +42,6 @@ public class BoardTest {
                 "G G • G G G G R R R B B B • • Y Y • • R \n";
 
         assertTrue("Error: One of Board.toString or Board() has failed.", is.equals(should));
+        assertTrue("Error: One of Board.gridToString or Board() has failed.", gridIs.equals(gridShould));
     }
 }

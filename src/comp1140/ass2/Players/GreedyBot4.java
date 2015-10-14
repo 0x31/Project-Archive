@@ -1,91 +1,51 @@
 package comp1140.ass2.Players;
 
-import comp1140.ass2.Game.*;
+import comp1140.ass2.Game.Board;
+import comp1140.ass2.Game.Colour;
+import comp1140.ass2.Game.Coordinate;
 import comp1140.ass2.Scenes.Game;
+
 import java.util.ArrayList;
 
 /**
- * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** on 25/09/15.
- * There's nothing here so no point in marking yet
+ * @author Tim ***REMOVED***, ***REMOVED*** 13/10/15
  */
-public class ExtremelyHardBot implements Player {
-
-    private final Game parent;
+public class GreedyBot4 implements Player {
 
     /**
      * Creates a new ExtremelyHardBot
-     * @param parent the Game class
      */
-    public ExtremelyHardBot(Game parent) {
-        this.parent = parent;
+    public GreedyBot4() {
     }
 
     @Override
     public void handleClick(int x, int y) {
     }
 
-
-    /**
-     * is all broken cause all my functions are side effecting.... :(
-     * @param boardStr
-     * @return
-     */
     @Override
-    public String think(String boardStr) {
-        Board testBoard = new Board(boardStr);
-        int playerID = parent.currentPlayerId;
+    public String think(String string) {
+        Board board = new Board(string);
+        //int playerID = parent.currentPlayerId;
+        int playerID = board.getCurrentTurn();
         //Panel myPanel = parent.panels[parent.currentPlayerId];
         //Colour myColour = parent.playerColours[playerID];
         String bestMove = ".";
         int bestScore = 0;
         int currentScore;
 
+
         /**
          * builds all possible moves as a string and tests the scores of all the legal moves
          */
-        for (String move : playableMoves(testBoard)) {
-            placePieceAndPass(testBoard, move);
-            currentScore = getUltimateScore(testBoard, playerID, 0);
-
+        for (String move : playableMoves(board)) {
+            Board testBoard = new Board(string);
+            currentScore = scoreMove(testBoard, move, playerID);
             if (currentScore > bestScore) {
-                System.out.println("bestMove updated");
-                bestScore = currentScore;
                 bestMove = move;
+                bestScore = currentScore;
             }
         }
-        System.out.println(bestMove + " with score " + bestScore);
-
         return bestMove;
-    }
-
-    private int getUltimateScore(Board board, int playerID, int lookahead) {
-        Board testBoard = new Board(board.toString());
-
-        if (lookahead == 0) {
-            System.out.println("-- ultimateScore: " + scoreBoard(testBoard, playerID));
-            //return scoreBoard(board, playerID);
-            return placedCellCount(testBoard, playerID);
-        } else {
-            int bestScore = 0;
-            int currentScore;
-
-            for (String move : playableMoves(testBoard)) {
-                testBoard = placePieceAndPass(testBoard, move);
-                currentScore = scoreBoard(testBoard, playerID);  //replace with getUltimateScore later
-
-                if (currentScore > bestScore) {
-                    bestScore = currentScore;
-                }
-            }
-            return bestScore;
-        }
-    }
-
-    /**
-     * places piece and then inserts three passes for opponents
-     */
-    private Board placePieceAndPass(Board board, String move) {
-        return new Board(board.toString() + move + "...");
     }
 
     /**
@@ -95,7 +55,7 @@ public class ExtremelyHardBot implements Player {
      */
     private ArrayList<String> playableMoves(Board board) {
         ArrayList<String> moves = new ArrayList<>();
-        Board testBoard = new Board(board.toString());
+
         //four nested for loops to generate all possible (legal and illegal) string representations of moves
         for (char shape = 'A'; shape<'V'; shape++) {
             for (char orientation = 'A'; orientation < 'I'; orientation++) {
@@ -104,7 +64,7 @@ public class ExtremelyHardBot implements Player {
                         String testMove = "" + shape + orientation + x + y;
 
                         // if the move is legal, it is added to list
-                        if (testBoard.legitimateMove(testMove)) {
+                        if (board.legitimateMove(testMove)) {
                             moves.add(testMove);
                         }
                     }
@@ -114,9 +74,9 @@ public class ExtremelyHardBot implements Player {
         return moves;
     }
 
-    private int scoreBoard(Board board, int playerID) {
-        Board testBoard = new Board(board.toString());
-        return 30*placedCellCount(testBoard, playerID) + weightedBoardCoverage(testBoard, playerID);
+    private int scoreMove(Board board, String testMove, int playerID) {
+        board.placePiece(testMove);
+        return 30*placedCellCount(board, playerID) + weightedBoardCoverage(board, playerID);
     }
 
     /**
@@ -126,17 +86,14 @@ public class ExtremelyHardBot implements Player {
      * @return
      */
     private int placedCellCount(Board board, int playerID) {
-        Board testBoard = new Board(board.toString());
-
         int cellCount = 0;
-        for (Colour[] cellColourList : testBoard.getGrid()) {
+        for (Colour[] cellColourList : board.getGrid()) {
             for (Colour cellColour : cellColourList) {
                 if (Colour.values()[playerID] == cellColour) {
                     cellCount += 1;
                 }
             }
         }
-        System.out.println("-- -- placedCellCount: " + cellCount);
         return cellCount;
     }
 
@@ -147,7 +104,6 @@ public class ExtremelyHardBot implements Player {
      * @return
      */
     private int unplacedCellCount(Board board, int playerID) {
-        Board testBoard = new Board(board.toString());
         return 89 - placedCellCount(board, playerID);
     }
 
@@ -159,19 +115,18 @@ public class ExtremelyHardBot implements Player {
      * @return
      */
     public int boardCoverage(Board board, int playerID) {
-        Board testBoard = new Board(board.toString());
         int cornerCells = 0;
-        for (int x = 0; x < testBoard.getGrid().length; x++) {
-            for (int y = 0; y < testBoard.getGrid().length; y++) {
+        for (int x = 0; x < board.getGrid().length; x++) {
+            for (int y = 0; y < board.getGrid().length; y++) {
                 Coordinate cell = new Coordinate(x,y);
-                if(testBoard.cellAt(cell) == Colour.Empty) {
+                if(board.cellAt(cell) == Colour.Empty) {
                     boolean touchingSide = false;
                     for (Coordinate sideCell : cell.getSideCells()) {
-                        if (testBoard.cellAt(sideCell) == Colour.values()[playerID]) touchingSide = true;
+                        if (board.cellAt(sideCell) == Colour.values()[playerID]) touchingSide = true;
                     }
                     boolean touchingCorner = false;
                     for (Coordinate diagonalCell : cell.getDiagonalCells()) {
-                        if (testBoard.cellAt(diagonalCell) == Colour.values()[playerID]) touchingCorner = true;
+                        if (board.cellAt(diagonalCell) == Colour.values()[playerID]) touchingCorner = true;
                     }
                     if (touchingCorner && !(touchingSide)) cornerCells++;
                 }
@@ -189,8 +144,6 @@ public class ExtremelyHardBot implements Player {
      * @return
      */
     private int weightedBoardCoverage(Board board, int playerID) {
-        Board testBoard = new Board(board.toString());
-
         int cornerCells = 0;
         int weightedCornerCells = 0;
 
@@ -199,33 +152,33 @@ public class ExtremelyHardBot implements Player {
         int homeY = 0;
         switch (playerID) {
             case 0: homeX = 0;
-                homeY = 0;
-                break;
+                    homeY = 0;
+                    break;
 
             case 1: homeX = 19;
-                homeY = 0;
-                break;
+                    homeY = 0;
+                    break;
 
             case 2: homeX = 19;
-                homeY = 19;
-                break;
+                    homeY = 19;
+                    break;
 
             case 3: homeX = 0;
-                homeY = 19;
-                break;
+                    homeY = 19;
+                    break;
         }
 
-        for (int x = 0; x < testBoard.getGrid().length; x++) {
-            for (int y = 0; y < testBoard.getGrid().length; y++) {
+        for (int x = 0; x < board.getGrid().length; x++) {
+            for (int y = 0; y < board.getGrid().length; y++) {
                 Coordinate cell = new Coordinate(x,y);
-                if(testBoard.cellAt(cell) == Colour.Empty) {
+                if(board.cellAt(cell) == Colour.Empty) {
                     boolean touchingSide = false;
                     for (Coordinate sideCell : cell.getSideCells()) {
-                        if (testBoard.cellAt(sideCell) == Colour.values()[playerID]) touchingSide = true;
+                        if (board.cellAt(sideCell) == Colour.values()[playerID]) touchingSide = true;
                     }
                     boolean touchingCorner = false;
                     for (Coordinate diagonalCell : cell.getDiagonalCells()) {
-                        if (testBoard.cellAt(diagonalCell) == Colour.values()[playerID]) touchingCorner = true;
+                        if (board.cellAt(diagonalCell) == Colour.values()[playerID]) touchingCorner = true;
                     }
                     if (touchingCorner && !(touchingSide)) weightedCornerCells += Math.abs(homeX - x) + Math.abs(homeY - y);
                 }

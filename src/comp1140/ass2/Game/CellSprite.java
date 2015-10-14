@@ -5,8 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;import java.lang.Override;import java.lang.System;
+import java.lang.Override;
 
 /**
  * @author Tim ***REMOVED***, ***REMOVED***
@@ -17,8 +16,7 @@ import javafx.scene.shape.Rectangle;import java.lang.Override;import java.lang.S
  */
 public class CellSprite extends Pane {
 
-    Color fill;
-    Object parent = null;
+    private Object parent = null;
 
     /**
      *
@@ -51,7 +49,6 @@ public class CellSprite extends Pane {
 
         //this.getStyleClass().add(color.name());
         eventWatcher();
-
     }
 
     /**
@@ -63,9 +60,7 @@ public class CellSprite extends Pane {
         this.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("Cell was clicked");
                 if (event.getButton() == MouseButton.SECONDARY) {
-                    System.out.println("-- click was rightClick");
                     if (parent instanceof PieceSprite) {
                         //System.out.println("Cell rightClicked");
                         ((PieceSprite) parent).isRightClicked(dummyCell);
@@ -75,7 +70,6 @@ public class CellSprite extends Pane {
                         ((GridSprite) parent).isRightClicked(dummyCell);
                     }
                 } else {
-                    System.out.println("-- click was not rightClick");
                     if (parent instanceof PieceSprite) {
                         ((PieceSprite) parent).isClicked(dummyCell);
                     }
@@ -102,19 +96,6 @@ public class CellSprite extends Pane {
                 // Check for Board's preview
             }
         });
-    }
-
-    /**
-     * Used to translate ass2.Game.Colour into JavaFX.Color
-     * @param color
-     * @return a color from the JavaFX module
-     */
-    private Color getFillFromPlayer(Colour color) {
-        if      (color == Colour.Blue)      return Color.BLUE;
-        else if (color == Colour.Red)       return Color.RED;
-        else if (color == Colour.Green)     return Color.GREEN;
-        else if (color == Colour.Yellow)    return Color.GOLD;
-        return Color.LIGHTGRAY;
     }
 
 }

@@ -4,6 +4,8 @@ import comp1140.ass2.Scenes.Game;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
+
 /**
  * Created by ***REMOVED*** on 19/08/15.
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED***
@@ -11,23 +13,29 @@ import javafx.scene.input.MouseEvent;
  */
 public class Board extends GridSprite {
 
-    private Colour[][] grid;
+    private final Colour[][] grid;
 
-    private boolean[] unplacedPiecesRed = new boolean['U'-'A'+ 1];
-    private boolean[] unplacedPiecesGreen = new boolean['U'-'A'+ 1];
-    private boolean[] unplacedPiecesBlue = new boolean['U'-'A' + 1];
-    private boolean[] unplacedPiecesYellow = new boolean['U' - 'A' + 1];
+    private final boolean[] unplacedPiecesRed = new boolean['U'-'A'+ 1];
+    private final boolean[] unplacedPiecesGreen = new boolean['U'-'A'+ 1];
+    private final boolean[] unplacedPiecesBlue = new boolean['U'-'A' + 1];
+    private final boolean[] unplacedPiecesYellow = new boolean['U' - 'A' + 1];
 
     private boolean active=false;
     public void setActive(boolean active) {
         this.active = active;
     }
 
-    private boolean[][] unplacedPieces =
+    private boolean displayable = true;
+
+    private final boolean[][] unplacedPieces =
             {unplacedPiecesBlue
             ,unplacedPiecesYellow
             ,unplacedPiecesRed
             ,unplacedPiecesGreen};
+
+
+    private final ArrayList<String> moves = new ArrayList<>();
+
 
     /**
      * @return Returns this.unplacedPieces;
@@ -38,12 +46,17 @@ public class Board extends GridSprite {
 
     private int currentTurn;
 
-    private boolean[] lastMove = new boolean[]{false, false, false, false};
+    private final boolean[] lastMove = new boolean[]{false, false, false, false};
+
+    public int getCurrentTurn() {
+        return currentTurn;
+    }
 
     /**
      *
      * @return Returns an array of booleans denoting which player's last turn was placing a monimo
      */
+
     public boolean[] getLastMove() {
         return lastMove;
     }
@@ -63,7 +76,7 @@ public class Board extends GridSprite {
      * @param piece the piece to place, representing shape, orientation and coordinate
      * @return void  while also changing this.grid
      */
-    public boolean placePiece(Piece piece) {
+    private boolean placePiece(Piece piece) {
 
 
         if(!legitimateMove(piece)) return false;
@@ -73,7 +86,7 @@ public class Board extends GridSprite {
          * If a tutor is reading this, then we obviously made the wise decision of keeping ordinal()
          */
         //int playerId = piece.colour.ordinal();
-        int playerId = (parent!=null) ? parent.currentPlayerId : piece.colour.ordinal();
+        int playerId = (parent!=null) ? parent.currentColourId : piece.colour.ordinal();
         int shapeId = piece.shape.ordinal();
 
         unplacedPieces[playerId][shapeId] = false;
@@ -81,7 +94,9 @@ public class Board extends GridSprite {
         /* Setting the appropriate cells */
         Colour turnColour = Colour.values()[playerId];
         PieceSprite pieceSprite = new PieceSprite(piece, xsize, this);
-        this.addPieceSprite(pieceSprite);
+        if(displayable) {
+            this.addPieceSprite(pieceSprite);
+        }
         // Set Grid for legitimateMove
         for(Coordinate coord : pieceSprite.coordinates) {
             grid[coord.getY()][coord.getX()] = turnColour;
@@ -89,6 +104,8 @@ public class Board extends GridSprite {
 
         /** Check for monomino */
         lastMove[playerId] = (shapeId == 0);
+
+        moves.add(piece.toString());
 
         currentTurn=(currentTurn+1)%4;
         return true;
@@ -101,10 +118,10 @@ public class Board extends GridSprite {
      * @return
      */
     public boolean placePiece(String move) {
-        if(move==".") { currentTurn=(currentTurn+1)%4; return true; }
+        if(move==".") { currentTurn=(currentTurn+1)%4; moves.add("."); return true; }
         Colour turnColour = Colour.values()[currentTurn];
-        int x         = move.charAt(2)-'A';
-        int y         = move.charAt(3)-'A';
+        //int x         = move.charAt(2)-'A';
+        //int y         = move.charAt(3)-'A';
         Piece piece = new Piece(move, turnColour);
         placePiece(piece);
         return true;
@@ -116,6 +133,14 @@ public class Board extends GridSprite {
      * @return String a string representation of the board, made up of the intials of each colour.
      */
     public String toString() {
+        String string = "";
+        for (String move : moves) {
+            string += move + " ";
+        }
+        return string;
+    }
+
+    public String gridToString() {
         String string = "";
         for (Colour[] aGrid : grid) {
             for (Colour anAGrid : aGrid) {
@@ -160,9 +185,9 @@ public class Board extends GridSprite {
         /* Loop through moves and play each one */
 
 
-        String game = "RCCC RBTA SARR SBCR SHDD TBQD RAOO PBFP LBJH LHLH LGNN TAGN JDKI JBRA OHIM UAHK KDGJ KAPH JARK JAFG UADG UALA UASH QAGD QDCL PCIC MEQE MEBL DDKL MDRE TGJQ OHID EBFA QDON PAIR KBGT IBMM SHMO KDDR RCDK GCFO NAPR QCCQ IDAH FHKQ IHRP FATN LDAD NBIP OHJR DBEM FFFB PBMF BASN AAHN DBBP THMC FGTM BBSD AAME OBRB EBNJ . BBOF MHFC CBJI . . HANR DAHD . . CBMT AAGH . . BBBK . . . AACF . . . .";
-        String[] moves = Board.splitMoves(game);
-        class Index {
+        //String game = "RCCC RBTA SARR SBCR SHDD TBQD RAOO PBFP LBJH LHLH LGNN TAGN JDKI JBRA OHIM UAHK KDGJ KAPH JARK JAFG UADG UALA UASH QAGD QDCL PCIC MEQE MEBL DDKL MDRE TGJQ OHID EBFA QDON PAIR KBGT IBMM SHMO KDDR RCDK GCFO NAPR QCCQ IDAH FHKQ IHRP FATN LDAD NBIP OHJR DBEM FFFB PBMF BASN AAHN DBBP THMC FGTM BBSD AAME OBRB EBNJ . BBOF MHFC CBJI . . HANR DAHD . . CBMT AAGH . . BBBK . . . AACF . . . .";
+        //String[] moves = Board.splitMoves(game);
+        /*class Index {
             int index = 0;
             public Index() {
             }
@@ -176,6 +201,7 @@ public class Board extends GridSprite {
         Index index = new Index();
 
         Board board = this;
+        */
 
     }
 
@@ -184,8 +210,10 @@ public class Board extends GridSprite {
      * @param game a string containing a previous set of moves
      */
     public Board(String game) {
+        // Won't be displayed as a GridPane
+        displayable = false;
 
-        game = game.replace(" ","");
+        game = game.replace(" ", "");
         grid = new Colour['T'-'A'+1]['T'-'A'+1];
         for(int i=0;i<grid.length;i++) for(int j=0;j<grid[0].length;j++) grid[i][j]=Colour.Empty;
 
@@ -239,7 +267,7 @@ public class Board extends GridSprite {
      */
     public boolean legitimateMove(Piece piece) {
 
-        int playerId = (parent!=null) ? parent.currentPlayerId : piece.colour.ordinal();
+        int playerId = (parent!=null) ? parent.currentColourId : piece.colour.ordinal();
 
         if(!unplacedPieces[playerId][piece.shape.ordinal()]) {
             return false;
@@ -299,7 +327,7 @@ public class Board extends GridSprite {
     public Colour cellAt(Coordinate c) {
 
         // I don't know what this is doing - I should have commented it when I wrote it.
-        Colour[] validCorners = {Colour.Empty, Colour.Yellow, Colour.Red, Colour.Green};
+        //Colour[] validCorners = {Colour.Empty, Colour.Yellow, Colour.Red, Colour.Green};
 
         /** Check for starting corner */
         if(c.getX()==-1 && c.getY()==-1) return Colour.Blue;
@@ -317,7 +345,7 @@ public class Board extends GridSprite {
         if(sprite == preview) {
             int x = sprite.coordinates[0].getX();
             int y = sprite.coordinates[0].getY();
-            parent.players[parent.currentPlayerId].handleClick(x, y);
+            parent.currentPlayer.handleClick(x, y);
         }
     }
 
@@ -330,17 +358,18 @@ public class Board extends GridSprite {
      * Grad coordinates of the grid when a cell is clicked.
      * @param cell
      */
+
     public void isClicked(CellSprite cell) {
-        int x = this.getColumnIndex(cell);
-        int y = this.getRowIndex(cell);
-        parent.players[parent.currentPlayerId].handleClick(x, y);
+        int x = getColumnIndex(cell);
+        int y = getRowIndex(cell);
+        parent.currentPlayer.handleClick(x, y);
     }
     public void isHovered(CellSprite cell) {
-        if(!active || !parent.players[parent.currentPlayerId].isHuman()) {
+        if(!active || !parent.currentPlayer.isHuman()) {
             return;
         }
-        int x = this.getColumnIndex(cell);
-        int y = this.getRowIndex(cell);
+        int x = getColumnIndex(cell);
+        int y = getRowIndex(cell);
         Coordinate tempCoord = new Coordinate(x,y);
         if(previewCoord!=null && tempCoord.equals(previewCoord)) {
             return;
@@ -349,12 +378,12 @@ public class Board extends GridSprite {
         previewCoord = tempCoord;
         Piece piece = parent.piecePreparer.getPiece();
         if(piece==null) return;
-        piece = piece.clone();
+        piece = piece.copy();
         piece.setXY(previewCoord);
-        for(Coordinate coord : piece.getOccupiedCells()) {
+        /*for(Coordinate coord : piece.getOccupiedCells()) {
             if(coord.getY()>=20 || coord.getY()<0 || coord.getX()>=20 || coord.getX()<0)
                 return;
-        }
+        }*/
         this.previewPiece(piece);
     }
 
@@ -366,15 +395,16 @@ public class Board extends GridSprite {
             this.removePieceSprite(preview);
             preview = null;
         }
+        previewCoord = null;
     }
-    public PieceSprite preview;
-    public Coordinate previewCoord;
+    private PieceSprite preview;
+    private Coordinate previewCoord;
 
     /**
      * Shows a shadow of the piece under the cursor
      * @param piece the shape/orientation to render
      */
-    public void previewPiece(Piece piece) {
+    private void previewPiece(Piece piece) {
         preview = new PieceSprite(piece, xsize, this);
         if(!this.legitimateMove(piece))
             preview.setOpacity(0.4);
@@ -394,7 +424,7 @@ public class Board extends GridSprite {
 
         for(int i=0;i<4;i++) {
             for(int j = 0; j < getUnplacedPieces()[i].length; j++) {
-                if(getUnplacedPieces()[i][j]!=false) {
+                if(getUnplacedPieces()[i][j]) {
                     scores[i] -= pieceLenghts[j];
                 }
             }

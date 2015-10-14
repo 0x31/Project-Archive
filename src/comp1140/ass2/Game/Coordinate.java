@@ -8,8 +8,8 @@ package comp1140.ass2.Game;
  *  - rotate
  */
 public class Coordinate {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public Coordinate (int x, int y) {
         this.x = x;
@@ -95,6 +95,6 @@ public class Coordinate {
 
     @Override
     public String toString() {
-        return "(" + x + "," + y + ")";
+        return Character.toString((char) (x+'A')) + Character.toString((char) (y+'A'));
     }
 }

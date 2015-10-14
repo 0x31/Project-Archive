@@ -1,6 +1,8 @@
 package comp1140.ass2;
 
 import comp1140.ass2.Game.Board;
+import comp1140.ass2.Players.GreedyBot4;
+import comp1140.ass2.Players.Player;
 
 /**
  * Created by steveb on 12/08/2015.
@@ -45,7 +47,7 @@ public class BlokGame {
 
         for(int i=0;i<4;i++) {
             for(int j = 0; j < board.getUnplacedPieces()[i].length; j++) {
-                if(board.getUnplacedPieces()[i][j]!=false) {
+                if(board.getUnplacedPieces()[i][j]) {
                     scores[i] -= pieceLenghts[j];
                 }
             }
@@ -63,6 +65,9 @@ public class BlokGame {
      * @return A four-character string representing the next move.
      */
     public static String makeMove(String game) {
+        Player bot = new GreedyBot4();
+        return bot.think(game);
+        /*
         Board board = new Board(game);
         for(char piece = 'A'; piece<='U'; piece++) {
             for(char orientation = 'A'; orientation<='H'; orientation++) {
@@ -75,6 +80,7 @@ public class BlokGame {
             }
         }
         return ".";
+        */
     }
 
 }
