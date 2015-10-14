@@ -340,22 +340,12 @@ public class Game extends Scene {
                     labelPlayer[i].setText("Eeasy".replace("","\n").trim());
             }
             if(playerCodes[i]==3) {
-                //players[i] = new ExtremelyHardBot(this);
-                players.add(new ExtremelyHardBot(this));
+                //players[i] = new HardBot(this);
+                players.add(new HardBot());
                 if(i<2)
                     labelPlayer[i].setText("Hard");
                 else
                     labelPlayer[i].setText("Hard".replace("","\n").trim());
-            }
-            if(playerCodes[i]==4) {
-                players.add(new GreedyBot3(this));
-                if(i<2)
-                    labelPlayer[i].setText("Greedy3");
-                else
-                    labelPlayer[i].setText("Greeedy3".replace("","\n").trim());
-            }
-            if(playerCodes[i]==5) {
-                players.add(new GreedyBot4());
             }
         }
         if(!humans)

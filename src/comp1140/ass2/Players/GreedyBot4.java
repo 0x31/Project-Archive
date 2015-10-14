@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class GreedyBot4 implements Player {
 
     /**
-     * Creates a new ExtremelyHardBot
+     * Creates a new HardBot
      */
     public GreedyBot4() {
     }

@@ -15,7 +15,7 @@ public class GreedyBot3 implements Player {
     private final Game parent;
 
     /**
-     * Creates a new ExtremelyHardBot
+     * Creates a new HardBot
      * @param parent the Game class
      */
     public GreedyBot3(Game parent) {

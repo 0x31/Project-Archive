@@ -9,18 +9,13 @@ import java.util.ArrayList;
  *
  * Implements a greedy algorithm
  */
-public class ExtremelyHardBot implements Player {
-
-    private final Game parent;
+public class HardBot implements Player {
 
     /**
-     * Creates a new ExtremelyHardBot
-     * @param parent the Game class
+     * Creates a new HardBot
      */
-    public ExtremelyHardBot(Game parent) {
-        this.parent = parent;
+    public HardBot() {
     }
-
 
     /**
      * Nothing happens if a user clicks on the board, as it is not their turn

@@ -31,7 +31,7 @@
     <node x="282.0" y="4979.0">comp1140.ass2.LegitimateGameTest</node>
     <node x="5222.3150000000005" y="4749.0">comp1140.ass2.BlokGame</node>
     <node x="544.0" y="4979.0">comp1140.ass2.Metadata</node>
-    <node x="4447.5650000000005" y="2085.0">comp1140.ass2.Players.ExtremelyHardBot</node>
+    <node x="4447.5650000000005" y="2085.0">comp1140.ass2.Players.HardBot</node>
     <node x="2649.4596316425177" y="438.0">comp1140.ass2.Game.Shape</node>
     <node x="1825.6666666666665" y="1778.0">comp1140.ass2.Scenes.Menu</node>
     <node x="2135.666666666667" y="1778.0">comp1140.ass2.Scenes.Instructions</node>
@@ -230,7 +230,7 @@
       <point x="3633.6420878931303" y="2516.0" />
       <point x="-111.0" y="137.0" />
     </edge>
-    <edge source="comp1140.ass2.Players.ExtremelyHardBot" target="comp1140.ass2.Game.Board">
+    <edge source="comp1140.ass2.Players.HardBot" target="comp1140.ass2.Game.Board">
       <point x="131.0" y="170.0" />
       <point x="4775.0650000000005" y="2566.0" />
       <point x="4748.904870846889" y="2566.0" />
@@ -270,7 +270,7 @@
       <point x="3169.3566712264637" y="3708.0" />
       <point x="128.28125" y="-401.0" />
     </edge>
-    <edge source="comp1140.ass2.Players.ExtremelyHardBot" target="comp1140.ass2.Game.Coordinate">
+    <edge source="comp1140.ass2.Players.HardBot" target="comp1140.ass2.Game.Coordinate">
       <point x="98.25" y="-170.0" />
       <point x="4742.3150000000005" y="2054.0" />
       <point x="4926.342370846889" y="2054.0" />
@@ -404,7 +404,7 @@
       <point x="2814.875421226464" y="3318.0" />
       <point x="-301.5999999999999" y="346.0" />
     </edge>
-    <edge source="comp1140.ass2.Players.ExtremelyHardBot" target="comp1140.ass2.Players.Player">
+    <edge source="comp1140.ass2.Players.HardBot" target="comp1140.ass2.Players.Player">
       <point x="-98.25" y="-170.0" />
       <point x="4545.8150000000005" y="2044.0" />
       <point x="4451.731259735778" y="2044.0" />
@@ -498,7 +498,7 @@
       <point x="4391.953481957999" y="2034.0" />
       <point x="-29.888888888888914" y="59.0" />
     </edge>
-    <edge source="comp1140.ass2.Scenes.Game" target="comp1140.ass2.Players.ExtremelyHardBot">
+    <edge source="comp1140.ass2.Scenes.Game" target="comp1140.ass2.Players.HardBot">
       <point x="301.5999999999999" y="-346.0" />
       <point x="3418.0754212264637" y="2556.0" />
       <point x="4513.0650000000005" y="2556.0" />
@@ -552,7 +552,7 @@
       <point x="3323.2941712264637" y="3738.0" />
       <point x="282.21875" y="-401.0" />
     </edge>
-    <edge source="comp1140.ass2.Players.ExtremelyHardBot" target="comp1140.ass2.Scenes.Game">
+    <edge source="comp1140.ass2.Players.HardBot" target="comp1140.ass2.Scenes.Game">
       <point x="0.0" y="170.0" />
       <point x="4644.0650000000005" y="2566.0" />
       <point x="3448.2354212264636" y="2566.0" />
