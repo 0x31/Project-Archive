@@ -1,7 +1,7 @@
 package comp1140.ass2;
 
 import comp1140.ass2.Game.Board;
-import comp1140.ass2.Players.GreedyBot4;
+import comp1140.ass2.Players.HardBot;
 import comp1140.ass2.Players.Player;
 
 /**
@@ -50,7 +50,7 @@ public class BlokGame {
      * @return A four-character string representing the next move.
      */
     public static String makeMove(String game) {
-        Player bot = new GreedyBot4();
+        Player bot = new HardBot();
         return bot.think(game);
     }
 
