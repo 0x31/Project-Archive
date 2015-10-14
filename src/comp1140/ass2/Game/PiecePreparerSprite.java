@@ -3,7 +3,6 @@ package comp1140.ass2.Game;
 import comp1140.ass2.Scenes.Game;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 /**
  * Created by Tim on 23/09/2015.
@@ -11,8 +10,8 @@ import javafx.scene.paint.Color;
  */
 public class PiecePreparerSprite extends GridSprite {
 
-    public PieceSprite thePieceSprite;
-    public boolean active;
+    private PieceSprite thePieceSprite;
+    private boolean active;
 
     public PiecePreparerSprite(int col, int row, int size, Colour color, Game parent) {
         super(col, row, size, color, parent);
@@ -47,7 +46,7 @@ public class PiecePreparerSprite extends GridSprite {
      * Adds a Piece to a preparer
      * @param piece the piece to add
      */
-    public void addPiece(Piece piece) {
+    private void addPiece(Piece piece) {
 
         piece.setXY(new Coordinate(0, 0));
         int minX=0;
@@ -76,8 +75,7 @@ public class PiecePreparerSprite extends GridSprite {
      */
     public Piece getPiece() {
         if(thePieceSprite==null) return null;
-        Piece thePiece = thePieceSprite.piece;
-        return thePiece;
+        return thePieceSprite.piece;
     }
 
     /**

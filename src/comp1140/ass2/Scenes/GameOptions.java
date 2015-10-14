@@ -1,17 +1,13 @@
 package comp1140.ass2.Scenes;
 
 import comp1140.ass2.Blokus;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 /**
@@ -55,14 +51,14 @@ public class GameOptions extends Scene {
         root.getChildren().add(button5);
 
         String[] players = new String[]{
-                "None", "Human", "Easy Bot", "Hard Bot"
+                "None", "Human", "Easy Bot", "Hard Bot","Greedy3", "Greedy4"
         };
         int[] buttonState = new int[] {0,0,0,0};
 
         Button button0 = new Button("+");
         button0.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                buttonState[0]=(buttonState[0]+1)%4;
+                buttonState[0]=(buttonState[0]+1)%players.length;
                 button0.setText(players[buttonState[0]]);
             }
         });
@@ -76,7 +72,7 @@ public class GameOptions extends Scene {
         Button button1 = new Button("+");
         button1.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                buttonState[2]=(buttonState[2]+1)%4;
+                buttonState[2]=(buttonState[2]+1)%players.length;
                 button1.setText(players[buttonState[2]]);
             }
         });
@@ -90,7 +86,7 @@ public class GameOptions extends Scene {
         Button button2 = new Button("+");
         button2.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                buttonState[1]=(buttonState[1]+1)%4;
+                buttonState[1]=(buttonState[1]+1)%players.length;
                 button2.setText(players[buttonState[1]]);
             }
         });
@@ -104,7 +100,7 @@ public class GameOptions extends Scene {
         Button button3 = new Button("+");
         button3.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                buttonState[3] = (buttonState[3] + 1) % 4;
+                buttonState[3] = (buttonState[3] + 1) % players.length;
                 button3.setText(players[buttonState[3]]);
             }
         });

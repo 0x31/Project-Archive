@@ -1,7 +1,7 @@
 package comp1140.ass2.Game;
 
 /**
- * Created by ***REMOVED*** on 22/08/15.
+ * @author ***REMOVED*** on 22/08/15.
  */
 public enum Shape {
     /**
@@ -30,7 +30,7 @@ public enum Shape {
     T(new Coordinate[] {new Coordinate( 0, 0), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 2, 1), new Coordinate( 1, 2)}),
     U(new Coordinate[] {new Coordinate( 0, 0), new Coordinate(-1, 1), new Coordinate( 0, 1), new Coordinate( 1, 1), new Coordinate( 0, 2)});
 
-    private int cellNumber;
+    private final int cellNumber;
     private Coordinate[] coordinates;
 
     /**
@@ -41,7 +41,7 @@ public enum Shape {
     }
 
     /**
-     * @return A clone of the Coordinate array
+     * @return A copy of the Coordinate array
      */
     public Coordinate[] getCoordinates() {
         return coordinates.clone();
@@ -57,9 +57,10 @@ public enum Shape {
     Shape(Coordinate[] coords) {
         cellNumber = coords.length;
         coordinates = new Coordinate[cellNumber];
-        for (int i = 0; i < cellNumber; i++) {
-            coordinates[i] = coords[i];
-        }
+        coordinates = coords.clone();
+        //for (int i = 0; i < cellNumber; i++) {
+        //    coordinates[i] = coords[i];
+        //}
     }
 
     @Override

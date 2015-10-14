@@ -12,7 +12,7 @@ import comp1140.ass2.Scenes.Game;
  */
 public class GreedyBot1 implements Player {
 
-    Game parent;
+    private final Game parent;
 
     /**
      * Creates a new ExtremelyHardBot
@@ -29,8 +29,8 @@ public class GreedyBot1 implements Player {
     @Override
     public String think(String string) {
         Board board = new Board(string);
-        int playerID = parent.currentPlayerId;
-        Panel myPanel = parent.panels[parent.currentPlayerId];
+        int playerID = parent.currentColourId;
+        Panel myPanel = parent.panels[parent.currentColourId];
         Colour myColour = parent.playerColours[playerID];
         String bestMove = ".";
         int bestScore = 0;
@@ -61,7 +61,7 @@ public class GreedyBot1 implements Player {
         return bestMove;
     }
 
-    public int scoreMove(Board board, String testMove, int playerID) {
+    private int scoreMove(Board board, String testMove, int playerID) {
         board.placePiece(testMove);
         return placedCellCount(board, playerID) + boardCoverage(board, playerID);
     }
@@ -101,7 +101,7 @@ public class GreedyBot1 implements Player {
      * @param board
      * @return
      */
-    public int boardCoverage(Board board, int playerID) {
+    private int boardCoverage(Board board, int playerID) {
         int cornerCells = 0;
         for (int x = 0; x < board.getGrid().length; x++) {
             for (int y = 0; y < board.getGrid().length; y++) {
@@ -129,7 +129,7 @@ public class GreedyBot1 implements Player {
     }
 
     @Override
-    public void pass() {
+    public void pass(Game parent) {
         parent.makeMove(".");
     }
 }

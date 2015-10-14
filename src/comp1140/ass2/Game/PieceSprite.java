@@ -4,18 +4,18 @@ package comp1140.ass2.Game;
 import javafx.scene.paint.Color;
 
 /**
- * Created by ***REMOVED*** on 31/08/15.
+ * @author ***REMOVED*** on 31/08/15.
  */
 public class PieceSprite {
     final int CELL_COUNT;
-    final int CELL_DIM;
+    private final int CELL_DIM;
     
-    Piece piece;
-    Color color;
+    final Piece piece;
+    private final Color color;
     
-    GridSprite gridSprite;
-    CellSprite[] cells;
-    Coordinate[] coordinates;
+    private final GridSprite gridSprite;
+    final CellSprite[] cells;
+    final Coordinate[] coordinates;
 
     /**
      * Creates an array of CellSprites (image viewers) to render onto a GridSprite

@@ -6,12 +6,12 @@ package comp1140.ass2.Game;
  *
  */
 public class Piece {
-    public Shape shape;
-    public Colour colour;
+    public final Shape shape;
+    public final Colour colour;
     Coordinate[] occupiedCells;
-    int cellNumber;
+    private final int cellNumber;
     int rotation=0;
-    boolean flip = false;
+    private boolean flip = false;
 
     /**
      * Initialises a Piece object from a shape id and a colour
@@ -117,11 +117,11 @@ public class Piece {
     }
 
     /**
-     * Creates a clone of piece
+     * Creates a copy of piece
      *
      * @return a new piece object with identical field values
      */
-    public Piece clone() {
+    public Piece copy() {
         Piece piece = new Piece(this.shape,this.colour);
         piece.movePiece(rotation, flip);
         return piece;
