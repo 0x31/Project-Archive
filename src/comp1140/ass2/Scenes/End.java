@@ -22,6 +22,13 @@ import java.util.ArrayList;
  * @author ***REMOVED*** on 12/10/2015.
  */
 class End extends Pane {
+    /**
+     * Creates a new End scene, which displays the scores of each player and the winner of the game.
+     * @param score list of integers representing the score of each player
+     * @param playerColours list of Colours of players
+     * @param number integer
+     * @param parent the main Blokus class
+     */
     public End(int[] score, Colour[] playerColours, int number, Blokus parent) {
 
         Pane pane = new Pane();
