@@ -139,7 +139,7 @@ public class Game extends Scene {
         button1.getStyleClass().add("button1");
         menubar.getChildren().add(button1);
 
-        Button finishButton = new Button("Finnish");
+        Button finishButton = new Button("Finish");
         finishButton.setOnAction(e -> {
             for(int i=0;i<players.size();i++) {
                 //if(players.get(i) instanceof Human) {

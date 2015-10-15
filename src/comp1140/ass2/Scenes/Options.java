@@ -75,7 +75,7 @@ public class Options extends Scene {
             parent.toMenu();
         });
         button1.setMinSize(160, 60);
-        button1.setLayoutX(345 - button1.getMinWidth() / 2); button1.setLayoutY(300);
+        button1.setLayoutX(335 - button1.getMinWidth() / 2); button1.setLayoutY(300);
         button1.getStyleClass().add("button1");
         root.getChildren().add(button1);
 
