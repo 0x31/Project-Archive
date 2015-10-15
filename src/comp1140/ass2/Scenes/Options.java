@@ -69,7 +69,11 @@ public class Options extends Scene {
         root.getChildren().add(imv);
 
         Button button1 = new Button("Disable Options");
-        button1.setOnAction(e -> parent.toMenu());
+        button1.setOnAction(e -> {
+            ((Menu) parent.menu).options.setText("84");
+            ((Menu) parent.menu).options.setOnAction(a -> parent.toGame(new int[] {1,0,0,0}));
+            parent.toMenu();
+        });
         button1.setMinSize(160, 60);
         button1.setLayoutX(345 - button1.getMinWidth() / 2); button1.setLayoutY(300);
         button1.getStyleClass().add("button1");

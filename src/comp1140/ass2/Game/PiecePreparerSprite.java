@@ -2,6 +2,8 @@ package comp1140.ass2.Game;
 
 import comp1140.ass2.Scenes.Game;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 /**
  * @author Tim on 23/09/2015.
@@ -23,6 +25,24 @@ public class PiecePreparerSprite extends GridSprite {
     public PiecePreparerSprite(int col, int row, int size, Colour color, Game parent) {
         super(col, row, size, color, parent);
         eventWatcher();
+        active = false;
+
+        Pane rotate = new CellSprite(xsize, xsize, "Rotate",this);
+        add(rotate, 0, 0);
+
+        Pane flip = new CellSprite(xsize, xsize, "Flip",this);
+        add(flip, 4, 0);
+        flip.setOnMouseClicked(event -> {
+            if(!active) return;
+            flipPiece();
+
+            /* Counter what eventWatcher will do */
+            rotatePiece();
+            rotatePiece();
+            rotatePiece();
+
+         });
+
     }
 
     /**
@@ -74,6 +94,7 @@ public class PiecePreparerSprite extends GridSprite {
         thePieceSprite = new PieceSprite(piece, xsize, this);
         this.addPieceSprite(thePieceSprite);
 
+
     }
 
 
@@ -105,8 +126,6 @@ public class PiecePreparerSprite extends GridSprite {
         removePiece();
         addPiece(piece);
     }
-
-
 
     /**
      * Watch for clicks on the entire preparer for rotating and flipping the piece

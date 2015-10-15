@@ -125,18 +125,24 @@ public final class Panel extends GridSprite {
      */
     public void isClicked(PieceSprite sprite) {
         if(!active || !activeShapes.contains(sprite.piece.shape)) return;
+        replace();
+        temporary = sprite;
+        this.removePieceSprite(sprite);
+        parent.piecePreparer.addShape(sprite.piece.shape, color,sprite.piece.toString().charAt(1));
+        parent.piecePreparer.setActive(true);
+        pieceSprites.remove(sprite);
+        shapes.remove(sprite.piece.shape);
+        activeShapes.remove(sprite.piece.shape);
+    }
+
+    public void replace() {
         if(temporary != null) {
             pieceSprites.add(temporary);
             shapes.add(temporary.piece.shape);
             activeShapes.add(temporary.piece.shape);
             this.addPieceSprite(temporary);
         }
-        temporary = sprite;
-        this.removePieceSprite(sprite);
-        parent.piecePreparer.addShape(sprite.piece.shape, color,sprite.piece.toString().charAt(1));
-        pieceSprites.remove(sprite);
-        shapes.remove(sprite.piece.shape);
-        activeShapes.remove(sprite.piece.shape);
+        temporary=null;
     }
 
     /**

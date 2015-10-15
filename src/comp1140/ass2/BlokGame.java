@@ -54,4 +54,12 @@ public class BlokGame {
         return bot.think(game);
     }
 
+    public static void main(String[] args) {
+        //System.out.println(makeMove("RAAA RBTA  TGAT SCTT QCFF LAQD UHDR"));
+        String string = "RAAA RBTA TGAT SCTT QCFF LAQD UHDR";
+        System.out.println(legitimateGame(string));
+        Board board = new Board(string+makeMove(string));
+        System.out.println(board.gridToString());
+    }
+
 }

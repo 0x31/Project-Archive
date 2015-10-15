@@ -1,8 +1,6 @@
 package comp1140.ass2.Scenes;
 
 import comp1140.ass2.Blokus;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,7 +22,7 @@ public class Instructions extends Scene {
      * @param height required by Scene
      * @param parent used to accedd the Blokus scene handling methods
      */
-    public Instructions(Group root, double width, double height, Blokus parent) {
+    public Instructions(Group root, double width, double height, Scene scene, Blokus parent) {
         super(root, width, height, Color.LIGHTBLUE);
         getStylesheets().add("comp1140/ass2/Assets/main.css");
         parent.setTitle("Blokus: Instructions");
@@ -38,11 +36,7 @@ public class Instructions extends Scene {
         root.getChildren().add(imv1);
 
         Button button2 = new Button("<");
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                parent.toMenu();
-            }
-        });
+        button2.setOnAction(e -> parent.toScene(scene));
         button2.setMinSize(40, 40);
         button2.setMaxSize(40, 40);
         button2.setLayoutX(30 - button2.getMinWidth() / 2); button2.setLayoutY(10);

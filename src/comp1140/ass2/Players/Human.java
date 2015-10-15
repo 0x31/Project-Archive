@@ -32,9 +32,7 @@ public class Human implements Player {
             if(board.legitimateMove(piece)) {
                 parent.makeMove(piece.toString());
             }
-            else {
-                System.out.print("\rInvalid move!");
-            }
+            /*else { System.out.print("\rInvalid move!"); }*/
         }
     }
 
@@ -45,7 +43,6 @@ public class Human implements Player {
     @Override
     public String think(String string) {
         this.board = new Board(string);
-        parent.piecePreparer.setActive(true);
         parent.currentPanel.setActive(true);
 
         // Wait for click()

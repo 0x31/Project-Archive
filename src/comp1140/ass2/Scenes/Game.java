@@ -34,8 +34,8 @@ public class Game extends Scene {
 
     public int currentColourId;
     public int currentPlayerId;
-    public final PiecePreparerSprite piecePreparer;
-    public final Board board;
+    public PiecePreparerSprite piecePreparer = null;
+    public Board board = null;
     public final Panel[] panels;
     public final Colour[] playerColours = {Colour.Blue, Colour.Yellow, Colour.Red, Colour.Green};
 
@@ -46,7 +46,7 @@ public class Game extends Scene {
     private final Label[] labelScore;
     private final Label[] labelPlayer;
     private final Label[] labelName;
-    private int turn = 0;
+    private int turn = -1;
     private final boolean[] skip = {false, false, false, false};
     private final Group root;
     private final Group realRoot;
@@ -86,31 +86,115 @@ public class Game extends Scene {
 
         /* MENUBAR */
         Pane menubar = new Pane();
-        menubar.setMinSize(700, 100);
-        menubar.setLayoutY(00);
+        menubar.setMinSize(700, 60);
+        menubar.setLayoutY(-60);
         menubar.setLayoutX(0);
+        menubar.setStyle("-fx-background-color: rgba(0,0,0,0.8);");
 
-        Button button0 = new Button("Pass");
+        Pane offclick = new Pane();
+        offclick.setMinSize(700, 700);
+        offclick.setLayoutY(0);
+        offclick.setLayoutX(0);
+        offclick.setVisible(false);
+        offclick.setOnMouseClicked(event -> {
+            hideMenu(menubar,offclick);
+        });
+
+        Button instructionsButton = new Button("Instructions");
+        instructionsButton.setOnAction(e -> {hideMenu(menubar,offclick); parent.toInstructions(this);});
+        instructionsButton.getStyleClass().add("pass");
+        instructionsButton.setMinSize(80, 40);
+        instructionsButton.setLayoutX(340);
+        instructionsButton.setLayoutY(7);
+        instructionsButton.getStyleClass().add("button1");
+        menubar.getChildren().add(instructionsButton);
+
+
+        Button button0 = new Button("Hint");
         button0.setOnAction(e -> {
+            if(!currentPlayer.isHuman()) return;
+            hideMenu(menubar, offclick);
+            currentPanel.replace();
+            piecePreparer.removePiece();
+            HardBot helperBot = new HardBot();
+            String move = helperBot.think(board.toString());
+            Piece piece = new Piece(move,Colour.values()[currentColourId]);
+            board.hintPiece(piece);
         });
         button0.getStyleClass().add("pass");
-        button0.setMinSize(80, 20);
-        button0.setLayoutX(580);
-        button0.setLayoutY(4);
+        button0.setMinSize(80, 40);
+        button0.setLayoutX(20);
+        button0.setLayoutY(7);
         button0.getStyleClass().add("button1");
         menubar.getChildren().add(button0);
 
-        Button button1 = new Button("Menu");
+        Button button1 = new Button("Quit");
         button1.setOnAction(e -> {
+            parent.toMenu();
         });
         button1.getStyleClass().add("pass");
-        button1.setMinSize(80, 20);
-        button1.setLayoutX(470);
-        button1.setLayoutY(4);
+        button1.setMinSize(80, 40);
+        button1.setLayoutX(120);
+        button1.setLayoutY(7);
         button1.getStyleClass().add("button1");
         menubar.getChildren().add(button1);
-        //root.getChildren().add(menubar);
 
+        Button finishButton = new Button("Finnish");
+        finishButton.setOnAction(e -> {
+            for(int i=0;i<players.size();i++) {
+                //if(players.get(i) instanceof Human) {
+                if(players.get(i).isHuman())
+                    players.set(i, new EasyBot(this));
+            }
+            parent.GAME_SPEED=0;
+            hideMenu(menubar,offclick);
+            if(currentPlayer.isHuman()) {
+                currentColourId=(currentColourId--)%4;
+                currentPlayerId=(currentPlayerId--)%players.size();
+                turn--;
+                transitionMove();
+            }
+        });
+        finishButton.getStyleClass().add("pass");
+        finishButton.setMinSize(80, 40);
+        finishButton.setLayoutX(220);
+        finishButton.setLayoutY(7);
+        finishButton.getStyleClass().add("button1");
+        menubar.getChildren().add(finishButton);
+
+        Button offbutton = new Button("^");
+        offbutton.setOnAction(e -> {
+            hideMenu(menubar,offclick);
+        });
+        offbutton.getStyleClass().add("pass");
+        offbutton.setMinSize(40, 40);
+        offbutton.setLayoutX(650);
+        offbutton.setLayoutY(7);
+        offbutton.getStyleClass().add("button1");
+        offbutton.getStyleClass().add("back");
+        menubar.getChildren().add(offbutton);
+
+
+
+
+
+        Pane flip = new Pane();
+        flip.setMaxSize(10,10);
+        flip.setMinSize(10,10);
+
+        String format1 = "-fx-background-image: url('comp1140/ass2/Assets/Question.png'); -fx-background-size: 100%;";
+        flip.setStyle(format1);
+        flip.setLayoutX(690);
+        flip.setLayoutY(0);
+        flip.setOnMouseClicked(event -> {
+            TranslateTransition transition = new TranslateTransition(Duration.millis(500));
+            transition.setFromY(0);
+            transition.setToY(60);
+            ParallelTransition show = new ParallelTransition(menubar, transition);
+            show.play();
+            offclick.setVisible(true);
+            root.setEffect(new GaussianBlur(10));
+        });
 
         int panelCell = 11;
         int prepCell = 20;
@@ -307,6 +391,27 @@ public class Game extends Scene {
 
         root.getChildren().addAll(boardPane, prepPane);
 
+
+        // Menubar stuff need to be on top
+        realRoot.getChildren().add(flip);
+        realRoot.getChildren().add(offclick);
+        realRoot.getChildren().add(menubar);
+
+    }
+
+    /**
+     * Hide the MenuBar
+     * @param menubar pass the function the bar to hide
+     * @param offclick pass the offclick to hide
+     */
+    private void hideMenu(Pane menubar, Pane offclick) {
+        root.setEffect(null);
+        TranslateTransition transition = new TranslateTransition(Duration.millis(500));
+        transition.setFromY(60);
+        transition.setToY(0);
+        ParallelTransition show = new ParallelTransition(menubar, transition);
+        show.play();
+        offclick.setVisible(false);
     }
 
 
@@ -359,10 +464,7 @@ public class Game extends Scene {
                     labelPlayer[i].setText("MiniMax".replace("","\n").trim());
             }
         }
-        if(humans) {
-            parent.GAME_SPEED=3;
-        }
-        if(lookahead) {
+        if(humans || lookahead) {
             parent.GAME_SPEED=3;
         }
         else
@@ -549,6 +651,9 @@ public class Game extends Scene {
      * to check for game ends, etc...
      */
     private void transitionMove() {
+
+        //BEFORE (UNSET)
+
         piecePreparer.setActive(false);
         panels[currentColourId].setActive(false);
         panels[currentColourId].temporary = null;
@@ -562,9 +667,15 @@ public class Game extends Scene {
             return;
         }
 
-        currentPlayer = nextPlayer();
         turn++;
+        currentPlayer = nextPlayer();
 
+        // AFTER (SET)
+
+        if(turn<4) {
+            CellSprite corner = new CellSprite(board.xsize,board.xsize,Colour.values()[turn]+"Corner",board);
+            board.add(corner,(turn==0||turn==3)?0:19, (turn==0||turn==1)?0:19);
+        }
         updatePanels(currentColourId);
 
         currentPanel = panels[currentColourId];

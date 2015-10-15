@@ -36,6 +36,24 @@ public class CellSprite extends Pane {
     }
 
     /**
+     * Creates a new CellSprite with a custom background image (e.g. for corners)
+     * @param width  the width for displaying the cell
+     * @param height the height for displaying the cell
+     * @param image the image to use as a background
+     * @param parent the piece which the cell belongs to
+     */
+    public CellSprite (double width, double height, String image, Object parent) {
+        super();
+        super.setMinSize(width, height);
+        this.parent = parent;
+
+        /* Set background image for the cell */
+        String format = "-fx-background-image: url('comp1140/ass2/Assets/%s.png'); -fx-background-size: 100%%;";
+        this.setStyle(String.format(format, image));
+        eventWatcher();
+    }
+
+    /**
      * Watch for mouse clicks and mouse hovers to pass back to the Parent class
      */
     private void eventWatcher() {

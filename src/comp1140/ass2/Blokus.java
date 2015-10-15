@@ -38,10 +38,17 @@ public class Blokus extends Application {
     }
 
     private Stage primaryStage;
+    public Scene menu;
 
-    private Scene menu;
-    private Scene instructions;
     private Scene options;
+
+    /**
+     * Transition to an arbitrary scene
+     * @param scene the scene to set to
+     */
+    public void toScene(Scene scene) {
+        this.primaryStage.setScene(scene);
+    }
 
     /**
      * Sets the scene to the Menu
@@ -69,8 +76,9 @@ public class Blokus extends Application {
     /**
      * The rest of these methods set the scene - is seen in toMenu()
      */
-    public void toInstructions() {
-        this.primaryStage.setScene(this.instructions);
+    public void toInstructions(Scene scene) {
+        Scene instructions = new Instructions(new Group(), 700,700, scene, this);
+        this.primaryStage.setScene(instructions);
     }
 
     public void toOptions() {
@@ -97,7 +105,6 @@ public class Blokus extends Application {
         primaryStage.getIcons().add( new Image( Blokus.class.getResourceAsStream( "Assets/blokusbg.png" )));
 
         menu = new Menu(new Group(), 700,700, this);
-        instructions = new Instructions(new Group(), 700,700, this);
         options = new Options(new Group(), 700,700, this);
 
         primaryStage.show();

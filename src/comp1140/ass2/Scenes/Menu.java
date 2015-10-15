@@ -12,6 +12,10 @@ import javafx.scene.paint.Color;
  * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, on 25/09/15
  */
 public class Menu extends Scene {
+
+    public Button options;
+
+
     /**
      * Creates a new Menu scene
      * @param root required by Scene
@@ -51,18 +55,18 @@ public class Menu extends Scene {
         root.getChildren().add(button2);
 
         Button button0 = new Button("Instructions");
-        button0.setOnAction(e -> parent.toInstructions());
+        button0.setOnAction(e -> parent.toInstructions(this));
         button0.setMinSize(160, 60);
         button0.setLayoutX(345 - button0.getMinWidth() / 2); button0.setLayoutY(600);
         button0.getStyleClass().add("button1");
         root.getChildren().add(button0);
 
-        Button button1 = new Button("Options");
-        button1.setOnAction(e -> parent.toOptions());
-        button1.setMinSize(160, 60);
-        button1.setLayoutX(550 - button1.getMinWidth() / 2); button1.setLayoutY(600);
-        button1.getStyleClass().add("button1");
-        root.getChildren().add(button1);
+        options = new Button("Options");
+        options.setOnAction(e -> parent.toOptions());
+        options.setMinSize(160, 60);
+        options.setLayoutX(550 - options.getMinWidth() / 2); options.setLayoutY(600);
+        options.getStyleClass().add("button1");
+        root.getChildren().add(options);
 
 
 

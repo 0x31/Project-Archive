@@ -35,6 +35,7 @@ public class Board extends GridSprite {
     private int currentTurn;
     private final boolean[] lastMove = new boolean[]{false, false, false, false};
     private PieceSprite preview;
+    private PieceSprite hint;
     private Coordinate previewCoord;
 
     /**
@@ -96,6 +97,8 @@ public class Board extends GridSprite {
         moves.add(piece.toString());
 
         currentTurn=(currentTurn+1)%4;
+
+        hideHint();
         return true;
     }
 
@@ -226,9 +229,7 @@ public class Board extends GridSprite {
         int playerId = currentTurn;
 
         /* Check that piece hasn't been played yet */
-        if(!unplacedPieces[playerId][piece.shape.ordinal()]) {
-            return false;
-        }
+        if(!unplacedPieces[playerId][piece.shape.ordinal()]) return false;
 
         Coordinate[] cells = piece.getOccupiedCells();
         Colour turnColour = piece.colour;
@@ -251,6 +252,7 @@ public class Board extends GridSprite {
                 if (cellAt(diagonalCell) == turnColour) touchingSide = true;
             }
         }
+
 
         return touchingSide;
 
@@ -367,13 +369,31 @@ public class Board extends GridSprite {
      * Displays a transparent Piece on top of the board (above other pieces)
      * @param piece the Piece to place
      */
-    private void previewPiece(Piece piece) {
+    public void previewPiece(Piece piece) {
         preview = new PieceSprite(piece, xsize, this);
         if(!this.legitimateMove(piece))
             preview.setOpacity(0.4);
         else
             preview.setOpacity(0.9);
         this.addPieceSprite(preview);
+    }
+
+    /**
+     * Show a hint on the board
+     * @param piece the piece to show as a hint
+     */
+    public void hintPiece(Piece piece) {
+        hideHint();
+        hint = new PieceSprite(piece, xsize, this);
+        hint.setOpacity(0.2);
+        this.addPieceSprite(hint);
+    }
+
+    public void hideHint() {
+        if(hint!=null) {
+            this.removePieceSprite(hint);
+            hint = null;
+        }
     }
 
     /**
