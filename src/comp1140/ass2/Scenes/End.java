@@ -2,12 +2,11 @@ package comp1140.ass2.Scenes;
 
 import comp1140.ass2.Blokus;
 import comp1140.ass2.Game.Colour;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -247,11 +246,7 @@ class End extends Pane {
         }
 
         Button button5 = new Button("<");
-        button5.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                parent.toMenu();
-            }
-        });
+        button5.setOnAction(e -> parent.toMenu());
         button5.setMinSize(40, 40);
         button5.setMaxSize(40, 40);
         button5.setLayoutX(30 - button5.getMinWidth() / 2);

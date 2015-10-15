@@ -33,16 +33,16 @@ public class EasyBot implements Player {
         Panel myPanel = parent.panels[parent.currentColourId];
         Colour colour = parent.playerColours[parent.currentColourId];
         Shape[] shuffled = shuffle(myPanel.activeShapes);
+        // Loop through available shapes (shuffled for non-deterministic moves)
         for(Shape shape : shuffled) {
+            // For each shape, loop through every orientation
             for(char orientation : new char[] {'A','B','C','D','E','F','G','H'}) {
+                // For each shape and orientation, loop through every coordinate
                 for(int x = 0; x<20; x++) {
                     for(int y = 0; y<20; y++) {
-                        //Piece testPiece = new Piece(piece.shape, piece.colour);
                         Piece testPiece = new Piece(shape, colour);
                         testPiece.initialisePiece(new Coordinate(x,y), orientation);
                         if(board.legitimateMove(testPiece)) {
-                            //parent.piecePreparer.addShape(shape, colour, orientation);
-                            //parent.makeMove(this, testPiece);
                             return testPiece.toString();
                         }
                     }

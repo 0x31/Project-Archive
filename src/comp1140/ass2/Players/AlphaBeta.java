@@ -28,20 +28,25 @@ public class AlphaBeta implements Player {
     public boolean isHuman() {return false;}
 
     /**
-     * Runs the next depth of alphabeta
+     * Runs the next depth of alphaBeta, maximising the returned scores for AlphaBeta and minimising for the other
+     * three players. The next three moves are played scored (one next move for opponents) to determine the
+     * minimax value to return
      * @param board the board
      * @param depth the current depth (going towards zero)
-     * @param starttime to know how long we've going for
+     * @param startTime to know how long we've going for
      * @param alpha the alpha value for tree pruning
      * @param beta the beta value for tree pruning
      * @return a score for a given move
      */
-    private double alphabeta(Board board, int depth, long starttime, double alpha, double beta) {
-        long time = (System.nanoTime() - starttime);
+    private double alphaBeta(Board board, int depth, long startTime, double alpha, double beta) {
+        long time = (System.nanoTime() - startTime);
         long timeS = TimeUnit.SECONDS.convert(time, TimeUnit.NANOSECONDS);
+
         if(depth==0 || timeS>=7 || board.isFinished()) {
             return heuristic(board);
         }
+
+        // Maximise (tries the three best moves)
         if (board.getCurrentTurn()==myId) {
             String[] moves = getPotentialMoves(board, 3);
             String boardString = board.toString();
@@ -49,19 +54,20 @@ public class AlphaBeta implements Player {
                 if(move==".") continue;
                 Board newBoard = new Board(boardString);
                 newBoard.placePiece(move);
-                alpha = Math.max(alpha, alphabeta(newBoard,depth-1,starttime, alpha,beta));
+                alpha = Math.max(alpha, alphaBeta(newBoard, depth - 1, startTime, alpha, beta));
                 if(beta<=alpha) {
                     break;
                 }
             }
             return alpha;
         }
+        // Minimise (only tries the best move)
         else {
             String boardString = board.toString();
             Board newBoard = new Board(boardString);
             String[] moves = getPotentialMoves(board, 1);
             newBoard.placePiece(moves[0]);
-            beta = Math.min(beta,alphabeta(newBoard,depth-1,starttime, alpha,beta));
+            beta = Math.min(beta, alphaBeta(newBoard, depth - 1, startTime, alpha, beta));
             if(beta<=alpha) {
                 // There's no loop here, nothing todo
             }
@@ -268,16 +274,19 @@ public class AlphaBeta implements Player {
         Board board = new Board(string);
         myId = board.getCurrentTurn();
 
+        // Infinity constant (maybe look into Double.POSITIVE_INFINITY?)
+        int infinity = 10000;
+
         String[] potentials = getPotentialMoves(board, 5);
         //for(String pot :potentials) System.out.println(pot);
-        double bestScore = -100000;
+        double bestScore = -infinity;
         String bestMove  = ".";
         long time = System.nanoTime();
         for(String potential : potentials) {
             if(potential==null) continue;
             Board newBoard = new Board(string);
             newBoard.placePiece(potential);
-            double ab = alphabeta(newBoard,4, time, -100000, 10000);
+            double ab = alphaBeta(newBoard, 4, time, -infinity, infinity);
             if(DEBUG) System.out.println("Trying...: "+potential+": "+ab);
             if(ab>bestScore) {
                 bestScore = ab;

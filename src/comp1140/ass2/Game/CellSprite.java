@@ -28,6 +28,8 @@ public class CellSprite extends Pane {
         super();
         super.setMinSize(width, height);
         this.parent = parent;
+
+        /* Set background image for the cell */
         String format = "-fx-background-image: url('comp1140/ass2/Assets/%s.png'); -fx-background-size: 100%%;";
         this.setStyle(String.format(format, color.name()));
         eventWatcher();
@@ -37,21 +39,27 @@ public class CellSprite extends Pane {
      * Watch for mouse clicks and mouse hovers to pass back to the Parent class
      */
     private void eventWatcher() {
-
         CellSprite dummyCell = this;
+
+        /* On mouse click */
         this.setOnMouseClicked(event -> {
+            /* Check for RIGHT click */
             if (event.getButton() == MouseButton.SECONDARY) {
                 if (parent instanceof PieceSprite)
                     ((PieceSprite) parent).isRightClicked(dummyCell);
                 if(parent instanceof GridSprite)
                     ((GridSprite) parent).isRightClicked(dummyCell);
-            } else {
+            }
+            /* Check for LEFT click */
+            else {
                 if (parent instanceof PieceSprite)
                     ((PieceSprite) parent).isClicked(dummyCell);
                 if (parent instanceof GridSprite)
                     ((GridSprite) parent).isClicked(dummyCell);
             }
         });
+
+        /* On mouse hover */
         this.setOnMouseEntered(event -> {
             if (parent instanceof GridSprite)
                 ((GridSprite) parent).isHovered(dummyCell);

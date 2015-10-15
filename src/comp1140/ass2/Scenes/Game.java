@@ -5,8 +5,6 @@ import comp1140.ass2.Game.*;
 import comp1140.ass2.LiveTests.GameTests;
 import comp1140.ass2.Players.*;
 import javafx.animation.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -71,27 +69,29 @@ public class Game extends Scene {
         this.realRoot = realRoot;
         getStylesheets().add("comp1140/ass2/Assets/main.css");
 
-        final Font fontSmall = Font.loadFont(Blokus.class.getResourceAsStream("Assets/PressStart2P.ttf"),8);
-        final Font fontLarge = Font.loadFont(Blokus.class.getResourceAsStream("Assets/PressStart2P.ttf"),16);
+        /* Font used following the SIL Open Font License, 1.1
+           Font by Cody "CodeMan38" Boisclair */
+        final Font fontSmall = Font.loadFont(Blokus.class.getResourceAsStream("Assets/PressStart2P.ttf"), 8);
+        final Font fontLarge = Font.loadFont(Blokus.class.getResourceAsStream("Assets/PressStart2P.ttf"), 16);
 
         /* Set background image */
         final ImageView imv1 = new ImageView();
         final Image image3 = new Image(Blokus.class.getResourceAsStream("Assets/blokusbg.png"));
         imv1.setImage(image3);
-        imv1.setLayoutX(0); imv1.setLayoutY(0);
-            imv1.setFitWidth(700);
+        imv1.setLayoutX(0);
+        imv1.setLayoutY(0);
+        imv1.setFitWidth(700);
         imv1.setPreserveRatio(true);
         root.getChildren().add(imv1);
 
-        // MENUBAR
+        /* MENUBAR */
         Pane menubar = new Pane();
         menubar.setMinSize(700, 100);
-        menubar.setLayoutY(00); menubar.setLayoutX(0);
+        menubar.setLayoutY(00);
+        menubar.setLayoutX(0);
 
         Button button0 = new Button("Pass");
-        button0.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-            }
+        button0.setOnAction(e -> {
         });
         button0.getStyleClass().add("pass");
         button0.setMinSize(80, 20);
@@ -101,9 +101,7 @@ public class Game extends Scene {
         menubar.getChildren().add(button0);
 
         Button button1 = new Button("Menu");
-        button1.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-            }
+        button1.setOnAction(e -> {
         });
         button1.getStyleClass().add("pass");
         button1.setMinSize(80, 20);
@@ -598,7 +596,9 @@ public class Game extends Scene {
                     latch.await(parent.BOT_TIME, TimeUnit.SECONDS);
             } catch (InterruptedException e) { e.printStackTrace();}
 
+            // Try to interrupt gently
             t.interrupt();
+            // Deprecated, but sometimes a little bit of force is necessary
             t.stop();
 
             Timeline timeline = new Timeline(new KeyFrame(

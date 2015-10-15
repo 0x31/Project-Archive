@@ -1,8 +1,6 @@
 package comp1140.ass2.Scenes;
 
 import comp1140.ass2.Blokus;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -42,11 +40,7 @@ public class Options extends Scene {
 
 
         Button button2 = new Button("<");
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                parent.toMenu();
-            }
-        });
+        button2.setOnAction(e -> parent.toMenu());
         button2.setMinSize(40, 40);
         button2.setMaxSize(40, 40);
         button2.setLayoutX(30 - button2.getMinWidth() / 2); button2.setLayoutY(10);
@@ -73,6 +67,13 @@ public class Options extends Scene {
         imv.setPreserveRatio(true);
         imv.setLayoutX(350 - 200); imv.setLayoutY(40);
         root.getChildren().add(imv);
+
+        Button button1 = new Button("Disable Options");
+        button1.setOnAction(e -> parent.toMenu());
+        button1.setMinSize(160, 60);
+        button1.setLayoutX(345 - button1.getMinWidth() / 2); button1.setLayoutY(300);
+        button1.getStyleClass().add("button1");
+        root.getChildren().add(button1);
 
 
 

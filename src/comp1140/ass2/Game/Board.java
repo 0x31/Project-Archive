@@ -2,6 +2,8 @@ package comp1140.ass2.Game;
 
 import comp1140.ass2.Players.Human;
 import comp1140.ass2.Scenes.Game;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 
@@ -220,20 +222,31 @@ public class Board extends GridSprite {
      */
     public boolean legitimateMove(Piece piece) {
 
-        int playerId = (parent!=null) ? parent.currentColourId : piece.colour.ordinal();
+        //int playerId = (parent!=null) ? parent.currentColourId : piece.colour.ordinal();
+        int playerId = currentTurn;
 
+        /* Check that piece hasn't been played yet */
         if(!unplacedPieces[playerId][piece.shape.ordinal()]) {
             return false;
         }
+
         Coordinate[] cells = piece.getOccupiedCells();
         Colour turnColour = piece.colour;
-        /** Check that coordinates are empty */
+
         boolean touchingSide = false;
         for(Coordinate cell : cells) {
+
+            /* Check that the coordinate is not outside the grid */
             if(cell.getX()<0 || cell.getX()>19 || cell.getY()<0 || cell.getY()>19) return false;
+
+            /* Check that coordinates are empty */
             if(grid[cell.getY()][cell.getX()]!=Colour.Empty) return false;
+
+            /* Check that no sides are being touched */
             for(Coordinate sideCell : cell.getSideCells())
                 if( cellAt(sideCell) == turnColour) return false;
+
+            /* Check that there's at least one touching diagonal */
             for(Coordinate diagonalCell : cell.getDiagonalCells()) {
                 if (cellAt(diagonalCell) == turnColour) touchingSide = true;
             }

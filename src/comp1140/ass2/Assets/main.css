@@ -37,17 +37,17 @@
     -fx-font-size: 25px;
     -fx-font-weight: 900;
 }
-.blue {
-    -fx-background-color:
-    #223355,
-    rgb(60,100,200),
-    rgb(11, 66, 155);
-}
 .gray {
     -fx-background-color:
     rgba(00,00,00,0.2),
     rgba(00,00,00,0.4),
     rgba(250,250,250,0.4);
+}
+.blue {
+    -fx-background-color:
+    #223355,
+    rgb(60,100,200),
+    rgb(11, 66, 155);
 }
 .red {
     -fx-background-color:
