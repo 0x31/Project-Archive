@@ -1,8 +1,6 @@
 package comp1140.ass2.Scenes;
 
 import comp1140.ass2.Blokus;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -46,11 +44,7 @@ public class GameOptions extends Scene {
         root.getChildren().add(imv);
 
         Button button5 = new Button("<");
-        button5.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                parent.toMenu();
-            }
-        });
+        button5.setOnAction(e -> parent.toMenu());
         button5.setMinSize(40, 40);
         button5.setMaxSize(40, 40);
         button5.setLayoutX(30 - button5.getMinWidth() / 2); button5.setLayoutY(10);
@@ -58,18 +52,17 @@ public class GameOptions extends Scene {
         button5.getStyleClass().add("button1");
         root.getChildren().add(button5);
 
-        String[] players = new String[]{
-                "None", "Human", "Easy Bot", "Hard Bot", "Max Bot"
-        };
-        int[] buttonState = new int[] {0,0,0,0};
+        int[] buttonState = new int[] {1,0,0,0};
 
-        Button button0 = new Button("+");
-        button0.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                buttonState[0]=(buttonState[0]+1)%players.length;
-                button0.setText(players[buttonState[0]]);
-            }
-        });
+        Button button0 = new Button("Human");
+        Button button1 = new Button("+");
+        button1.setVisible(false);
+        Button button2 = new Button("+");
+        Button button3 = new Button("+");
+        button3.setVisible(false);
+        Button[] buttons = new Button[] {button0,button2,button1,button3};
+
+        button0.setOnAction(e -> updateButtons(buttons, buttonState, 0));
         button0.setMinSize(160, 160);
         button0.setLayoutX(260 - button0.getMinWidth() / 2);
         button0.setLayoutY(260);
@@ -77,62 +70,86 @@ public class GameOptions extends Scene {
         button0.getStyleClass().add("blue");
         root.getChildren().add(button0);
 
-        Button button1 = new Button("+");
-        button1.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                buttonState[2]=(buttonState[2]+1)%players.length;
-                button1.setText(players[buttonState[2]]);
-            }
-        });
+
+        button1.setOnAction(e -> updateButtons(buttons, buttonState, 2));
         button1.setMinSize(160, 160);
         button1.setLayoutX(440 - button1.getMinWidth() / 2);
-        button1.setLayoutY(260);
+        button1.setLayoutY(440);
         button1.getStyleClass().add("addPlayer");
-        button1.getStyleClass().add("red");
+        button1.getStyleClass().add("gray");
         root.getChildren().add(button1);
 
-        Button button2 = new Button("+");
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                buttonState[1]=(buttonState[1]+1)%players.length;
-                button2.setText(players[buttonState[1]]);
-            }
-        });
+        button2.setOnAction(e -> updateButtons(buttons, buttonState, 1));
         button2.setMinSize(160, 160);
-        button2.setLayoutX(260 - button2.getMinWidth() / 2);
-        button2.setLayoutY(440);
+        button2.setLayoutX(440 - button2.getMinWidth() / 2);
+        button2.setLayoutY(260);
         button2.getStyleClass().add("addPlayer");
-        button2.getStyleClass().add("yellow");
+        button2.getStyleClass().add("gray");
         root.getChildren().add(button2);
 
-        Button button3 = new Button("+");
-        button3.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                buttonState[3] = (buttonState[3] + 1) % players.length;
-                button3.setText(players[buttonState[3]]);
-            }
-        });
+        button3.setOnAction(e -> updateButtons(buttons, buttonState, 3));
         button3.setMinSize(160, 160);
-        button3.setLayoutX(440 - button3.getMinWidth() / 2);
+        button3.setLayoutX(260 - button3.getMinWidth() / 2);
         button3.setLayoutY(440);
         button3.getStyleClass().add("addPlayer");
-        button3.getStyleClass().add("green");
+        button3.getStyleClass().add("gray");
         root.getChildren().add(button3);
 
         Button button = new Button("Play!");
         button.getStyleClass().add("button1");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                //if(buttonState[0]+buttonState[1]+buttonState[2]+buttonState[3]==0) {
-                //}
-                //else {
-                    parent.toGame(buttonState);
-                //}
-            }
-        }); button.setMinSize(160, 40); button.setLayoutX(350 - button.getMinWidth() / 2); button.setLayoutY(620);
+        button.setOnAction(e -> parent.toGame(buttonState));
+        button.setMinSize(340, 40); button.setLayoutX(350 - button.getMinWidth() / 2); button.setLayoutY(620);
         button.getStyleClass().add("button"); root.getChildren().add(button);
 
+    }
 
-
+    public void updateButtons(Button[] buttons, int[] buttonState, int change) {
+        String[] players = new String[]{
+                "+", "Human", "Easy Bot", "Hard Bot", "Max Bot"
+        };
+        buttonState[change] = (buttonState[change]+1)%players.length;
+        if(buttonState[0]==0) buttonState[0]++;
+        buttons[change].setText(players[buttonState[change]]);
+        if(change==1&& buttonState[1]==0) {
+            buttons[1].getStyleClass().remove("yellow");
+            buttons[1].getStyleClass().add("gray");
+            buttons[2].setVisible(false);
+            buttonState[2]=0;
+            buttons[2].setText(players[0]);
+            buttons[2].getStyleClass().remove("red");
+            buttons[2].getStyleClass().add("gray");
+            buttons[3].setVisible(false);
+            buttonState[3]=0;
+            buttons[3].setText(players[0]);
+            buttons[3].getStyleClass().remove("green");
+            buttons[3].getStyleClass().add("gray");
+        }
+        if(change==1 && buttonState[1]==1) {
+            buttons[1].getStyleClass().remove("gray");
+            buttons[1].getStyleClass().add("yellow");
+            buttons[2].setVisible(true);
+        }
+        if(change==2 && buttonState[2]==0) {
+            buttons[2].getStyleClass().remove("red");
+            buttons[2].getStyleClass().add("gray");
+            buttons[3].setVisible(false);
+            buttonState[3]=0;
+            buttons[3].setText(players[0]);
+            buttons[3].getStyleClass().remove("green");
+            buttons[3].getStyleClass().add("gray");
+        }
+        if(change==2 && buttonState[2]==1) {
+            buttons[2].getStyleClass().remove("gray");
+            buttons[2].getStyleClass().add("red");
+            buttons[3].setVisible(true);
+        }
+        if(change==3 && buttonState[3]==0) {
+            buttons[3].getStyleClass().remove("green");
+            buttons[3].getStyleClass().add("gray");
+        }
+        if(change==3 && buttonState[3]==1) {
+            buttons[3].getStyleClass().remove("gray");
+            buttons[3].getStyleClass().add("green");
+        }
     }
 }

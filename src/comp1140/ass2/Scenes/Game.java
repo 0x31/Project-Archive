@@ -36,28 +36,23 @@ public class Game extends Scene {
 
     public int currentColourId;
     public int currentPlayerId;
-    //public Player[] players;
-    private final ArrayList<Player> players = new ArrayList<>();
     public final PiecePreparerSprite piecePreparer;
     public final Board board;
-
     public final Panel[] panels;
+    public final Colour[] playerColours = {Colour.Blue, Colour.Yellow, Colour.Red, Colour.Green};
+
+    private final ArrayList<Player> players = new ArrayList<>();
     private final Pane[] panelHeads;
     private final Pane[] panelBorders;
     private final Pane[] panelAll;
     private final Label[] labelScore;
     private final Label[] labelPlayer;
     private final Label[] labelName;
-
     private int turn = 0;
-
     private final boolean[] skip = {false, false, false, false};
-    public final Colour[] playerColours = {Colour.Blue, Colour.Yellow, Colour.Red, Colour.Green};
     private final Group root;
     private final Group realRoot;
     private final Blokus parent;
-
-    public final boolean NO_RIGHT_CLICK = false;
 
     /**
      * Creates a new Game, which is a Scene containing all the required graphics to play Blokus
@@ -116,12 +111,19 @@ public class Game extends Scene {
         button1.setLayoutY(4);
         button1.getStyleClass().add("button1");
         menubar.getChildren().add(button1);
-        root.getChildren().add(menubar);
+        //root.getChildren().add(menubar);
 
 
         int panelCell = 11;
         int prepCell = 20;
 
+        /**  ___  _   _  _ ___ _    ___
+         *  | _ \/_\ | \| | __| |  / __|
+         *  |  _/ _ \| .` | _|| |__\__ \
+         *  |_|/_/ \_\_|\_|___|____|___/
+         */
+
+        /* THE BLUE PANEL */
         Pane blue = new Pane();
         blue.setLayoutX(10);
         blue.setLayoutY(10);
@@ -160,6 +162,7 @@ public class Game extends Scene {
         root.getChildren().add(blue);
 
 
+        /* THE YELLOW PANEL */
         Pane yellow = new Pane();
         yellow.setLayoutX(10);
         yellow.setLayoutY(30 + 10 + 10 + panelCell * 20 + 20);
@@ -197,6 +200,7 @@ public class Game extends Scene {
         root.getChildren().add(yellow);
 
 
+        /* THE RED PANEL */
         Pane red = new Pane();
         red.setLayoutX(10+prepCell*5 + 20 + 10);
         red.setLayoutY(30 + 10 + 10 + panelCell * 40 + 30 + 40);
@@ -234,6 +238,7 @@ public class Game extends Scene {
         root.getChildren().add(red);
 
 
+        /* THE GREEN PANEL */
         Pane green = new Pane();
         green.setLayoutX(700-30-panelCell*20-30);
         green.setLayoutY(30 + 10 + 10 + panelCell * 40 + 30+40);
@@ -271,7 +276,6 @@ public class Game extends Scene {
         green.getChildren().add(greenPane);
         root.getChildren().add(green);
 
-
         panels = new Panel[]{bluePanel, yellowPanel, redPanel, greenPanel};
         panelHeads = new Pane[]{blueHead, yellowHead, redHead, greenHead};
         panelBorders = new Pane[]{bluePane,yellowPane,redPane,greenPane};
@@ -305,7 +309,6 @@ public class Game extends Scene {
 
         root.getChildren().addAll(boardPane, prepPane);
 
-
     }
 
 
@@ -318,6 +321,7 @@ public class Game extends Scene {
         //players = new Player[] {null,null,null,null};
 
         boolean humans = false;
+        boolean lookahead = false;
         for(int i=0;i<4;i++) {
             if(playerCodes[i]==0) {
                 //players[i] = new EasyBot(this);
@@ -348,18 +352,23 @@ public class Game extends Scene {
                     labelPlayer[i].setText("Hard".replace("","\n").trim());
             }
             if(playerCodes[i]==4) {
+                lookahead=true;
                 //players[i] = new HardBot(this);
-                players.add(new MaxBot());
+                players.add(new AlphaBeta());
                 if(i<2)
                     labelPlayer[i].setText("MiniMax");
                 else
                     labelPlayer[i].setText("MiniMax".replace("","\n").trim());
             }
         }
-        if(!humans)
-            parent.GAME_SPEED=0;
-        else
+        if(humans) {
             parent.GAME_SPEED=3;
+        }
+        if(lookahead) {
+            parent.GAME_SPEED=3;
+        }
+        else
+            parent.GAME_SPEED=0;
 
         for(int i=0;i<4;i++){
             labelScore[i].setVisible(true);

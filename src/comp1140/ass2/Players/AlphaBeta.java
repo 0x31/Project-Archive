@@ -4,7 +4,6 @@ import comp1140.ass2.Game.Board;
 import comp1140.ass2.Game.Colour;
 import comp1140.ass2.Game.Coordinate;
 import comp1140.ass2.Game.Piece;
-import comp1140.ass2.Scenes.Game;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,33 +11,31 @@ import java.util.concurrent.TimeUnit;
  * @author ***REMOVED*** on 15/10/2015
  * heavily based on code by Tim
  *
- * An ALPHABETA implementation of a bot
+ * An ALPHABETA implementation of a Blokus bot
+ * Key ideas:
+ *      1. Sort moves each time and only try top N moves (N=5 for depth=1, N=3 otherwise)
+ *      2. Uses HardBot's sorting method
+ *      3. Uses complicated Heuristic from HardBot combined with simple score difference
  */
-public class MaxBot implements Player {
-    public void handleClick(int x, int y) {}
-    public boolean isHuman() {return false;}
-    public void pass(Game parent) {}
+public class AlphaBeta implements Player {
 
     private boolean DEBUG = false;
+    private int myId;
 
     /**
-    function alphabeta(node, depth, α, β, Player)
-    if  depth = 0 or node is a terminal node
-        return score
-    if  Player = MaxPlayer
-        for each child of node
-            α := max(α, alphabeta(child, depth-1, α, β, not(Player) ))
-            if β ≤ α
-                break                             (* Beta cut-off *)
-        return α
-    else
-        for each child of node
-            β := min(β, alphabeta(child, depth-1, α, β, not(Player) ))
-            if β ≤ α
-                break                             (* Alpha cut-off *)
-        return β
+     * @return false, since AlphaBeta is clearly not a human
      */
+    public boolean isHuman() {return false;}
 
+    /**
+     * Runs the next depth of alphabeta
+     * @param board the board
+     * @param depth the current depth (going towards zero)
+     * @param starttime to know how long we've going for
+     * @param alpha the alpha value for tree pruning
+     * @param beta the beta value for tree pruning
+     * @return a score for a given move
+     */
     private double alphabeta(Board board, int depth, long starttime, double alpha, double beta) {
         long time = (System.nanoTime() - starttime);
         long timeS = TimeUnit.SECONDS.convert(time, TimeUnit.NANOSECONDS);
@@ -72,6 +69,12 @@ public class MaxBot implements Player {
         }
     }
 
+    /**
+     * Returns a list of the top potential moves, after ranking and ordering them
+     * @param board the board
+     * @param n the number of moves to return
+     * @return the array of strings to return
+     */
     private String[] getPotentialMoves(Board board, int n) {
         String[] moves = new String[n];
         double[] moveScores = new double[n];
@@ -107,6 +110,11 @@ public class MaxBot implements Player {
         return moves;
     }
 
+    /**
+     * DEPRECATED - create a heatmap of the board to rank moves
+     * here for comparison
+     * See rankMove2()
+     */
     private double rankMove(Board board, String move) {
         //Board newBoard = new Board(board.toString());
         //newBoard.placePiece(move);
@@ -165,6 +173,12 @@ public class MaxBot implements Player {
         return score;
     }
 
+    /**
+     * Returns a score for a given move
+     * @param board the board
+     * @param move the move to rank
+     * @return the score of the move
+     */
     private double rankMove2(Board board, String move) {
         int id = board.getCurrentTurn();
         board.placePiece(move);
@@ -189,8 +203,13 @@ public class MaxBot implements Player {
         return cellCount;
     }
 
+    /**
+     * The scoring algorithm
+     * @param board the board to score
+     * @param playerID the player to score the board for
+     * @return the score of the board
+     */
     private int weightedBoardCoverage(Board board, int playerID) {
-        int cornerCells = 0;
         int weightedCornerCells = 0;
 
         //setting the starting position
@@ -237,8 +256,13 @@ public class MaxBot implements Player {
         return weightedCornerCells/10;
     }
 
-    int myId;
 
+    /**
+     * This is how the Game interfaces with the Bot. When think is called with a Board as a string,
+     * AlphaBeta cooks up the next move and returns it as a string
+     * @param string the board encoded as a string
+     * @return the next move to play, encoded as a string
+     */
     @Override
     public String think(String string) {
         Board board = new Board(string);
@@ -264,6 +288,11 @@ public class MaxBot implements Player {
         return bestMove;
     }
 
+    /**
+     * A way of scoring a board when the depth of the search tree is 0 (a leaf node)
+     * @param board the board to score
+     * @return the score of the board
+     */
     public double heuristic(Board board) {
         int[] score = board.currentScore();
         int myScore = score[myId];
