@@ -59,7 +59,7 @@ public class GameOptions extends Scene {
         root.getChildren().add(button5);
 
         String[] players = new String[]{
-                "None", "Human", "Easy Bot", "Hard Bot"
+                "None", "Human", "Easy Bot", "Hard Bot", "Max Bot"
         };
         int[] buttonState = new int[] {0,0,0,0};
 

@@ -84,7 +84,7 @@ public class Game extends Scene {
         final Image image3 = new Image(Blokus.class.getResourceAsStream("Assets/blokusbg.png"));
         imv1.setImage(image3);
         imv1.setLayoutX(0); imv1.setLayoutY(0);
-        imv1.setFitWidth(700);
+            imv1.setFitWidth(700);
         imv1.setPreserveRatio(true);
         root.getChildren().add(imv1);
 
@@ -347,6 +347,14 @@ public class Game extends Scene {
                 else
                     labelPlayer[i].setText("Hard".replace("","\n").trim());
             }
+            if(playerCodes[i]==4) {
+                //players[i] = new HardBot(this);
+                players.add(new MaxBot());
+                if(i<2)
+                    labelPlayer[i].setText("MiniMax");
+                else
+                    labelPlayer[i].setText("MiniMax".replace("","\n").trim());
+            }
         }
         if(!humans)
             parent.GAME_SPEED=0;
@@ -553,11 +561,18 @@ public class Game extends Scene {
         updatePanels(currentColourId);
 
         currentPanel = panels[currentColourId];
+        hideBadPieces(currentColourId);
         if(parent.DEBUG) System.out.print("\rPlayer " + (currentColourId + 1) + "'s go!");
 
-        hideBadPieces(currentColourId);
-        if(panels[currentColourId].activeShapes.isEmpty()){
-            currentPlayer.pass(this);
+        if(skip[currentPlayerId]) {
+            makeMove(".");
+        } else if(panels[currentColourId].activeShapes.isEmpty()){
+            if(currentPlayer.isHuman()) {
+                ((Human) currentPlayer).pass(this);
+            }
+            else {
+                makeMove(".");
+            }
         } else {
             // Gives the player 10 seconds to complete their turn (unless it's a human)
             final CountDownLatch latch = new CountDownLatch(1);
@@ -575,6 +590,7 @@ public class Game extends Scene {
             } catch (InterruptedException e) { e.printStackTrace();}
 
             t.interrupt();
+            t.stop();
 
             Timeline timeline = new Timeline(new KeyFrame(
                     Duration.millis(Math.pow(10,parent.GAME_SPEED)),

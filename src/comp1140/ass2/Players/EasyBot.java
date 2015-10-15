@@ -23,17 +23,6 @@ public class EasyBot implements Player {
     }
 
     /**
-     * If a user clicks on the board, nothing should happen, since it's not their turn
-     * @param x the clicked cell's x value in the grid
-     * @param y the clicked cell's y value in the grid
-     */
-    @Override
-    public void handleClick(int x, int y) {
-        //#TODO: Alert user it's not their turn?
-        // Or do nothing
-    }
-
-    /**
      * Easybot produces a next move
      * @param string representing the current game of played pieces
      * @return a string which represents the next move
@@ -71,15 +60,6 @@ public class EasyBot implements Player {
     @Override
     public boolean isHuman() {
         return false;
-    }
-
-    /**
-     * Passes when no moves can be made
-     * @param parent the Game class
-     */
-    @Override
-    public void pass(Game parent) {
-        parent.makeMove(".");
     }
 
     /**

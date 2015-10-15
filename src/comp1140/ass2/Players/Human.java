@@ -25,7 +25,6 @@ public class Human implements Player {
      * @param x the clicked cell's column
      * @param y the clicked cell's row
      */
-    @Override
     public void handleClick(int x, int y) {
         if(parent.piecePreparer.getPiece()!=null) {
             Piece piece = new Piece(parent.piecePreparer.getPiece());
@@ -63,9 +62,11 @@ public class Human implements Player {
     }
 
     /**
-     * #TODO: Change to have a button requiring clicking before being passed (Only for the first pass)
+     * The Human panel should handle passing
+     * Some alternative options to just skipping the go are to
+     *  1. Show a Pass button
+     *  2. Show a visual lock on the panel
      */
-    @Override
     public void pass(Game parent) {
         parent.makeMove(".");
     }

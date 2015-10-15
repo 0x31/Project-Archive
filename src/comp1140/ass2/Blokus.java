@@ -21,7 +21,7 @@ public class Blokus extends Application {
 
     // Prints debug information
     // Should be disabled for final deliverable
-    public final boolean DEBUG = true;
+    public final boolean DEBUG = false;
 
     // A time delay for the bots, so appear a bit more human
     // For future: Should only apply to Easy_Bots

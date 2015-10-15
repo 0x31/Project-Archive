@@ -34,6 +34,7 @@ public class Piece {
      * @param c    the colour of the player making the move
      */
     public Piece(String move, Colour c) {
+        //System.out.println(move);
         int pieceChar = move.charAt(0)-'A';
         char rotation = move.charAt(1);
         int x         = move.charAt(2)-'A';

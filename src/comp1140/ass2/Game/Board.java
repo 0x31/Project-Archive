@@ -1,5 +1,6 @@
 package comp1140.ass2.Game;
 
+import comp1140.ass2.Players.Human;
 import comp1140.ass2.Scenes.Game;
 
 import java.util.ArrayList;
@@ -282,7 +283,9 @@ public class Board extends GridSprite {
     public void isClicked(CellSprite cell) {
         int x = getColumnIndex(cell);
         int y = getRowIndex(cell);
-        parent.currentPlayer.handleClick(x, y);
+        if(parent.currentPlayer.isHuman()) {
+            ((Human) parent.currentPlayer).handleClick(x,y);
+        }
     }
 
     /**
@@ -293,7 +296,9 @@ public class Board extends GridSprite {
         if(sprite == preview) {
             int x = sprite.coordinates[0].getX();
             int y = sprite.coordinates[0].getY();
-            parent.currentPlayer.handleClick(x, y);
+            if(parent.currentPlayer.isHuman()) {
+                ((Human) parent.currentPlayer).handleClick(x,y);
+            }
         }
     }
 
@@ -376,6 +381,13 @@ public class Board extends GridSprite {
             }
         }
         return scores;
+    }
+
+    /***/
+    public boolean isFinished() {
+        int last = moves.size();
+        if(last<3) return false;
+        return (moves.get(last-1)=="." && moves.get(last-2)=="." && moves.get(last-3)=="." && moves.get(last-4)==".");
     }
 
 }

@@ -18,15 +18,6 @@ public class HardBot implements Player {
     }
 
     /**
-     * Nothing happens if a user clicks on the board, as it is not their turn
-     * @param x the clicked cell's x value in grid
-     * @param y the clicked cell's y value in grid
-     */
-    @Override
-    public void handleClick(int x, int y) {
-    }
-
-    /**
      * GreedyBot4 thinks of the best next move
      * @param string representing the current game of played pieces
      * @return a string representing the next best move
@@ -209,12 +200,4 @@ public class HardBot implements Player {
         return false;
     }
 
-    /**
-     * Passes when no moves can be made
-     * @param parent the Game class
-     */
-    @Override
-    public void pass(Game parent) {
-        parent.makeMove(".");
-    }
 }
