@@ -8,11 +8,13 @@ package comp1140.ass2;
  */
 
 import comp1140.ass2.Scenes.*;
+import comp1140.ass2.Scenes.Menu;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -92,6 +94,7 @@ public class Blokus extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        primaryStage.getIcons().add( new Image( Blokus.class.getResourceAsStream( "Assets/blokusbg.png" )));
 
         menu = new Menu(new Group(), 700,700, this);
         instructions = new Instructions(new Group(), 700,700, this);

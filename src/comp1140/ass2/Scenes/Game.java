@@ -570,6 +570,7 @@ public class Game extends Scene {
         currentPanel = panels[currentColourId];
         hideBadPieces(currentColourId);
         if(parent.DEBUG) System.out.print("\rPlayer " + (currentColourId + 1) + "'s go!");
+        parent.setTitle("Blokus: Player " + (currentColourId + 1) + "'s go");
 
         if(skip[currentPlayerId]) {
             makeMove(".");
