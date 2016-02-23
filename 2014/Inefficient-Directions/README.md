@@ -7,7 +7,7 @@ This project was awarded (ACT) Digital ***REMOVED*** Entrepreneur and 2nd Place 
 
 Inefficient Directions is a GovHack [1] built upon [data.act.gov.au] dat.
 
-![Picture of Inefficient Directions](http://i1.wp.com/www.***REMOVED***.com/img/govhack.png)
+![Picture of Inefficient Directions](http://***REMOVED***.com/img/govhack.png)
 
 Tools Used
 ===
