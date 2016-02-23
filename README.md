@@ -1,7 +1,7 @@
 Govhack
 =======
 
-* 2015: Find
+* 2015: Reaction
 
 ![Reaction](http://i.imgur.com/984tOqk.png "Reaction Screenshot")
 
