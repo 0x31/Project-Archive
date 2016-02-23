@@ -7,4 +7,5 @@ Govhack
 
 * 2014: Inefficient-Directions
 
-![Picture of Inefficient Directions](http://i1.wp.com/www.***REMOVED***.com/img/govhack.png)
+<img src="http://i1.wp.com/www.***REMOVED***.com/img/govhack.png
+"/>
