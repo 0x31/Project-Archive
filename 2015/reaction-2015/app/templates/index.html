@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/main.js"></script>
+
+    <h3><a href="/new_recipe">Create a new reaction</a></h3>
+    {% if recipes %}
+    <h3>Your reactions are</h3>
+    {% for recipe in recipes %}
+    <div class="recipe"><div class="if" style="background-color: {{ actions[recipe.action].color }}"><span>if</span><img class="svg icon push1" src="/static/img/{{ actions[recipe.action].icon }}" /></div><div class="then" style="background-color: {{ reactions[recipe.reaction].color }}"><span>then</span><img class="svg icon push" src="/static/img/{{ reactions[recipe.reaction].icon }}"/></div></div><span class="recipe-desc">If {{ actions[recipe.action].name  }} then {{ reactions[recipe.reaction].name
+      }}.</span>
+    {% endfor %}
+    {% endif %}
+
+    <script>svgs()</script>
+
+{% endblock %}
+

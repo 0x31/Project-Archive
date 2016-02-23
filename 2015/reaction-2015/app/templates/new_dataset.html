@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/main.js"></script>
+
+<h2>Enter URL:</h2>
+<input style="width:100%;" id="url"/>
+<button onclick="submiturl()" id="send-url">SUBMIT</button>
+<br />
+<div class="file"><input class="filer" checked="checked" type="radio" name="file" value="json">JSON</div>
+<div class="file"><input class="filer" type="radio" name="file" value="csv">CSV</div>
+
+<script>
+var column_list = []
+
+  function submiturl() {
+    var url = $("#url").val();
+
+    $.post("/new_dataset",
+    {
+      url: url
+    },
+    function(data,status){urlcallback(data);});
+
+  }
+
+  function urlcallback(data){
+    jdata=JSON.parse(data);
+    column_list = []
+    for(key in jdata){
+      column_list.push(key);
+      $("#columns").append('<a class="no-styling"><div class="list-item-container"><div id="col-'+key.split('.').join("")+'" alt="'+key+'" style="background-color: #555; float: left;" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/tag.svg" /></div><span class="list-desc long-words">'+key+'</span></div></a>');
+    }
+    $("#hidden").show();
+    svgs();
+
+
+
+
+  }
+
+function allowDrop(ev) {
+      ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function dbdrop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+    html = $("#"+data).clone();
+    $(ev.target).html( html  );
+}
+
+function db1drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data.substr(0,3)=="cl-"){
+    html = $("#"+data).clone();
+    $(ev.target).html( html  );
+  }
+}
+
+function db0drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data.substr(0,3)=="ic-"){
+    html = $("#"+data).clone();
+    $(ev.target).html( html  );
+  }
+}
+
+function dbdrop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data.substr(0,3)!="cl-" && data.substr(0,3)!="ic-" ){
+    html = $("#"+data).clone();
+    $(ev.target).html( html  );
+  }
+}
+
+
+function submit(){
+  var icon = $("#big-db").children().first().attr('alt');
+  if(icon==undefined){icon="logo.svg"}
+  var color = $("#big-db1").children().first().attr('alt');
+  if(color==undefined){color="#555"}
+  var url = $("#url").val();
+  var dated = $("#big-db2").children().first().attr('alt');
+  if(dated==undefined){dated="undefined"}
+  var latitude = $("#big-db3").children().first().attr('alt');
+  if(latitude==undefined){latitude="undefined"}
+  var longitude = $("#big-db4").children().first().attr('alt');
+  if(longitude==undefined){longitude="undefined"}
+  var columns = column_list.join();
+
+
+  swal({title: "Name ",
+        text: "Enter database name",
+        type: "input",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        animation: "slide-from-top",
+        inputPlaceholder:"Database Name" },
+        function(inputValue){
+            if (inputValue === false) return false;
+            if (inputValue === ""){
+                swal.showInputError("You need to write something!");
+                return false
+            }
+            swal("Nice!", "You wrote: " + inputValue, "success");
+
+        $.post("/new_dataset",
+        {
+          name: inputValue,
+          icon: icon,
+          color: color,
+          url1: url,
+          url:"no",
+          latitude:latitude,
+          longitude:longitude,
+          date:dated,
+          columns: columns
+        },
+        function(data,status){
+          window.location.href = "/new_action";
+        });
+
+        });
+}
+
+
+</script>
+
+<div id="hidden">
+<h2>Database settings:</h2>
+<div id="statement" style="margin-left: 0px;">
+  <div class="big-wrap"><div id="big-db1" class="big-icon" ondrop="db1drop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Color</span></div>
+  <div class="big-wrap"><div id="big-db" class="big-icon" ondrop="db0drop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Icon</span></div>
+  <div class="big-wrap"><div id="big-db2" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Date</span></div>
+  <div class="big-wrap"><div id="big-db3" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Latitude</span></div>
+  <div class="big-wrap"><div id="big-db4" class="big-icon" ondrop="dbdrop(event)" ondragover="allowDrop(event)"></div><span class="big-desc">Longitude</span></div>
+  <button onclick="submit()" id="create" class="showing"><img class="svg" id="create-icon" alt="Create!" src="/static/img/arrow.svg" /></button>
+</div>
+
+<div id="columns">
+  <h4>Column Labels:</h4>
+</div>
+
+
+<div id="colors">
+  <h4>Colors:</h4>
+  {% for color in colors %}
+    <a class="no-styling"><div class="list-item-container no-desc">
+        <div id="cl-{{ colors.index(color) }}" alt="{{ color }}" style="background-color: {{ color }}" class="list-item" draggable="true" ondragstart="drag(event)"></div>
+      </div></a>
+  {% endfor %}
+</div>
+
+<div id="icons">
+  <h4>Icons:</h4>
+  {% for icon in icons %}
+    <a class="no-styling"><div class="list-item-container no-desc">
+        <div id="ic-{{ icons.index(icon) }}" alt="{{ icon }}" style="background-color: #555" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ icon }}" /></div>
+      </div></a>
+  {% endfor %}
+</div>
+
+</div>
+
+
+<script>
+
+
+
+
+
+
+
+    // grab the initial top offset of the navigation 
+    var sticky_navigation_offset_top = $('#statement').offset().top;
+    $("#hidden").hide();
+     
+    // our function that decides weather the navigation bar should have "fixed" css position or not.
+    var sticky_navigation = function(){
+        var scroll_top = $(window).scrollTop(); // our current vertical position from the top
+         
+        // if we've scrolled more than the navigation, change its position to fixed to stick to top,
+        // otherwise change it back to relative
+        if (scroll_top > sticky_navigation_offset_top) { 
+            $('#statement').css({ 'position': 'fixed', 'top':0 ,'margin-left':0});
+            $('#hidden').css({ 'margin-top':240 });
+        } else {
+            $('#statement').css({ 'position': 'relative', 'margin-left':0 }); 
+            $('#hidden').css({ 'margin-top':0 });
+        }   
+    };
+     
+    // run our function on load
+    sticky_navigation();
+     
+    // and run it again every time you scroll
+    $(window).scroll(function() {
+         sticky_navigation();
+    });
+ 
+
+
+
+
+
+
+
+svgs()</script>
+{% endblock %}
