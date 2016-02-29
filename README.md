@@ -7,4 +7,4 @@ Govhack
 
 * 2014: Inefficient-Directions
 
-<img src="http://www.***REMOVED***.com/img/govhack.png"/>
+<img src="2014/Inefficient-Directions/govhack.png"/>
