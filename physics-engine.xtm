@@ -1,0 +1,302 @@
+;;; physics-engine.xtm, other.xtm
+
+;; Author: ***REMOVED***
+;; Keywords: extempore
+;; Required dylibs: libglfw3, libnanovg
+;; Required file: other.xtm
+
+(sys:load "libs/external/glfw3.xtm")
+
+(bind-val width float 1024.)
+(bind-val height float 768.)
+(bind-val delta_t double (/ 1. 100.))
+
+(bind-val window GLFWwindow*
+  (begin
+    (glfwSetErrorCallback (convert (get_native_fptr glfw_error_callback)))
+    (glfw_init_and_create_interaction_window (convert width) (convert height))))
+
+(sys:load "libs/external/nanovg.xtm")
+(bind-val vg NVGcontext* (nvg_create_context))
+(bind-val pixel_ratio float (glfw_get_pixel_ratio window))
+
+(bind-func set_bg
+  (lambda (vg:NVGcontext*)
+    (_nvgFillColor vg (NVGcolor 1.0 1.0 1.0 1.0))
+    (nvgBeginPath vg)
+    (nvgRect vg 0. 0. width height)
+    (nvgFill vg)))
+
+
+;; TYPES
+
+;; Vector
+(bind-type vec <double,double>)
+
+;; Mass
+(bind-alias inertia double)
+(bind-alias massDouble double)
+(bind-type mass <massDouble,inertia>)
+
+;; Movement
+(bind-alias velocity vec)
+(bind-alias force vec)
+
+;; Material
+(bind-alias density double)
+(bind-alias restitution double)
+(bind-type color <double,double,double>)
+(bind-type material <density,restitution,color*>)
+
+;; Square
+(bind-type square <double,double,double,double>)
+
+;; Object
+(bind-type object <square*,mass*,velocity*,force*,material*>)
+
+(sys:load "./other.xtm")
+
+;; Initialising
+
+(bind-val wood material* (makeMaterial 0.3 0.2 (makeColor 0.5 0.3 0.0)))
+(bind-val bounce material* (makeMaterial 0.2 0.6 (makeColor 1.0 0.3 0.0)))
+(bind-val static material* (makeMaterial 0.0 0.4 (makeColor 0.0 0.0 0.0)))
+(bind-val zero vec* (makeV 0.0 0.0))
+(bind-val meter double 300.0) ;; how many pixels form a meter
+(bind-val gravity vec* (makeV 0.0 -9.8) )
+(bind-val count i64 11)
+(bind-val shapeArray |11,object*|*)
+
+(bind-func initialise
+  (lambda ()
+    (set! gravity (makeV 0.0 -29.0) )
+    (set! delta_t (/ 1. 50.))
+
+    (set! bounce (makeMaterial 0.2 0.6 (makeColor 1.0 0.3 0.0)))
+    (set! wood (makeMaterial 0.9 0.2 (makeColor 0.5 0.3 0.0)))
+    (set! static (makeMaterial 0.0 0.3 (makeColor 0.0 0.0 0.0)))
+    ;;
+    (aset! shapeArray 0 (makeObject (makeSquare 0.0 40.0 984.0 40.0) zero zero static) )
+    (aset! shapeArray 1 (makeObject (makeSquare 0.0 768.0 40.0 728.0) zero zero static) )
+    (aset! shapeArray 2 (makeObject (makeSquare 40.0 768.0 984.0 40.0) zero zero static) )
+    (aset! shapeArray 3 (makeObject (makeSquare 984.0 728.0 40.0 728.0) zero zero static) )
+    ;;
+    (aset! shapeArray 4 (makeObject (makeSquare 500.0 262.0 65.0 65.0) (makeV 0.0 +3009.8) zero wood) )
+    (aset! shapeArray 5 (makeObject (makeSquare 510.0 482.0 55.0 65.0) (makeV 400.0 400.0) zero wood) )
+    (aset! shapeArray 6 (makeObject (makeSquare 610.0 472.0 25.0 65.0) (makeV 4000.0 400.0) zero wood) )
+    (aset! shapeArray 7 (makeObject (makeSquare 810.0 262.0 75.0 65.0) (makeV 00.0 -29.8) zero wood) )
+    (aset! shapeArray 8 (makeObject (makeSquare 810.0 462.0 65.0 65.0) (makeV 0.0 200.0) zero wood) )
+    (aset! shapeArray 9 (makeObject (makeSquare 400.0 700.0 25.0 505.0) (makeV 0.0 100.0) zero bounce) )
+    (aset! shapeArray 10 (makeObject (makeSquare 300.0 700.0 25.0 35.0) (makeV 0.0 100.0) zero wood) )
+  ))
+;; (initialise)
+
+;; Screen stuff
+(bind-func draw_shape
+  (lambda (vg:NVGcontext* in:object*)
+    (let ((sq (tuple-ref in 0))
+          (mat (tuple-ref in 4))
+          (c (tuple-ref mat 2))
+          (stroke:double 2.)
+          (x (tuple-ref sq 0))
+          (y (- (convert height) (tuple-ref sq 1))))
+      (nvgResetTransform vg)
+      (nvgTranslate vg (convert (+ x (/ stroke 2.0))) (convert (+ y (/ stroke 2.0))))
+      (nvgBeginPath vg)
+      (nvgRect vg 0. 0. (convert (- (tuple-ref sq 2) (/ stroke 1.0))) (convert (- (tuple-ref sq 3) (/ stroke 1.0) )))
+      (_nvgFillColor vg (NVGcolor (convert (tuple-ref c 0)) (convert (tuple-ref c 1)) (convert (tuple-ref c 2)) 0.8))
+      (nvgFill vg)
+      (nvgStrokeWidth vg (convert stroke))
+      (_nvgStrokeColor vg (NVGcolor (convert (tuple-ref c 0)) (convert (tuple-ref c 1)) (convert (tuple-ref c 2)) 1.0))
+      (nvgStroke vg))))
+
+(bind-func render_frame
+  (lambda ()
+  (let ((i 0:i64))
+    (nvgBeginFrame vg (convert width) (convert height) pixel_ratio)
+    (nvgResetTransform vg)
+    (set_bg vg)
+    (dotimes (i count)
+      (draw_shape vg (aref shapeArray i) ))
+    (nvgEndFrame vg))))
+
+
+;; PHYSICS!
+(bind-func resolve_collision
+  (lambda (a:object* b:object* normal:vec* p:double)
+    (let ( (a_vel (tuple-ref a 2) )
+           (b_vel (tuple-ref b 2) )
+           ;; a
+           (a_res (tuple-ref (tuple-ref a 4) 1))
+           (a_mass (tuple-ref (tuple-ref a 1) 0))
+           (a_mass_inv (inv a_mass))
+           ;; b
+           (b_res (tuple-ref (tuple-ref b 4) 1))
+           (b_mass (tuple-ref (tuple-ref b 1) 0))
+           (b_mass_inv (inv b_mass))
+
+           (rv (subtract (subtract b_vel (scale (scale gravity b_mass) b_mass_inv)) (subtract a_vel (scale (scale gravity a_mass) a_mass_inv))))
+           (velAlongNormal (dot rv normal))
+
+           ;; Find coefficient of restitution
+           ;;(e (/ (+ a_res b_res) 2.0))
+           (e (maxf a_res b_res))
+           ;; Find collision impulse
+           (j1 (* (- 0.0 (+ 1.0 e)) velAlongNormal))
+           (j (/ j1 (+ a_mass_inv b_mass_inv)  ))
+           (impulse (scale normal j))
+           (delta_a_v (scale impulse a_mass_inv))
+           (delta_b_v (scale impulse b_mass_inv))
+           (new_a_v (subtract a_vel delta_a_v))
+           (new_b_v (add b_vel delta_b_v))
+           (percent 1.0)
+           (slop 0.01)
+           (correction (scale normal (* percent (/ (maxf (- p slop) (0.0) ) (+ a_mass_inv b_mass_inv) )))   )
+           (ncorrection (scale correction (-1.0))))
+      ;;(if (= b_res 0.6) (set! new_b_v b_vel))
+      ;; (initialise)
+      ;;(if (< (norm new_a_v) (* 2.0 (norm gravity)))
+      ;;  (set! new_a_v zero)
+      ;;)
+      ;;(if (< (norm new_b_v) (* 2.0 (norm gravity)))
+      ;;  (set! new_b_v zero)
+      ;;)
+
+
+      (if (> 0.0 velAlongNormal)
+        (let ((l a))
+          (tuple-set! a 2 new_a_v)
+          (tuple-set! b 2 new_b_v)
+
+          ;; Position Corrections
+          (moveSquare (tuple-ref a 0) (scale ncorrection a_mass_inv))
+          (moveSquare (tuple-ref b 0) (scale correction b_mass_inv))
+
+          ;; Friction
+          (if (> 3 2) (let (
+                (rv (subtract new_b_v new_a_v))
+                (tangent1 (subtract rv (scale normal (dot rv normal))))
+                (tangent (normalise tangent1))
+                (jt1 (- 0.0 (dot rv tangent)))
+                (jt (/ jt1(+ a_mass_inv b_mass_inv)))
+                (mu 0.3)
+                (muk 0.3))
+            (if (< (absof jt) (* jt mu))
+              (let ((frictionImpulse (scale tangent jt))
+                    (new_a_v2 (subtract new_a_v (scale frictionImpulse a_mass_inv)))
+                    (new_b_v2 (add new_b_v (scale frictionImpulse a_mass_inv))))
+                (tuple-set! a 2 new_a_v2)
+                (tuple-set! b 2 new_b_v2)
+              )
+              (let ((frictionImpulse (scale tangent (* jt muk)))
+                    (new_a_v2 (subtract new_a_v (scale frictionImpulse a_mass_inv)))
+                    (new_b_v2 (add new_b_v (scale frictionImpulse b_mass_inv))))
+                (tuple-set! a 2 new_a_v2)
+                (tuple-set! b 2 new_b_v2)))))))
+      #t)))
+
+(bind-func check_for_collision
+  (lambda (a:object* b:object*)
+    (let (
+            ( normal:vec* (alloc) )
+            ( penet 0.0 )
+            ( a_sq ( tuple-ref a 0) )
+            ( b_sq ( tuple-ref b 0) )
+            ( a_ex_x ( / ( tuple-ref a_sq 2 ) 2.0 ) )
+            ( b_ex_x ( / ( tuple-ref b_sq 2 ) 2.0 ) )
+            ( nx:double (- (+ (tuple-ref b_sq 0) b_ex_x) (+ (tuple-ref a_sq 0) a_ex_x)))
+            ( x_overlap ( + a_ex_x b_ex_x (- 0.0 (absof nx))) ))
+      (if (> x_overlap 0.0)
+        (let (
+                ( a_ex_y ( / ( tuple-ref a_sq 3 ) 2.0 ) )
+                ( b_ex_y ( / ( tuple-ref b_sq 3 ) 2.0 ) )
+                ( ny:double (- (- (tuple-ref b_sq 1) b_ex_y) (- (tuple-ref a_sq 1) a_ex_y)))
+                ( y_overlap ( + a_ex_y b_ex_y (- 0.0 (absof ny))) ))
+          (if (> y_overlap 0.0)
+            ;; COLLISION DETECTED
+            ;; Figure out what direction:
+            (let ((l 0))
+              ( if (< x_overlap y_overlap)
+                (let ((l 0))
+                  (set! penet x_overlap)
+                  ( if (< nx 0)
+                    (set! normal (makeV -1.0 0.0))
+                    (set! normal (makeV 1.0 0.0))))
+                (let ((l 0))
+                  (set! penet y_overlap)
+                  ( if (< ny 0)
+                    (set! normal (makeV 0.0 -1.0))
+                    (set! normal (makeV 0.0 1.0)))))
+              (resolve_collision a b normal penet)))))
+    #t)))
+
+(bind-func update_shape
+  (lambda (shape:object*)
+    (let (
+          (sq (tuple-ref shape 0))
+          (vel (tuple-ref shape 2))
+          (acc (tuple-ref shape 3))
+          (delta_pos (scale (add vel (scale acc (* delta_t 0.5) )) delta_t ))
+          (m (tuple-ref (tuple-ref shape 1) 0))
+
+          ;; ADD FORCES
+          (force (add (scale gravity m) zero))
+
+          (new_acc (scale force (inv m)))
+          (new_v (add vel new_acc) )
+        )
+      ;; ACCELERATION
+      (tuple-set! shape 3 new_acc)
+      ;; VELOCITY
+      (tuple-set! shape 2 new_v)
+      ;; POSITION
+      (moveSquare sq delta_pos)
+
+      #t
+    )
+  )
+)
+
+(bind-func update_array
+  (lambda ()
+    (let ((i 0:i64) (j 0:i64))
+
+      ;; Update POSITION, ACCELERATION and then VELOCITY for each shape
+      (dotimes (i count)
+        (update_shape (aref shapeArray i)))
+
+      ;; COLLISION DETECTION for each pair of shapes
+      (dotimes (i count)
+        (dotimes (j (- (- count 1) i))
+          (check_for_collision (aref shapeArray i) (aref shapeArray (+ j i 1)))))
+
+      #t)))
+
+(bind-func tick
+  (lambda ()
+    (update_array)
+    (nvg_clear)
+    (render_frame)
+    (glfwPollEvents)
+    (glfwSwapBuffers window)))
+
+(bind-func engine_loop
+  (lambda (time:i64)
+    (tick)
+    (let ((next_time (+ time (convert (* 44100. delta_t)))))
+      (callback next_time engine_loop next_time))))
+
+(bind-func start
+  (lambda ()
+    (printf "Initialising...\n")
+    (initialise)
+    (printf "Starting...\n")
+    (engine_loop (now))))
+
+(start)
+
+;; to stop the draw loop, eval this version of engine_loop
+;(bind-func engine_loop
+; (lambda (time:i64)
+;  (println "nvg_draw_loop callback stopped")
+;   #f))
