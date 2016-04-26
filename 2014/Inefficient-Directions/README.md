@@ -5,7 +5,7 @@ Plan scenic walks between two given locations.
 
 This project was awarded (ACT) Digital ***REMOVED*** Entrepreneur and 2nd Place (National) Best Schools Team.
 
-Inefficient Directions is a GovHack [1] built upon [data.act.gov.au][data.act.gov.au] dat and [Google Maps](maps.google.com).
+Inefficient Directions is a GovHack [1] built upon [data.act.gov.au](data.act.gov.au) dat and [Google Maps](maps.google.com).
 
 ![Picture of Inefficient Directions](govhack.png)
 
