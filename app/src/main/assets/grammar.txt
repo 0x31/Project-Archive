@@ -1,6 +1,19 @@
-$Expression -> $Addition | $Subtraction | $Multiplication | $Division | $Sin | _( $Expression _) | int | float
-$Sin -> _sin _( $Expression _)
-$Addition -> $Expression _+ $Expression
-$Subtraction -> $Expression _- $Expression
-$Multiplication -> $Expression _* $Expression
-$Division -> $Expression _/ $Expression
+$Precedence1 -> $Addition | $Subtraction | $Precedence2
+$Addition -> $Precedence1 _+ $Precedence2
+$Subtraction -> $Precedence1 _- $Precedence2
+
+$Precedence2 -> $Multiplication | $Division | $Precedence3
+$Multiplication -> $Precedence2 _* $Precedence3
+$Division -> $Precedence2 _/ $Precedence3
+
+$Precedence3 -> _( $Precedence1 _) | int | float
+
+
+
+
+#$Addition | $Subtraction | $Multiplication | $Division | $Sin | _( $Expression _) | int | float
+#$Sin -> _sin _( $Expression _)
+#$Addition -> $Expression _+ $Expression
+#$Subtraction -> $Expression _- $Expression
+#$Multiplication -> $Expression _* $Expression
+#$Division -> $Expression _/ $Expression
