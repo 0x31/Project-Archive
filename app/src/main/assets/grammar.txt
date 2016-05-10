@@ -14,22 +14,12 @@ $Precedence4 -> _( $Precedence1 _) | int | float | $Function | $Constant
 $Function -> $Sin | $Cos | $Tan | $Log | $Ln
 
 $Sin -> _sin _( $Precedence1 _)
-$Cos -> _sin _( $Precedence1 _)
-$Tan -> _sin _( $Precedence1 _)
-$Log -> _sin _( $Precedence1 _, $Precedence1 _)
-$Ln -> _sin _( $Precedence1 _)
+$Cos -> _cos _( $Precedence1 _)
+$Tan -> _tan _( $Precedence1 _)
+$Log -> _log _( $Precedence1 _, $Precedence1 _) | _log _( $Precedence1 _)
+$Ln -> _ln _( $Precedence1 _)
 
 $Constant -> $Pi | $E | $Phi
 $Pi -> _pi | _π
 $E -> _e
-$Phi -> _phi
-
-
-
-
-#$Addition | $Subtraction | $Multiplication | $Division | $Sin | _( $Expression _) | int | float
-#$Sin -> _sin _( $Expression _)
-#$Addition -> $Expression _+ $Expression
-#$Subtraction -> $Expression _- $Expression
-#$Multiplication -> $Expression _* $Expression
-#$Division -> $Expression _/ $Expression
+$Phi -> _phi | _ϕ
