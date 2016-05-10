@@ -1,12 +1,28 @@
 $Precedence1 -> $Addition | $Subtraction | $Precedence2
 $Addition -> $Precedence1 _+ $Precedence2
-$Subtraction -> $Precedence1 _- $Precedence2
+$Subtraction -> $Precedence1 _- $Precedence2 | ε _- $Precedence2
 
 $Precedence2 -> $Multiplication | $Division | $Precedence3
 $Multiplication -> $Precedence2 _* $Precedence3
 $Division -> $Precedence2 _/ $Precedence3
 
-$Precedence3 -> _( $Precedence1 _) | int | float
+$Precedence3 -> $Power | $Precedence4
+$Power -> $Precedence3 _^ $Precedence4 | _pow _( $Precedence1 _, $Precedence1 _)
+
+$Precedence4 -> _( $Precedence1 _) | int | float | $Function | $Constant
+
+$Function -> $Sin | $Cos | $Tan | $Log | $Ln
+
+$Sin -> _sin _( $Precedence1 _)
+$Cos -> _sin _( $Precedence1 _)
+$Tan -> _sin _( $Precedence1 _)
+$Log -> _sin _( $Precedence1 _, $Precedence1 _)
+$Ln -> _sin _( $Precedence1 _)
+
+$Constant -> $Pi | $E | $Phi
+$Pi -> _pi | _π
+$E -> _e
+$Phi -> _phi
 
 
 
