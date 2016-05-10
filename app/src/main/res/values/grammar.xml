@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="grammar">$Expression -> $Addition | $Subtraction | $Sin | ( $Expression ) | int\n
-$Sin -> sin ( $Expression )\n
-$Addition -> $Expression + $Expression\n
-$Subtraction -> $Expression - $Expression\n</string>
-
-</resources>

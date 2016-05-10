@@ -1,0 +1,6 @@
+$Expression -> $Addition | $Subtraction | $Multiplication | $Division | $Sin | _( $Expression _) | int | float
+$Sin -> _sin _( $Expression _)
+$Addition -> $Expression _+ $Expression
+$Subtraction -> $Expression _- $Expression
+$Multiplication -> $Expression _* $Expression
+$Division -> $Expression _/ $Expression
