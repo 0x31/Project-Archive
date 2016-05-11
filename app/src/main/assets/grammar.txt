@@ -1,12 +1,16 @@
+
+# +,-
 $Precedence1 -> $Addition | $Subtraction | $Precedence2
 $Addition -> $Precedence1 _+ $Precedence2
 $Subtraction -> $Precedence1 _- $Precedence2 | ε _- $Precedence2
 
+# *,/,%
 $Precedence2 -> $Multiplication | $Division | $Modulo | $Precedence3
 $Multiplication -> $Precedence2 _* $Precedence3 | $Precedence2 $Precedence3
 $Division -> $Precedence2 _/ $Precedence3
 $Modulo -> $Precedence2 _% $Precedence3
 
+# ^
 $Precedence3 -> $Power | $Precedence4
 $Power -> $Precedence3 _^ $Precedence4 | _pow _( $Precedence1 _, $Precedence1 _)
 
@@ -14,7 +18,7 @@ $Precedence4 -> _( $Precedence1 _) | $Function | $Constant | $Number
 
 $Number -> int | float | hexint | binint | octint
 
-$Function -> $Sin | $Cos | $Tan | $Log | $Ln | $Sqrt
+$Function -> $Sin | $Cos | $Tan | $Log | $Ln | $Exp | $Sqrt
 
 $Sin -> _sin _( $Precedence1 _)
 $Cos -> _cos _( $Precedence1 _)
@@ -22,6 +26,7 @@ $Tan -> _tan _( $Precedence1 _)
 $Log -> _log _( $Precedence1 _, $Precedence1 _) | _log _( $Precedence1 _)
 $Ln -> _ln _( $Precedence1 _)
 $Sqrt -> _sqrt _( $Precedence1 _)
+$Exp -> _exp _( $Precedence1 _)
 
 $Constant -> $Pi | $E | $Phi
 $Pi -> _pi | _π
