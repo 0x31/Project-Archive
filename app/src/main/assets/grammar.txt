@@ -15,7 +15,8 @@ $Power -> $Precedence3 _^ $Precedence4 | _pow _( $Precedence1 _, $Precedence1 _)
 
 # TODO: add $OR, $XOR, etc...
 $Precedence4 -> $AND | $Precedence5
-$AND -> $Precedence4 _AND $Precedence5
+$AND -> $Precedence4 _and $Precedence5
+
 
 $Precedence5 -> _( $Precedence1 _) | $Function | $Constant | $Number
 
