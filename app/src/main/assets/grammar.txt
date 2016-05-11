@@ -3,7 +3,7 @@ $Addition -> $Precedence1 _+ $Precedence2
 $Subtraction -> $Precedence1 _- $Precedence2 | ε _- $Precedence2
 
 $Precedence2 -> $Multiplication | $Division | $Precedence3
-$Multiplication -> $Precedence2 _* $Precedence3
+$Multiplication -> $Precedence2 _* $Precedence3 | $Precedence2 $Precedence3
 $Division -> $Precedence2 _/ $Precedence3
 
 $Precedence3 -> $Power | $Precedence4
