@@ -13,7 +13,11 @@ $Modulo -> $Precedence2 _% $Precedence3
 $Precedence3 -> $Power | $Precedence4
 $Power -> $Precedence3 _^ $Precedence4 | _pow _( $Precedence1 _, $Precedence1 _)
 
-$Precedence4 -> _( $Precedence1 _) | $Function | $Constant | $Number
+# TODO: add $OR, $XOR, etc...
+$Precedence4 -> $AND | $Precedence5
+$AND -> $Precedence4 _AND $Precedence5
+
+$Precedence5 -> _( $Precedence1 _) | $Function | $Constant | $Number
 
 $Number -> int | float | hexint | binint | octint
 
