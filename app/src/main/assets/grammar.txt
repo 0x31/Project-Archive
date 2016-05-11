@@ -1,3 +1,12 @@
+# Basic guide:
+# 1) A non-terminal symbol starts with a $
+# 2) A -> B | C is equivalent to A -> B, A -> C
+# 3) For every non-terminal, $A, there must be a class Expressions.Custom.A_Expression
+# 4) That class must have the same number of constructor parameters as it has right-hand side
+#    symbols in the rule, not counting anything that starts with an underscore, '_'.
+# 5) Anything starting with '#' is a comment
+
+
 # +,-
 $Precedence1 -> $Addition | $Subtraction | $Precedence2
 $Addition -> $Precedence1 _+ $Precedence2
@@ -16,7 +25,6 @@ $Power -> $Precedence3 _^ $Precedence4 | _pow _( $Precedence1 _, $Precedence1 _)
 # TODO: add $OR, $XOR, etc...
 $Precedence4 -> $AND | $Precedence5
 $AND -> $Precedence4 _and $Precedence5
-
 
 $Precedence5 -> _( $Precedence1 _) | $Function | $Constant | $Number
 
