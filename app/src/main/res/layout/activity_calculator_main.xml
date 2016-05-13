@@ -3,30 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context="com.***REMOVED***.reilly.comp2100_assignment_2_2016.CalculatorMain">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/inputText"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/inputButton"
-            android:layout_toStartOf="@+id/inputButton"
-            android:maxLines="1"
-            android:textCursorDrawable="@drawable/cursor"
-            android:backgroundTint="@color/colorPrimary"
-            android:onClick="openKeyboard" />
+        >
 
         <Button
             android:layout_width="wrap_content"
@@ -39,9 +23,28 @@
             android:onClick="calculateInput"
             android:textColor="@color/white"
             android:textSize="20dp"
+            android:height="60dp"
             android:backgroundTint="@color/colorPrimaryButton" />
 
-        <TextView
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/inputText"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/inputButton"
+            android:layout_toStartOf="@+id/inputButton"
+            android:maxLines="1"
+            android:height="60dp"
+            android:textSize="30dp"
+            android:textColor="@color/keyboard3darker"
+            android:textCursorDrawable="@drawable/cursor"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="openKeyboard" />
+
+
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/historyText"
@@ -50,17 +53,18 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/textView" />
+            android:layout_below="@+id/textView" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="History:"
-            android:id="@+id/textView"
-            android:layout_below="@+id/inputButton"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="8dp"
+            android:clipToPadding="false"
+            android:padding="8dip"
+            android:divider="@android:color/transparent"
+            android:id="@+id/historyList"
+            android:layout_below="@+id/inputButton"></ListView>
 
     </RelativeLayout>
 
