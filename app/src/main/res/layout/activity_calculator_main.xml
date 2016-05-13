@@ -24,6 +24,8 @@
             android:layout_toLeftOf="@+id/inputButton"
             android:layout_toStartOf="@+id/inputButton"
             android:maxLines="1"
+            android:textCursorDrawable="@drawable/cursor"
+            android:backgroundTint="@color/colorPrimary"
             android:onClick="openKeyboard" />
 
         <Button
@@ -34,7 +36,10 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:onClick="calculateInput" />
+            android:onClick="calculateInput"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:backgroundTint="@color/colorPrimaryButton" />
 
         <TextView
             android:layout_width="wrap_content"
