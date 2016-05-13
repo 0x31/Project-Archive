@@ -36,7 +36,7 @@
         <Key android:codes="55002" android:keyLabel="tan" android:keyWidth="20%p" android:keyEdgeFlags="right"/>
     </Row>
     <Row>
-        <Key android:codes="55006" android:keyLabel="pi" android:keyWidth="10%p"/>
+        <Key android:codes="55006" android:keyLabel="π" android:keyWidth="10%p"/>
         <Key android:codes="55007" android:keyLabel="e" android:keyWidth="10%p"/>
         <Key android:codes="55004" android:keyLabel="ln" android:keyWidth="20%p"/>
         <Key android:codes="55008" android:keyLabel="sin-1" android:keyWidth="20%p"/>
