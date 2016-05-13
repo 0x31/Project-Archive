@@ -38,10 +38,13 @@
             android:maxLines="1"
             android:height="60dp"
             android:textSize="30dp"
+            android:typeface="monospace"
             android:textColor="@color/keyboard3darker"
             android:textCursorDrawable="@drawable/cursor"
             android:backgroundTint="@color/colorPrimary"
-            android:onClick="openKeyboard" />
+            android:inputType="none"
+            android:onClick="openKeyboard"
+            android:linksClickable="false" />
 
 
         <!--<TextView
@@ -68,7 +71,7 @@
 
     </RelativeLayout>
 
-    <com.***REMOVED***.reilly.comp2100_assignment_2_2016.CustomKeyboardView
+    <com.***REMOVED***.reilly.comp2100_assignment_2_2016.Graphical.CustomKeyboardView
         android:id="@+id/keyboardview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
