@@ -23,8 +23,14 @@ $Precedence3 -> $Power | $Precedence4
 $Power -> $Precedence3 _^ $Precedence4 | _pow _( $Precedence1 _, $Precedence1 _)
 
 # TODO: add $OR, $XOR, etc...
-$Precedence4 -> $AND | $Precedence5
+$Precedence4 -> $AND | $OR | $NOT | $XOR | $LeftShift | $RightShift | $Precedence5
 $AND -> $Precedence4 _and $Precedence5
+$OR -> $Precedence4 _or $Precedence5
+$NOT -> _not_( $Precedence5 _)
+$XOR -> $Precedence4 _xor $Precedence5
+$LeftShift -> $Precedence4 _leftshift $Precedence5
+$RightShift -> $Precedence4 _rightshift $Precedence5
+
 
 $Precedence5 -> _( $Precedence1 _) | $Function | $Constant | $Number
 
