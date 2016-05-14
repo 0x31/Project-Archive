@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shadow_drawable">
+    <TableRow
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_width="match_parent"
+        >
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <com.***REMOVED***.reilly.comp2100_assignment_2_2016.Graphical.AutoFitTextView
+                        android:id="@+id/txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:textSize="30dp"
+                        android:text="hello"
+                        />
+
+                    <com.***REMOVED***.reilly.comp2100_assignment_2_2016.Graphical.PieChart
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        custom:showTexts="true"
+                        custom:labelHeight="20dp"
+                        custom:labelWidth="110dp"
+                        custom:labelY="85dp"
+                        custom:labelPosition="left"
+                        custom:highlightStrength="1.12"
+                        android:background="@android:color/white"
+                        custom:pieRotation="0"
+                        custom:labelColor="@android:color/black"
+                        custom:autoCenterPointerInSlice="true"
+                        custom:pointerRadius="4dp"
+                        android:id="@+id/pie"
+                        />
+
+                </LinearLayout>
+    </TableRow>
+</TableLayout>
