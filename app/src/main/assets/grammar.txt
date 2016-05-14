@@ -8,7 +8,7 @@
 
 
 # +,-
-$Precedence1 -> $Addition | $Subtraction | $Precedence2
+$Precedence1 -> $Addition | $Subtraction | $Precedence2 | testing
 $Addition -> $Precedence1 _+ $Precedence2
 $Subtraction -> $Precedence1 _- $Precedence2 | ε _- $Precedence2
 
