@@ -38,6 +38,7 @@
             android:maxLines="1"
             android:height="60dp"
             android:textSize="30dp"
+            android:singleLine="true"
             android:typeface="monospace"
             android:textColor="@color/keyboard3darker"
             android:textCursorDrawable="@drawable/cursor"
