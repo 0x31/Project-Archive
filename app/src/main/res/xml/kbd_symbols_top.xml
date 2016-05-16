@@ -37,7 +37,7 @@
     </Row>
     <Row>
         <Key android:codes="55006" android:keyLabel="π" android:keyWidth="10%p"/>
-        <Key android:codes="55007" android:keyLabel="e" android:keyWidth="10%p"/>
+        <Key android:codes="120" android:keyLabel="x" android:keyWidth="10%p"/>
         <Key android:codes="55004" android:keyLabel="ln" android:keyWidth="20%p"/>
         <Key android:codes="55008" android:keyLabel="sin-1" android:keyWidth="20%p"/>
         <Key android:codes="55009" android:keyLabel="cos-1" android:keyWidth="20%p"/>
@@ -45,7 +45,7 @@
     </Row>
     <Row>
         <Key android:codes="-1" android:keyLabel="ABC" android:keyWidth="20%p" android:keyEdgeFlags="left" android:isSticky="true" android:isModifier="true" />
-        <Key android:codes="120" android:keyLabel="x" android:keyWidth="20%p"/>
+        <Key android:codes="55014" android:keyLabel="y=" android:keyWidth="20%p"/>
         <Key android:codes="55011" android:keyLabel="0x" android:keyWidth="20%p"/>
         <Key android:codes="55012" android:keyLabel="0b" android:keyWidth="20%p"/>
         <Key android:codes="55013" android:keyLabel="0o" android:keyWidth="20%p" android:keyEdgeFlags="right" />
