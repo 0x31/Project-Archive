@@ -41,7 +41,7 @@ $_Precedence6 -> $_Constant | $_Number | $_Unknown | _( $_Precedence1 _)
 
 $_Number -> int | float | hexint | binint | octint
 
-$_Function -> $Sin | $Cos | $Tan | $Asin | $Acos | $Atan | $Log | $Ln | $Exp | $Sqrt | $Fact | $Base
+$_Function -> $Sin | $Cos | $Tan | $Asin | $Acos | $Atan | $Log | $Ln | $Exp | $Sqrt | $Fact | $FromBase | $ToBase
 
 $Sin -> _sin _( $_Precedence1 _)
 $Cos -> _cos _( $_Precedence1 _)
@@ -53,7 +53,8 @@ $Log -> _log _( $_Precedence1 _, $_Precedence1 _) | _log _( $_Precedence1 _)
 $Ln -> _ln _( $_Precedence1 _)
 $Sqrt -> _sqrt _( $_Precedence1 _)
 $Exp -> _exp _( $_Precedence1 _)
-$Base -> _base _( $_Precedence1 _, $_Precedence1 _)
+$FromBase -> _fromBase _( $_Precedence1 _, $_Precedence1 _)
+$ToBase -> _toBase _( $_Precedence1 _, $_Precedence1 _)
 $Fact -> $_Precedence6 _!
 
 $_Constant -> $Pi | $E | $Phi
