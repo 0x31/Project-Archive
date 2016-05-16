@@ -35,19 +35,26 @@ $XOR -> $_Precedence4 _xor $_Precedence5
 $LeftShift -> $_Precedence4 _<< $_Precedence5
 $RightShift -> $_Precedence4 _>> $_Precedence5
 
-$_Precedence5 -> _( $_Precedence1 _) | $_Function | $_Constant | $_Number | $_Unknown
+$_Precedence5 -> $_Function | $_Precedence6
+
+$_Precedence6 -> $_Constant | $_Number | $_Unknown | _( $_Precedence1 _)
 
 $_Number -> int | float | hexint | binint | octint
 
-$_Function -> $Sin | $Cos | $Tan | $Log | $Ln | $Exp | $Sqrt
+$_Function -> $Sin | $Cos | $Tan | $Asin | $Acos | $Atan | $Log | $Ln | $Exp | $Sqrt | $Fact | $Base
 
 $Sin -> _sin _( $_Precedence1 _)
 $Cos -> _cos _( $_Precedence1 _)
 $Tan -> _tan _( $_Precedence1 _)
+$Asin -> _asin _( $_Precedence1 _)
+$Acos -> _acos _( $_Precedence1 _)
+$Atan -> _atan _( $_Precedence1 _)
 $Log -> _log _( $_Precedence1 _, $_Precedence1 _) | _log _( $_Precedence1 _)
 $Ln -> _ln _( $_Precedence1 _)
 $Sqrt -> _sqrt _( $_Precedence1 _)
 $Exp -> _exp _( $_Precedence1 _)
+$Base -> _base _( $_Precedence1 _, $_Precedence1 _)
+$Fact -> $_Precedence6 _!
 
 $_Constant -> $Pi | $E | $Phi
 $Pi -> _pi | _π
