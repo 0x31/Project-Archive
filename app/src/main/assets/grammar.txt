@@ -8,7 +8,8 @@
 # 5) Anything starting with '#' is a comment
 # 6)
 
-$_Expression -> $_Precedence1 | _y _= $_Plot
+$_Expression -> $_Precedence1 | _y _= $Plot
+
 
 # +,-
 $_Precedence1 -> $Addition | $Subtraction | $_Precedence2
@@ -53,7 +54,7 @@ $Pi -> _pi | _π
 $E -> _e
 $Phi -> _phi | _ϕ
 
-$_Plot -> $_Precedence1
+$Plot -> $_Precedence1
 
 $_Unknown -> x
 
