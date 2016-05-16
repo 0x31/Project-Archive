@@ -1,53 +1,55 @@
 # Basic guide:
 # 1) A non-terminal symbol starts with a $
 # 2) A -> B | C is equivalent to A -> B, A -> C
-# 3) For every non-terminal, $A, there must be a class Expressions.Custom.A_Expression
+# 3) For every non-terminal, $A, there must be a class Expressions.Custom.A_Expression, unless
+#    it's name starts with '_' (e.g. $_A).
 # 4) That class must have the same number of constructor parameters as it has right-hand side
 #    symbols in the rule, not counting anything that starts with an underscore, '_'.
 # 5) Anything starting with '#' is a comment
+# 6)
 
-$Expression -> $Precedence1 | _y _= $Plot
+$_Expression -> $_Precedence1 | _y _= $_Plot
 
 # +,-
-$Precedence1 -> $Addition | $Subtraction | $Precedence2
-$Addition -> $Precedence1 _+ $Precedence2
-$Subtraction -> $Precedence1 _- $Precedence2 | ε _- $Precedence2
+$_Precedence1 -> $Addition | $Subtraction | $_Precedence2
+$Addition -> $_Precedence1 _+ $_Precedence2
+$Subtraction -> $_Precedence1 _- $_Precedence2 | $_Epsilon _- $_Precedence2
 
 # *,/,%
-$Precedence2 -> $Multiplication | $Division | $Modulo | $Precedence3
-$Multiplication -> $Precedence2 _* $Precedence3 | $Precedence2 $Precedence3
-$Division -> $Precedence2 _/ $Precedence3
-$Modulo -> $Precedence2 _% $Precedence3
+$_Precedence2 -> $Multiplication | $Division | $Modulo | $_Precedence3
+$Multiplication -> $_Precedence2 _* $_Precedence3 | $_Precedence2 $_Precedence3
+$Division -> $_Precedence2 _/ $_Precedence3
+$Modulo -> $_Precedence2 _% $_Precedence3
 
 # ^
-$Precedence3 -> $Power | $Precedence4
-$Power -> $Precedence3 _^ $Precedence4 | _pow _( $Precedence1 _, $Precedence1 _)
+$_Precedence3 -> $Power | $_Precedence4
+$Power -> $_Precedence3 _^ $_Precedence4 | _pow _( $_Precedence1 _, $_Precedence1 _)
 
 # TODO: add $OR, $XOR, etc...
-$Precedence4 -> $AND | $Precedence5
-$AND -> $Precedence4 _and $Precedence5
+$_Precedence4 -> $AND | $_Precedence5
+$AND -> $_Precedence4 _and $_Precedence5
 
-$Precedence5 -> _( $Precedence1 _) | $Function | $Constant | $Number
+$_Precedence5 -> _( $_Precedence1 _) | $_Function | $_Constant | $_Number | $_Unknown
 
-$Number -> int | float | hexint | binint | octint
+$_Number -> int | float | hexint | binint | octint
 
-$Function -> $Sin | $Cos | $Tan | $Log | $Ln | $Exp | $Sqrt
+$_Function -> $Sin | $Cos | $Tan | $Log | $Ln | $Exp | $Sqrt
 
-$Sin -> _sin _( $Precedence1 _)
-$Cos -> _cos _( $Precedence1 _)
-$Tan -> _tan _( $Precedence1 _)
-$Log -> _log _( $Precedence1 _, $Precedence1 _) | _log _( $Precedence1 _)
-$Ln -> _ln _( $Precedence1 _)
-$Sqrt -> _sqrt _( $Precedence1 _)
-$Exp -> _exp _( $Precedence1 _)
+$Sin -> _sin _( $_Precedence1 _)
+$Cos -> _cos _( $_Precedence1 _)
+$Tan -> _tan _( $_Precedence1 _)
+$Log -> _log _( $_Precedence1 _, $_Precedence1 _) | _log _( $_Precedence1 _)
+$Ln -> _ln _( $_Precedence1 _)
+$Sqrt -> _sqrt _( $_Precedence1 _)
+$Exp -> _exp _( $_Precedence1 _)
 
-$Constant -> $Pi | $E | $Phi
+$_Constant -> $Pi | $E | $Phi
 $Pi -> _pi | _π
 $E -> _e
 $Phi -> _phi | _ϕ
 
+$_Plot -> $_Precedence1
 
+$_Unknown -> x
 
-
-
-$Plot -> x
+$_Epsilon -> ε
