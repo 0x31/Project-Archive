@@ -5,15 +5,13 @@
     android:keyHeight="60dp"
     >
     <Row>
-        <Key android:codes="43" android:keyLabel="%" android:keyEdgeFlags="left"/>
-        <Key android:codes="45" android:keyLabel="="/>
-        <Key android:codes="42" android:keyLabel="..."/>
-        <Key android:codes="47" android:keyLabel="..."/>
-        <Key android:codes="94" android:keyLabel="..."/>
-        <Key android:codes="40" android:keyLabel="..."/>
-        <Key android:codes="41" android:keyLabel="..."/>
-        <Key android:codes="46" android:keyLabel="..."/>
-        <Key android:codes="44" android:keyLabel="..."/>
+        <Key android:codes="55021" android:keyLabel="%" android:keyEdgeFlags="left"/>
+        <Key android:codes="55015" android:keyLabel="AND" android:keyWidth="13.3%p"/>
+        <Key android:codes="55016" android:keyLabel="OR" android:keyWidth="13.3%p"/>
+        <Key android:codes="55017" android:keyLabel="NOT" android:keyWidth="13.3%p"/>
+        <Key android:codes="55018" android:keyLabel="XOR" android:keyWidth="13.3%p"/>
+        <Key android:codes="55019" android:keyLabel="LS" android:keyWidth="13.3%p"/>
+        <Key android:codes="55020" android:keyLabel="RS" android:keyWidth="13.3%p"/>
         <Key android:codes="-11" android:keyLabel="+/-" android:keyEdgeFlags="right"/>
     </Row>
     <Row>
