@@ -37,10 +37,6 @@ $RightShift -> $_Precedence4 _>> $_Precedence5
 
 $_Precedence5 -> $_Function | $_Precedence6
 
-$_Precedence6 -> $_Constant | $_Number | $_Unknown | _( $_Precedence1 _)
-
-$_Number -> int | float | hexint | binint | octint
-
 $_Function -> $Sin | $Cos | $Tan | $Asin | $Acos | $Atan | $Log | $Ln | $Exp | $Sqrt | $Fact | $FromBase | $ToBase
 
 $Sin -> _sin _( $_Precedence1 _)
@@ -57,10 +53,21 @@ $FromBase -> _fromBase _( $_Precedence1 _, $_Precedence1 _)
 $ToBase -> _toBase _( $_Precedence1 _, $_Precedence1 _)
 $Fact -> $_Precedence6 _!
 
+$_Precedence6 -> $_Constant | $_Number | $_Unknown | $UnitNum | _( $_Precedence1 _)
+
+$UnitNum -> $_Number $Unit
+
+$_Number -> int | float | hexint | binint | octint
+
 $_Constant -> $Pi | $E | $Phi
 $Pi -> _pi | _π
 $E -> _e
 $Phi -> _phi | _ϕ
+
+$Unit -> $_Distance | $_Memory
+
+$_Distance -> km | m | cm | mm
+$_Memory -> B | KB | MB | GB
 
 $Plot -> $_Precedence1
 
