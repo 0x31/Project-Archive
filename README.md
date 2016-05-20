@@ -1,7 +1,7 @@
 Expresso-Parser
 ===============
 
-This was a group assignment for ANU's COMP2100 course. I wrote this app together with one other student. The focus of the assignment was the expression parser, rather than the app itself. Instead of writing a parser by hand, we wrote a *parser generator* using the LALR algorithm, allowing us to define valid inputs in a text file using BNF-like syntax.
+This was a group assignment for ANU's COMP2100 course. I wrote this app together with one other student. The focus of the assignment was the expression parser, rather than the app itself. Instead of writing a parser by hand, we wrote a *parser generator*, using the LALR algorithm to build dynamic LR tables, allowing us to define valid inputs in a text file using BNF-like syntax.
 
 Expresso-Parser is an expression parser and calculator interface for Android.
 
