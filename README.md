@@ -1,7 +1,7 @@
 IPS-Server
 ==========
 
-The source code running on the main ground computer in Dickson College's Indoor Positioning System (IPS). Its main functions are to comincate with each node (running OpenCV on a Raspberry Pi) and with each vehicle (with a Pixhawk autopilot and an XBee). The IPS server combines the pixel location of the vehicles with the relative location of the RPis & the global location of the server to determine the vehicle’s location. It converts this into NMEA format and, using XBees, sends it off the the Pixhawk autopilots.
+The source code running on the main ground computer in Dickson College's Indoor Positioning System (IPS). Its main functions are to comunicate with each node (running OpenCV on a Raspberry Pi) and with each vehicle (with a Pixhawk autopilot and an XBee). The IPS server combines the pixel location of the vehicles with the relative location of the RPis & the global location of the server to determine the vehicle’s location. It converts this into NMEA format and, using XBees, sends it off the the Pixhawk autopilots.
 
 Current dependencies:
 	1. Python-2.7
