@@ -17,7 +17,7 @@ It's calculator features include:
 * Bitwise operations  
 ![Bitwise](images/bitwise.png)
 * Units  
-![Basic Functions](images/basic.png)
+![Basic Functions](images/units.png)
 * Different bases  
 ![Bases](images/bases.png)
 * Plotting  
