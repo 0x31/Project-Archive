@@ -27,7 +27,7 @@ It's calculator features include:
 * Maths keyboard  
 ![Keyboard](images/keyboard.png)
 * Error reporting  
-![Errors](images/errors.gif)
+<img src="images/errors.gif" alt="Erros" width="430"/><a/>
 * Loading screen (first load takes ~5/10 seconds)  
 ![Loading](images/loading.png)
 
