@@ -25,7 +25,8 @@ This project was started for the purpose of:
 How?
 ----
 
-The PNG specification is defined here: [www.libpng.org](http://www.libpng.org/pub/png/spec/1.2/png-1.2.pdf)
+The PNG specification is defined here: [www.libpng.org](http://www.libpng.org/pub/png/spec/1.2/png-1.2.pdf).
+
 The 90-page document goes into a lot of detail about how PNGs are stored.
 
 
