@@ -1,17 +1,17 @@
 # PNG-Decoder
 
-This is a simple PNG decoder written in Java.
+This is a simple educational PNG decoder written in Java.
 
 What does it do?
 ----------------
 
 A PNG decoder turns this:
 
-![Raw PNG file](preview/raw.png)
+<img src="preview/raw.png" alt="Raw PNG file" width="180"/></a>
 
 into this:
 
-![Decoded PNG](preview/decoded.png)
+<img src="preview/decoded.png" alt="Decoded PNG file" width="200"/></a>
 
 Why?
 ----
