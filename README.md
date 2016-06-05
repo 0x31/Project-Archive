@@ -22,6 +22,13 @@ This project was started for the purpose of:
 2. Implementing popular (de)compression algorithms (LZ77, Huffman)
 3. Learning more about file formats (starting with PNG)
 
+How?
+----
+
+The PNG specification is defined here: [www.libpng.org](http://www.libpng.org/pub/png/spec/1.2/png-1.2.pdf)
+The 90-page document goes into a lot of detail about how PNGs are stored.
+
+
 TODO
 ----
 
