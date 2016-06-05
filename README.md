@@ -18,7 +18,7 @@ Why?
 
 This project was started for the purpose of:
 
-1. Continue my learning of Java
+1. Continuing my learning of Java
 2. Implementing popular (de)compression algorithms (LZ77, Huffman)
 3. Learning more about file formats (starting with PNG)
 
