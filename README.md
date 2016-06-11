@@ -7,8 +7,8 @@ This code simulates objects (currently limited to rectangles) that can collide, 
 
 At its current limited stage, it looks like this:
 
-With gravity:
+With gravity:  
 ![Gravity](preview/Gravity.gif)
 
-Without gravity:
+Without gravity:  
 ![NoGravity](preview/NoGravity.gif)
