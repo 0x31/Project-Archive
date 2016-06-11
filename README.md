@@ -5,6 +5,21 @@ This was a group assignment for ANU's COMP2100 course. I wrote this app together
 
 Expresso-Parser is an expression parser and calculator interface for Android.
 
+Preview: (see more specific images below)  
+![Contants](images/constants.png)
+
+Parser Generator
+----------------
+
+The parser is automatically generated (at launch) from a grammar file written in a syntax based on BNF. The parser generator uses the LALR (look-ahead left right) algorithm to build a compact and efficient LR-table, which is then used by a LR-parser.
+
+The grammar can be found in assets/grammar.txt or attached at the end of this file.
+
+In order to speed up the loading of the app, the generated parser table is stored to disk as a serialised object, calculating the grammar's hash value to check if it has changed.
+
+See [this guide](http://web.cs.dal.ca/~sjackson/lalr1.html) to learn more about the LALR algorithm.
+
+
 Features
 --------
 
@@ -81,18 +96,6 @@ Expressions package:
 
 Feature Details
 ===============
-
-Parser Generator
-----------------
-
-The parser is automatically generated (at launch) from a grammar file written in a syntax based on BNF. The parser generator uses the LALR (look-ahead left right) algorithm to build a compact and efficient LR-table, which is then used by a LR-parser.
-
-The grammar can be found in assets/grammar.txt or attached at the end of this file.
-
-In order to speed up the loading of the app, the generated parser table is stored to disk as a serialised object, calculating the grammar's hash value to check if it has changed.
-
-The parser generator was written by first writing a LALR parser by hand following [this guide](http://web.cs.dal.ca/~sjackson/lalr1.html) and then automating every individual step.
-
 
 Plots
 -----
