@@ -5,7 +5,7 @@ Govhack
 
 Metahack: Govhack becomes the data
 
-![Hakanation.tk](http://i.imgur.com/kNU8OEE.png)
+![Hakanation.tk](http://imgur.com/QYlTRow.png)
 
 * [2015: Reaction](https://github.com/***REMOVED***/Govhack/tree/master/2015/reaction)
 
