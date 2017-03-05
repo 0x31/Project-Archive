@@ -3,7 +3,7 @@ Govhack
 
 * [2016: Hackanation](https://github.com/andrew-m-h/HackanationGovhack)
 
-Metahack: Govhack becomes the data. [hackanation.tk](hackanation.tk]
+Metahack: Govhack becomes the data. [hackanation.tk](hackanation.tk)
 
 ![Hakanation.tk](http://imgur.com/QYlTRow.png)
 
