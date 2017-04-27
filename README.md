@@ -20,7 +20,7 @@ Preview 2: [We adapted the software to run on a UAV to track markers](http://gfy
 
 
 The on-ground hardware involved (including an autonomous system):
-![Map](/IPS-Server/images/hardware.png?raw=true “Map”)
+![The IPS' hardware](/IPS-Server/images/hardware.png?raw=true=)
 
 Here is the MissionPlanner software working together with our IPS:
-![Map](/IPS-Server/images/map.png?raw=true “Map”)
+![MissionPlanner with the IPS](/IPS-Server/images/map.png?raw=true)
