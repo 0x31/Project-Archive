@@ -1,4 +1,4 @@
-pydecipher
+pydecipher [2012?]
 ==========
 
 A Python (2 & 3) library that attempts different encryption algorithms to decrypt a cipher-text. (Currently limited to Ceasarian Shift Cipher and Vigenère Cipher)

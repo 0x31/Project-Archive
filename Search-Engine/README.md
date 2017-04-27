@@ -1,9 +1,14 @@
-find
+find [2012]
 ====
 
 Try it here:
 [find.***REMOVED***.com](http://***REMOVED***.com/run/find)
 UPDATE: I now use static hosting on Github Pages, so the link no longer works.
+
+The back-end was written as part of Udacity's intro to computer science course. I then built it into a functional search engine with the front end, back end and crawler.
+
+
+## Details
 
 A Python Web Crawler and Search Engine, using MySQL.
 

@@ -1,4 +1,4 @@
-DMD Pong
+DMD Pong [2014]
 ===
 
 This interactive project uses an Arduino, DMD displays and an ultrasonic sensor to recreate the classic Pong. Allowing you to play by simply waving your hand, it is engaging and easy to play.

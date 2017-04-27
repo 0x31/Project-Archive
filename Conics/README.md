@@ -1,4 +1,4 @@
-Conics
+Conics [2014]
 ======
 
 For a Maths assignment, this is very buggy, and is currently incapable of performing its task well.
