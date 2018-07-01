@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
 
 /**
- * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, on 25/09/15
+ * @author ***REMOVED***, on 25/09/15
  */
 public class Instructions extends Scene {
     /**

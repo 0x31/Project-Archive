@@ -5,8 +5,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 
 /**
- * @author Tim ***REMOVED***, ***REMOVED***
- * @author ***REMOVED***, ***REMOVED***, updating:
+ * @author Tim
+ * @author ***REMOVED***, updating:
  *  - images
  *  - OnMouseEntered/Exited
  *  - Changed to a Pane

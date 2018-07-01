@@ -1,7 +1,7 @@
 package comp1140.ass2.Game;
 
 /**
- * @author Tim, ***REMOVED*** on 22/08/15.
+ * @author Tim on 22/08/15.
  * @author ***REMOVED***, edited for simpler intantiation
  *
  * An enumeration of every shape,

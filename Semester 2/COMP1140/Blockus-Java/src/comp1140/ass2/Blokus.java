@@ -2,7 +2,7 @@ package comp1140.ass2;
 
 /**
  * Created by Tim on 23/09/2015.
- * Edited by ***REMOVED***, ***REMOVED***, 25/09/2015 - updated FX
+ * Edited by ***REMOVED***, 25/09/2015 - updated FX
  *
  * This is the Main Class
  */

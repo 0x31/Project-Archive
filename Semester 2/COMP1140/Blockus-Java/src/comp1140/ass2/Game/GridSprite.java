@@ -5,7 +5,7 @@ import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 
 /**
- * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, 01/09/15
+ * @author ***REMOVED*** 01/09/15
  * @author Tim, updating:
  *  - click handling
  *  - use of cellSprite

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** on 25/09/15, with segments taken from Holly's code
+ * @author ***REMOVED*** on 25/09/15, with segments taken from Holly's code
  * Commented by Holly, 14/10/15
  */
 public class EasyBot implements Player {

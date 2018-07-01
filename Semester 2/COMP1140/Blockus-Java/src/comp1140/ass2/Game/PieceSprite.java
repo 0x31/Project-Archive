@@ -2,7 +2,7 @@ package comp1140.ass2.Game;
 
 
 /**
- * @author Tim, ***REMOVED*** on 31/08/15.
+ * @author Tim on 31/08/15.
  *
  * A PieceSprite is an FX representation of a piece.
  * Each cell is represented by a CellSprite

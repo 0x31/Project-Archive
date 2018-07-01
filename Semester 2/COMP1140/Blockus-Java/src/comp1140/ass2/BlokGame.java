@@ -6,8 +6,8 @@ import comp1140.ass2.Players.Player;
 
 /**
  * Created by steveb on 12/08/2015.
- * @author Holly ***REMOVED***, ***REMOVED***
- * @author ***REMOVED*** ***REMOVED***, ***REMOVED*** - makeMove
+ * @author Holly
+ * @author ***REMOVED*** - makeMove
  *
  * This class is no longer used in the jar
  */

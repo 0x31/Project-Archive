@@ -5,7 +5,7 @@ import javafx.scene.Node;
 import java.util.ArrayList;
 
 /**
- * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, 25/09/15, from code written by Holly in old class
+ * @author ***REMOVED*** 25/09/15, from code written by Holly in old class
  * @author Holly on 30/09/15
  * @author by Tim on 14/10/15, updating:
  *   - repaired vertical panel layout to neatly show pieces

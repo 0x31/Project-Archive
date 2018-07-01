@@ -8,8 +8,8 @@ import javafx.scene.shape.Circle;
 import java.util.ArrayList;
 
 /**
- * @author ***REMOVED*** ***REMOVED***, ***REMOVED***, on 19/09/15
- * @author Holly, ***REMOVED***, some contributions
+ * @author ***REMOVED***, on 19/09/15
+ * @author Holly, some contributions
  * @author Tim, clicking
  *
  * Board implements the logisitics of the Blokus board, including
