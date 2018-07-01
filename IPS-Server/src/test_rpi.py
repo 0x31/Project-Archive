@@ -8,7 +8,6 @@ import socket
 import json
 
 __author__ = '***REMOVED***'
-__email__ = '***REMOVED***'
 
 def main():
     host="localhost"

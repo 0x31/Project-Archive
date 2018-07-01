@@ -12,7 +12,6 @@ import config
 import libcmn
 
 __author__ = '***REMOVED***'
-__email__ = '***REMOVED***'
 
 # List to keep track of socket descriptors
 CONNECTION_LIST = []

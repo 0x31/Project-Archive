@@ -11,7 +11,6 @@ import socket
 import json
 
 __author__ = '***REMOVED***'
-__email__ = '***REMOVED***'
 
 def main():
     webcam = cv2.VideoCapture(0)

@@ -11,7 +11,6 @@ import libxbee
 import config
 
 __author__ = '***REMOVED***'
-__email__ = '***REMOVED***'
 
 node_positions={
         "00":[35.3075,149.1244],

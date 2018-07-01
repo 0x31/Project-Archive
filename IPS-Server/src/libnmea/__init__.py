@@ -8,7 +8,6 @@ import geomag
 import operator
 
 __author__ = '***REMOVED***'
-__email__ = '***REMOVED***'
 
 def dd2dm(dd):
     dd=abs(dd)
