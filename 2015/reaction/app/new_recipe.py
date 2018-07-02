@@ -29,8 +29,6 @@ def new_recipe():
         db.session.commit()
         return action + reaction
 
-    #user = {'nickname': '***REMOVED***'}
-
     actions={}
     action_list = []
     action_db = models.Action.query.all()
