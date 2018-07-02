@@ -6,7 +6,6 @@
 import pygame, sys, cmath
 
 __author__ = '***REMOVED***'
-__email__ = '***REMOVED***'
 
 pygame.init()
 xsize=1280
