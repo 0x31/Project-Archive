@@ -143,7 +143,7 @@ Testing
 =======
 
 (TODO: Copy from private server)
-See [the testing page](https://gitlab.cecs.anu.edu.au/***REMOVED***/COMP2100-Assignment-2-2016/wikis/testing) for details on the unit and integration tests.  
+See [the testing page](https://gitlab.cecs.anu.edu.au/********/COMP2100-Assignment-2-2016/wikis/testing) for details on the unit and integration tests.  
   
   
 

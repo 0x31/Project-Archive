@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context="com.***REMOVED***.reilly.comp2100_assignment_2_2016.CalculatorMain">
+    tools:context="com.reilly.comp2100_assignment_2_2016.CalculatorMain">
 
 
     <RelativeLayout
@@ -72,7 +72,7 @@
 
     </RelativeLayout>
 
-    <com.***REMOVED***.reilly.comp2100_assignment_2_2016.Graphical.CustomKeyboardView
+    <com.reilly.comp2100_assignment_2_2016.Graphical.CustomKeyboardView
         android:id="@+id/keyboardview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.***REMOVED***.reilly.comp2100_assignment_2_2016">
+    package="com.reilly.comp2100_assignment_2_2016">
 
     <application
         android:allowBackup="true"
