@@ -6,7 +6,7 @@ This is a program for verifying Propositional/Sentential logic proofs.
 TODO
 ----
 
-* Syntax parsing (parse `"p → p"` to `Implies (Sentence 'p') (Sentence 'p')`)
+* Run parser over a file
 * Annotate proofs with step details (e.g. `MP 1, 2` or `SL1 "p" "p → p"`)
 * Web-based UI
 
@@ -14,14 +14,14 @@ TODO
 Usage
 -----
 
-Proof that `p → p`
-
 (`npm install -g elm && elm repl`)
 
-```elm
-import Kernel exposing (verifyProof, Expression(..))
+Proof that `p → p`
 
-p = Sentence 'p'
+```elm
+import Kernel exposing (verifyTheorem, Expression(..), Theorem(..))
+
+p = Sentence "p'"
 
 proof = \
     [ Implies (Implies p (Implies (Implies p p) p)) (Implies (Implies p (Implies p p)) (Implies p p)) \
@@ -31,6 +31,46 @@ proof = \
     , Implies p p \
     ]
 
-verifyProof [] proof (Implies p p)
+verifyTheorem (Proof [] proof (Implies p p))
+
 -- True
+```
+
+Syntax parsing:
+
+
+```elm
+import Kernel exposing (verifyTheorem, Expression(..), Theorem(..))
+import Parser exposing (parseString, parseProof)
+
+
+maybeGoal = \
+    parseString "A ⇒ B"
+
+
+maybeAssumptions = \
+    parseProof """ \
+A ⇒ C  \
+C ⇒ B  \
+"""
+
+
+maybeProof = \
+    parseProof """                  \
+(C ⇒ B) ⇒ (A ⇒ (C ⇒ B))             \
+C ⇒ B                               \
+A ⇒ (C ⇒ B)                         \
+(A ⇒ (C ⇒ B)) ⇒ ((A ⇒ C) ⇒ (A ⇒ B)) \
+(A ⇒ C) ⇒ (A ⇒ B)                   \
+A ⇒ C                               \
+A ⇒ B                               \
+"""
+
+
+run = \
+    case ( maybeGoal, maybeAssumptions, maybeProof ) of \
+        ( Just goal, Just assumptions, Just proof ) -> verifyTheorem (Proof assumptions proof goal) \
+        _ -> False \
+
+
 ```

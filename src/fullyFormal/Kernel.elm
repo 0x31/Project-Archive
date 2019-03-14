@@ -1,4 +1,4 @@
-module Kernel exposing (Expression(..), Sequence, verifyProof)
+module Kernel exposing (Expression(..), Sequence, Theorem(..), verifyTheorem)
 
 -- This is the kernel of the proof verifier. It only understands fully formal
 -- sentential logic.
@@ -16,11 +16,15 @@ import Tuple exposing (first)
 type Expression
     = Not Expression
     | Implies Expression Expression
-    | Sentence Char
+    | Sentence String
 
 
 type alias Sequence =
     List Expression
+
+
+type Theorem
+    = Proof Sequence Sequence Expression
 
 
 type alias Axiom =
@@ -128,14 +132,18 @@ findImplicationCandidates previous expression =
 
 
 verifyStep assumptions previous expression =
-    verifySL1 expression
+    -- Expression is an assumption
+    List.member expression assumptions
+        -- Expression has already been checked
+        || List.member expression previous
+        || verifySL1 expression
         || verifySL2 expression
         || verifySL3 expression
         || verifyModusPonens assumptions previous expression
 
 
-verifyProof : Sequence -> Sequence -> Expression -> Bool
-verifyProof assumptions proof target =
+verifyTheorem : Theorem -> Bool
+verifyTheorem (Proof assumptions proof target) =
     first
         (foldl
             (\step ->
@@ -149,5 +157,4 @@ verifyProof assumptions proof target =
             ( True, [] )
             proof
         )
-        && head (reverse proof)
-        == Just target
+        && verifyStep assumptions proof target
