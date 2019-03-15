@@ -38,8 +38,8 @@ sl3 a b =
 --         Proof assumptions2 proof2 goal2
 -- in
 -- -- log "Proof1"
--- -- (verifyTheorem assumptions1 proof1 goal1)
--- log "Proof2" (verifyTheorem proof)
+-- -- (verifySLProof assumptions1 proof1 goal1)
+-- log "Proof2" (verifySLProof proof)
 -- manualProof =
 --     let
 --         line1 =

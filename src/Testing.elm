@@ -1,27 +1,17 @@
-module Testing exposing (proof1, run)
+module Testing exposing (maybeProof1, maybeProof2, run)
 
-import Array exposing (fromList)
-import Debug exposing (log)
-import Kernel exposing (..)
-import List exposing (concat)
-import Parser exposing (parseProof, parseString)
+import Kernel exposing (verifySLProof)
+import Parser exposing (parseProof)
 
 
-p : Expression
-p =
-    Sentence "p"
-
-
-goal1 =
-    Implies p p
-
-
-assumptions1 =
-    []
-
-
-proof1 =
+maybeProof1 =
     parseProof """
+GOAL
+p ⇒ p
+
+ASSUMING
+
+PROOF
 (p ⇒ ((p ⇒ p) ⇒ p)) ⇒ ((p ⇒ (p ⇒ p)) ⇒ (p ⇒ p))
 p ⇒ ((p ⇒ p) ⇒ p)
 (p ⇒ (p ⇒ p)) ⇒ (p ⇒ p)
@@ -30,34 +20,30 @@ p ⇒ p
 """
 
 
-maybeGoal =
-    parseString "A ⇒ B"
-
-
-maybeAssumptions =
+maybeProof2 =
     parseProof """
-A ⇒ C
-C ⇒ B
-"""
+GOAL
+p ⇒ r
 
+ASSUMING
+p ⇒ q
+q ⇒ r
 
-maybeProof =
-    parseProof """
-(C ⇒ B) ⇒ (A ⇒ (C ⇒ B))
-C ⇒ B
-A ⇒ (C ⇒ B)
-(A ⇒ (C ⇒ B)) ⇒ ((A ⇒ C) ⇒ (A ⇒ B))
-(A ⇒ C) ⇒ (A ⇒ B)
-A ⇒ C
-A ⇒ B
+PROOF
+(q ⇒ r) ⇒ (p ⇒ (q ⇒ r))
+q ⇒ r
+p ⇒ (q ⇒ r)
+(p ⇒ (q ⇒ r)) ⇒ ((p ⇒ q) ⇒ (p ⇒ r))
+(p ⇒ q) ⇒ (p ⇒ r)
+p ⇒ q
+p ⇒ r
 """
 
 
 run =
-    case ( maybeGoal, maybeAssumptions, maybeProof ) of
-        ( Just goal, Just assumptions, Just proof ) ->
-            log "just"
-                (verifyTheorem (Proof assumptions proof goal))
+    case maybeProof2 of
+        Just proof ->
+            Just (verifySLProof proof)
 
         _ ->
-            log "nothing" False
+            Nothing

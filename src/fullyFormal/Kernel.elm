@@ -1,10 +1,11 @@
-module Kernel exposing (Expression(..), Sequence, Theorem(..), verifyTheorem)
+module Kernel exposing (Expression(..), Proof(..), Sequence, verifySLProof)
 
 -- This is the kernel of the proof verifier. It only understands fully formal
 -- sentential logic.
 -- If this has any bugs in it, then all proofs should be considered invalid.
 
 import Char exposing (Char)
+import Debug exposing (log)
 import List exposing (concat, filter, foldl, head, member, reverse)
 import Tuple exposing (first)
 
@@ -23,8 +24,16 @@ type alias Sequence =
     List Expression
 
 
-type Theorem
-    = Proof Sequence Sequence Expression
+type
+    Proof
+    -- Proof(Assumptions, Proof, Goal)
+    = Proof Sequence Sequence Sequence
+
+
+type
+    Theorem
+    -- Valid (assumptions) theorem
+    = Valid Sequence Expression
 
 
 type alias Axiom =
@@ -39,8 +48,8 @@ type alias Rule =
 -- Verify the axioms
 
 
-verifySL1 : Axiom
-verifySL1 expression =
+verifySL1 : Rule
+verifySL1 assumptions previous expression =
     case expression of
         Implies a1 (Implies b1 a2) ->
             if a1 == a2 then
@@ -53,8 +62,8 @@ verifySL1 expression =
             False
 
 
-verifySL2 : Axiom
-verifySL2 expression =
+verifySL2 : Rule
+verifySL2 assumptions previous expression =
     case expression of
         Implies (Implies a1 (Implies b1 c1)) (Implies (Implies a2 b2) (Implies a3 c2)) ->
             if a1 == a2 && a1 == a3 && b1 == b2 && c1 == c2 then
@@ -67,8 +76,8 @@ verifySL2 expression =
             False
 
 
-verifySL3 : Axiom
-verifySL3 expression =
+verifySL3 : Rule
+verifySL3 assumptions previous expression =
     case expression of
         Implies (Implies (Not a1) (Not b1)) (Implies (Implies (Not a2) b2) a3) ->
             if a1 == a2 && a1 == a3 && b1 == b2 then
@@ -131,30 +140,74 @@ findImplicationCandidates previous expression =
         previous
 
 
-verifyStep assumptions previous expression =
-    -- Expression is an assumption
-    List.member expression assumptions
-        -- Expression has already been checked
-        || List.member expression previous
-        || verifySL1 expression
-        || verifySL2 expression
-        || verifySL3 expression
-        || verifyModusPonens assumptions previous expression
+type VerifyResult
+    = Success (List Theorem)
+    | InvalidStep Expression
 
 
-verifyTheorem : Theorem -> Bool
-verifyTheorem (Proof assumptions proof target) =
-    first
-        (foldl
-            (\step ->
-                \( carry, previous ) ->
-                    if not carry then
-                        ( carry, previous )
+verifyStep rules assumptions previous expression =
+    let
+        result =
+            -- Expression is an assumption
+            List.member expression assumptions
+                -- Expression has already been checked
+                || List.member expression previous
+                || foldl (\rule -> \accum -> accum || rule assumptions previous expression) False rules
+    in
+    if result then
+        Success [ Valid assumptions expression ]
 
-                    else
-                        ( verifyStep assumptions previous step, step :: previous )
-            )
-            ( True, [] )
-            proof
-        )
-        && verifyStep assumptions proof target
+    else
+        InvalidStep expression
+
+
+verifyProof : List Rule -> Proof -> VerifyResult
+verifyProof rules (Proof assumptions proof targets) =
+    let
+        validProof =
+            first
+                (foldl
+                    (\step ->
+                        \( carry, previous ) ->
+                            case carry of
+                                Success _ ->
+                                    ( verifyStep rules assumptions previous step, step :: previous )
+
+                                _ ->
+                                    ( carry, previous )
+                    )
+                    ( Success [], [] )
+                    proof
+                )
+
+        validTargets =
+            foldl
+                (\step ->
+                    \carry ->
+                        case carry of
+                            Success _ ->
+                                verifyStep rules assumptions proof step
+
+                            _ ->
+                                carry
+                )
+                (Success [])
+                targets
+    in
+    case ( validProof, validTargets ) of
+        ( Success _, Success _ ) ->
+            validTargets
+
+        ( InvalidStep _, _ ) ->
+            validProof
+
+        ( _, InvalidStep _ ) ->
+            validTargets
+
+
+sententialLogicRules =
+    [ verifySL1, verifySL2, verifySL3, verifyModusPonens ]
+
+
+verifySLProof =
+    verifyProof sententialLogicRules

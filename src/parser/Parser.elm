@@ -6,7 +6,7 @@ module Parser exposing (parseProof, parseString, split, splitLines)
 
 import Char exposing (Char)
 import Debug exposing (log)
-import Kernel exposing (Expression, Theorem(..))
+import Kernel exposing (Expression, Proof(..))
 import List exposing (concat, filter, foldl, head, member, reverse)
 import Tokenizer exposing (Token(..), tokenize)
 import Tuple exposing (first)
@@ -26,9 +26,71 @@ combine maybeList =
     List.foldr step (Just []) maybeList
 
 
-parseProof : String -> Maybe (List Expression)
+parseProof : String -> Maybe Proof
 parseProof input =
-    combine (List.map parseTokens (splitLines (tokenize input)))
+    let
+        ( goalLines, assumptionsLines, proofLines ) =
+            groupLines (splitLines (tokenize input))
+
+        maybeGoal =
+            combine (List.map parseTokens goalLines)
+
+        maybeAssumptions =
+            combine (List.map parseTokens assumptionsLines)
+
+        maybeProof =
+            combine (List.map parseTokens proofLines)
+    in
+    case ( maybeGoal, maybeAssumptions, maybeProof ) of
+        ( Just goal, Just assumptions, Just proof ) ->
+            Just (Proof assumptions proof goal)
+
+        _ ->
+            Nothing
+
+
+type alias Line =
+    List Token
+
+
+type alias Section =
+    List Line
+
+
+groupLines : Section -> ( Section, Section, Section )
+groupLines allLines =
+    groupLinesHelper allLines [] [] [] False False False
+
+
+groupLinesHelper : Section -> Section -> Section -> Section -> Bool -> Bool -> Bool -> ( Section, Section, Section )
+groupLinesHelper allLines goal assumptions proof seenGoal seenAssumptions seenProof =
+    case allLines of
+        [] ->
+            ( goal, assumptions, proof )
+
+        line :: rest ->
+            case line of
+                [ Word "GOAL" ] ->
+                    groupLinesHelper rest goal assumptions proof True False False
+
+                [ Word "ASSUMING" ] ->
+                    groupLinesHelper rest goal assumptions proof False True False
+
+                [ Word "PROOF" ] ->
+                    groupLinesHelper rest goal assumptions proof False False True
+
+                _ ->
+                    if seenGoal then
+                        groupLinesHelper rest (concat [ goal, [ line ] ]) assumptions proof seenGoal seenAssumptions seenProof
+
+                    else if seenAssumptions then
+                        groupLinesHelper rest goal (concat [ assumptions, [ line ] ]) proof seenGoal seenAssumptions seenProof
+
+                    else if seenProof then
+                        groupLinesHelper rest goal assumptions (concat [ proof, [ line ] ]) seenGoal seenAssumptions seenProof
+
+                    else
+                        groupLinesHelper rest goal assumptions proof seenGoal seenAssumptions seenProof
 
 
 parseString : String -> Maybe Expression
@@ -36,14 +98,14 @@ parseString input =
     parseTokens (tokenize input)
 
 
-splitLines : List Token -> List (List Token)
+splitLines : List Token -> Section
 splitLines string =
     List.filter
         (\a -> not (a == []))
         (splitLinesHelper string [] [])
 
 
-splitLinesHelper : List Token -> List Token -> List (List Token) -> List (List Token)
+splitLinesHelper : List Token -> Line -> List Line -> List Line
 splitLinesHelper string memory accum =
     case string of
         f :: fs ->
@@ -71,14 +133,7 @@ treeToExpression : Tree -> Maybe Expression
 treeToExpression tree =
     case tree of
         Node [ a, b, c ] ->
-            let
-                maybeAExpression =
-                    treeToExpression a
-
-                maybeCExpression =
-                    treeToExpression c
-            in
-            case ( maybeAExpression, maybeCExpression ) of
+            case ( treeToExpression a, treeToExpression c ) of
                 ( Just aExpression, Just cExpression ) ->
                     case b of
                         Leaf Implies ->
@@ -91,11 +146,7 @@ treeToExpression tree =
                     Nothing
 
         Node [ a, b ] ->
-            let
-                maybeBExpression =
-                    treeToExpression b
-            in
-            case maybeBExpression of
+            case treeToExpression b of
                 Just bExpression ->
                     case a of
                         Leaf Not ->
@@ -130,17 +181,17 @@ treeToExpression tree =
 -- '('::rest -> let []
 
 
-split : List Token -> Tree
+split : Line -> Tree
 split tokens =
     splitByBracket tokens
 
 
-splitByBracket : List Token -> Tree
+splitByBracket : Line -> Tree
 splitByBracket string =
     Tuple.first (splitByBracketHelper string [])
 
 
-splitByBracketHelper : List Token -> List Tree -> ( Tree, List Token )
+splitByBracketHelper : Line -> List Tree -> ( Tree, Line )
 splitByBracketHelper string currentTree =
     let
         returnTree tree =

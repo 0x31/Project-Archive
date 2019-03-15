@@ -19,58 +19,28 @@ Usage
 Proof that `p → p`
 
 ```elm
-import Kernel exposing (verifyTheorem, Expression(..), Theorem(..))
-
-p = Sentence "p'"
-
-proof = \
-    [ Implies (Implies p (Implies (Implies p p) p)) (Implies (Implies p (Implies p p)) (Implies p p)) \
-    , Implies p (Implies (Implies p p) p) \
-    , Implies (Implies p (Implies p p)) (Implies p p) \
-    , Implies p (Implies p p) \
-    , Implies p p \
-    ]
-
-verifyTheorem (Proof [] proof (Implies p p))
-
--- True
-```
-
-Syntax parsing:
-
-
-```elm
-import Kernel exposing (verifyTheorem, Expression(..), Theorem(..))
-import Parser exposing (parseString, parseProof)
-
-
-maybeGoal = \
-    parseString "A ⇒ B"
-
-
-maybeAssumptions = \
-    parseProof """ \
-A ⇒ C  \
-C ⇒ B  \
-"""
-
+import Kernel exposing (verifySLProof)
+import Parser exposing (parseProof)
 
 maybeProof = \
-    parseProof """                  \
-(C ⇒ B) ⇒ (A ⇒ (C ⇒ B))             \
-C ⇒ B                               \
-A ⇒ (C ⇒ B)                         \
-(A ⇒ (C ⇒ B)) ⇒ ((A ⇒ C) ⇒ (A ⇒ B)) \
-(A ⇒ C) ⇒ (A ⇒ B)                   \
-A ⇒ C                               \
-A ⇒ B                               \
+    parseProof """ \
+GOAL                                            \
+p ⇒ p                                           \
+                                                \
+ASSUMING                                        \
+                                                \
+PROOF                                           \
+(p ⇒ ((p ⇒ p) ⇒ p)) ⇒ ((p ⇒ (p ⇒ p)) ⇒ (p ⇒ p)) \
+p ⇒ ((p ⇒ p) ⇒ p)                               \
+(p ⇒ (p ⇒ p)) ⇒ (p ⇒ p)                         \
+p ⇒ (p ⇒ p)                                     \
+p ⇒ p                                           \
 """
 
-
 run = \
-    case ( maybeGoal, maybeAssumptions, maybeProof ) of \
-        ( Just goal, Just assumptions, Just proof ) -> verifyTheorem (Proof assumptions proof goal) \
-        _ -> False \
+    case maybeProof of \
+        Just proof -> Just (verifySLProof proof) \
+        _ -> Nothing
 
-
+-- True
 ```
