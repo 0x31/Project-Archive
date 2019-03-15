@@ -21,9 +21,9 @@ Proof that `p → p`
 ```elm
 import Kernel exposing (verifySLProof)
 import Parser exposing (parseProof)
+import SemiFormal exposing (formalizeProof)
 
-maybeProof = \
-    parseProof """ \
+parsedProof = parseProof """ \
 GOAL                                            \
 p ⇒ p                                           \
                                                 \
@@ -37,10 +37,9 @@ p ⇒ (p ⇒ p)                                     \
 p ⇒ p                                           \
 """
 
-run = \
-    case maybeProof of \
-        Just proof -> Just (verifySLProof proof) \
-        _ -> Nothing
+run = case parsedProof of \
+        Ok proof -> Ok (verifySLProof (formalizeProof proof)) \
+        Err msg -> Err msg
 
--- True
+-- Ok
 ```

@@ -6,27 +6,14 @@ module Parser exposing (parseProof, parseString, split, splitLines)
 
 import Char exposing (Char)
 import Debug exposing (log)
-import Kernel exposing (Expression, Proof(..))
 import List exposing (concat, filter, foldl, head, member, reverse)
+import Result.Extra exposing (combine)
+import SemiFormal exposing (Expression, Proof(..))
 import Tokenizer exposing (Token(..), tokenize)
 import Tuple exposing (first)
 
 
-combine : List (Maybe a) -> Maybe (List a)
-combine maybeList =
-    let
-        step element acc =
-            case element of
-                Nothing ->
-                    Nothing
-
-                Just x ->
-                    Maybe.map ((::) x) acc
-    in
-    List.foldr step (Just []) maybeList
-
-
-parseProof : String -> Maybe Proof
+parseProof : String -> Result String Proof
 parseProof input =
     let
         ( goalLines, assumptionsLines, proofLines ) =
@@ -42,11 +29,11 @@ parseProof input =
             combine (List.map parseTokens proofLines)
     in
     case ( maybeGoal, maybeAssumptions, maybeProof ) of
-        ( Just goal, Just assumptions, Just proof ) ->
-            Just (Proof assumptions proof goal)
+        ( Ok goal, Ok assumptions, Ok proof ) ->
+            Ok (Proof assumptions proof goal)
 
         _ ->
-            Nothing
+            Err "unable to parse"
 
 
 type alias Line =
@@ -93,7 +80,7 @@ groupLinesHelper allLines goal assumptions proof seenGoal seenAssumptions seenPr
                         groupLinesHelper rest goal assumptions proof seenGoal seenAssumptions seenProof
 
 
-parseString : String -> Maybe Expression
+parseString : String -> Result String Expression
 parseString input =
     parseTokens (tokenize input)
 
@@ -119,58 +106,70 @@ splitLinesHelper string memory accum =
             concat [ accum, [ memory ] ]
 
 
-parseTokens : List Token -> Maybe Expression
+parseTokens : List Token -> Result String Expression
 parseTokens tokens =
     treeToExpression (split tokens)
 
 
 type Tree
     = Node (List Tree)
-    | Leaf Token
+    | Symbol Token
 
 
-treeToExpression : Tree -> Maybe Expression
+treeToExpression : Tree -> Result String Expression
 treeToExpression tree =
     case tree of
         Node [ a, b, c ] ->
             case ( treeToExpression a, treeToExpression c ) of
-                ( Just aExpression, Just cExpression ) ->
+                ( Ok aExpression, Ok cExpression ) ->
                     case b of
-                        Leaf Implies ->
-                            Just (Kernel.Implies aExpression cExpression)
+                        Symbol Implies ->
+                            Ok (SemiFormal.Implies aExpression cExpression)
+
+                        Symbol And ->
+                            Ok (SemiFormal.And aExpression cExpression)
+
+                        Symbol Or ->
+                            Ok (SemiFormal.Or aExpression cExpression)
+
+                        Symbol Iff ->
+                            Ok (SemiFormal.Iff aExpression cExpression)
 
                         _ ->
-                            Nothing
+                            Err ("unable to parse " ++ Debug.toString b)
 
-                _ ->
-                    Nothing
+                ( Err _, _ ) ->
+                    Err ("unable to parse " ++ Debug.toString a)
+
+                ( _, Err _ ) ->
+                    Err ("unable to parse " ++ Debug.toString c)
 
         Node [ a, b ] ->
             case treeToExpression b of
-                Just bExpression ->
+                Ok bExpression ->
                     case a of
-                        Leaf Not ->
-                            Just (Kernel.Not bExpression)
+                        Symbol Not ->
+                            Ok (SemiFormal.Not bExpression)
 
                         _ ->
-                            Nothing
+                            Err ("unable to parse " ++ Debug.toString a)
 
                 _ ->
-                    Nothing
+                    Err ("unable to parse " ++ Debug.toString b)
 
         Node [ a ] ->
             treeToExpression a
 
-        Leaf a ->
+        Symbol a ->
             case a of
                 Word p ->
-                    Just (Kernel.Sentence p)
+                    Ok (SemiFormal.Sentence p)
 
                 _ ->
-                    Nothing
+                    Err ("unable to parse " ++ Debug.toString a)
 
         _ ->
-            Nothing
+            Err ("unable to parse " ++ Debug.toString tree)
 
 
 
@@ -212,7 +211,7 @@ splitByBracketHelper string currentTree =
             ( returnTree currentTree, rest )
 
         token :: rest ->
-            splitByBracketHelper rest (List.concat [ currentTree, [ Leaf token ] ])
+            splitByBracketHelper rest (List.concat [ currentTree, [ Symbol token ] ])
 
         [] ->
             ( returnTree currentTree, [] )

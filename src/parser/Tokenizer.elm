@@ -10,6 +10,9 @@ import List exposing (concat)
 type Token
     = Implies
     | Not
+    | And
+    | Or
+    | Iff
     | LeftBracket
     | RightBracket
     | LineBreak
@@ -37,14 +40,23 @@ tokenizeHelper string memory accumulator =
                 '⇒' ->
                     tokenizeHelper rest [] (concat [ newAccumulator, [ Implies ] ])
 
+                '¬' ->
+                    tokenizeHelper rest [] (concat [ newAccumulator, [ Not ] ])
+
+                '∧' ->
+                    tokenizeHelper rest [] (concat [ newAccumulator, [ And ] ])
+
+                '∨' ->
+                    tokenizeHelper rest [] (concat [ newAccumulator, [ Or ] ])
+
+                '⇔' ->
+                    tokenizeHelper rest [] (concat [ newAccumulator, [ Iff ] ])
+
                 '(' ->
                     tokenizeHelper rest [] (concat [ newAccumulator, [ LeftBracket ] ])
 
                 ')' ->
                     tokenizeHelper rest [] (concat [ newAccumulator, [ RightBracket ] ])
-
-                '¬' ->
-                    tokenizeHelper rest [] (concat [ newAccumulator, [ Not ] ])
 
                 ' ' ->
                     tokenizeHelper rest [] newAccumulator

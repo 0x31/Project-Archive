@@ -140,11 +140,6 @@ findImplicationCandidates previous expression =
         previous
 
 
-type VerifyResult
-    = Success (List Theorem)
-    | InvalidStep Expression
-
-
 verifyStep rules assumptions previous expression =
     let
         result =
@@ -155,13 +150,13 @@ verifyStep rules assumptions previous expression =
                 || foldl (\rule -> \accum -> accum || rule assumptions previous expression) False rules
     in
     if result then
-        Success [ Valid assumptions expression ]
+        Ok [ Valid assumptions expression ]
 
     else
-        InvalidStep expression
+        Err expression
 
 
-verifyProof : List Rule -> Proof -> VerifyResult
+verifyProof : List Rule -> Proof -> Result Expression (List Theorem)
 verifyProof rules (Proof assumptions proof targets) =
     let
         validProof =
@@ -170,13 +165,13 @@ verifyProof rules (Proof assumptions proof targets) =
                     (\step ->
                         \( carry, previous ) ->
                             case carry of
-                                Success _ ->
+                                Ok _ ->
                                     ( verifyStep rules assumptions previous step, step :: previous )
 
                                 _ ->
                                     ( carry, previous )
                     )
-                    ( Success [], [] )
+                    ( Ok [], [] )
                     proof
                 )
 
@@ -185,23 +180,23 @@ verifyProof rules (Proof assumptions proof targets) =
                 (\step ->
                     \carry ->
                         case carry of
-                            Success _ ->
+                            Ok _ ->
                                 verifyStep rules assumptions proof step
 
                             _ ->
                                 carry
                 )
-                (Success [])
+                (Ok [])
                 targets
     in
     case ( validProof, validTargets ) of
-        ( Success _, Success _ ) ->
+        ( Ok _, Ok _ ) ->
             validTargets
 
-        ( InvalidStep _, _ ) ->
+        ( Err _, _ ) ->
             validProof
 
-        ( _, InvalidStep _ ) ->
+        ( _, Err _ ) ->
             validTargets
 
 
