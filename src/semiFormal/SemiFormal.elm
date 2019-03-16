@@ -1,4 +1,4 @@
-module SemiFormal exposing (Deduction(..), Expression(..), Proof(..), formalToString, formalizeDeduction, formalizeExpression, formalizeProof, toString, unformalizeExpression)
+module SemiFormal exposing (Deduction(..), Expression(..), Proof(..), formalToString, formalizeDeduction, formalizeExpression, formalizeProof, sequenceToDeduction, toString, unformalizeExpression)
 
 import Kernel
 
@@ -65,6 +65,11 @@ unformalizeExpression expression =
 
         Kernel.Sentence s ->
             Sentence s
+
+
+sequenceToDeduction : List Expression -> Deduction
+sequenceToDeduction sequence =
+    Deduction Nothing (List.map (\expr -> Expr expr) sequence)
 
 
 formalizeDeduction : Deduction -> Kernel.Sequence -> Result Expression Kernel.Sequence

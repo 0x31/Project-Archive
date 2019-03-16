@@ -1,11 +1,12 @@
 module KernelTests exposing (suite)
 
+import Builders exposing (pImpliesPProof)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
 import Kernel exposing (Expression(..), verifySLProof)
 import Parser exposing (parseProof)
 import Result exposing (andThen)
-import SemiFormal exposing (formalToString, formalizeExpression, formalizeProof, toString)
+import SemiFormal exposing (formalToString, formalizeExpression, formalizeProof, sequenceToDeduction, toString)
 import Test exposing (..)
 
 
@@ -60,6 +61,10 @@ A ∧ B
 """
 
 
+parsedProof4 =
+    Ok (SemiFormal.Proof [] (SemiFormal.Deduction Nothing [ pImpliesPProof (SemiFormal.Sentence "p") |> sequenceToDeduction ]) (SemiFormal.Implies (SemiFormal.Sentence "p") (SemiFormal.Sentence "p")))
+
+
 failingProof1 =
     parseProof """
 GOAL
@@ -72,22 +77,23 @@ p ⇒ q
 """
 
 
+printProof : Kernel.Proof -> Kernel.Proof
+printProof (Kernel.Proof assumptions proof goal) =
+    let
+        print1 =
+            Debug.log "\n" ""
 
--- printProof : Kernel.Proof -> Kernel.Proof
--- printProof (Kernel.Proof assumptions proof goal) =
---     let
---         print1 =
---             Debug.log "\n" ""
---         print2 =
---             Debug.log "GOAL: " (formalToString goal)
---         print3 =
---             List.map
---                 (\line ->
---                     Debug.log "| " (formalToString line)
---                 )
---                 proof
---     in
---     Kernel.Proof assumptions proof goal
+        print2 =
+            Debug.log "GOAL: " (formalToString goal)
+
+        print3 =
+            List.map
+                (\line ->
+                    Debug.log "| " (formalToString line)
+                )
+                proof
+    in
+    Kernel.Proof assumptions proof goal
 
 
 runProof : Result.Result String SemiFormal.Proof -> Result.Result String ( Kernel.AxiomName, List Kernel.Theorem )
@@ -102,13 +108,13 @@ runProof resultProof =
                                 Ok res
 
                             Err (Just expr) ->
-                                Err ("coudln't verify line" ++ formalToString expr)
+                                Err ("couldn't verify line " ++ formalToString expr)
 
                             Err Nothing ->
-                                Err "coudln't verify proof"
+                                Err "couldn't verify proof"
 
                     Err expr ->
-                        Err ("coudln't parse line" ++ toString expr)
+                        Err ("couldn't parse line " ++ toString expr)
             )
 
 
@@ -119,6 +125,7 @@ suite =
             [ test "p ⇒ p" <| \_ -> runProof parsedProof1 |> Expect.ok
             , test "p ⇒ q, q ⇒ r ⊢ p ⇒ r" <| \_ -> runProof parsedProof2 |> Expect.ok
             , test "A ∧ B ⊢ ¬(A ⇒ (¬B))" <| \_ -> runProof parsedProof3 |> Expect.ok
+            , test "p ⇒ p builder" <| \_ -> runProof parsedProof4 |> Expect.ok
             , test "p ⇒ q should fail" <| \_ -> runProof failingProof1 |> Expect.err
             ]
         ]
