@@ -1,14 +1,10 @@
 module Parser exposing (parseProof, parseString, split, splitLines)
 
--- This is the kernel of the proof verifier. It only understands fully formal
--- sentential logic.
--- If this has any bugs in it, then all proofs should be considered invalid.
-
 import Char exposing (Char)
 import Debug exposing (log)
 import List exposing (concat, filter, foldl, head, member, reverse)
 import Result.Extra exposing (combine)
-import SemiFormal exposing (Expression, Proof(..))
+import SemiFormal exposing (Deduction(..), Expression, Proof(..))
 import Tokenizer exposing (Token(..), tokenize)
 import Tuple exposing (first)
 
@@ -20,17 +16,20 @@ parseProof input =
             groupLines (splitLines (tokenize input))
 
         maybeGoal =
-            combine (List.map parseTokens goalLines)
+            combine (List.map parseExpression goalLines)
 
         maybeAssumptions =
-            combine (List.map parseTokens assumptionsLines)
+            combine (List.map parseExpression assumptionsLines)
 
         maybeProof =
-            combine (List.map parseTokens proofLines)
+            parseProofBody proofLines
     in
     case ( maybeGoal, maybeAssumptions, maybeProof ) of
-        ( Ok goal, Ok assumptions, Ok proof ) ->
-            Ok (Proof assumptions proof goal)
+        ( Ok [ goal ], Ok assumptions, Ok proof ) ->
+            Ok (Proof assumptions (Deduction Nothing [proof]) goal)
+
+        ( Ok _, _, _ ) ->
+            Err "invalid number of goals"
 
         _ ->
             Err "unable to parse"
@@ -82,7 +81,7 @@ groupLinesHelper allLines goal assumptions proof seenGoal seenAssumptions seenPr
 
 parseString : String -> Result String Expression
 parseString input =
-    parseTokens (tokenize input)
+    parseExpression (tokenize input)
 
 
 splitLines : List Token -> Section
@@ -106,14 +105,26 @@ splitLinesHelper string memory accum =
             concat [ accum, [ memory ] ]
 
 
-parseTokens : List Token -> Result String Expression
-parseTokens tokens =
+parseExpression : List Token -> Result String Expression
+parseExpression tokens =
     treeToExpression (split tokens)
+
+
+parseProofBody : List (List Token) -> Result String Deduction
+parseProofBody proofBody =
+    combine (List.map parseExpression proofBody)
+        |> Result.andThen (\list -> Ok (List.map (\expr -> Expr expr) list))
+        |> Result.andThen (\result -> Ok (Deduction Nothing result))
 
 
 type Tree
     = Node (List Tree)
     | Symbol Token
+
+
+
+-- This is very simplistic parser, and is unable to handle precedence (every
+-- operation must be bracketed). e.g. `a ⇒ ¬b` must be `a ⇒ (¬b)`
 
 
 treeToExpression : Tree -> Result String Expression

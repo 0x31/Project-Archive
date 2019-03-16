@@ -1,4 +1,4 @@
-module Kernel exposing (Expression(..), Proof(..), Sequence, verifySLProof)
+module Kernel exposing (AxiomName, Expression(..), Proof(..), Sequence, Theorem, verifySLProof)
 
 -- This is the kernel of the proof verifier. It only understands fully formal
 -- sentential logic.
@@ -27,7 +27,7 @@ type alias Sequence =
 type
     Proof
     -- Proof(Assumptions, Proof, Goal)
-    = Proof Sequence Sequence Sequence
+    = Proof Sequence Sequence Expression
 
 
 type
@@ -118,6 +118,14 @@ verifyModusPonens assumptions previous expression =
     findJustification allPrevious
 
 
+verifyAlreadyProved : Rule
+verifyAlreadyProved assumptions previous expression =
+    -- Expression is an assumption
+    List.member expression assumptions
+        -- Expression has already been checked
+        || List.member expression previous
+
+
 
 -- Verify proof
 
@@ -140,24 +148,28 @@ findImplicationCandidates previous expression =
         previous
 
 
+verifyStep : List { rule : Rule, name : AxiomName } -> List Expression -> List Expression -> Expression -> Result (Maybe Expression) ( AxiomName, List Theorem )
 verifyStep rules assumptions previous expression =
-    let
-        result =
-            -- Expression is an assumption
-            List.member expression assumptions
-                -- Expression has already been checked
-                || List.member expression previous
-                || foldl (\rule -> \accum -> accum || rule assumptions previous expression) False rules
-    in
-    if result then
-        Ok [ Valid assumptions expression ]
+    foldl
+        (\rule ->
+            \accum ->
+                case accum of
+                    Ok _ ->
+                        accum
 
-    else
-        Err expression
+                    Err _ ->
+                        if rule.rule assumptions previous expression then
+                            Ok ( rule.name, [ Valid assumptions expression ] )
+
+                        else
+                            Err (Just expression)
+        )
+        (Err Nothing)
+        rules
 
 
-verifyProof : List Rule -> Proof -> Result Expression (List Theorem)
-verifyProof rules (Proof assumptions proof targets) =
+verifyProof : List { rule : Rule, name : AxiomName } -> Proof -> Result (Maybe Expression) ( AxiomName, List Theorem )
+verifyProof rules (Proof assumptions proof target) =
     let
         validProof =
             first
@@ -171,23 +183,12 @@ verifyProof rules (Proof assumptions proof targets) =
                                 _ ->
                                     ( carry, previous )
                     )
-                    ( Ok [], [] )
+                    ( Ok ( AlreadyProved, [] ), [] )
                     proof
                 )
 
         validTargets =
-            foldl
-                (\step ->
-                    \carry ->
-                        case carry of
-                            Ok _ ->
-                                verifyStep rules assumptions proof step
-
-                            _ ->
-                                carry
-                )
-                (Ok [])
-                targets
+            verifyStep rules assumptions proof target
     in
     case ( validProof, validTargets ) of
         ( Ok _, Ok _ ) ->
@@ -200,8 +201,21 @@ verifyProof rules (Proof assumptions proof targets) =
             validTargets
 
 
+type AxiomName
+    = AlreadyProved
+    | SL1
+    | SL2
+    | SL3
+    | MP
+
+
 sententialLogicRules =
-    [ verifySL1, verifySL2, verifySL3, verifyModusPonens ]
+    [ { rule = verifyAlreadyProved, name = AlreadyProved }
+    , { rule = verifySL1, name = SL1 }
+    , { rule = verifySL2, name = SL2 }
+    , { rule = verifySL3, name = SL3 }
+    , { rule = verifyModusPonens, name = MP }
+    ]
 
 
 verifySLProof =
