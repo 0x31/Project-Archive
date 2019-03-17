@@ -5,7 +5,6 @@ module Kernel exposing (Axiom, Expression(..), Proof(..), Rule, Sequence, Theore
 -- If this has any bugs in it, then all proofs should be considered invalid.
 
 import Char exposing (Char)
-import Debug exposing (log)
 import List exposing (concat, filter, foldl, head, member, reverse)
 import Tuple exposing (first)
 

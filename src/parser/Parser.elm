@@ -1,7 +1,7 @@
 module Parser exposing (parseProof, parseString, split, splitLines)
 
 import Char exposing (Char)
-import Debug exposing (log)
+import Debug
 import List exposing (concat, filter, foldl, head, member, reverse)
 import Result.Extra exposing (combine)
 import SemiFormal exposing (Deduction(..), Expression, Proof(..))
@@ -26,7 +26,7 @@ parseProof input =
     in
     case ( maybeGoal, maybeAssumptions, maybeProof ) of
         ( Ok [ goal ], Ok assumptions, Ok proof ) ->
-            Ok (Proof assumptions (Deduction Nothing [proof]) goal)
+            Ok (Proof assumptions (Deduction Nothing [ proof ]) goal)
 
         ( Ok _, _, _ ) ->
             Err "invalid number of goals"

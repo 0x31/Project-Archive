@@ -1,5 +1,6 @@
-module Formalizer exposing (applyDeductionTheorem, formalizeDeduction, formalizeDeductionHelper, formalizeExpression, formalizeProof, sequenceToDeduction, unformalizeExpression)
+module Formalizer exposing (applyDeductionTheorem, formalSequenceToDeduction, formalizeDeduction, formalizeDeductionHelper, formalizeExpression, formalizeProof, sequenceToDeduction, unformalizeExpression)
 
+import Builders exposing (pImpliesPProof, sl1, sl2)
 import Kernel
 import SemiFormal exposing (Deduction(..), Expression(..), Proof(..))
 import SententialLogic
@@ -45,8 +46,13 @@ sequenceToDeduction sequence =
     Deduction Nothing (List.map (\expr -> Expr expr) sequence)
 
 
-applyDeductionTheorem : Maybe Expression -> List Expression -> Result Expression (List Expression)
-applyDeductionTheorem assumptionM sequence =
+formalSequenceToDeduction : List Kernel.Expression -> Deduction
+formalSequenceToDeduction sequence =
+    Deduction Nothing (List.map (\expr -> Expr (unformalizeExpression expr)) sequence)
+
+
+applyDeductionTheorem : Maybe Expression -> Kernel.Sequence -> Kernel.Sequence -> Result Expression Kernel.Sequence
+applyDeductionTheorem assumptionM linesSeen sequence =
     case assumptionM of
         Nothing ->
             Ok sequence
@@ -58,16 +64,96 @@ applyDeductionTheorem assumptionM sequence =
 
                 f :: fs ->
                     let
-                        formalF =
-                            formalizeExpression f
+                        formalAssumption =
+                            formalizeExpression assumption
+
+                        newLinesR =
+                            if f == formalAssumption then
+                                Ok (deductionTheoremHandleAssumption assumption)
+
+                            else
+                                case SententialLogic.verifySLProof (Kernel.Proof [] linesSeen f) of
+                                    Ok list ->
+                                        case List.head (List.reverse list) of
+                                            Just ( SententialLogic.SL1, _ ) ->
+                                                Ok (deductionTheoremHandleAxiom formalAssumption f)
+
+                                            Just ( SententialLogic.SL2, _ ) ->
+                                                Ok (deductionTheoremHandleAxiom formalAssumption f)
+
+                                            Just ( SententialLogic.SL3, _ ) ->
+                                                Ok (deductionTheoremHandleAxiom formalAssumption f)
+
+                                            Just ( SententialLogic.AlreadyProved, _ ) ->
+                                                Ok (deductionTheoremHandleAxiom formalAssumption f)
+
+                                            Just ( _, _ ) ->
+                                                Ok (deductionTheoremHandleAxiom formalAssumption f)
+
+                                            Nothing ->
+                                                Err (unformalizeExpression f)
+
+                                    Err _ ->
+                                        case verifyModusPonensInAssumption formalAssumption linesSeen f of
+                                            Just a ->
+                                                Ok (deductionTheoremHandleModusPonens formalAssumption a f)
+
+                                            Nothing ->
+                                                Err (unformalizeExpression f)
                     in
-                    case SententialLogic.verifySLProof (Kernel.Proof [] [] formalF) of
-                        Ok _ ->
-                            -- ( SententialLogic.SL1, _ ) ->
-                            applyDeductionTheorem (Just assumption) sequence
+                    case newLinesR of
+                        Ok newLines ->
+                            applyDeductionTheorem (Just assumption) (List.concat [ linesSeen, newLines ]) fs
+                                |> Result.andThen (\r -> Ok (List.concat [ linesSeen, newLines, r ]))
 
                         Err _ ->
-                            Err f
+                            Err (unformalizeExpression f)
+
+
+verifyModusPonensInAssumption assumption previous expression =
+    let
+        implicationCandidates =
+            List.filter
+                (\p ->
+                    case p of
+                        Kernel.Implies h (Kernel.Implies a b) ->
+                            h == assumption && b == expression
+
+                        _ ->
+                            False
+                )
+                previous
+
+        findJustification candidates =
+            case candidates of
+                first :: rest ->
+                    case first of
+                        Kernel.Implies a _ ->
+                            if List.member (Kernel.Implies assumption a) previous then
+                                Just a
+
+                            else
+                                findJustification rest
+
+                        _ ->
+                            findJustification rest
+
+                empty ->
+                    Nothing
+    in
+    findJustification implicationCandidates
+
+
+deductionTheoremHandleAxiom h a =
+    [ a, sl1 a h, Kernel.Implies h a ]
+
+
+deductionTheoremHandleModusPonens h a b =
+    [ sl2 h a b, Kernel.Implies (Kernel.Implies h a) (Kernel.Implies h b), Kernel.Implies h b ]
+
+
+deductionTheoremHandleAssumption h =
+    pImpliesPProof (formalizeExpression h)
 
 
 formalizeDeduction : Deduction -> Kernel.Sequence -> Result Expression Kernel.Sequence
@@ -101,18 +187,13 @@ formalizeDeductionHelper proofSequence assuptions linesSeen =
 
                 fixListR =
                     case fixSubListsR of
+                        Ok fixSubLists ->
+                            applyDeductionTheorem assumption (List.concat [ assuptions, linesSeen ]) fixSubLists
+
                         Err err ->
                             Err err
-
-                        Ok fixSubLists ->
-                            applyDeductionTheorem assumption (List.map unformalizeExpression fixSubLists)
             in
-            case fixListR of
-                Ok fixList ->
-                    Ok (List.map formalizeExpression fixList)
-
-                Err err ->
-                    Err err
+            fixListR
 
         Expr expression ->
             Ok [ formalizeExpression expression ]
@@ -133,4 +214,3 @@ formalizeProof (Proof assumptions proof goal) =
 
         Ok formalProof ->
             Ok (Kernel.Proof formalAssuptions formalProof (formalizeExpression goal))
-

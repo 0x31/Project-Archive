@@ -70,19 +70,24 @@ verifyModusPonens assumptions previous expression =
         implicationCandidates =
             Kernel.findImplicationCandidates allPrevious expression
 
-        findJustification previous1 =
-            case previous1 of
+        findJustification candidates =
+            case candidates of
                 first :: rest ->
-                    if List.member (Implies first expression) implicationCandidates then
-                        True
+                    case first of
+                        Implies a _ ->
+                            if List.member a allPrevious then
+                                True
 
-                    else
-                        findJustification rest
+                            else
+                                findJustification rest
+
+                        _ ->
+                            findJustification rest
 
                 empty ->
                     False
     in
-    findJustification allPrevious
+    findJustification implicationCandidates
 
 
 sententialLogicRules =

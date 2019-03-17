@@ -1,4 +1,4 @@
-module SemiFormal exposing (..)
+module SemiFormal exposing (Deduction(..), Expression(..), Proof(..))
 
 import Kernel
 import SententialLogic

@@ -1,6 +1,6 @@
 module Builders exposing (modusPonens, pImpliesPProof, sl1, sl2, sl3)
 
-import SemiFormal exposing (Expression(..))
+import Kernel exposing (Expression(..))
 
 
 modusPonens : Expression -> Expression -> Result String Expression
