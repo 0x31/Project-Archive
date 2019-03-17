@@ -3,6 +3,7 @@ module Parser exposing (parseProof, parseString, split, splitLines)
 import Char exposing (Char)
 import Debug
 import List exposing (concat, filter, foldl, head, member, reverse)
+import List.Extra exposing (getAt)
 import Result.Extra exposing (combine)
 import SemiFormal exposing (Deduction(..), Expression, Proof(..))
 import Tokenizer exposing (Token(..), tokenize)
@@ -28,8 +29,17 @@ parseProof input =
         ( Ok [ goal ], Ok assumptions, Ok proof ) ->
             Ok (Proof assumptions (Deduction Nothing [ proof ]) goal)
 
-        ( Ok _, _, _ ) ->
+        ( Ok (f :: s :: fs), _, _ ) ->
             Err "invalid number of goals"
+
+        ( Err err, _, _ ) ->
+            Err err
+
+        ( _, Err err, _ ) ->
+            Err err
+
+        ( _, _, Err err ) ->
+            Err err
 
         _ ->
             Err "unable to parse"
@@ -110,15 +120,94 @@ parseExpression tokens =
     treeToExpression (split tokens)
 
 
+countAssumptions : List Token -> Int
+countAssumptions tokens =
+    case tokens of
+        [] ->
+            0
+
+        SubdeductionBox :: rest ->
+            1 + countAssumptions rest
+
+        _ :: rest ->
+            countAssumptions rest
+
+
+splitSubdeductions : List (List Token) -> Result String (List Deduction)
+splitSubdeductions proofBody =
+    case splitSubdeductionsHelper2 proofBody 0 of
+        Ok ( result, _ ) ->
+            Ok result
+
+        Err msg ->
+            Err msg
+
+
+
+-- FIXME: This probably has some bugs in it.
+-- It can probably be simplified a lot.
+
+
+splitSubdeductionsHelper2 : List (List Token) -> Int -> Result String ( List Deduction, List (List Token) )
+splitSubdeductionsHelper2 proofBody assumptions =
+    case proofBody of
+        [] ->
+            Ok ( [], [] )
+
+        f :: fs ->
+            let
+                assumptionCount =
+                    countAssumptions f
+            in
+            -- If there is one more assumption, parse subdeduction
+            if (assumptionCount == assumptions + 1) && (getAt (assumptions + 1) f == Just (Word "ASSUMING")) then
+                case splitSubdeductionsHelper2 fs (assumptions + 1) of
+                    Ok ( subdeduction, rest ) ->
+                        case splitSubdeductionsHelper2 rest assumptions of
+                            Ok ( restOfDeduction, rest2 ) ->
+                                let
+                                    assumptionR =
+                                        -- Remove "|" and "ASSUMING"
+                                        List.drop (assumptions + 1 + 1) f |> parseExpression
+                                in
+                                case assumptionR of
+                                    Ok assumption ->
+                                        Ok ( List.concat [ [ Deduction (Just assumption) subdeduction ], restOfDeduction ], rest2 )
+
+                                    Err msg ->
+                                        Err msg
+
+                            Err msg ->
+                                Err msg
+
+                    Err msg ->
+                        Err msg
+
+            else if assumptionCount == assumptions then
+                let
+                    proofLineR =
+                        -- Remove "|"
+                        List.drop assumptions f |> parseExpression
+                in
+                case ( proofLineR, splitSubdeductionsHelper2 fs assumptions ) of
+                    ( Ok parsedF, Ok ( result, rest ) ) ->
+                        Ok ( List.concat [ [ Expr parsedF ], result ], rest )
+
+                    _ ->
+                        Err (Debug.toString ( proofLineR, splitSubdeductionsHelper2 fs assumptions ))
+
+            else
+                Ok ( [], f :: fs )
+
+
 parseProofBody : List (List Token) -> Result String Deduction
 parseProofBody proofBody =
-    combine (List.map parseExpression proofBody)
-        |> Result.andThen (\list -> Ok (List.map (\expr -> Expr expr) list))
-        |> Result.andThen (\result -> Ok (Deduction Nothing result))
+    splitSubdeductions proofBody
+        |> Result.andThen (\deductions -> Ok (Deduction Nothing deductions))
 
 
-type Tree
-    = Node (List Tree)
+type ExpressionTree
+    = Node (List ExpressionTree)
     | Symbol Token
 
 
@@ -127,7 +216,7 @@ type Tree
 -- operation must be bracketed). e.g. `a ⇒ ¬b` must be `a ⇒ (¬b)`
 
 
-treeToExpression : Tree -> Result String Expression
+treeToExpression : ExpressionTree -> Result String Expression
 treeToExpression tree =
     case tree of
         Node [ a, b, c ] ->
@@ -147,13 +236,13 @@ treeToExpression tree =
                             Ok (SemiFormal.Iff aExpression cExpression)
 
                         _ ->
-                            Err ("unable to parse " ++ Debug.toString b)
+                            Err ("unable to parse (0) " ++ Debug.toString b)
 
                 ( Err _, _ ) ->
-                    Err ("unable to parse " ++ Debug.toString a)
+                    Err ("unable to parse (1) " ++ Debug.toString a)
 
                 ( _, Err _ ) ->
-                    Err ("unable to parse " ++ Debug.toString c)
+                    Err ("unable to parse (2) " ++ Debug.toString c)
 
         Node [ a, b ] ->
             case treeToExpression b of
@@ -163,10 +252,10 @@ treeToExpression tree =
                             Ok (SemiFormal.Not bExpression)
 
                         _ ->
-                            Err ("unable to parse " ++ Debug.toString a)
+                            Err ("unable to parse (3) " ++ Debug.toString a)
 
                 _ ->
-                    Err ("unable to parse " ++ Debug.toString b)
+                    Err ("unable to parse (4) " ++ Debug.toString b)
 
         Node [ a ] ->
             treeToExpression a
@@ -177,34 +266,34 @@ treeToExpression tree =
                     Ok (SemiFormal.Sentence p)
 
                 _ ->
-                    Err ("unable to parse " ++ Debug.toString a)
+                    Err ("unable to parse (5) " ++ Debug.toString a)
 
         _ ->
-            Err ("unable to parse " ++ Debug.toString tree)
+            Err ("unable to parse (6) " ++ Debug.toString tree)
 
 
 
--- parseTree: String -> Tree
--- parseTree input = parseTreeHelper input ""
--- parseTreeHelper: String -> String -> (Tree, String)
--- parseTreeHelper input carry = case input of
+-- parseExpressionTree: String -> ExpressionTree
+-- parseExpressionTree input = parseExpressionTreeHelper input ""
+-- parseExpressionTreeHelper: String -> String -> (ExpressionTree, String)
+-- parseExpressionTreeHelper input carry = case input of
 -- '('::rest -> let []
 
 
-split : Line -> Tree
+split : Line -> ExpressionTree
 split tokens =
     splitByBracket tokens
 
 
-splitByBracket : Line -> Tree
+splitByBracket : Line -> ExpressionTree
 splitByBracket string =
     Tuple.first (splitByBracketHelper string [])
 
 
-splitByBracketHelper : Line -> List Tree -> ( Tree, Line )
-splitByBracketHelper string currentTree =
+splitByBracketHelper : Line -> List ExpressionTree -> ( ExpressionTree, Line )
+splitByBracketHelper string currentExpressionTree =
     let
-        returnTree tree =
+        returnExpressionTree tree =
             case tree of
                 (Node f) :: [] ->
                     Node f
@@ -216,13 +305,13 @@ splitByBracketHelper string currentTree =
         LeftBracket :: rest ->
             case splitByBracketHelper rest [] of
                 ( child, newRest ) ->
-                    splitByBracketHelper newRest (List.concat [ currentTree, [ child ] ])
+                    splitByBracketHelper newRest (List.concat [ currentExpressionTree, [ child ] ])
 
         RightBracket :: rest ->
-            ( returnTree currentTree, rest )
+            ( returnExpressionTree currentExpressionTree, rest )
 
         token :: rest ->
-            splitByBracketHelper rest (List.concat [ currentTree, [ Symbol token ] ])
+            splitByBracketHelper rest (List.concat [ currentExpressionTree, [ Symbol token ] ])
 
         [] ->
-            ( returnTree currentTree, [] )
+            ( returnExpressionTree currentExpressionTree, [] )

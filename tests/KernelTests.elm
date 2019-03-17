@@ -7,6 +7,7 @@ import Fuzz exposing (Fuzzer, int, list, string)
 import Kernel exposing (Expression(..))
 import Parser exposing (parseProof)
 import Result exposing (andThen)
+import Run exposing (formalizeAndRunProof)
 import SemiFormal
 import SententialLogic exposing (verifySLProof)
 import Test exposing (..)
@@ -17,9 +18,7 @@ proof1 =
     parseProof """
 GOAL
 p ⇒ p
-
 ASSUMING
-
 PROOF
 (p ⇒ ((p ⇒ p) ⇒ p)) ⇒ ((p ⇒ (p ⇒ p)) ⇒ (p ⇒ p))
 p ⇒ ((p ⇒ p) ⇒ p)
@@ -33,11 +32,9 @@ proof2 =
     parseProof """
 GOAL
 p ⇒ r
-
 ASSUMING
 p ⇒ q
 q ⇒ r
-
 PROOF
 (q ⇒ r) ⇒ (p ⇒ (q ⇒ r))
 q ⇒ r
@@ -53,11 +50,8 @@ proof3 =
     parseProof """
 GOAL
 ¬(A ⇒ (¬B))
-
 ASSUMING
 A ∧ B
-
-
 PROOF
 A ∧ B
 ¬(A ⇒ (¬B))
@@ -72,24 +66,73 @@ failingProof1 =
     parseProof """
 GOAL
 p ⇒ q
-
 ASSUMING
-
 PROOF
 p ⇒ q
 """
 
 
 proof5 =
-    Ok (SemiFormal.Proof [] (SemiFormal.Deduction (Just (SemiFormal.Sentence "p")) [ SemiFormal.Expr (SemiFormal.Sentence "p") ]) (SemiFormal.Implies (SemiFormal.Sentence "p") (SemiFormal.Sentence "p")))
+    parseProof """
+GOAL
+p ⇒ p
+
+ASSUMING
+
+PROOF
+| ASSUMING p
+| p
+p ⇒ p
+"""
 
 
 proof6 =
-    let
-        inner =
-            SemiFormal.Implies (SemiFormal.Sentence "p") (SemiFormal.Implies (SemiFormal.Sentence "p") (SemiFormal.Sentence "p"))
-    in
-    Ok (SemiFormal.Proof [] (SemiFormal.Deduction (Just (SemiFormal.Sentence "p")) [ SemiFormal.Expr inner ]) (SemiFormal.Implies (SemiFormal.Sentence "p") inner))
+    parseProof """
+GOAL
+p ⇒ (p ⇒ (p ⇒ p))
+
+ASSUMING
+
+PROOF
+| ASSUMING p
+| p ⇒ (p ⇒ p)
+p ⇒ (p ⇒ (p ⇒ p))
+"""
+
+
+proof7 =
+    parseProof """
+GOAL
+p ⇒ (p ⇒ p)
+
+ASSUMING
+a ⇒ a
+
+PROOF
+| ASSUMING p
+| | ASSUMING p
+| | a ⇒ a
+| p ⇒ (a ⇒ a)
+p ⇒ (p ⇒ (a ⇒ a))
+"""
+
+
+
+-- proof8 =
+--     parseProof """
+-- GOAL
+-- B ⇒ (A ⇒ C)
+-- ASSUMING
+-- A ⇒ (B ⇒ C)
+-- PROOF
+-- A ⇒ (B ⇒ C)
+-- | ASSUMING B
+-- | | ASSUMING A
+-- | | B ⇒ C
+-- | | C
+-- | A ⇒ C
+-- B ⇒ (A ⇒ C)
+-- """
 
 
 printProof : Kernel.Proof -> Kernel.Proof
@@ -111,39 +154,19 @@ printProof (Kernel.Proof assumptions proof goal) =
     Kernel.Proof assumptions proof goal
 
 
-runProof : Result.Result String SemiFormal.Proof -> Result.Result String (List ( SententialLogic.AxiomName, Kernel.Theorem ))
-runProof resultProof =
-    resultProof
-        |> andThen
-            (\proofR ->
-                case formalizeProof proofR of
-                    Ok proof ->
-                        case verifySLProof proof of
-                            -- (printProof proof) of
-                            Ok res ->
-                                Ok res
-
-                            Err (Just expr) ->
-                                Err ("couldn't verify line " ++ formalToString expr)
-
-                            Err Nothing ->
-                                Err "couldn't verify proof"
-
-                    Err expr ->
-                        Err ("couldn't parse line " ++ toString expr)
-            )
-
-
 suite : Test
 suite =
     describe "Kernel"
         [ describe "Kernel.verifySLProof"
-            [ test "p ⇒ p" <| \_ -> runProof proof1 |> Expect.ok
-            , test "p ⇒ q, q ⇒ r ⊢ p ⇒ r" <| \_ -> runProof proof2 |> Expect.ok
-            , test "A ∧ B ⊢ ¬(A ⇒ (¬B))" <| \_ -> runProof proof3 |> Expect.ok
-            , test "p ⇒ p builder" <| \_ -> runProof proof4 |> Expect.ok
-            , test "assumption within assumption" <| \_ -> runProof proof5 |> Expect.ok
-            , test "axiom within assumption" <| \_ -> runProof proof6 |> Expect.ok
-            , test "p ⇒ q should fail" <| \_ -> runProof failingProof1 |> Expect.err
+            [ test "p ⇒ p" <| \_ -> formalizeAndRunProof proof1 |> Expect.ok
+            , test "p ⇒ q, q ⇒ r ⊢ p ⇒ r" <| \_ -> formalizeAndRunProof proof2 |> Expect.ok
+            , test "A ∧ B ⊢ ¬(A ⇒ (¬B))" <| \_ -> formalizeAndRunProof proof3 |> Expect.ok
+            , test "p ⇒ p builder" <| \_ -> formalizeAndRunProof proof4 |> Expect.ok
+            , test "assumption within assumption" <| \_ -> formalizeAndRunProof proof5 |> Expect.ok
+            , test "axiom within assumption" <| \_ -> formalizeAndRunProof proof6 |> Expect.ok
+            , test "parsing assumptions" <| \_ -> formalizeAndRunProof proof7 |> Expect.ok
+
+            -- , test "(A ⇒ (B ⇒ C)) ⊢ (B ⇒ (A ⇒ C))" <| \_ -> formalizeAndRunProof proof8 |> Expect.ok
+            , test "p ⇒ q should fail" <| \_ -> formalizeAndRunProof failingProof1 |> Expect.err
             ]
         ]

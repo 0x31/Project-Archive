@@ -19,27 +19,22 @@ Usage
 Proof that `p → p`
 
 ```elm
-import Kernel exposing (verifySLProof)
 import Parser exposing (parseProof)
-import SemiFormal exposing (formalizeProof)
+import Run exposing (formalizeAndRunProof)
 
-parsedProof = parseProof """ \
-GOAL                                            \
-p ⇒ p                                           \
-                                                \
-ASSUMING                                        \
-                                                \
-PROOF                                           \
-(p ⇒ ((p ⇒ p) ⇒ p)) ⇒ ((p ⇒ (p ⇒ p)) ⇒ (p ⇒ p)) \
-p ⇒ ((p ⇒ p) ⇒ p)                               \
-(p ⇒ (p ⇒ p)) ⇒ (p ⇒ p)                         \
-p ⇒ (p ⇒ p)                                     \
-p ⇒ p                                           \
+proof = parseProof """ \
+GOAL         \
+p ⇒ p        \
+             \
+ASSUMING     \
+             \
+PROOF        \
+| ASSUMING p \
+| p          \
+p ⇒ p        \
 """
 
-run = case parsedProof of \
-        Ok proof -> Ok (verifySLProof (formalizeProof proof)) \
-        Err msg -> Err msg
+formalizeAndRunProof proof
 
 -- Ok
 ```

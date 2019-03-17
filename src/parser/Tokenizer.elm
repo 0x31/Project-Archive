@@ -16,6 +16,7 @@ type Token
     | LeftBracket
     | RightBracket
     | LineBreak
+    | SubdeductionBox
     | Word String
 
 
@@ -57,6 +58,9 @@ tokenizeHelper string memory accumulator =
 
                 ')' ->
                     tokenizeHelper rest [] (concat [ newAccumulator, [ RightBracket ] ])
+
+                '|' ->
+                    tokenizeHelper rest [] (concat [ newAccumulator, [ SubdeductionBox ] ])
 
                 ' ' ->
                     tokenizeHelper rest [] newAccumulator
