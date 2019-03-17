@@ -2,12 +2,15 @@ module KernelTests exposing (suite)
 
 import Builders exposing (pImpliesPProof)
 import Expect exposing (Expectation)
+import Formalizer exposing (formalizeExpression, formalizeProof, sequenceToDeduction)
 import Fuzz exposing (Fuzzer, int, list, string)
-import Kernel exposing (Expression(..), verifySLProof)
+import Kernel exposing (Expression(..))
 import Parser exposing (parseProof)
 import Result exposing (andThen)
-import SemiFormal exposing (formalToString, formalizeExpression, formalizeProof, sequenceToDeduction, toString)
+import SemiFormal
+import SententialLogic exposing (verifySLProof)
 import Test exposing (..)
+import ToString exposing (formalToString, toString)
 
 
 parsedProof1 =
@@ -96,7 +99,7 @@ printProof (Kernel.Proof assumptions proof goal) =
     Kernel.Proof assumptions proof goal
 
 
-runProof : Result.Result String SemiFormal.Proof -> Result.Result String ( Kernel.AxiomName, List Kernel.Theorem )
+runProof : Result.Result String SemiFormal.Proof -> Result.Result String (List ( SententialLogic.AxiomName, Kernel.Theorem ))
 runProof resultProof =
     resultProof
         |> andThen

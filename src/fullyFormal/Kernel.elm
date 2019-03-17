@@ -1,4 +1,4 @@
-module Kernel exposing (AxiomName, Expression(..), Proof(..), Sequence, Theorem, verifySLProof)
+module Kernel exposing (Axiom, Expression(..), Proof(..), Rule, Sequence, Theorem(..), findImplicationCandidates, verifyAlreadyProved, verifyProof, verifyStep)
 
 -- This is the kernel of the proof verifier. It only understands fully formal
 -- sentential logic.
@@ -44,80 +44,6 @@ type alias Rule =
     Sequence -> Sequence -> Expression -> Bool
 
 
-
--- Verify the axioms
-
-
-verifySL1 : Rule
-verifySL1 assumptions previous expression =
-    case expression of
-        Implies a1 (Implies b1 a2) ->
-            if a1 == a2 then
-                True
-
-            else
-                False
-
-        _ ->
-            False
-
-
-verifySL2 : Rule
-verifySL2 assumptions previous expression =
-    case expression of
-        Implies (Implies a1 (Implies b1 c1)) (Implies (Implies a2 b2) (Implies a3 c2)) ->
-            if a1 == a2 && a1 == a3 && b1 == b2 && c1 == c2 then
-                True
-
-            else
-                False
-
-        _ ->
-            False
-
-
-verifySL3 : Rule
-verifySL3 assumptions previous expression =
-    case expression of
-        Implies (Implies (Not a1) (Not b1)) (Implies (Implies (Not a2) b2) a3) ->
-            if a1 == a2 && a1 == a3 && b1 == b2 then
-                True
-
-            else
-                False
-
-        _ ->
-            False
-
-
-
--- Verify the rules
-
-
-verifyModusPonens : Rule
-verifyModusPonens assumptions previous expression =
-    let
-        allPrevious =
-            concat [ assumptions, previous ]
-
-        implicationCandidates =
-            findImplicationCandidates allPrevious expression
-
-        findJustification previous1 =
-            case previous1 of
-                first :: rest ->
-                    if member (Implies first expression) implicationCandidates then
-                        True
-
-                    else
-                        findJustification rest
-
-                empty ->
-                    False
-    in
-    findJustification allPrevious
-
-
 verifyAlreadyProved : Rule
 verifyAlreadyProved assumptions previous expression =
     -- Expression is an assumption
@@ -148,7 +74,7 @@ findImplicationCandidates previous expression =
         previous
 
 
-verifyStep : List { rule : Rule, name : AxiomName } -> List Expression -> List Expression -> Expression -> Result (Maybe Expression) ( AxiomName, List Theorem )
+verifyStep : List { rule : Rule, name : a } -> List Expression -> List Expression -> Expression -> Result (Maybe Expression) (List ( a, Theorem ))
 verifyStep rules assumptions previous expression =
     foldl
         (\rule ->
@@ -159,7 +85,7 @@ verifyStep rules assumptions previous expression =
 
                     Err _ ->
                         if rule.rule assumptions previous expression then
-                            Ok ( rule.name, [ Valid assumptions expression ] )
+                            Ok [ ( rule.name, Valid assumptions expression ) ]
 
                         else
                             Err (Just expression)
@@ -168,7 +94,7 @@ verifyStep rules assumptions previous expression =
         rules
 
 
-verifyProof : List { rule : Rule, name : AxiomName } -> Proof -> Result (Maybe Expression) ( AxiomName, List Theorem )
+verifyProof : List { rule : Rule, name : a } -> Proof -> Result (Maybe Expression) (List ( a, Theorem ))
 verifyProof rules (Proof assumptions proof target) =
     let
         validProof =
@@ -183,7 +109,7 @@ verifyProof rules (Proof assumptions proof target) =
                                 _ ->
                                     ( carry, previous )
                     )
-                    ( Ok ( AlreadyProved, [] ), [] )
+                    ( Ok [], [] )
                     proof
                 )
 
@@ -199,24 +125,3 @@ verifyProof rules (Proof assumptions proof target) =
 
         ( _, Err _ ) ->
             validTargets
-
-
-type AxiomName
-    = AlreadyProved
-    | SL1
-    | SL2
-    | SL3
-    | MP
-
-
-sententialLogicRules =
-    [ { rule = verifyAlreadyProved, name = AlreadyProved }
-    , { rule = verifySL1, name = SL1 }
-    , { rule = verifySL2, name = SL2 }
-    , { rule = verifySL3, name = SL3 }
-    , { rule = verifyModusPonens, name = MP }
-    ]
-
-
-verifySLProof =
-    verifyProof sententialLogicRules

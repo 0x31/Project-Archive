@@ -2,9 +2,11 @@ module SemiFormalTests exposing (suite)
 
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
-import Kernel exposing (Expression(..), verifySLProof)
+import Kernel exposing (Expression(..))
 import Parser exposing (parseString)
-import SemiFormal exposing (formalToString, formalizeExpression)
+import Formalizer exposing (formalizeExpression)
+import ToString exposing (formalToString)
+import SententialLogic exposing (verifySLProof)
 import Test exposing (..)
 
 
