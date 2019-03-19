@@ -1,8 +1,9 @@
-module ToString exposing (toString, formalToString)
+module ToString exposing (formalToString, toString)
 
-import SemiFormal exposing (Expression(..))
 import Formalizer exposing (unformalizeExpression)
 import Kernel
+import SemiFormal exposing (Expression(..))
+
 
 toString : Expression -> String
 toString expression =
