@@ -91,26 +91,35 @@ applyDeductionTheorem assumptionM assumptions linesSeen sequence =
                                                 Ok (deductionTheoremHandleAxiom formalAssumption f)
 
                                             Nothing ->
-                                                Err (Debug.log "2" (unformalizeExpression f))
+                                                Err (unformalizeExpression f)
 
                                     Err _ ->
-                                        case verifyModusPonensInAssumption formalAssumption linesSeen f of
-                                            Just a ->
-                                                Ok (deductionTheoremHandleModusPonens formalAssumption a f)
+                                        case verifyModusPonensInAssumption formalAssumption (List.concat [ assumptions, linesSeen ]) f of
+                                            Just ( a, needExpanding ) ->
+                                                Ok
+                                                    (List.concat
+                                                        [ List.concat (List.map (deductionTheoremHandleAxiom formalAssumption) needExpanding)
+                                                        , deductionTheoremHandleModusPonens formalAssumption a f
+                                                        ]
+                                                    )
 
                                             Nothing ->
                                                 -- TODO: Check for other forms ([A, H->(A->B)], [A, A->B], [H->A, A->B] )
                                                 -- or simply apply H=> to every step (without full deduction theorem)
                                                 -- case verifyModusPonens formalAssumption linesSeen f of
-                                                Err (Debug.log "0" (unformalizeExpression f))
+                                                Err (unformalizeExpression f)
                     in
                     case newLinesR of
                         Ok newLines ->
                             applyDeductionTheorem (Just assumption) assumptions (List.concat [ linesSeen, newLines ]) fs
-                                |> Result.andThen (\r -> Ok (List.concat [ linesSeen, newLines, r ]))
+                                |> Result.andThen (\r -> Ok (List.concat [ newLines, r ]))
 
                         Err _ ->
-                            Err (Debug.log "1" (unformalizeExpression f))
+                            Err (unformalizeExpression f)
+
+
+
+-- TODO: This code can be cleaned up and made shorter
 
 
 verifyModusPonensInAssumption assumption previous expression =
@@ -127,13 +136,48 @@ verifyModusPonensInAssumption assumption previous expression =
                 )
                 previous
 
+        implicationCandidates2 =
+            List.filter
+                (\p ->
+                    case p of
+                        Kernel.Implies a b ->
+                            b == expression
+
+                        _ ->
+                            False
+                )
+                previous
+
         findJustification candidates =
             case candidates of
                 first :: rest ->
                     case first of
+                        Kernel.Implies _ (Kernel.Implies a _) ->
+                            if List.member (Kernel.Implies assumption a) previous || a == assumption then
+                                Just ( a, [] )
+
+                            else if List.member a previous then
+                                Just ( a, [ a ] )
+
+                            else
+                                findJustification rest
+
+                        _ ->
+                            findJustification rest
+
+                empty ->
+                    Nothing
+
+        findJustification2 candidates =
+            case candidates of
+                first :: rest ->
+                    case first of
                         Kernel.Implies a _ ->
-                            if List.member (Kernel.Implies assumption a) previous then
-                                Just a
+                            if List.member (Kernel.Implies assumption a) previous || a == assumption then
+                                Just ( a, [ first ] )
+
+                            else if List.member a previous then
+                                Just ( a, [ first, a ] )
 
                             else
                                 findJustification rest
@@ -144,7 +188,12 @@ verifyModusPonensInAssumption assumption previous expression =
                 empty ->
                     Nothing
     in
-    findJustification (Debug.log "implicationCandidates" implicationCandidates)
+    case findJustification implicationCandidates of
+        Just ( x, l ) ->
+            Just ( x, l )
+
+        Nothing ->
+            findJustification2 implicationCandidates2
 
 
 deductionTheoremHandleAxiom h a =
@@ -160,15 +209,23 @@ deductionTheoremHandleAssumption h =
 
 
 formalizeDeduction : Deduction -> Kernel.Sequence -> Result Expression Kernel.Sequence
-formalizeDeduction proofSequence assuptions =
-    formalizeDeductionHelper proofSequence assuptions []
+formalizeDeduction proofSequence assumptions =
+    formalizeDeductionHelper proofSequence assumptions []
 
 
 formalizeDeductionHelper : Deduction -> Kernel.Sequence -> Kernel.Sequence -> Result Expression Kernel.Sequence
-formalizeDeductionHelper proofSequence assuptions linesSeen =
+formalizeDeductionHelper proofSequence assumptions linesSeen =
     case proofSequence of
-        Deduction assumption subdeductions ->
+        Deduction maybeAssumption subdeductions ->
             let
+                newAssumptions =
+                    case maybeAssumption of
+                        Just assumption ->
+                            List.concat [ assumptions, [ formalizeExpression assumption ] ]
+
+                        Nothing ->
+                            assumptions
+
                 fixSubListsR =
                     List.foldl
                         (\subdeduction ->
@@ -178,7 +235,7 @@ formalizeDeductionHelper proofSequence assuptions linesSeen =
                                         Err err
 
                                     Ok accum ->
-                                        case formalizeDeductionHelper subdeduction (List.concat [ assuptions, accum ]) (List.concat [ linesSeen, accum ]) of
+                                        case formalizeDeductionHelper subdeduction newAssumptions (List.concat [ linesSeen, accum ]) of
                                             Ok subCall ->
                                                 Ok (List.concat [ accum, subCall ])
 
@@ -191,7 +248,7 @@ formalizeDeductionHelper proofSequence assuptions linesSeen =
                 fixListR =
                     case fixSubListsR of
                         Ok fixSubLists ->
-                            applyDeductionTheorem assumption assuptions linesSeen fixSubLists
+                            applyDeductionTheorem maybeAssumption assumptions linesSeen fixSubLists
 
                         Err err ->
                             Err err
@@ -217,4 +274,3 @@ formalizeProof (Proof assumptions proof goal) =
 
         Ok formalProof ->
             Ok (Kernel.Proof formalAssuptions formalProof (formalizeExpression goal))
-

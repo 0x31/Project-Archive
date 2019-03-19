@@ -3,6 +3,11 @@ module SententialLogic exposing (AxiomName(..), sententialLogicRules, verifyModu
 import Kernel exposing (Expression(..), Rule, verifyAlreadyProved, verifyProof)
 
 
+
+-- TODO: Change this so that they contain details about how they are used
+-- (e.g. SL1 "a" or MP "a=>b" "a")
+
+
 type AxiomName
     = AlreadyProved
     | SL1

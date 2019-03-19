@@ -32,7 +32,7 @@ type
 type
     Theorem
     -- Valid (assumptions) theorem
-    = Valid Sequence Expression
+    = Theorem Sequence Expression
 
 
 type alias Axiom =
@@ -84,7 +84,7 @@ verifyStep rules assumptions previous expression =
 
                     Err _ ->
                         if rule.rule assumptions previous expression then
-                            Ok [ ( rule.name, Valid assumptions expression ) ]
+                            Ok [ ( rule.name, Theorem assumptions expression ) ]
 
                         else
                             Err (Just expression)

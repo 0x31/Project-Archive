@@ -22,7 +22,7 @@ Proof that `p → p`
 import Parser exposing (parseProof)
 import Run exposing (formalizeAndRunProof)
 
-proof = parseProof """ \
+""" \
 GOAL         \
 p ⇒ p        \
              \
@@ -32,9 +32,9 @@ PROOF        \
 | ASSUMING p \
 | p          \
 p ⇒ p        \
-"""
+""" \
+|> parseProof \
+|> formalizeAndRunProof
 
-formalizeAndRunProof proof
-
--- Ok
+-- Ok (_, Theorem [] (Implies (Sentence "p") (Sentence "p")))
 ```

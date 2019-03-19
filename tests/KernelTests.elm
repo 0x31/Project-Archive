@@ -117,41 +117,52 @@ p ⇒ (p ⇒ (a ⇒ a))
 """
 
 
-
--- proof8 =
---     parseProof """
--- GOAL
--- B ⇒ (A ⇒ C)
--- ASSUMING
--- A ⇒ (B ⇒ C)
--- PROOF
--- A ⇒ (B ⇒ C)
--- | ASSUMING B
--- | | ASSUMING A
--- | | B ⇒ C
--- | | C
--- | A ⇒ C
--- B ⇒ (A ⇒ C)
--- """
+proof8 =
+    parseProof """
+GOAL
+A ⇒ C
+ASSUMING
+A ⇒ B
+B ⇒ C
+PROOF
+| ASSUMING A
+| B
+| C
+A ⇒ C
+"""
 
 
-printProof : Kernel.Proof -> Kernel.Proof
-printProof (Kernel.Proof assumptions proof goal) =
-    let
-        print1 =
-            Debug.log "\n" ""
+failingProof2 =
+    parseProof """
+GOAL
+B ⇒ A
 
-        print2 =
-            Debug.log "GOAL: " (formalToString goal)
+ASSUMING
 
-        print3 =
-            List.map
-                (\line ->
-                    Debug.log "| " (formalToString line)
-                )
-                proof
-    in
-    Kernel.Proof assumptions proof goal
+PROOF
+| ASSUMING B
+| B
+B ⇒ B
+| ASSUMING A
+| B
+B ⇒ A
+"""
+
+
+proof9 =
+    parseProof """
+GOAL
+B ⇒ (A ⇒ C)
+ASSUMING
+A ⇒ (B ⇒ C)
+PROOF
+| ASSUMING B
+| | ASSUMING A
+| | B ⇒ C
+| | C
+| A ⇒ C
+B ⇒ (A ⇒ C)
+"""
 
 
 suite : Test
@@ -165,8 +176,9 @@ suite =
             , test "assumption within assumption" <| \_ -> formalizeAndRunProof proof5 |> Expect.ok
             , test "axiom within assumption" <| \_ -> formalizeAndRunProof proof6 |> Expect.ok
             , test "parsing assumptions" <| \_ -> formalizeAndRunProof proof7 |> Expect.ok
-
-            -- , test "(A ⇒ (B ⇒ C)) ⊢ (B ⇒ (A ⇒ C))" <| \_ -> formalizeAndRunProof proof8 |> Expect.ok
+            , test "A ⇒ B, B ⇒ C ⊢ A ⇒ C" <| \_ -> formalizeAndRunProof proof8 |> Expect.ok
+            , test "(A ⇒ (B ⇒ C)) ⊢ (B ⇒ (A ⇒ C))" <| \_ -> formalizeAndRunProof proof9 |> Expect.ok
             , test "p ⇒ q should fail" <| \_ -> formalizeAndRunProof failingProof1 |> Expect.err
+            , test "assumption scope" <| \_ -> formalizeAndRunProof failingProof2 |> Expect.err
             ]
         ]
