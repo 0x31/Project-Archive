@@ -7,6 +7,7 @@ TODO
 ----
 
 * Run parser over a file
+* Import other proofs to be re-used
 * Annotate proofs with step details (e.g. `MP 1, 2` or `SL1 "p" "p → p"`)
 * Web-based UI
 

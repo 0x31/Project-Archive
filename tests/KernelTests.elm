@@ -165,6 +165,50 @@ B ⇒ (A ⇒ C)
 """
 
 
+proof10 =
+    parseProof """
+GOAL
+B
+
+ASSUMING
+A
+¬A
+
+PROOF
+A ⇒ ((¬B) ⇒ A)
+(¬B) ⇒ A
+(¬A) ⇒ ((¬B) ⇒ (¬A))
+(¬B) ⇒ (¬A)
+((¬B) ⇒ (¬A)) ⇒ (((¬B) ⇒ A) ⇒ B)
+((¬B) ⇒ A) ⇒ B
+B
+"""
+
+
+proof11 =
+    parseProof """
+This proof is long because it also contains a proof that `p ⇒ p`.
+
+# GOAL
+A
+
+# ASSUMING
+¬(¬A)
+
+# PROOF
+(¬(¬A)) ⇒ ((¬A) ⇒ (¬(¬A)))
+(¬A) ⇒ (¬(¬A))
+((¬A) ⇒ (¬(¬A))) ⇒ (((¬A) ⇒ (¬A)) ⇒ A)
+((¬A) ⇒ (¬A)) ⇒ A
+((¬A) ⇒ (((¬A) ⇒ (¬A)) ⇒ (¬A))) ⇒ (((¬A) ⇒ ((¬A) ⇒ (¬A))) ⇒ ((¬A) ⇒ (¬A)))
+(¬A) ⇒ (((¬A) ⇒ (¬A)) ⇒ (¬A))
+((¬A) ⇒ ((¬A) ⇒ (¬A))) ⇒ ((¬A) ⇒ (¬A))
+(¬A) ⇒ ((¬A) ⇒ (¬A))
+(¬A) ⇒ (¬A)
+A
+"""
+
+
 suite : Test
 suite =
     describe "Kernel"
@@ -178,6 +222,8 @@ suite =
             , test "parsing assumptions" <| \_ -> formalizeAndRunProof proof7 |> Expect.ok
             , test "A ⇒ B, B ⇒ C ⊢ A ⇒ C" <| \_ -> formalizeAndRunProof proof8 |> Expect.ok
             , test "(A ⇒ (B ⇒ C)) ⊢ (B ⇒ (A ⇒ C))" <| \_ -> formalizeAndRunProof proof9 |> Expect.ok
+            , test "inconsistency" <| \_ -> formalizeAndRunProof proof10 |> Expect.ok
+            , test "double negation" <| \_ -> formalizeAndRunProof proof11 |> Expect.ok
             , test "p ⇒ q should fail" <| \_ -> formalizeAndRunProof failingProof1 |> Expect.err
             , test "assumption scope" <| \_ -> formalizeAndRunProof failingProof2 |> Expect.err
             ]
