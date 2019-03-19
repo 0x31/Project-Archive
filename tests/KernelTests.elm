@@ -189,13 +189,13 @@ proof11 =
     parseProof """
 This proof is long because it also contains a proof that `p ⇒ p`.
 
-# GOAL
+GOAL
 A
 
-# ASSUMING
+ASSUMING
 ¬(¬A)
 
-# PROOF
+PROOF
 (¬(¬A)) ⇒ ((¬A) ⇒ (¬(¬A)))
 (¬A) ⇒ (¬(¬A))
 ((¬A) ⇒ (¬(¬A))) ⇒ (((¬A) ⇒ (¬A)) ⇒ A)

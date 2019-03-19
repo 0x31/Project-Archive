@@ -120,6 +120,10 @@ applyDeductionTheorem assumptionM assumptions linesSeen sequence =
 
 
 -- TODO: This code can be cleaned up and made shorter
+-- It returns back (
+--    the left hand sind of the implication,
+--    a list of lines to which the deduction theorem should also be applied to
+-- )
 
 
 verifyModusPonensInAssumption assumption previous expression =
