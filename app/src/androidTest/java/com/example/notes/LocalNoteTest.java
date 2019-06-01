@@ -1,4 +1,4 @@
-package com.example.***REMOVED***.notes;
+package com.example.notes;
 
 import android.app.Application;
 import android.content.Context;
@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-/* Authored by ***REMOVED*** */
+
 
 public class LocalNoteTest extends ApplicationTestCase<Application> {
 

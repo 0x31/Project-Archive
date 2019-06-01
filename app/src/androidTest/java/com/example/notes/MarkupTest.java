@@ -1,4 +1,4 @@
-package com.example.***REMOVED***.notes;
+package com.example.notes;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
@@ -6,7 +6,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import org.junit.Test;
 
-/* Authored by ***REMOVED*** */
+
 
 public class MarkupTest extends ApplicationTestCase<Application> {
 

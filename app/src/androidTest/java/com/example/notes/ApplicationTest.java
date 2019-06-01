@@ -1,6 +1,4 @@
-package com.example.***REMOVED***.notes;
-
-/* Authored by ***REMOVED*** */
+package com.example.notes;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
