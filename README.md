@@ -1,7 +1,6 @@
 pr(oof)
 =======
 
-[![Build Status](https://travis-ci.org/***REMOVED***/pr-oof.svg?branch=master)](https://travis-ci.org/***REMOVED***/pr-oof)
 
 This is a program for verifying Propositional/Sentential logic proofs.
 
