@@ -1,13 +1,13 @@
-package com.reilly.comp2100_assignment_2_2016.Parser;
+package com.parser.Parser;
 
-import com.reilly.comp2100_assignment_2_2016.Expressions.Builtins.Binint_builtin;
-import com.reilly.comp2100_assignment_2_2016.Expressions.Builtins.Character_builtin;
-import com.reilly.comp2100_assignment_2_2016.Expressions.Builtins.Hexint_builtin;
-import com.reilly.comp2100_assignment_2_2016.Expressions.Builtins.Octint_builtin;
-import com.reilly.comp2100_assignment_2_2016.Expressions.Expression;
-import com.reilly.comp2100_assignment_2_2016.Expressions.Builtins.Float_builtin;
-import com.reilly.comp2100_assignment_2_2016.Expressions.Builtins.Int_builtin;
-import com.reilly.comp2100_assignment_2_2016.Expressions.Builtins.String_builtin;
+import com.parser.Expressions.Builtins.Binint_builtin;
+import com.parser.Expressions.Builtins.Character_builtin;
+import com.parser.Expressions.Builtins.Hexint_builtin;
+import com.parser.Expressions.Builtins.Octint_builtin;
+import com.parser.Expressions.Expression;
+import com.parser.Expressions.Builtins.Float_builtin;
+import com.parser.Expressions.Builtins.Int_builtin;
+import com.parser.Expressions.Builtins.String_builtin;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Created by ***REMOVED*** on 6/05/2016.
- * Commented by Reilly
+ * Created on 6/05/2016.
  */
 
 public class LRParser implements Parser, Serializable {

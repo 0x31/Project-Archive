@@ -151,8 +151,6 @@ Grammar
 =======
 
 ```
-# Authors: ***REMOVED***, Reilly
-
 # Basic guide:
 # 1) A non-terminal symbol starts with a $
 # 2) A -> B | C is equivalent to A -> B, A -> C
@@ -231,6 +229,3 @@ $_Unknown -> x
 $_Epsilon -> ε
 ```
   
-  
-  
-That's all. Expresso-Parser by Reilly and ***REMOVED***.

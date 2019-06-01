@@ -1,11 +1,11 @@
-package com.reilly.comp2100_assignment_2_2016.Expressions.Customs;
+package com.parser.Expressions.Customs;
 
-import com.reilly.comp2100_assignment_2_2016.Expressions.Builtins.Int_builtin;
-import com.reilly.comp2100_assignment_2_2016.Expressions.Expression;
-import com.reilly.comp2100_assignment_2_2016.Expressions.Value;
+import com.parser.Expressions.Builtins.Int_builtin;
+import com.parser.Expressions.Expression;
+import com.parser.Expressions.Value;
 
 /**
- * Created by ***REMOVED*** on 9/05/2016.
+ * Created on 9/05/2016.
  */
 public class Log_Expression extends Expression {
 

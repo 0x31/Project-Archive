@@ -1,13 +1,13 @@
-package com.reilly.comp2100_assignment_2_2016.Parser;
+package com.parser.Parser;
 
-import com.reilly.comp2100_assignment_2_2016.Parser.Token;
+import com.parser.Parser.Token;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by ***REMOVED*** on 30/04/2016.
+ * Created on 30/04/2016.
  *
  * Splits the input string into Token objects.
  * It uses a list of expected terminals to check for ints (in multiple bases), floats, and words.

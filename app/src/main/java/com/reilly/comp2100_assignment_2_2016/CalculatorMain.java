@@ -1,4 +1,4 @@
-package com.reilly.comp2100_assignment_2_2016;
+package com.parser;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,14 +16,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.reilly.comp2100_assignment_2_2016.Expressions.Expression;
-import com.reilly.comp2100_assignment_2_2016.Expressions.Unit;
-import com.reilly.comp2100_assignment_2_2016.Expressions.Value;
-import com.reilly.comp2100_assignment_2_2016.Graphical.CustomKeyboard;
-import com.reilly.comp2100_assignment_2_2016.Graphical.HistoryAdapter;
-import com.reilly.comp2100_assignment_2_2016.Parser.LALRParserGenerator;
-import com.reilly.comp2100_assignment_2_2016.Parser.Parser;
-import com.reilly.comp2100_assignment_2_2016.Parser.Tokenizer;
+import com.parser.Expressions.Expression;
+import com.parser.Expressions.Unit;
+import com.parser.Expressions.Value;
+import com.parser.Graphical.CustomKeyboard;
+import com.parser.Graphical.HistoryAdapter;
+import com.parser.Parser.LALRParserGenerator;
+import com.parser.Parser.Parser;
+import com.parser.Parser.Tokenizer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,10 +35,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
-
-/**
- * Authored by ***REMOVED*** and Reilly
- */
 
 public class CalculatorMain extends AppCompatActivity {
 

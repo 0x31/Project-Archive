@@ -1,4 +1,4 @@
-package com.reilly.comp2100_assignment_2_2016.Graphical;
+package com.parser.Graphical;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.reilly.comp2100_assignment_2_2016.R;
+import com.parser.R;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,9 +27,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Authored by ***REMOVED***
- */
 public class HistoryAdapter extends ArrayAdapter<String>{
 
     private final Activity context;

@@ -17,7 +17,7 @@
                     android:layout_height="match_parent"
                     >
 
-                    <com.reilly.comp2100_assignment_2_2016.Graphical.AutoFitTextView
+                    <com.parser.Graphical.AutoFitTextView
                         android:id="@+id/txt"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -25,7 +25,7 @@
                         android:text="hello"
                         />
 
-                    <com.reilly.comp2100_assignment_2_2016.Graphical.Plot
+                    <com.parser.Graphical.Plot
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/white"

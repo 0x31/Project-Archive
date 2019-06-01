@@ -1,4 +1,4 @@
-package com.reilly.comp2100_assignment_2_2016.Graphical;
+package com.parser.Graphical;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -7,12 +7,12 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.widget.TextView;
 
-import com.reilly.comp2100_assignment_2_2016.CalculatorMain;
+import com.parser.CalculatorMain;
 
 /**
  * AutoFitTextView code taken from:
  * http://stackoverflow.com/questions/9713669/auto-scale-text-size
- * Provided by user `adneal`, modified by ***REMOVED***.
+ * Provided by user `adneal`, modified.
  *
  * */
 public class AutoFitTextView extends TextView {

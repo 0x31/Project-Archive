@@ -1,7 +1,7 @@
-package com.reilly.comp2100_assignment_2_2016.Parser;
+package com.parser.Parser;
 
 /**
- * Created by ***REMOVED*** on 9/05/2016.
+ * Created on 9/05/2016.
  */
 public class Token {
     public enum TokenType {

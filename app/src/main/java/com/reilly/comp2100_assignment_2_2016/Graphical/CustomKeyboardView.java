@@ -1,4 +1,4 @@
-package com.reilly.comp2100_assignment_2_2016.Graphical;
+package com.parser.Graphical;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,13 +12,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
 
-import com.reilly.comp2100_assignment_2_2016.R;
+import com.parser.R;
 
 import java.util.List;
 
-/**
- * Authored by ***REMOVED*** and Reilly
- */
 public class CustomKeyboardView extends KeyboardView {
 
     Context context;

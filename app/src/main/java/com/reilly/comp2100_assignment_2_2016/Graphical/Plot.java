@@ -1,4 +1,4 @@
-package com.reilly.comp2100_assignment_2_2016.Graphical;
+package com.parser.Graphical;
 
 
 import android.app.Activity;
@@ -7,16 +7,16 @@ import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.*;
 
-import com.reilly.comp2100_assignment_2_2016.CalculatorMain;
-import com.reilly.comp2100_assignment_2_2016.Expressions.Expression;
-import com.reilly.comp2100_assignment_2_2016.Parser.Parser;
-import com.reilly.comp2100_assignment_2_2016.R;
+import com.parser.CalculatorMain;
+import com.parser.Expressions.Expression;
+import com.parser.Parser.Parser;
+import com.parser.R;
 
 import java.lang.Math;
 import java.lang.Override;
 
 /**
- * Authored by ***REMOVED***, based on sample code by Google.
+ * Based on sample code by Google.
  *
  * Source: https://developer.android.com/training/custom-views/custom-drawing.html
  * Custom view.

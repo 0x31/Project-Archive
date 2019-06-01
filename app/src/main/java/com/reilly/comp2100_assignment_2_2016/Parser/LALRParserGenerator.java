@@ -1,16 +1,14 @@
-package com.reilly.comp2100_assignment_2_2016.Parser;
+package com.parser.Parser;
 
-import com.reilly.comp2100_assignment_2_2016.Parser.LRParser;
-import com.reilly.comp2100_assignment_2_2016.Parser.LRTable;
+import com.parser.Parser.LRParser;
+import com.parser.Parser.LRTable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.reilly.comp2100_assignment_2_2016.Parser.LRTable.isTerminal;
+import static com.parser.Parser.LRTable.isTerminal;
 
 /**
- * Created by ***REMOVED*** on 6/05/2016.
- * Commented by Reilly.
  *
  * LALRParserGenerator creates a Parser given a grammar as a String
  *

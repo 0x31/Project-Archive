@@ -1,4 +1,4 @@
-package com.reilly.comp2100_assignment_2_2016.Parser;
+package com.parser.Parser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Created by ***REMOVED*** on 6/05/2016.
+ * Created on 6/05/2016.
  */
 
 public class LRTable implements Serializable {

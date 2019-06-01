@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.reilly.comp2100_assignment_2_2016"
+        applicationId "com.parser"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1

@@ -1,11 +1,11 @@
-package com.reilly.comp2100_assignment_2_2016.Parser;
+package com.parser.Parser;
 
-import com.reilly.comp2100_assignment_2_2016.Expressions.Expression;
+import com.parser.Expressions.Expression;
 
 import java.util.List;
 
 /**
- * Created by ***REMOVED*** on 9/05/2016.
+ * Created on 9/05/2016.
  */
 
 

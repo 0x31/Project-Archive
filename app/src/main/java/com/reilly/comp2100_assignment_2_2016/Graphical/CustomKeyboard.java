@@ -1,4 +1,4 @@
-package com.reilly.comp2100_assignment_2_2016.Graphical;
+package com.parser.Graphical;
 
 import android.app.Activity;
 import android.inputmethodservice.Keyboard;
@@ -9,15 +9,12 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.reilly.comp2100_assignment_2_2016.CalculatorMain;
-import com.reilly.comp2100_assignment_2_2016.R;
+import com.parser.CalculatorMain;
+import com.parser.R;
 
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Authored by ***REMOVED*** and Reilly
- */
 public class CustomKeyboard {
 
     /* Custom keyboard.
