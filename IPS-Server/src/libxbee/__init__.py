@@ -6,8 +6,6 @@
 import serial
 import serial.tools.list_ports
 
-__author__ = '***REMOVED***'
-
 # Connect to Xbee
 def connect(baud,port="",verbose=1):
 

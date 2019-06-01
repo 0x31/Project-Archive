@@ -11,8 +11,6 @@ import libxbee
 import config
 import libcmn
 
-__author__ = '***REMOVED***'
-
 # List to keep track of socket descriptors
 CONNECTION_LIST = []
 RECV_BUFFER = 4096 # Advisable to keep it as an exponent of 2

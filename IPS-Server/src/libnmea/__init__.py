@@ -7,8 +7,6 @@ from datetime import datetime
 import geomag
 import operator
 
-__author__ = '***REMOVED***'
-
 def dd2dm(dd):
     dd=abs(dd)
     d=int(dd)

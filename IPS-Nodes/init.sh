@@ -10,7 +10,7 @@ sudo uv4l --driver raspicam --auto-video_nr --nopreview
 
 # git pull origin master
 
-# Removed temporarily. Updates src from github.com/***REMOVED***/IPS-Nodes
+# Removed temporarily. Updates src from github.com/noiach/IPS-Nodes
 
 
 
