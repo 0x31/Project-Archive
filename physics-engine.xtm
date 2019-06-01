@@ -1,6 +1,6 @@
 ;;; physics-engine.xtm, other.xtm
 
-;; Author: ***REMOVED***
+;; Author: noiach
 ;; Keywords: extempore
 ;; Required dylibs: libglfw3, libnanovg
 ;; Required file: other.xtm
