@@ -6,8 +6,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 /**
- * @author Tim on 23/09/2015.
- * @author ***REMOVED***, minor edits to work with Board/Panel
+ * Created on 23/09/2015.
  */
 public class PiecePreparerSprite extends GridSprite {
 

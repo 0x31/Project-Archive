@@ -5,12 +5,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 
 /**
- * @author Tim
- * @author ***REMOVED***, updating:
- *  - images
- *  - OnMouseEntered/Exited
- *  - Changed to a Pane
- *
  *  CellSprite represents a Cell using a JavaFX Pane
  */
 public class CellSprite extends Pane {

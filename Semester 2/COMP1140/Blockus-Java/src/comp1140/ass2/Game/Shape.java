@@ -1,8 +1,8 @@
 package comp1140.ass2.Game;
 
 /**
- * @author Tim on 22/08/15.
- * @author ***REMOVED***, edited for simpler intantiation
+ * Created on 22/08/15.
+ * edited for simpler intantiation
  *
  * An enumeration of every shape,
  * Taking in as parameters the coordinates taken up by the shape with orientation A, origin (0,0)

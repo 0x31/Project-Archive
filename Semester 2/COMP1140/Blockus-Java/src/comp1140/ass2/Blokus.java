@@ -1,8 +1,8 @@
 package comp1140.ass2;
 
 /**
- * Created by Tim on 23/09/2015.
- * Edited by ***REMOVED***, 25/09/2015 - updated FX
+ * Created on 23/09/2015.
+ * Edited on 25/09/2015 - updated FX
  *
  * This is the Main Class
  */

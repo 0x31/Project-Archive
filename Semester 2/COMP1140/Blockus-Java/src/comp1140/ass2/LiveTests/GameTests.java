@@ -4,7 +4,7 @@ import comp1140.ass2.Game.Board;
 import comp1140.ass2.Scenes.Game;
 
 /**
- * @author ***REMOVED*** on 1/10/15.
+ * Created on 1/10/15.
  *
  * The LiveTests package is used as an alternative to JUnit tests to run after the game has ended
  *

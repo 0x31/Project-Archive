@@ -5,9 +5,9 @@ import javafx.scene.Node;
 import java.util.ArrayList;
 
 /**
- * @author ***REMOVED*** 25/09/15, from code written by Holly in old class
- * @author Holly on 30/09/15
- * @author by Tim on 14/10/15, updating:
+ * Created on 25/09/15, from code written in old class
+ * Updated on 30/09/15
+ * Updated on 14/10/15:
  *   - repaired vertical panel layout to neatly show pieces
  *
  * Panel displays the available pieces of a player

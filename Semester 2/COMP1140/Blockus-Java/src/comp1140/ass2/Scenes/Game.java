@@ -27,8 +27,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author ***REMOVED***, 25/10/2015
- * Code taken from Holly in an old class
+ * Created on 25/10/2015
+ * Code taken from an old class
  */
 public class Game extends Scene {
 

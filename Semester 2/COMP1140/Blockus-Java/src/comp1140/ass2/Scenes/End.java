@@ -18,7 +18,7 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 
 /**
- * @author ***REMOVED*** on 12/10/2015.
+ * Created on 12/10/2015.
  */
 class End extends Pane {
     /**

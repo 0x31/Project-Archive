@@ -8,8 +8,7 @@ import comp1140.ass2.Game.Piece;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author ***REMOVED*** on 15/10/2015
- * heavily based on code by Tim
+ * Created on 15/10/2015, based on another class
  *
  * An ALPHABETA implementation of a Blokus bot
  * Key ideas:

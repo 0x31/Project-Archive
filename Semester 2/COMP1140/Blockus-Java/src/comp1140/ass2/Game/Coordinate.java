@@ -1,11 +1,7 @@
 package comp1140.ass2.Game;
 
 /**
- * @author ***REMOVED***, created on 19/08/15
- * @author Tim, adding:
- *  - shift
- *  - flip
- *  - rotate
+ * Created on 19/08/15
  *
  *  Groups two ints together so a coordinate can be handled easily.
  *  Provides a range of useful functions regarding to coordinate transformations

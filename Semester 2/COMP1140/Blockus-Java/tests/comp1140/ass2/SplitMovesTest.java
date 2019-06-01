@@ -8,7 +8,7 @@ import java.util.Arrays;
 import static org.junit.Assert.assertTrue;
 
 /**
- * @author ***REMOVED*** on 21/08/15.
+ * Created on 21/08/15.
  */
 public class SplitMovesTest {
 

@@ -10,7 +10,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Tim on 14/10/15.
+ * Created on 14/10/15.
  *
  * Tests that GreedyBot4 works
  */

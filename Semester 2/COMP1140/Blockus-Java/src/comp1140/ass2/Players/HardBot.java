@@ -5,7 +5,7 @@ import comp1140.ass2.Scenes.Game;
 import java.util.ArrayList;
 
 /**
- * @author Tim on 10/10/15.
+ * Created on 10/10/15.
  *
  * Implements a greedy algorithm
  */

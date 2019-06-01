@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 /**
- * @author ***REMOVED***, on 25/09/15
+ * Created on 25/09/15
  */
 public class GameOptions extends Scene {
     /**

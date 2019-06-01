@@ -8,9 +8,7 @@ import javafx.scene.shape.Circle;
 import java.util.ArrayList;
 
 /**
- * @author ***REMOVED***, on 19/09/15
- * @author Holly, some contributions
- * @author Tim, clicking
+ * Created on 19/09/15
  *
  * Board implements the logisitics of the Blokus board, including
  *  1. Playing moves

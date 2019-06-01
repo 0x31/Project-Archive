@@ -4,8 +4,8 @@ import comp1140.ass2.Game.*;
 import comp1140.ass2.Scenes.Game;
 
 /**
- * @author ***REMOVED*** on 25/09/15.
- * Commented by Holly, 14/10/15.
+ * Created on 25/09/15.
+ * Commented on 14/10/15.
  */
 public class Human implements Player {
 

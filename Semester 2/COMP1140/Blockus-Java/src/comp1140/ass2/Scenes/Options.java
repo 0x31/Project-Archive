@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 /**
- * @author ***REMOVED***, on 25/09/15
+ * Created on 25/09/15
  */
 public class Options extends Scene {
     /**

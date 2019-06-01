@@ -5,10 +5,7 @@ import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 
 /**
- * @author ***REMOVED*** 01/09/15
- * @author Tim, updating:
- *  - click handling
- *  - use of cellSprite
+ * Created on 01/09/15
  *
  *  GridSprite represents a grid of cells as a JavaFX GridPane
  *  It is an abstract class, extended by Board, Panel and PiecePreparerSprite
