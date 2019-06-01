@@ -1,7 +1,7 @@
 Inefficient-Directions [2014]
 ======================
 
-Link: [Inefficient Directions](http://***REMOVED***.com/govhack/)
+Link: [Inefficient Directions](http://noiach.com/govhack/)
 
 Plan scenic walks between two given locations.
 

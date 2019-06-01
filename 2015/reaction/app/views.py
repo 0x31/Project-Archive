@@ -6,7 +6,7 @@ from app import app, models
 
 
 def index():
-    user = {'nickname': '***REMOVED***'}
+    user = {'nickname': 'noiach'}
 
     actions={}
     action_list = []
