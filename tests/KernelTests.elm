@@ -5,7 +5,7 @@ import Expect exposing (Expectation)
 import Formalizer exposing (formalSequenceToDeduction, formalizeExpression, formalizeProof)
 import Fuzz exposing (Fuzzer, int, list, string)
 import Kernel exposing (Expression(..))
-import Parser exposing (parseProof)
+import ProofParser exposing (parseProof)
 import Result exposing (andThen)
 import Run exposing (formalizeAndRunProof)
 import SemiFormal
@@ -14,8 +14,30 @@ import Test exposing (..)
 import ToString exposing (formalToString, toString)
 
 
+proof0 =
+    parseProof """
+GOAL
+A ∧ B
+ASSUMING
+A
+B
+PROOF
+| ASSUMING (A ⇒ (¬B))
+| A
+| (¬B)
+(A ⇒ (¬B)) ⇒ (¬B)
+¬(A ⇒ (¬B))
+A ∧ B
+"""
+
+
 proof1 =
     parseProof """
+# P implies P
+
+This proof is used in the deduction thereom, so any proof with subdeductions
+uses this proof.
+
 GOAL
 p ⇒ p
 ASSUMING
@@ -187,7 +209,9 @@ B
 
 proof11 =
     parseProof """
-This proof is long because it also contains a proof that `p ⇒ p`.
+# Double Negation Elimination (negElim)
+
+This proof is long because it also contains a proof for `p ⇒ p`.
 
 GOAL
 A
@@ -213,7 +237,8 @@ suite : Test
 suite =
     describe "Kernel"
         [ describe "Kernel.verifySLProof"
-            [ test "p ⇒ p" <| \_ -> formalizeAndRunProof proof1 |> Expect.ok
+            [ test "(b ⇒ ~a) ⇒ (a ⇒ ~b)" <| \_ -> formalizeAndRunProof proof0 |> Expect.ok
+            , test "p ⇒ p" <| \_ -> formalizeAndRunProof proof1 |> Expect.ok
             , test "p ⇒ q, q ⇒ r ⊢ p ⇒ r" <| \_ -> formalizeAndRunProof proof2 |> Expect.ok
             , test "A ∧ B ⊢ ¬(A ⇒ (¬B))" <| \_ -> formalizeAndRunProof proof3 |> Expect.ok
             , test "p ⇒ p builder" <| \_ -> formalizeAndRunProof proof4 |> Expect.ok

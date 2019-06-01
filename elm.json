@@ -1,10 +1,15 @@
 {
+    "version": "0.0.0",
+    "summary": "A propositional logic verifier",
+    "repository": "https://github.com/noiach/pr-oof.git",
+    "license": "MIT",
+    "exposed-modules": [],
     "type": "application",
     "source-directories": [
         "./src",
-        "./src/fullyFormal",
-        "./src/semiFormal",
-        "./src/parser"
+        "./src/PrOOF/FullyFormal",
+        "./src/PrOOF/SemiFormal",
+        "./src/PrOOF/ProofParser"
     ],
     "elm-version": "0.19.0",
     "dependencies": {
@@ -12,6 +17,7 @@
             "elm/bytes": "1.0.8",
             "elm/core": "1.0.2",
             "elm/json": "1.1.3",
+            "elm/parser": "1.1.0",
             "elm-community/list-extra": "8.1.0",
             "elm-community/result-extra": "2.2.1"
         },

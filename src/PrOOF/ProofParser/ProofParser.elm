@@ -1,4 +1,4 @@
-module Parser exposing (parseProof, parseString, split, splitLines)
+module ProofParser exposing (parseProof, parseString, split, splitLines)
 
 import Char exposing (Char)
 import Debug

@@ -1,13 +1,17 @@
 pr(oof)
 =======
 
+This is a program for verifying propositional/sentential logic proofs.
 
-This is a program for verifying Propositional/Sentential logic proofs.
+It is currently broken into three parts:
+
+* The kernel (`src/FullyFormal`) - minimal proof verifier
 
 TODO
 ----
 
-* Run parser over a file
+* Use `elm/parser` for a more robust & maintainable parser
+* Load proofs from files
 * Import other proofs to be re-used
 * Annotate proofs with step details (e.g. `MP 1, 2` or `SL1 "p" "p → p"`)
 * Web-based UI
@@ -21,7 +25,7 @@ Usage
 Proof that `p → p`
 
 ```elm
-import Parser exposing (parseProof)
+import ProofParser exposing (parseProof)
 import Run exposing (formalizeAndRunProof)
 
 """ \
