@@ -3,7 +3,7 @@ package PNG;
 import java.io.*;
 
 /**
- * Created by ***REMOVED*** on 28/05/2016.
+ * Created on 28/05/2016.
  */
 public class ImageFile extends InputStream {
 

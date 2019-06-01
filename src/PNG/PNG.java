@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by ***REMOVED*** on 28/05/2016.
+ * Created on 28/05/2016.
  * Based on PNG specification:
  *      http://libpng.org/pub/png/spec/1.2/png-1.2.pdf
  *

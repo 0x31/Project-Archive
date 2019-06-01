@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by ***REMOVED*** on 28/05/2016.
+ * Created on 28/05/2016.
  */
 
 class Display extends Canvas {
