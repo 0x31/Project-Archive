@@ -17,7 +17,7 @@ english = {'e': 12.70, 't': 9.06, 'a': 8.17, 'o': 7.51, 'i': 6.97, 'n': 6.75, 's
 def usage():
     print ("""
 
-Cipher 1.0 (https://github.com/***REMOVED***/...)
+Cipher 1.0 (https://github.com/noiach/...)
 
 Usage: cipher.py [-l language] [-n number of results] [-f path/to/file] [-k Key length] [-km Min key length]
 

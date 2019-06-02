@@ -3,7 +3,7 @@ IFS Fractals [2014]
 
 A program made to generate IFS fractals. Originally made for a course I attend - Introduction to Contemporary Maths (through the ANU Secondary College).
 
-I've created a HTML5 / JS implementation here: http://***REMOVED***.com/app/fractal/fractal.html (Works best in Safari)
+I've created a HTML5 / JS implementation here: http://noiach.com/app/fractal/fractal.html (Works best in Safari)
 
 Features
 ---

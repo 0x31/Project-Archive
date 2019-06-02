@@ -5,8 +5,6 @@
 
 import pygame, sys, cmath
 
-__author__ = '***REMOVED***'
-
 pygame.init()
 xsize=1280
 ysize=800

@@ -146,7 +146,7 @@ def convert(string):
 usedVars, correspVars, lastIndent, dotodo, todo, functions, defining = [], [], 0, False, [], [], False
 def main():
     if len(sys.argv) < 2:
-        print("\nUsage:\n\tpython[2.7+] transpiler.py [path/to/code.py]\n\nA program to transpile Python into the Casio Basic on fx-9860 AU PLUS calculators. Not tested on any other caclulator. See https://github.com/***REMOVED***/Python----CasioBasic-Transpiler for more information. By ***REMOVED*** - August 2013.")
+        print("\nUsage:\n\tpython[2.7+] transpiler.py [path/to/code.py]\n\nA program to transpile Python into the Casio Basic on fx-9860 AU PLUS calculators. Not tested on any other caclulator. See https://github.com/noiach/Python----CasioBasic-Transpiler for more information. August 2013.")
         return
     with open(sys.argv[1], "r") as f:
         string = f.readlines()

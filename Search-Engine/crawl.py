@@ -6,8 +6,6 @@
 
  # Requirements:     Pymysql, Python3, Access to a mysql server
 
- # Author:           ***REMOVED***
-
 # -----END HEADER BLOCK-----
 
 

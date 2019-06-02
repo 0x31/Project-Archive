@@ -21,7 +21,7 @@ pip install pydecipher
 ```
 
 To install as a script:
-https://github.com/***REMOVED***/pydecipher/archive/master.zip
+https://github.com/noiach/pydecipher/archive/master.zip
 
 Usage:
 ```bash

@@ -27,5 +27,3 @@ Some of the things it can convert so far:
 See it in action:
 
 ![alt tag](http://i.imgur.com/yUZrIiv.png)
-
-More to come - ***REMOVED***
