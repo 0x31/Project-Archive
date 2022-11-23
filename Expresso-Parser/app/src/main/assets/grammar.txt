@@ -1,0 +1,76 @@
+# Basic guide:
+# 1) A non-terminal symbol starts with a $
+# 2) A -> B | C is equivalent to A -> B, A -> C
+# 3) For every non-terminal, $A, there must be a class Expressions.Custom.A_Expression, unless
+#    it's name starts with '_' (e.g. $_A).
+# 4) That class must have the same number of constructor parameters as it has right-hand side
+#    symbols in the rule, not counting anything that starts with an underscore, '_'.
+# 5) Anything starting with '#' is a comment
+# 6)
+
+$_Expression -> $_Precedence1 | _y _= $Plot
+
+
+# +,-
+$_Precedence1 -> $Addition | $Subtraction | $_Precedence2
+$Addition -> $_Precedence1 _+ $_Precedence2
+$Subtraction -> $_Precedence1 _- $_Precedence2 | $_Epsilon _- $_Precedence2
+
+# *,/,%
+$_Precedence2 -> $Multiplication | $Division | $Modulo | $_Precedence3
+$Multiplication -> $_Precedence2 _* $_Precedence3 | $_Precedence2 $_Precedence3
+$Division -> $_Precedence2 _/ $_Precedence3
+$Modulo -> $_Precedence2 _% $_Precedence3
+
+# ^
+$_Precedence3 -> $Power | $_Precedence4
+$Power -> $_Precedence3 _^ $_Precedence4 | _pow _( $_Precedence1 _, $_Precedence1 _)
+
+# TODO: add $OR, $XOR, etc...
+$_Precedence4 -> $AND | $OR | $NOT | $XOR | $LeftShift | $RightShift | $_Precedence5
+$AND -> $_Precedence4 _and $_Precedence5
+$OR -> $_Precedence4 _or $_Precedence5
+$NOT -> _not _( $_Precedence1 _)
+$XOR -> $_Precedence4 _xor $_Precedence5
+$LeftShift -> $_Precedence4 _<< $_Precedence5
+$RightShift -> $_Precedence4 _>> $_Precedence5
+
+$_Precedence5 -> $_Function | $_Precedence6
+
+$_Function -> $Sin | $Cos | $Tan | $Asin | $Acos | $Atan | $Log | $Ln | $Exp | $Sqrt | $Fact | $FromBase | $ToBase
+
+$Sin -> _sin _( $_Precedence1 _)
+$Cos -> _cos _( $_Precedence1 _)
+$Tan -> _tan _( $_Precedence1 _)
+$Asin -> _asin _( $_Precedence1 _)
+$Acos -> _acos _( $_Precedence1 _)
+$Atan -> _atan _( $_Precedence1 _)
+$Log -> _log _( $_Precedence1 _, $_Precedence1 _) | _log _( $_Precedence1 _)
+$Ln -> _ln _( $_Precedence1 _)
+$Sqrt -> _sqrt _( $_Precedence1 _)
+$Exp -> _exp _( $_Precedence1 _)
+$FromBase -> _fromBase _( $_Precedence1 _, $_Precedence1 _)
+$ToBase -> _toBase _( $_Precedence1 _, $_Precedence1 _)
+$Fact -> $_Precedence6 _!
+
+$_Precedence6 -> $_Constant | $_Number | $_Unknown | $UnitNum | _( $_Precedence1 _)
+
+$UnitNum -> $_Number $Unit
+
+$_Number -> int | float | hexint | binint | octint
+
+$_Constant -> $Pi | $E | $Phi
+$Pi -> _pi | _π
+$E -> _e
+$Phi -> _phi | _ϕ
+
+$Unit -> $_Distance | $_Memory
+
+$_Distance -> km | m | cm | mm
+$_Memory -> B | KB | MB | GB
+
+$Plot -> $_Precedence1
+
+$_Unknown -> x
+
+$_Epsilon -> ε

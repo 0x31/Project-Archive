@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context="com.parser.CalculatorMain">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="="
+            android:id="@+id/inputButton"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:onClick="calculateInput"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:height="60dp"
+            android:backgroundTint="@color/colorPrimaryButton" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/inputText"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/inputButton"
+            android:layout_toStartOf="@+id/inputButton"
+            android:maxLines="1"
+            android:height="60dp"
+            android:textSize="30dp"
+            android:singleLine="true"
+            android:typeface="monospace"
+            android:textColor="@color/keyboard3darker"
+            android:textCursorDrawable="@drawable/cursor"
+            android:backgroundTint="@color/colorPrimary"
+            android:inputType="none"
+            android:onClick="openKeyboard"
+            android:linksClickable="false" />
+
+
+        <!--<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/historyText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/textView" />-->
+
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="8dp"
+            android:clipToPadding="false"
+            android:padding="8dip"
+            android:divider="@android:color/transparent"
+            android:id="@+id/historyList"
+            android:layout_below="@+id/inputButton"></ListView>
+
+    </RelativeLayout>
+
+    <com.parser.Graphical.CustomKeyboardView
+        android:id="@+id/keyboardview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone"
+        />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#3f51b5"
+        android:layout_alignParentTop="true"
+        android:id="@+id/splashscreen">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:indeterminateDrawable="@drawable/progress"
+            android:paddingBottom="120dp">
+        </ProgressBar>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Loading Calculator"
+            android:id="@+id/textView2"
+            android:textSize="30dp"
+            android:textColor="#ffffff"
+            android:layout_above="@+id/textView3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="61dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Generating parser from grammar. This will only happen the first time you open the app."
+            android:id="@+id/textView3"
+            android:textColor="#ffffff"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:layout_marginBottom="64dp"
+            android:textAlignment="center"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+</RelativeLayout>

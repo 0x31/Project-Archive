@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">COMP2100-Assignment-2-2016</string>
+    <string name="history_file_name">history.txt</string>
+    <string name="grammar_file_name">grammar.txt</string>
+    <string name="parser_file_name">Parser.ser</string>
+</resources>
