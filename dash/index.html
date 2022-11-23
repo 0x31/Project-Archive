@@ -1,0 +1,185 @@
+
+
+
+
+
+
+
+<html>
+  <head>
+    <meta charset="ISO-8859-1">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script src="js/date/libs/moment.min.js"></script>
+    <script src="js/date/libs/knockout-3.2.0.js"></script>
+    <script src="js/date/material-datepicker/js/material.datepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/date/material-datepicker/css/material.datepicker.css">
+
+
+    <script src="js/ical.js"></script>
+    <script src="js/handlebars.js"></script>
+    <script src="js/main.js"></script>
+  </head>
+  <body>
+    <div id="left">
+      <div id="logo" class="section">
+      </div>
+      <div class="section adds">
+        <div class="button" id="add" role="button" label="Click to create a new bookmark or a new folder." onclick="triggerNew();">NEW</div>
+      </div>
+      <div id="left-list" class="section asss">
+      </div>
+
+    </div>
+
+
+    <!--  The template for a Task: START
+           _             _   
+       ___| |_ __ _ _ __| |_ 
+      / __| __/ _` | '__| __|
+      \__ \ || (_| | |  | |_ 
+      |___/\__\__,_|_|   \__|
+                                   
+    -->
+    <div id="right">
+      <script id="tmpl" type="text/x-handlebars-template">
+        <div class="right-{{color}}">
+          <div class="dash-top">
+            <div class="dash-hidden {{color}}"><span style="font-weight: 200">{{class}}</span>  &nbsp;{{name}}</div>
+            <div class="dash-top-bottom-left {{color}}">
+              <div class="centered">
+                <span class="due title title-class">{{class}}</span>
+                <span class="due title title-name">{{name}}</span>
+              </div>
+            </div>
+            <div class="dash-top-bottom-right gradient-{{color}}">
+              <span class="due due-in">Due in</span>
+              <span class="due due-no">{{dueno}}</span>
+              <span class="due due-days">days</span>
+            </div>
+          </div>
+
+            <div class="timeline">
+              <div class="back">
+              </div>
+              <style>
+                .ol-tl::after {
+                  left: calc({{progress}}% - 4px);
+                }
+              </style>
+              <ol class="ol-tl ol-{{color}}" style="background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0) {{progress}}%, #d1d1d1 {{progress}}%,#d1d1d1 100%);">
+
+                {{#loop tasks}}
+                  <li class="li-done-{{done}} li-done-{{done}}-{{color}}" style="left: {{percentage}}%;">
+                    {{taskname}}
+                    <span class="details">{{taskdate}}</span>
+                  </li>
+                {{/loop}}
+
+                <li id="li-last">
+                  <div class="ass-icon"><div class="ass-img {{color}}">
+                      <div class="ass-day">{{day}}</div>
+                      <div class="ass-month">{{month}}</div>
+                  </div></div>
+                  </li>
+              </ol>
+            </div>
+
+
+
+          <div id="all">
+          <div class="set">
+            <div class="container">
+              <span style="margin-left:5px;display:block;margin-bottom: 25px; font-weight: 900;color: #333;font-size: 28px;">To Do</span>
+              <ol id="todo">
+                {{#loop tasks}}
+                  <li>
+                    <input id="check-{{id}}" type="checkbox" class="checkbox" {{done}}>
+                    <input type="text" class="todo-label todo-add" id="text-{{id}}" value="{{taskname}}" alt="{{taskname}}" placeholder="Delete"/>
+                    <input id="field-{{id}}" style="font-size:16px;height:30px;padding:0px 10px"  class="todo-li-date" placeholder="{{taskdate}}" type="text" readonly="true"><br><br>
+                  </li>
+                {{/loop}}
+                  <li>
+                    <input id="check-{{id}}" type="checkbox" class="checkbox" {{done}}>
+                    <input type="text" class="todo-label todo-add" id="todo-whole" value="Complete {{name}}" alt="{{name}}" placeholder="Delete"/>
+                    <input id="field-{{id}}" style="font-size:16px;height:30px;padding:0px 10px"  class="todo-li-date" placeholder="{{day}} {{month}}" type="text" readonly="true"><br><br>
+                  </li>
+                  <li>
+                    <input type="checkbox" class="checkbox" style="visibility: hidden !important;">
+                    <input id="todo-add-name" type="text" class="todo-label todo-add" placeholder="New subtask"/>
+                    <input id="field" style="font-size:16px;height:30px;padding:0px 10px"  class="todo-li-date" placeholder="Add date" type="text" readonly="true"><br><br>
+                  </li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="set" style="margin-top: -30px;">
+            <div class="container">
+              <span style="margin-left:5px;display:block;margin-bottom: 45px; font-weight: 900;color: #333;font-size: 28px;">Details</span>
+              <form>
+                <div class="group">      
+                  <input type="text" id="edit-class" value="{{class}}" required>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label>Class Name</label>
+                </div>
+                  
+                <div class="group">      
+                  <input type="text" id="edit-name" value="{{name}}" required>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label>Task Name</label>
+                </div>
+
+                <div class="group">      
+                  <input type="text" id="edit-start" value="{{daystart}} {{monthstart}}" required>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label>Start Date</label>
+                </div>
+
+                <div class="group">      
+                  <input type="text" id="edit-end" value="{{day}} {{month}}" required>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label>End Date</label>
+                </div>
+
+                <div class="group">      
+                  <input type="text" id="edit-color" value="{{color}}" required>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label>Color</label>
+                </div>
+                
+              </form>
+                  
+            </div>
+          </div>
+
+          <div class="set" style="">
+            <div class="container">
+              <span style="margin-left:5px;display:block;margin-bottom: 45px; font-weight: 900;color: #333;font-size: 28px;">Read Me</span>
+              <textarea id="readme">{{readme}}</textarea>
+            </div> 
+            </div>
+            </div>
+          </script>
+        </div>
+        <!--
+                         _ 
+           ___ _ __   __| |
+          / _ \ '_ \ / _` |
+         |  __/ | | | (_| |
+          \___|_| |_|\__,_|
+
+        -->
+
+
+      </div>
+
+    </body>
+  </html>
