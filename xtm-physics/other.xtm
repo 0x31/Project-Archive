@@ -1,0 +1,161 @@
+(bind-func printObject
+  (lambda (obj:object*)
+    (let ((x (tuple-ref (tuple-ref obj 0) 0))
+          (y (tuple-ref (tuple-ref obj 0) 1))
+          (v (tuple-ref (tuple-ref obj 2) 1))
+          (a (tuple-ref (tuple-ref obj 3) 1))
+          )
+      (printf "SQUARE: x:%f y:%f v:%f a:%f\n" x y v a)
+    )
+  )
+)
+
+(bind-func printVector
+  (lambda (v:vec*)
+    (let ((x (tuple-ref v 0))
+          (y (tuple-ref v 1))
+          )
+      (printf "(%f,%f)\n" x y)
+    )
+  )
+)
+
+(bind-func squareArea
+  (lambda (sq:square*)
+    (let ( (w (tuple-ref sq 2)) (h (tuple-ref sq 3)) )
+      (* w h) ) ) )
+
+
+;; make* FUNCTIONS
+(bind-func makeColor
+  (lambda (r:double g:double b:double)
+    (let ((a:color* (alloc)))
+      (tuple-set! a 0 r)
+      (tuple-set! a 1 g)
+      (tuple-set! a 2 b)
+      a
+    )
+  )
+)
+
+(bind-func makeMaterial
+  (lambda (d:density r:restitution c:color*)
+    (let ((a:material* (alloc)))
+      (tuple-set! a 0 d)
+      (tuple-set! a 1 r)
+      (tuple-set! a 2 c)
+      a
+    )
+  )
+)
+
+(bind-func makeSquare
+  (lambda ( x:double y:double h:double w:double )
+    (let ((a:square* (alloc)))
+    (tuple-set! a 0 x)
+    (tuple-set! a 1 y)
+    (tuple-set! a 2 h)
+    (tuple-set! a 3 w)
+    a
+)))
+(bind-func moveSquare
+  (lambda (sq:square* v:vec*)
+    (let ((old_x (tuple-ref sq 0))
+          (old_y (tuple-ref sq 1))
+          (d_x (tuple-ref v 0))
+          (d_y (tuple-ref v 1)))
+      (tuple-set! sq 0 (+ old_x d_x))
+      (tuple-set! sq 1 (+ old_y d_y))
+      sq
+    )
+  )
+)
+
+(bind-func makeMass
+  (lambda (m:massDouble i:inertia)
+    (let ((a:mass* (alloc)))
+      (tuple-set! a 0 m)
+      (tuple-set! a 1 i)
+      a)))
+
+(bind-func makeObject
+  (lambda (sq:square* v:velocity* f:force* mat:material*)
+    (let (
+        (a:object* (alloc))
+        (d (tuple-ref mat 0))
+        (area (squareArea sq))
+        (mD (* d area))
+        (m:mass* (makeMass mD 0.0)) )
+      (tuple-set! a 0 sq)
+      (tuple-set! a 1 m)
+      (tuple-set! a 2 v)
+      (tuple-set! a 3 f)
+      (tuple-set! a 4 mat)
+      a
+    )
+  )
+)
+
+
+(bind-func makeV
+  (lambda (x:double y:double)
+    (let ((a:vec* (alloc)))
+      (tuple-set! a 0 x)
+      (tuple-set! a 1 y)
+      a)))
+(bind-func add:[vec*,vec*,vec*]*
+  (lambda (v1 v2)
+    (let (
+          (x (+ (tuple-ref v1 0) (tuple-ref v2 0) ))
+          (y (+ (tuple-ref v1 1) (tuple-ref v2 1) )))
+      (makeV x y)
+      )))
+(bind-func subtract:[vec*,vec*,vec*]*
+  (lambda (v1 v2)
+    (let (
+          (x (- (tuple-ref v1 0) (tuple-ref v2 0) ))
+          (y (- (tuple-ref v1 1) (tuple-ref v2 1) )))
+      (makeV x y)
+      )))
+(bind-func dot:[double,vec*,vec*]*
+  (lambda (v1 v2)
+    (let (
+          (x (* (tuple-ref v1 0) (tuple-ref v2 0) ))
+          (y (* (tuple-ref v1 1) (tuple-ref v2 1) )))
+      (+ x y)
+      )))
+
+(bind-func inv:[double,double]*
+  (lambda (c)
+    (if (= c 0)
+      (0)
+      (/ 1.0 c)
+    )
+  )
+)
+
+(bind-func scale:[vec*,vec*,double]*
+  (lambda (v c)
+    (let ((a:vec* (alloc))
+          (x (* (tuple-ref v 0) c ))
+          (y (* (tuple-ref v 1) c )))
+      (tuple-set! a 0 x)
+      (tuple-set! a 1 y)
+      a)))
+
+(bind-func absof:[double,double]*
+  (lambda (d:double)
+    (if (< d 0.0) (- 0.0 d) d)))
+(bind-func maxf:[double,double,double]*
+  (lambda (a:double b:double)
+    (if (> a b) a b)))
+
+(bind-func norm:[double,vec*]*
+  (lambda (v)
+    (let ((x (tuple-ref v 0))
+          (y (tuple-ref v 1)))
+      (sqrt (+ (* x x) (* y y))))))
+
+(bind-func normalise:[vec*,vec*]*
+  (lambda (v)
+    (scale v (inv (norm v)))))
