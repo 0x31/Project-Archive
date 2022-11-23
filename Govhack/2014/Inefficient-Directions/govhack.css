@@ -1,0 +1,147 @@
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      a{
+        text-decoration:none;
+        color: '#333';
+      }
+      a:active{
+        text-decoration:none;
+        color: '#333';
+      }
+      #map-canvas {
+        float:left;
+        width: 100%;
+      }
+      #control_panel {
+        position: absolute;
+        left: 20px;
+        z-index: 5;
+        overflow: hidden;
+        float:right;
+        width:440px;
+        text-align:left;
+        padding: 0;
+        max-height: 100%;
+      }
+
+      #directions_panel{
+      }
+
+      #noscroll{
+        max-height: 100vh;
+        overflow: auto;
+        margin-right: -40px;
+      }
+
+      .thumbnail{
+        max-height: 68px;
+        display: inline-block;
+        width:120px;
+        float:left;
+        overflow: hidden;
+      }
+      .thumb{
+        width: 100%;
+      }
+      .contnail{
+        margin-left: 10px;
+        width: 230px;
+        display:inline-block;
+        float:left;
+        font-size: 11.5px;
+      }
+      .travnail{
+        margin-left: 10px;
+        display:inline-block;
+        float:left;
+        font-size: 11.5px;
+      }
+      .boxn {
+        background-color: #FFF;
+        border-radius: 2px 0px 0px 2px;
+        box-sizing: border-box;
+        outline: medium none;
+        padding: 0px 7px;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3), 0px 4px 15px -5px transparent;
+        margin-bottom: 10px;
+        font-family: Ubuntu, "times new roman", times, roman, serif;
+        color: #333;
+        font-size: 14px;
+        width: 400px;
+        padding: 10px 7px;
+        height: 88px;
+        overflow: hidden;
+      }
+      .inputButton {
+        background-position:center; 
+        background: url(' glass.png ') no-repeat 50% 50% / 17px auto transparent;
+        content: "";
+        display: block;
+        height: 17px;
+        width: 17px;
+        background-color: #4D90FE;
+        border: 0px none;
+        border-radius: 0px 2px 2px 0px;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+        height: 32px;
+        left: 328px;
+        position: relative;
+        text-align: center;
+        bottom:42px;
+        vertical-align: top;
+        width: 72px;
+      }
+      .inputBox {
+        background-color: #FFF;
+        border: 0;
+        border-radius: 2px 0px 0px 2px;
+        box-sizing: border-box;
+        height: 32px;
+        outline: medium none;
+        padding: 0px 7px;
+        width: 400px;
+        vertical-align: top;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3), 0px 4px 15px -5px transparent;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 6;
+      }
+
+      #start{
+        margin-top:20px;
+      }
+      #end {
+        width: 330px;
+      }
+      input[type="text"][disabled] {
+           color: #333;
+         }
+
+         #controls{
+        background-color: #FFF;
+        border: 0;
+        border-radius: 2px 0px 0px 2px;
+        box-sizing: border-box;
+        outline: medium none;
+        padding: 0px 7px;
+        width: 400px;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3), 0px 4px 15px -5px transparent;
+        position: fixed;
+        right: 40px;
+        top: 20px;
+        z-index: -1;
+        padding: 20px;
+        font-family: Ubuntu, "times new roman", times, roman, serif;
+        font-size: 12px;
+         }
+
+         #cog {
+        position: fixed;
+        width: 20px;
+        z-index: 7;
+        right: 45px;
+        top: 25px;
+         }

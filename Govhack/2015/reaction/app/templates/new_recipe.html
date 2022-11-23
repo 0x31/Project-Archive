@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script>
+
+$(document).ready( function() {
+  $("#message-text").droppable({
+    accept: ".label",
+    drop: function(ev, ui) {
+      //alert("a");
+      $(this).insertAtCaret("[[ "+ui.draggable.text() +" ]] ");
+    }
+  });
+});
+ 
+$.fn.insertAtCaret = function (myValue) {
+  return this.each(function(){
+  //IE support
+  if (document.selection) {
+    this.focus();
+    sel = document.selection.createRange();
+    sel.text = myValue;
+    this.focus();
+  }
+  //MOZILLA / NETSCAPE support
+  else if (this.selectionStart || this.selectionStart == '0') {
+    var startPos = this.selectionStart;
+    var endPos = this.selectionEnd;
+    var scrollTop = this.scrollTop;
+    this.value = this.value.substring(0, startPos)+ myValue+ this.value.substring(endPos,this.value.length);
+    this.focus();
+    this.selectionStart = startPos + myValue.length;
+    this.selectionEnd = startPos + myValue.length;
+    this.scrollTop = scrollTop;
+  } else {
+    this.value += myValue;
+    this.focus();
+  }
+  });
+};
+
+</script>
+
+<script src="/static/main.js"></script>
+<script>
+(function($) {
+  $.fn.outerHTML = function() {
+        return $(this).clone().wrap('<div></div>').parent().html();
+        };
+})(jQuery);
+
+function allowDrop(ev) {
+      ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function ifdrop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data[0]=="a"){
+    html = $("#"+data).clone();
+    $("#big-if").html( html  );
+    $("#big-if-desc").html( $("#desc-"+data).html() );
+  }
+}
+
+function thendrop(ev) {
+  $("#create").show();
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if(data[0]=="r"){
+    html = $("#"+data).clone();
+    $("#big-then").html( html  );
+    $("#big-then-desc").html( $("#desc-"+data).html() );
+  }
+}
+
+function next_step() {
+  $('#message').show();
+  $('#draggables').hide();
+
+  action = "no";
+  ac_id = $("#big-if").children().first().attr('rel');
+  $.post("/new_recipe",
+        {
+          action: action,
+          reaction: "",
+          template: "",
+          ac_id: ac_id
+        },
+        function(data,status){
+          labels=data.split(",");
+          var arrayLength = labels.length;
+          for (var i = 0; i < arrayLength; i++) {
+            $("#label-drag").append("<span class='label' >"+labels[i]+"</span>");
+          }
+          $(".label").draggable({
+                appendTo: "body",
+                helper: "clone",
+                cursor: "select",
+                revert: "invalid"
+            });
+        });
+
+
+}
+
+
+</script>
+
+<div id="statement">
+<h2 id="big" >if</h2 ><div class="big-wrap"><div id="big-if" class="big-icon" ondrop="ifdrop(event)" ondragover="allowDrop(event)"></div><span id="big-if-desc" class="big-desc"></span></div>
+<h2 id="big">then</h2><div class="big-wrap"><div id="big-then" class="big-icon" ondrop="thendrop(event)" ondragover="allowDrop(event)"></div><span id="big-then-desc" class="big-desc"></span></div>
+<button onclick="next_step();" id="create"><img class="svg" id="create-icon" alt="Create!" src="/static/img/arrow.svg" /></button>
+</div>
+
+<div id="draggables">
+
+<div id="action-list">
+  <h2>Actions</h2>
+
+  {% for action in action_list %}
+    <a class="no-styling"><div class="list-item-container">
+        <div id="action{{ actions[action].id }}" alt="{{ action }}" rel="{{ actions[action].id }}" style="background-color: {{ actions[action].color }}" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ actions[action].icon }}" /></div>
+        <span id="desc-action{{ actions[action].id }}" class="list-desc">{{ actions[action].name }}</span>
+      </div></a>
+  {% endfor %}
+
+    <a class="no-styling" href="new_action"><div class="list-item-container">
+        <div id="new-action" style="background-color: #38518A" class="list-item" ><img class="svg icon-list" src="/static/img/new.svg" /></div>
+      <span class="list-desc" style="margin-top: 20px;">new action</span>
+      </div></a>
+
+</div>
+<div id="reaction-list">
+
+  <h2>Reactions</h2>
+  {% for action in reaction_list %}
+    <a class="no-styling"><div class="list-item-container">
+        <div id="reaction{{ reactions[action].id }}" alt="{{ action }}" style="background-color: {{ reactions[action].color }}" class="list-item" draggable="true" ondragstart="drag(event)"><img class="svg icon-list" src="/static/img/{{ reactions[action].icon }}" /></div>
+      <span id="desc-reaction{{ reactions[action].id }}" class="list-desc">{{ reactions[action].name }}</span>
+      </div></a>
+  {% endfor %}
+<!--
+    <a class="no-styling" href="#"><div class="list-item-container">
+        <div id="new-action" style="background-color: #38518A" class="list-item" ><img class="svg icon-list" src="/static/img/new.svg" /></div>
+      <span class="list-desc" style="margin-top: 20px;">new reaction</span>
+      </div></a>
+-->
+
+
+</div>
+</div>
+
+
+<div id="message">
+  <h2>Message to send:</h2>
+  <textarea id="message-text"></textarea>
+  <div id="label-drag">
+    <h4 style="margin-top:0;">Data Labels:</h4>
+  </div>
+  <button onclick="submit()" id="">Create new Recipe</button>
+</div>
+
+<script>svgs()</script>
+
+
+<script>
+function submit(){
+  action = $("#big-if").children().first().attr('alt');
+  reaction = $("#big-then").children().first().attr('alt');
+  template = $("#message-text").val();
+$.post("/new_recipe",
+        {
+          action: action,
+          reaction: reaction,
+          template: template
+        },
+        function(data,status){
+          window.location.href = "/";
+        });
+}
+
+
+
+
+
+ 
+    // grab the initial top offset of the navigation 
+    var sticky_navigation_offset_top = $('#statement').offset().top;
+     
+    // our function that decides weather the navigation bar should have "fixed" css position or not.
+    var sticky_navigation = function(){
+        var scroll_top = $(window).scrollTop(); // our current vertical position from the top
+         
+        // if we've scrolled more than the navigation, change its position to fixed to stick to top,
+        // otherwise change it back to relative
+        if (scroll_top > sticky_navigation_offset_top) { 
+            $('#statement').css({ 'position': 'fixed', 'top':0 ,'margin-left':0});
+            $('#action-list').css({ 'margin-top':240 });
+            $('#message').css({ 'margin-top':240 });
+        } else {
+            $('#statement').css({ 'position': 'relative' }); 
+            $('#action-list').css({ 'margin-top':0 });
+            $('#message').css({ 'margin-top':0 });
+        }   
+    };
+     
+    // run our function on load
+    sticky_navigation();
+     
+    // and run it again every time you scroll
+    $(window).scroll(function() {
+         sticky_navigation();
+    });
+ 
+
+</script>
+
+{% endblock %}
+

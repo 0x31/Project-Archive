@@ -1,0 +1,49 @@
+
+<html>
+  <head>
+    <title>Reaction - If Data Then That</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/static/main.js"></script>
+    <script src="/static/sweetalert/dist/sweetalert.min.js"></script> <link rel="stylesheet" type="text/css" href="/static/sweetalert/dist/sweetalert.css">
+  </head>
+<body id="index" class="home">
+
+  <div id="banner" class="body">
+    <div id="logo">
+      <h1><a href="/"><img src="/static/img/logo.svg" class="svg" id="logo-img"/>Reaction<strong> If Data Then That</strong></a></h1>
+    </div>
+    <div id="nav"><ul>
+
+      {% if title=="Create New Reaction" %}<li class="active">{% else %}<li>{% endif %}
+      <a href="/new_recipe">New Reaction</a></li>
+
+      {% if title=="Create New Action" %}<li class="active">{% else %}<li>{% endif %}
+      <a href="new_action">New Action</a></li>
+
+      {% if title=="Import Dataset" %}<li class="active">{% else %}<li>{% endif %}
+      <a href="new_dataset">New Dataset</a></li>
+
+    </ul></div>
+  </div><!-- /#banner -->
+
+  <div id="title">
+    <h2>{{ title }}</h2>
+  </div>
+
+  <div id="content">
+
+
+    {% block content %}{% endblock %}
+  
+
+  </div>
+
+  <footer>
+    <!--<h3>If Data Then That</h3> -->
+  </footer><!-- /#contentinfo -->
+
+</body>
+</html>
