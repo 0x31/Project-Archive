@@ -1,0 +1,149 @@
+
+
+<!--
+        Instructions taken from http://www.educationallearninggames.com/how-to-play-blokus-game-rules.asp
+  -->
+
+
+<style>
+    #shadow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        box-shadow: inset 0 0 20px 0 rgba(0, 0, 0, 1);
+    }
+    body {
+        padding: 20px;
+    }
+    h1 {
+        color: #ff0900;
+    }
+    h3 {
+        color: #0066FF;
+    }
+    ul {
+        list-style-type: square;
+    }
+</style>
+<div id="shadow"></div>
+
+
+
+<h1>HOW TO BLOKUS</h1>
+
+The rules below outline how to play Blokus. If you are interested specifically in this implementation, there are few things you might want to know:
+<ul>
+    <li>You can rotate a piece while previewing it by right-clicking</li>
+    <li>In the Piece Preparer (bottom left), you can click and right click instead of using the provided buttons</li>
+    <li>You can access the menubar by clicking the question mark in the top right corner</li>
+    <li>In the menu, you can access a Hint button, which displays a semi-transparent suggested piece on the board</li>
+    <li>In the menu, you can access a Finish button, which will play to the end of the game for you</li>
+    <li>In the menu, you can access a Menu button, which exists the game</li>
+    <li>In the menu, you can access an Instructions button, which takes you here (your game will be preserved)</li>
+    <li>You can play 84, the one-player mode, by simply not adding any extra players</li>
+</ul>
+
+<h2>COMPONENTS</h2>
+
+<ul>
+    <li>Blokus Game Board (400 squares)</li>
+    <li>84 game pieces (four 21-piece sets of red, green, blue, and yellow)</li>
+Note:  Each of the sets contains 21 pieces, each a different shape.  The 21 red, green, blue, and yellow pieces in each set include:
+    <li>1 one-square piece</li>
+    <li>1 piece with 2 squares</li>
+    <li>2 pieces with 3 squares</li>
+    <li>5 pieces with 4 squares</li>
+    <li>12 pieces with 5 squares</li>
+</ul>
+
+<h2>HOW TO PLAY</h2>
+
+<h3>Goal of the Game</h3>
+
+Each player has to fit as many of his/her 21 pieces on the board as possible.
+
+<h3>Gameplay</h3>
+
+<ol>
+
+    <li>Each player chooses a color and places that set of 21 pieces in front of his/her side of the board.  The order of play is as follows: blue, yellow, red, and then green.</li>
+    <li>The first player (blue) places any of his/her pieces in a corner square.  Play proceeds clockwise around the board (yellow, red, and green), each player putting their first piece down in one of the corner squares.</li>
+    <li>Play continues as each player lays down one piece during a turn.</li>
+        Each new piece must touch at least one other piece of the same color, but only at the corners.
+        No flat edges of same color pieces can touch.
+        There are no restrictions on how pieces of different colors can touch one another.
+    <li>Whenever a player is unable to place one of his/her remaining pieces on the board, that player must pass his/her turn.</li>
+</ol>
+
+<h3>End of Game</h3>
+The game ends when all players are blocked from laying down any more of their pieces.  This also includes any players who may have placed all of their pieces on the board.  Scores are tallied, and the player with the highest score is the winner.
+
+<h3>Scoring</h3>
+
+Each player counts the number of unit squares in his/her remaining pieces (1 unit square = -1 point).
+
+A player earns +15 points if all his/her pieces have been placed on the board plus 5 additional bonus points if the last piece placed on the board was the smallest piece (one square).
+
+<h3>Duration of Game</h3>
+Games typically last 20 - 30 min.
+
+<h2>GAME VARIATIONS</h2>
+
+<h3>Teams (two teams of two players - four players total)</h3>
+
+<ul>
+    <li>The playing order stays the same:  blue, yellow, red, and then green.</li>
+
+    <li>One team controls the blue and red pieces, and the other team controls the yellow and green pieces.</li>
+
+    <li>At the end of the game, each team calculates its score by adding the scores of its members.  The winners are the players of the team with the highest score.</li>
+    </ul>
+
+<h3>One-Player Brain Teaser</h3>
+<ul>
+    <li>Eighty-four - Play as four separate players in a standard four-player game with the aim of getting all 84 pieces on the board.</li>
+
+    <li>4-Square Game - There are 20 four-square pieces in the set.  The challenge is to fit these 20 four-square pieces into an 8 × 10 rectangular area.  Each piece must touch the corner of a piece of the same color, but no touching can occur along the flat edge of a same-color piece.</li>
+</ul>
+
+<h3>Two Players</h3>
+
+<ul>
+    <li>The playing order stays the same: blue, yellow, red, and then green.</li>
+
+    <li>One player controls the blue and red pieces, and the other player controls the yellow and green pieces.</li>
+
+    <li>At the end of the game each player calculates his/her score by adding the scores for their colors.  The winner is the player with the highest score.</li>
+</ul>
+
+<h3>Three Players</h3>
+<ul>
+    <li>Each player chooses one color; the players alternate playing the extra color.</li>
+
+    <li>The player order stays the same: blue, yellow, red, and then green.</li>
+
+    <li>Final scores are calculated in the same way as standard 4-player games.  The score of the shared color is ignored.</li>
+</ul>
+
+<h2>STRATEGY TIPS</h2>
+
+<ul>
+    <li>At the beginning of the game, move towards the center of the board in order to take up a maximum amount of space.  If you remain confined to the corner you start in, you will not be able to put down many pieces.</li>
+
+    <li>Try to place the largest pieces on the board at the beginning of the game.  If you save them for the end of the game, there may not be space for them.  Keep an eye on the corners of your pieces - make sure you have options for your next move.</li>
+
+    <li>Take advantage of the characteristics of your pieces.  Their shapes give them different offensive or defensive potential, so learn to use them accordingly.</li>
+
+    <li>Throughout the game, keep one or more means of escape on each side of the area containing your color (or colors).</li>
+
+    <li>Block your opponent by covering his or her most advanced corners to prevent him or her from moving forward.  Note:  Be patient - it is sometimes better to hang back slightly from the opponent's pieces and let your opponent expose him or herself so that you can then block him or her more effectively.</li>
+
+    <li>Take note of the squares where no other player can play and keep these spaces (and their corresponding pieces) in reserve while you play in a more exposed area.  You can always come back to the protected spaces later.</li>
+
+    <li>When playing, keep in mind not only your remaining pieces, but also your opponent's remaining pieces.  Your opponent may not be able to exploit an empty area if he or she doesn't have the correct pieces.</li>
+
+    <li>Remember:  Players who put all their pieces on the board can gain up to 20 points.  Prevent your opponent from putting all of his or her pieces on the board even if this prevents you from placing some of your own pieces on the board.</li>
+
+</ul>
