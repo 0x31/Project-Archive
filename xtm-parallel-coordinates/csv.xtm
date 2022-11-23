@@ -1,0 +1,243 @@
+
+
+;; Fixed / Partly rewritten to be easier on memory
+
+
+(sys:load-preload-check 'csv)
+(define *xtmlib-csv-loaded* #t)
+
+(sys:load "libs/external/apr.xtm" 'quiet)
+(sys:load "ybot.xtm")
+;(sys:load "libs/core/math_ext.xtm")
+(sys:load "libs/core/adt.xtm")
+
+(bind-alias Label String*)
+(bind-alias Offset float)
+(bind-alias IsOrdinal bool)
+(bind-type Range <double,double>)
+(bind-type Ordinal <String*,double>)
+(bind-type Axis <Label,Offset,IsOrdinal,Range*,List{Ordinal*}*>)
+
+(bind-type Data <double*,i64,Axis**,i64>)
+
+(bind-func file_size
+  (lambda (file:apr_file_t*)
+    (let ((info:apr_finfo_t* (zalloc)))
+      (apr_file_info_get info 512 file)
+      (tuple-ref info 9))))
+
+
+(bind-func update_axis_labels
+  (lambda (data:Data* str:String*) ;;str:Vector{String**}*
+    (let ((ls:List{String*}* (regex_split "," str))
+          (i:i64 0)
+          (n:i64 (length ls))
+          (axes:Axis** (tref data 2)))
+      (dotimes (i n)
+        (let ((new_axis:Axis* (Axis_h (nth ls i) (+ 0.0 (* (/ 1.0 (+ 0.0 (convert n))) (+ 0.5 (convert i)))) #f (Range_h 1000000000000.0 -1000000000000.0) null)))
+          (pset! axes i new_axis)
+        ))
+      ;;Reduntant?
+      ;;(free ls)
+      (tset! data 2 axes)
+    data)))
+
+
+;; TODO: Requires $ at end
+(bind-func isnumber
+  (lambda (str:String*)
+    (regex_match "^-?[0-9]\d*(\.\d+)?" str)))
+
+(bind-func string_to_double:[double,String*]*
+  (lambda (str)
+    (atof (cstring str))))
+
+(bind-func adjust_axis_range
+  (lambda (axis:Axis* new_value:double)
+      (let ((range (tuple-ref axis 3))
+            (range_min (tuple-ref range 0))
+            (range_max (tuple-ref range 1)))
+        (tuple-set! range 0 (min new_value range_min))
+        (tuple-set! range 1 (max new_value range_max))
+        (tuple-set! axis 3 range))
+    axis))
+
+(bind-func axis_get_ordinal:[Ordinal*,Axis*,String*]*
+  (lambda (axis:Axis* value:String*)
+  (let ((ordinals (tuple-ref axis 4))
+        (i 0)
+        (returner null))
+      (dotimes (i (length ordinals))
+        (let ((ordinal (nth ordinals i)))
+          (if (equal (tuple-ref ordinal 0) value)
+            (let ((j 0))
+              (set! returner ordinal)
+              (set! i (length ordinals))))))
+      returner)))
+
+(bind-func axis_update_ordinal:[double,Axis*,String*]*
+  (lambda (axis:Axis* value:String*)
+      (let ((ordinals (tuple-ref axis 4))
+            (returner:Ordinal* (axis_get_ordinal axis value)))
+          (if (null? returner)
+            (let ((new_ordinal_number:double (convert (+ 1 (length ordinals))))
+                  (new_ordinal (Ordinal_h value new_ordinal_number)))
+              ;(set! ordinals (add_to_end ordinals new_ordinal))
+              (set! ordinals (List_h new_ordinal ordinals))
+              (tuple-set! axis 4 ordinals)
+              (tuple-set! axis 2 #t)
+              (set! returner new_ordinal)))
+          (tuple-ref returner 1))))
+
+;; TODO
+;(bind-func ordinalize_strings:[List{double}*,Axis**,List{String*}*]*
+;  (lambda (axes strs)
+;    (let ((rets:List{double}* null)
+;          (i 0)
+;          (new_value 0.0))
+;        (dotimes (i (length strs))
+;          (let ((str (nth strs i))
+;                (axis (pref axes i)))
+;            (if (isnumber str)
+;;              (set! new_value (string_to_double str))
+;              (set! new_value (axis_update_ordinal axis str)))
+;            (set! axis (adjust_axis_range axis new_value))
+;            (set! rets (add_to_end rets new_value))))
+;        rets)))
+
+
+
+
+(bind-func update_data
+  (lambda (data:Data* line:String* row:i64)
+    (let ((ls (regex_split "," line))
+          ;(ls2 (ordinalize_strings (tref data 2) ls))
+          (vecs (tref data 0))
+          (n (tref data 1))
+          (axes (tref data 2))
+          (d (tref data 3))
+          (new_value 0.0)
+          (axis:Axis* null)
+          (str:String* null)
+          (i:i64 0))
+      (dotimes (i d)
+
+        (set! str (nth ls i))
+        (set! axis (pref axes i))
+        (if (isnumber str)
+          (set! new_value (string_to_double str))
+          (set! new_value (axis_update_ordinal axis str)))
+        (set! axis (adjust_axis_range axis new_value))
+        ;(set! rets (add_to_end rets new_value))))
+
+        (pset! vecs (+ (* row d) i) new_value))
+    )))
+
+
+
+(bind-func load_csv:[Data*,i8*]*
+  (lambda (filename:i8*)
+    (let ((file (yfs_open filename))
+          (size:i64 (file_size file))
+          (count:i64 0)
+          (n:i64 0)
+          (d:i64 0)
+          (data:Data* (halloc))
+          (loop-count
+            (lambda ()
+               (let ((next (Str (yfs_read_line file))))
+                   ;;(println next)
+                   (if (< count size)
+                    (let ((a #t))
+                      (set! n (+ 1 n))
+                      (set! count (+ 1 (length next) count))
+                      (loop-count)))
+                   #t)))
+
+           (loop-populate
+             (lambda ()
+                (if (< count n)
+                  (let ((next (Str (yfs_read_line file))))
+                    (update_data data next count)
+                    (set! count (+ 1 count))
+                    (loop-populate)))
+              #t))
+
+          )
+        ;;(printf "Loading %s..." filename)
+        (let ((next (Str (yfs_read_line file)))
+              )
+            ;;(set! l2 (update_axis_labels l2 next))
+            (set! d (length (regex_split "," next)))
+            (set! count (+ 0 (length next) count)))
+        (loop-count)
+        (set! n (- n 1))
+        ;;(printf "n: %i\n" n)
+        (yfs_file_rewind file)
+        (set! count 0)
+
+        (tset! data 0 (halloc (* n d) ))
+        (tset! data 1 n)
+        (tset! data 3 d)
+        (tset! data 2 (halloc d))
+        (let ((vetors:double* (tref data 0)))
+
+          ;; Restart, now knowing how many vectors
+          (let ((next (Str (yfs_read_line file))))
+              (update_axis_labels data next)
+              (set! count (+ 0 count)))
+          (loop-populate)
+        )
+
+
+        ;;(printf "\rLoaded %s    \n" filename)
+        (yfs_close file)
+        data)))
+
+;;(load_csv "cars.csv")
+
+
+
+
+(bind-func test
+  (lambda ()
+    (let ((data (load_csv "bank-data.csv"))
+          (axes (tref data 2))
+          (vecs (tref data 0))
+          (d (tref data 3))
+          (i:i64 0))
+        (dotimes (i d)
+          (let ((axle (pref axes i)))
+            (println i)
+            (println (pref vecs i))
+            (println (tref axle 0))
+          )
+          )
+
+          #t
+
+          )))
+
+;(test)
+
+
+;(bind-func test1
+;  (lambda ()
+;    (let ((data (load_csv "cars.csv"))
+;          (vecs (tuple-ref data 0))
+;          (n (tuple-ref data 1))
+;          (axes (tuple-ref data 2))
+;          (d (tuple-ref data 3))
+;          (i 0)
+;          (j 0)
+;          (n (length vecs)))
+;        (dotimes (j n)
+;          (let ((n (nth vecs j)))
+;            (printf "%ith Datapoint:\n" j)
+;            (dotimes (i (tref n 1))
+;              (printf "%s: %f\n" (cstring (tuple-ref (nth axes i) 0)) (pref (tref n 0) i))))
+;          (printf "\n"))
+;        (println axes))
+;    #t))
+
+;;(test1)

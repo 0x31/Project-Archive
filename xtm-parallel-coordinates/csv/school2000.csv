@@ -1,0 +1,147 @@
+Country,Primary,Secondary,Tertiary,Region 
+Australia,6.4,54.2,13.3,Advanced Economies
+Austria,29.2,31.5,5.6,Advanced Economies
+Belgium,12.3,28.4,12.9,Advanced Economies
+Canada,3.5,30.7,12.9,Advanced Economies
+Denmark,11.2,35.1,11.5,Advanced Economies
+Finland,31.0,18.4,9.9,Advanced Economies
+France,20.2,31.0,7.2,Advanced Economies
+Germany,24.3,31.8,7.2,Advanced Economies
+Greece,27.6,30.6,11.1,Advanced Economies
+Iceland,30.5,25.5,10.2,Advanced Economies
+Ireland,14.7,27.6,17.3,Advanced Economies
+Italy,25.2,27.6,4.6,Advanced Economies
+Japan,15.0,38.2,14.0,Advanced Economies
+Luxembourg,25.9,25.5,7.8,Advanced Economies
+Netherlands,14.5,37.7,9.8,Advanced Economies
+New Zealand,23.7,21.1,20.7,Advanced Economies
+Norway,23.2,30.1,9.0,Advanced Economies
+Portugal,38.7,18.3,4.0,Advanced Economies
+Spain,17.5,15.3,10.0,Advanced Economies
+Sweden,12.5,46.3,13.4,Advanced Economies
+Switzerland,23.6,31.8,5.9,Advanced Economies
+Turkey,39.8,11.4,3.6,Advanced Economies
+USA,1.8,31.0,21.9,Advanced Economies
+United Kingdom,23.8,9.3,11.7,Advanced Economies
+Brunei Darussalam,13.7,27.0,4.6,East Asia and the Pacific
+Cambodia,14.1,1.4,0.1,East Asia and the Pacific
+China,17.9,24.4,2.1,East Asia and the Pacific
+China Hong Kong Special Administrative Region,13.9,31.3,9.1,East Asia and the Pacific
+China Macao Special Administrative Region,24.8,18.3,5.2,East Asia and the Pacific
+Fiji,13.1,36.6,5.2,East Asia and the Pacific
+Indonesia,33.8,8.2,0.9,East Asia and the Pacific
+Lao People's Democratic Republic,19.5,3.9,1.5,East Asia and the Pacific
+Malaysia,13.7,34.4,2.7,East Asia and the Pacific
+Mongolia,9.4,43.0,8.2,East Asia and the Pacific
+Myanmar,28.9,10.9,1.7,East Asia and the Pacific
+Papua New Guinea,28.4,2.9,0.6,East Asia and the Pacific
+Philippines,21.0,18.1,7.6,East Asia and the Pacific
+Republic of Korea,14.0,38.2,15.9,East Asia and the Pacific
+Singapore,6.6,38.5,12.6,East Asia and the Pacific
+Taiwan,16.7,30.2,7.2,East Asia and the Pacific
+Thailand,18.6,10.5,4.8,East Asia and the Pacific
+Tonga,16.7,11.9,4.1,East Asia and the Pacific
+Viet Nam,31.0,7.9,1.8,East Asia and the Pacific
+Albania,14.6,24.4,2.8,Europe and Central Asia
+Armenia,6.5,62.6,9.9,Europe and Central Asia
+Bulgaria,29.4,23.5,9.9,Europe and Central Asia
+Croatia,27.9,27.8,6.0,Europe and Central Asia
+Czech Republic,0.2,61.5,4.1,Europe and Central Asia
+Estonia,11.6,41.2,16.7,Europe and Central Asia
+Hungary,12.6,39.7,8.6,Europe and Central Asia
+Kazakhstan,4.9,63.0,8.7,Europe and Central Asia
+Kyrgyzstan,17.2,50.7,7.1,Europe and Central Asia
+Latvia,12.1,34.9,8.4,Europe and Central Asia
+Lithuania,11.9,47.8,9.0,Europe and Central Asia
+Poland,27.2,50.6,6.2,Europe and Central Asia
+Republic of Moldova,7.1,39.2,6.9,Europe and Central Asia
+Romania,2.1,36.8,4.2,Europe and Central Asia
+Russian Federation,4.8,27.0,16.5,Europe and Central Asia
+Serbia,32.5,21.6,6.1,Europe and Central Asia
+Slovakia,25.6,36.8,4.0,Europe and Central Asia
+Slovenia,5.9,47.9,8.1,Europe and Central Asia
+Tajikistan,6.8,64.2,2.5,Europe and Central Asia
+Ukraine,8.9,32.3,21.2,Europe and Central Asia
+Argentina,32.9,25.2,4.2,Latin America and the Caribbean
+Barbados,6.7,23.8,0.7,Latin America and the Caribbean
+Belize,41.6,16.8,3.1,Latin America and the Caribbean
+Bolivia,11.8,28.5,4.5,Latin America and the Caribbean
+Brazil,29.5,17.5,4.2,Latin America and the Caribbean
+Chile,12.8,28.5,7.5,Latin America and the Caribbean
+Colombia,24.7,20.6,5.3,Latin America and the Caribbean
+Costa Rica,32.7,16.6,12.6,Latin America and the Caribbean
+Cuba,10.9,31.3,5.8,Latin America and the Caribbean
+Dominican Rep.,14.7,14.8,4.5,Latin America and the Caribbean
+Ecuador,24.8,16.5,6.9,Latin America and the Caribbean
+El Salvador,16.1,11.2,5.7,Latin America and the Caribbean
+Guatemala,14.0,10.7,1.3,Latin America and the Caribbean
+Guyana,21.1,29.2,0.1,Latin America and the Caribbean
+Haiti,3.6,2.8,0.6,Latin America and the Caribbean
+Honduras,28.2,12.7,2.2,Latin America and the Caribbean
+Jamaica,13.5,28.1,8.6,Latin America and the Caribbean
+Mexico,19.9,17.0,5.9,Latin America and the Caribbean
+Nicaragua,13.3,13.0,8.3,Latin America and the Caribbean
+Panama,19.4,21.5,13.4,Latin America and the Caribbean
+Paraguay,23.0,14.5,3.7,Latin America and the Caribbean
+Peru,12.2,22.5,18.7,Latin America and the Caribbean
+Trinidad and Tobago,31.0,26.7,3.2,Latin America and the Caribbean
+Uruguay,33.4,17.8,3.3,Latin America and the Caribbean
+Venezuela,31.1,12.3,3.0,Latin America and the Caribbean
+Algeria,18.3,14.1,3.0,Middle East and North Africa
+Bahrain,4.1,34.4,9.0,Middle East and North Africa
+Cyprus,15.6,30.7,15.0,Middle East and North Africa
+Egypt,6.2,18.1,2.4,Middle East and North Africa
+Iran (Islamic Republic of),18.9,25.4,6.8,Middle East and North Africa
+Iraq,19.0,10.0,3.8,Middle East and North Africa
+Israel,20.6,29.0,18.4,Middle East and North Africa
+Jordan,13.2,30.0,1.9,Middle East and North Africa
+Kuwait,4.7,21.3,5.9,Middle East and North Africa
+Libyan Arab Jamahiriya,10.2,24.1,6.9,Middle East and North Africa
+Malta,22.2,28.2,5.9,Middle East and North Africa
+Morocco,12.2,7.3,2.7,Middle East and North Africa
+Qatar,4.6,21.1,12.2,Middle East and North Africa
+Saudi Arabia,14.0,16.4,6.3,Middle East and North Africa
+Syrian Arab Republic,13.3,3.7,1.0,Middle East and North Africa
+Tunisia,16.3,12.4,2.8,Middle East and North Africa
+United Arab Emirates,7.1,35.3,10.7,Middle East and North Africa
+Yemen,3.9,3.1,0.7,Middle East and North Africa
+Afghanistan,0.9,1.4,1.3,South Asia
+Bangladesh,20.2,14.9,1.6,South Asia
+India,11.1,16.4,2.7,South Asia
+Maldives,15.7,9.2,0.1,South Asia
+Nepal,8.5,6.9,0.6,South Asia
+Pakistan,7.6,7.9,4.4,South Asia
+Sri Lanka,8.3,47.5,8.0,South Asia
+Benin,8.5,5.4,0.4,Sub-Saharan Africa
+Botswana,6.9,26.9,1.4,Sub-Saharan Africa
+Burundi,17.3,2.1,0.2,Sub-Saharan Africa
+Cameroon,29.5,9.4,0.5,Sub-Saharan Africa
+Central African Republic,13.0,4.4,0.4,Sub-Saharan Africa
+Congo,6.1,6.4,0.5,Sub-Saharan Africa
+Cote dIvoire,17.0,2.9,1.2,Sub-Saharan Africa
+Democratic Republic of the Congo,0.8,5.8,0.3,Sub-Saharan Africa
+Gabon,19.7,17.3,7.6,Sub-Saharan Africa
+Gambia,3.2,2.3,0.6,Sub-Saharan Africa
+Ghana,9.2,11.3,1.2,Sub-Saharan Africa
+Kenya,18.3,4.3,1.7,Sub-Saharan Africa
+Lesotho,23.7,27.4,0.7,Sub-Saharan Africa
+Liberia,7.9,4.5,1.5,Sub-Saharan Africa
+Malawi,8.4,2.7,0.1,Sub-Saharan Africa
+Mali,6.3,0.9,0.2,Sub-Saharan Africa
+Mauritania,20.9,3.4,0.3,Sub-Saharan Africa
+Mauritius,9.5,18.9,0.5,Sub-Saharan Africa
+Mozambique,8.8,0.6,0.1,Sub-Saharan Africa
+Namibia,23.2,13.9,1.4,Sub-Saharan Africa
+Niger,5.9,1.1,0.2,Sub-Saharan Africa
+Reunion,22.4,19.7,0.2,Sub-Saharan Africa
+Rwanda,23.4,3.7,0.2,Sub-Saharan Africa
+Senegal,4.4,2.1,0.3,Sub-Saharan Africa
+Sierra Leone,8.2,2.6,0.2,Sub-Saharan Africa
+South Africa,7.1,17.9,0.4,Sub-Saharan Africa
+Sudan,20.2,3.1,0.8,Sub-Saharan Africa
+Swaziland,13.5,5.5,1.2,Sub-Saharan Africa
+Togo,20.1,6.2,0.4,Sub-Saharan Africa
+Uganda,20.7,1.3,1.2,Sub-Saharan Africa
+United Republic of Tanzania,43.8,0.4,0.3,Sub-Saharan Africa
+Zambia,32.1,9.5,0.5,Sub-Saharan Africa
+Zimbabwe,20.2,4.9,0.3,Sub-Saharan Africa

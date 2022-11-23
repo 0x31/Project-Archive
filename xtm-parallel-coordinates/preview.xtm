@@ -1,0 +1,112 @@
+(sys:load "parallel_new.xtm")
+
+(bind-func pre_loop
+  (lambda ()
+    ;(nvg_clear)
+    (nvgBeginFrame vg width height pixel_ratio)
+    (nvgResetTransform vg)
+    ))
+
+(bind-func post_loop
+  (lambda ()
+    (nvgEndFrame vg)
+    ;(set! data (transform_data data1))
+    (glfwPollEvents)
+    (set_bg vg)
+    (glfwSwapBuffers window)
+    ))
+
+
+(bind-func draw_title
+  (lambda (title:i8* bounds)
+  (dv_draw_title vg bounds title)
+    ))
+
+
+(bind-func nvg_transition_loop
+    (lambda (time:i64 delta_t:double until:i64 dataset:Dataset* dataset-goal:Dataset* transition:double increment:double tr1:bool tr2:bool tr3:bool tr4:bool label:i8*)
+      (let ( (parallel_rect:Rect* (Rect (* 0.0 (convert width)) (* 0.05 (convert height)) (* 1.0 (convert width)) (* 0.9 (convert height)))))
+        (pre_loop)
+        (draw_title label parallel_rect)
+        (pc_transition_data parallel_rect dataset dataset-goal transition tr1 tr2 tr3 tr4)
+      )
+
+      (post_loop)
+      (let ((next_time (+ time (convert (* 44100. delta_t)))))
+        (if (< next_time until)
+        (callback next_time nvg_transition_loop next_time delta_t until dataset dataset-goal (+ increment transition) increment tr1 tr2 tr3 tr4 label)
+        void))
+      ))
+
+((bind-func blank
+  (lambda ()
+      (pre_loop)
+      (post_loop)
+    )))
+
+(bind-func test_no0
+  (lambda (when ll)
+    (printf "Running ")
+    (set-data ll)
+    (let ( (label "Test 0")
+          (step (/ 1. 20.))
+          (i:i64 0))
+      (printf "%s\n" label)
+      (callback when nvg_transition_loop when step when (pref all_datasets 0) (pref all_datasets 0 ) 0.0 0.0  #f #f #f #f label)
+      0
+        )))
+
+
+(bind-func test_no1
+  (lambda (when ll)
+    (printf "Running ")
+    (set-data ll)
+    (let ( (label "Test 1")
+
+          (last when)
+          (step (/ 1. 20.))
+          (i:i64 0))
+      (printf "%s\n" label)
+      (dotimes (i (- data-count 1))
+        (let ((t1 last)
+              (t2 (+ t1 (* 44100 1)))
+              (t3 (+ t2 (* 44100 1)))
+              (t4 (+ t3 (* 44100 1)))
+              (t5 (+ t4 (/ 44100 4))))
+          (callback t1 nvg_transition_loop t1 step t2 (pref all_datasets i) (pref all_datasets i )       0.0 (/ 1.0 (- (/ (/ (- (convert t2) (convert t1)) 44100.0) step) 1.0))  #f #f #f #f label)
+          (callback t2 nvg_transition_loop t2 step t3 (pref all_datasets i) (pref all_datasets (+ i 1 )) 0.0 (/ 1.0 (- (/ (/ (- (convert t3) (convert t2)) 44100.0) step) 1.0))  #t #t #f #f label)
+          (callback t3 nvg_transition_loop t3 step t4 (pref all_datasets i) (pref all_datasets (+ i 1))  0.0 (/ 1.0 (- (/ (/ (- (convert t4) (convert t3)) 44100.0) step) 1.0))  #f #f #t #f label)
+          (callback t4 nvg_transition_loop t4 step t5 (pref all_datasets i) (pref all_datasets (+ i 1))  0.0 (/ 1.0 (/ (/ (- (convert t5) (convert t4)) 44100.0) step))          #f #f #f #t label)
+          (set! last t5)))
+        (let ((last2 (+ last (* 44100 0))))
+          (callback last nvg_transition_loop last step last2 (pref all_datasets (- data-count 1)) (pref all_datasets (- data-count 1)) 0.0 0.0 #f #f #f #f label)
+          ;(callback last2 blank)
+          (+ last2 (* 2 44100))
+        ))))
+
+(bind-func static
+  (lambda ()
+  (let (  (data (list "csv/school1995.csv" "csv/school1995.csv" "csv/school2000.csv" "csv/school2005.csv" "csv/school2010.csv"))
+          (t1 (test_no0 (now) data))
+      )
+    #t
+  )))
+
+(bind-func animate
+  (lambda ()
+    (let (  (data (list "csv/school1995.csv" "csv/school2000.csv" "csv/school2005.csv" "csv/school2010.csv" "csv/school1995.csv"))
+            (t1 (test_no1 (now) data))
+        )
+      (println "Done...")
+      #t
+    )))
+
+
+;; Clear the screen
+(blank)
+
+;; Static:
+(static)
+
+;; Animated:
+(animate)
