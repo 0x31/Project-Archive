@@ -1,4 +1,5 @@
 # XScreenSaver.js
+
 The beginning of a series of XScreenSaver hacks implemented in Javascript.
 
 ### Unknown Pleasures
@@ -11,9 +12,6 @@ Original author: Jamie Zawinski; 2013.
 
 ![UnknownPleasures](previews/UnknownPleasuresPreview.gif)
 
-
-
-
 ### Coral
 
 [Live preview](http://noiach.com/app/XScreenSaver.js/Coral.html)
@@ -22,10 +20,7 @@ Simulates coral growth.
 
 Original author: Frederick Roeber; 1997.
 
-![Coral](previews/CoralPreview.gif)
-
-
-
+![Coral](./previews/CoralPreview.gif)
 
 ### Triangle
 
@@ -39,9 +34,6 @@ Original author: Tobias Gloth; 1997.
 
 ![UnknownPleasures](previews/Triangle.gif)
 
-
-
-
 ### Rorschach
 
 [Live preview](http://noiach.com/app/XScreenSaver.js/Rorschach.html)
@@ -50,4 +42,4 @@ Original author: Tobias Gloth; 1997.
 
 Original author: Jamie Zawinski; 1992.
 
-![Rorschach](previews/Rorschach.gif)
+![Rorschach](./previews/Rorschach.gif)
