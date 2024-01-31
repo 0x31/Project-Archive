@@ -2,20 +2,26 @@
 
 A collection of archived projects, scripts and programs.
 
+# 2020, 2022
+
+-   <a href="https://github.com/0x31/australian-flora">Australian Flora Search</a> [2020, 2022] - A search engine and data aggregator for Australian native plants
+
+<img src="https://github.com/0x31/australian-flora/blob/master/screenshot-v1-nov-2022.png" alt="Australian Flora Search Screenshot" width="200" />
+
 # 2019
 
 -   <a href="./pr-oof">pr-oof</a> [2019] - propositional logic proof verifier in Elm
 
-<img src="./pr-oof/screenshot.png" alt="pr-oof" width="200" />
+<img src="./pr-oof/screenshot.png" alt="pr-oof Screenshot" width="200" />
 
 # 2017
 
 -   <a href="./XScreenSaver-js">XScreenSaver-js</a> [2017] - A couple of XScreesavers implemented in JS
 
-<img src="./XScreenSaver-js/previews/UnknownPleasuresPreview.gif" alt="XScreenSaver-js" width="200" />
-<img src="./XScreenSaver-js/previews/CoralPreview.gif" alt="XScreenSaver-js" width="200" />
-<img src="./XScreenSaver-js/previews/Triangle.gif" alt="XScreenSaver-js" width="200" />
-<img src="./XScreenSaver-js/previews/Rorschach.gif" alt="XScreenSaver-js" width="200" />
+<img src="./XScreenSaver-js/previews/UnknownPleasuresPreview.gif" alt="XScreenSaver-js Screenshot 1" width="200" />
+<img src="./XScreenSaver-js/previews/CoralPreview.gif" alt="XScreenSaver-js Screenshot 2" width="200" />
+<img src="./XScreenSaver-js/previews/Triangle.gif" alt="XScreenSaver-js Screenshot 3" width="200" />
+<img src="./XScreenSaver-js/previews/Rorschach.gif" alt="XScreenSaver-js Screenshot 4" width="200" />
 
 # 2016
 

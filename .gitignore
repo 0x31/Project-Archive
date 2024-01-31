@@ -1,0 +1,25 @@
+# Ignore all log, temp and backup files
+*.log
+*.tmp
+*.bak
+
+# Ignore .env files
+*.env
+.env.*
+
+# Ignore Mac system files
+.DS_Store
+
+# Ignore Python related files
+*.pyc
+*.log
+
+# IDEs and editors
+.idea/
+.vscode/
+
+# Libraries and dependencies
+node_modules/
+npm-debug.log*
+yarn-error.log*
+vendor/
